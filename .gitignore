@@ -11,3 +11,8 @@
 *.lai
 *.la
 *.a
+
+# Misc. stuff
+*.test
+*.plist
+*.DS_Store
