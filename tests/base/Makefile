@@ -31,8 +31,12 @@ base:
 utils_unittest.test: base utils_unittest.cc
 	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/utils.o ../_unittest.o utils_unittest.cc -o utils_unittest.test
 
+hashmap_unittest.test: base hashmap_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/hashmap.o ../_unittest.o hashmap_unittest.cc -o hashmap_unittest.test
+
 all: \
-	utils_unittest.test
+	utils_unittest.test \
+	hashmap_unittest.test
 
 .PHONY : clean
 clean:

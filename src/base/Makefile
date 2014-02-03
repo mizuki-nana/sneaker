@@ -24,10 +24,18 @@ CXX=c++
 CFLAGS=-Wno-implicit -Wall -arch x86_64
 
 utils.o: utils.c utils.h
-	$(CC) $(CFLAGS) -c utils.c utils.h
+	$(CC) $(CFLAGS) -c utils.c
 
-all: \
-	utils.o
+hash.o: hash.c hash.h
+	$(CC) $(CFLAGS) -c hash.c
+
+hashmap.o: hashmap.c
+	$(CC) $(CFLAGS) -c hashmap.c
+
+all: 			\
+	utils.o \
+	hash.o  \
+	hashmap.o
 
 
 .PHONY : clean
