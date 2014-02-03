@@ -29,18 +29,22 @@ base:
 	cd ../../src/base/ && make all
 
 utils_unittest.test: base utils_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/utils.o ../_unittest.o utils_unittest.cc -o utils_unittest.test
+	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/_libbase.a ../_unittest.o utils_unittest.cc -o utils_unittest.test
 
 hash_unittest.test: base hashmap_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/hash.o ../_unittest.o hash_unittest.cc -o hash_unittest.test
+	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/_libbase.a ../_unittest.o hash_unittest.cc -o hash_unittest.test
 
 hashmap_unittest.test: base hashmap_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/hashmap.o ../_unittest.o hashmap_unittest.cc -o hashmap_unittest.test
+	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/_libbase.a ../_unittest.o hashmap_unittest.cc -o hashmap_unittest.test
+
+dict_unittest.test: base dict_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/_libbase.a ../_unittest.o dict_unittest.cc -o dict_unittest.test
 
 all: 										\
 	utils_unittest.test 	\
 	hash_unittest.test    \
-	hashmap_unittest.test
+	hashmap_unittest.test \
+	dict_unittest.test
 
 .PHONY : clean
 clean:

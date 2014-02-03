@@ -23,6 +23,9 @@ CC=cc
 CXX=c++
 CFLAGS=-Wno-implicit -Wall -arch x86_64
 
+AR=ar
+ARFLAGS=rvs
+
 utils.o: utils.c utils.h
 	$(CC) $(CFLAGS) -c utils.c
 
@@ -32,11 +35,19 @@ hash.o: hash.c hash.h
 hashmap.o: hashmap.c
 	$(CC) $(CFLAGS) -c hashmap.c
 
-all: 			\
-	utils.o \
-	hash.o  \
-	hashmap.o
+dict.o: dict.c dict.h
+	$(CC) $(CFLAGS) -c dict.c
 
+obj: 				\
+	utils.o 	\
+	hash.o  	\
+	hashmap.o \
+	dict.o  	\
+
+_libbase.a: obj
+	$(AR) $(ARFLAGS) _libbase.a *.o
+
+all: _libbase.a
 
 .PHONY : clean
 clean:
