@@ -29,6 +29,9 @@ ARFLAGS=rvs
 utils.o: utils.c utils.h
 	$(CC) $(CFLAGS) -c utils.c
 
+cutils.o: cutils.h cutils.c
+	$(CC) $(CFLAGS) -c cutils.c
+
 hash.o: hash.c hash.h
 	$(CC) $(CFLAGS) -c hash.c
 
@@ -43,6 +46,7 @@ strutils.o: strutils.c strutils.h
 
 obj: 					\
 	utils.o 		\
+	cutils.o    \
 	hash.o  		\
 	hashmap.o 	\
 	dict.o  		\

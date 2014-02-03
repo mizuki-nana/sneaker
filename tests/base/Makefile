@@ -31,6 +31,9 @@ base:
 utils_unittest.test: base utils_unittest.cc
 	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/_libbase.a ../_unittest.o utils_unittest.cc -o utils_unittest.test
 
+cutils_unittest.test: base cutils_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/_libbase.a ../_unittest.o cutils_unittest.cc -o cutils_unittest.test
+
 hash_unittest.test: base hashmap_unittest.cc
 	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/_libbase.a ../_unittest.o hash_unittest.cc -o hash_unittest.test
 
@@ -45,6 +48,7 @@ strutils_unittest.test: base strutils_unittest.cc
 
 all: 											\
 	utils_unittest.test 		\
+	cutils_unittest.test 		\
 	hash_unittest.test    	\
 	hashmap_unittest.test 	\
 	dict_unittest.test			\
