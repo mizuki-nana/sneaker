@@ -38,11 +38,15 @@ hashmap.o: hashmap.c
 dict.o: dict.c dict.h
 	$(CC) $(CFLAGS) -c dict.c
 
-obj: 				\
-	utils.o 	\
-	hash.o  	\
-	hashmap.o \
-	dict.o  	\
+strutils.o: strutils.c strutils.h
+	$(CC) $(CFLAGS) -c strutils.c
+
+obj: 					\
+	utils.o 		\
+	hash.o  		\
+	hashmap.o 	\
+	dict.o  		\
+	strutils.o 	\
 
 _libbase.a: obj
 	$(AR) $(ARFLAGS) _libbase.a *.o

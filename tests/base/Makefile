@@ -40,11 +40,15 @@ hashmap_unittest.test: base hashmap_unittest.cc
 dict_unittest.test: base dict_unittest.cc
 	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/_libbase.a ../_unittest.o dict_unittest.cc -o dict_unittest.test
 
-all: 										\
-	utils_unittest.test 	\
-	hash_unittest.test    \
-	hashmap_unittest.test \
-	dict_unittest.test
+strutils_unittest.test: base strutils_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/_libbase.a ../_unittest.o strutils_unittest.cc -o strutils_unittest.test
+
+all: 											\
+	utils_unittest.test 		\
+	hash_unittest.test    	\
+	hashmap_unittest.test 	\
+	dict_unittest.test			\
+	strutils_unittest.test 	\
 
 .PHONY : clean
 clean:
