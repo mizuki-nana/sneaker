@@ -44,6 +44,9 @@ dict.o: dict.c dict.h
 strutils.o: strutils.c strutils.h
 	$(CC) $(CFLAGS) -c strutils.c
 
+strbuf.o: strbuf.c strbuf.h
+	$(CC) $(CFLAGS) -c strbuf.c
+
 obj: 					\
 	utils.o 		\
 	cutils.o    \
@@ -51,6 +54,7 @@ obj: 					\
 	hashmap.o 	\
 	dict.o  		\
 	strutils.o 	\
+	strbuf.o
 
 _libbase.a: obj
 	$(AR) $(ARFLAGS) _libbase.a *.o
