@@ -1,6 +1,7 @@
 sneaker
 =======
 
-![](https://raw.github.com/yanzhengli/sneaker/dev/logo.png)
+![](https://raw.github.com/yanzhengli/sneaker/dev/logo_128x128.png)
 
-A bunch of wonderful C/C++ goodies
+A C/C++ library that contains a vast set of re-usable functions and objects
+that are useful for many application development scenarios.
