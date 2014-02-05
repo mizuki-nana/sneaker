@@ -29,7 +29,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <boost/bind.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include "fixed_time_interval_daemon_service.h"
-#include "../../src/base/assert.h"
+#include "../../src/libc/assert.h"
 
 FixedTimeIntervalDaemonService::FixedTimeIntervalDaemonService(
   size_t interval,

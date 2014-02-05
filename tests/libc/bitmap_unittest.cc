@@ -21,14 +21,14 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for src/base/bitmap.c */
+/* Unit test for src/libc/bitmap.c */
 
 #include <stddef.h>
 #include "../_unittest.h"
-#include "../../src/base/assert.h"
-#include "../../src/base/c_str.h"
-#include "../../src/base/memory.h"
-#include "../../src/base/bitmap.h"
+#include "../../src/libc/assert.h"
+#include "../../src/libc/c_str.h"
+#include "../../src/libc/memory.h"
+#include "../../src/libc/bitmap.h"
 
 TEST(bitmapTest, bitmap_createTest) {
  Bitmap bitmap = NULL;

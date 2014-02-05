@@ -21,16 +21,16 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for src/base/buffer.c */
+/* Unit test for src/libc/buffer.c */
 
 
 #include <string.h>
 #include <limits.h>
 #include "../_unittest.h"
-#include "../../src/base/utils.h"
-#include "../../src/base/memory.h"
-#include "../../src/base/assert.h"
-#include "../../src/base/buffer.h"
+#include "../../src/libc/utils.h"
+#include "../../src/libc/memory.h"
+#include "../../src/libc/assert.h"
+#include "../../src/libc/buffer.h"
 
 #define BUFFER_SIZE 1024
 

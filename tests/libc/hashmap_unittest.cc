@@ -21,14 +21,14 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for src/base/hashmap.c */
+/* Unit test for src/libc/hashmap.c */
 
 
 #include "../_unittest.h"
-#include "../../src/base/assert.h"
-#include "../../src/base/hash.h"
-#include "../../src/base/hashmap.h"
-#include "../../src/base/utils.h"
+#include "../../src/libc/assert.h"
+#include "../../src/libc/hash.h"
+#include "../../src/libc/hashmap.h"
+#include "../../src/libc/utils.h"
 
 
 hash_t simple_hash(char *s) {

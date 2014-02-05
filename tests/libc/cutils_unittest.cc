@@ -21,15 +21,15 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for src/base/cutils.c */
+/* Unit test for src/libc/cutils.c */
 
 
 #include <string.h>
 #include <limits.h>
 #include "../_unittest.h"
-#include "../../src/base/assert.h"
-#include "../../src/base/cutils.h"
-#include "../../src/base/memory.h"
+#include "../../src/libc/assert.h"
+#include "../../src/libc/cutils.h"
+#include "../../src/libc/memory.h"
 
 #define _INT_MIN_ -32767
 #define _INT_MAX_ 32767

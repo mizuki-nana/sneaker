@@ -80,10 +80,10 @@ obj: 					\
 	stack.o 		\
 	uuid.o
 
-_libbase.a: obj
-	$(AR) $(ARFLAGS) _libbase.a *.o
+libc.a: obj
+	$(AR) $(ARFLAGS) libc.a *.o
 
-all: _libbase.a
+all: libc.a
 
 .PHONY : clean
 clean:

@@ -21,11 +21,11 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for src/base/strutils.c */
+/* Unit test for src/libc/strutils.c */
 
 #include <string.h>
 #include "../_unittest.h"
-#include "../../src/base/strutils.h"
+#include "../../src/libc/strutils.h"
 
 
 /***************************************

@@ -21,16 +21,16 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for src/base/strbuf.c */
+/* Unit test for src/libc/strbuf.c */
 
 
 #include <string.h>
 #include <limits.h>
 #include "../_unittest.h"
-#include "../../src/base/assert.h"
-#include "../../src/base/c_str.h"
-#include "../../src/base/memory.h"
-#include "../../src/base/strbuf.h"
+#include "../../src/libc/assert.h"
+#include "../../src/libc/c_str.h"
+#include "../../src/libc/memory.h"
+#include "../../src/libc/strbuf.h"
 
 
 class StrbufTest : public ::testing::Test {

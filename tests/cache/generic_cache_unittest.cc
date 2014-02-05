@@ -26,8 +26,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <map>
 #include <string>
 #include "../_unittest.h"
-#include "../../src/base/assert.h"
-#include "../../src/base/c_str.h"
+#include "../../src/libc/assert.h"
+#include "../../src/libc/c_str.h"
 #include "../../src/cache/generic_cache.h"
 
 #ifndef GENERIC_CACHE_UNITTEST

@@ -21,13 +21,13 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for src/base/dict.c */
+/* Unit test for src/libc/dict.c */
 
 
 #include "../_unittest.h"
-#include "../../src/base/assert.h"
-#include "../../src/base/dict.h"
-#include "../../src/base/memory.h"
+#include "../../src/libc/assert.h"
+#include "../../src/libc/dict.h"
+#include "../../src/libc/memory.h"
 
 class DictTest : public ::testing::Test {
 protected:

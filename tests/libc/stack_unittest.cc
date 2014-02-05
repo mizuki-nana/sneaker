@@ -21,96 +21,97 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for src/base/queue.c */
+/* Unit test for src/libc/stack.c */
+
 
 #include <string.h>
 #include <limits.h>
 #include "../_unittest.h"
-#include "../../src/base/utils.h"
-#include "../../src/base/memory.h"
-#include "../../src/base/assert.h"
-#include "../../src/base/queue.h"
+#include "../../src/libc/utils.h"
+#include "../../src/libc/memory.h"
+#include "../../src/libc/assert.h"
+#include "../../src/libc/stack.h"
 
 
-class QueueTest : public ::testing::Test {
+class StackTest : public ::testing::Test {
 protected:
   virtual void SetUp() {
-    _queue = queue_create();
-    ASSERT(_queue);
+    _stack = stack_create();
+    ASSERT(_stack);
   }
 
   virtual void TearDown() {
-    queue_free(&_queue);
-    ASSERT(_queue == NULL);
+    stack_free(&_stack);
+    ASSERT(_stack == NULL);
   }
 
-  Queue _queue;
+  Stack _stack;
 };
 
 
-TEST_F(QueueTest, QueueCreationTest) {
-  ASSERT(_queue);
-  ASSERT_EQ(0, queue_size(_queue));
-  ASSERT(queue_pop(_queue) == NULL);
+TEST_F(StackTest, StackCreationTest) {
+  ASSERT(_stack);
+  ASSERT_EQ(0, stack_size(_stack));
+  ASSERT(stack_pop(_stack) == NULL);
 }
 
-TEST_F(QueueTest, QueuePushPopTest1) {
+TEST_F(StackTest, StackPushPopTest1) {
   int numbers[] = {1,2,3,4,5,6,7,8,9,10};
   int i;
   for(i = 0; i < 10; i++) {
-    queue_push(_queue, &numbers[i], sizeof(int));
+    stack_push(_stack, &numbers[i], sizeof(int));
   }
 
-  ASSERT_EQ(10, queue_size(_queue));
+  ASSERT_EQ(10, stack_size(_stack));
 
-  for(i = 0; i < 10; i++) {
-    int *p = (int*)queue_pop(_queue);
+  for(i = 9; i >= 0; i--) {
+    int *p = (int*)stack_pop(_stack);
     int val = DEREF_VOID(int, p);
     ASSERT_EQ(numbers[i], val);
   }
 
-  ASSERT(queue_pop(_queue) == NULL);
+  ASSERT(stack_pop(_stack) == NULL);
 
-  ASSERT_EQ(0, queue_size(_queue));
+  ASSERT_EQ(0, stack_size(_stack));
 }
 
-TEST_F(QueueTest, QueuePushPopTest2) {
+TEST_F(StackTest, StackPushPopTest2) {
   int odds[] = {1,3,5,7,9};
   int evens[] = {2,4,6,8,10};
   
   int i;
   for(i = 0; i < 5; i++) {
-    queue_push(_queue, &odds[i], sizeof(int));
+    stack_push(_stack, &odds[i], sizeof(int));
   }
 
-  ASSERT_EQ(5, queue_size(_queue));
+  ASSERT_EQ(5, stack_size(_stack));
 
-  for(i = 0; i < 5; i++) {
-    int *p = (int*)queue_pop(_queue);
+  for(i = 4; i >= 0; i--) {
+    int *p = (int*)stack_pop(_stack);
     int val = DEREF_VOID(int, p);
     ASSERT_EQ(odds[i], val);
   }
 
-  ASSERT(queue_pop(_queue) == NULL);
-  ASSERT_EQ(0, queue_size(_queue));
+  ASSERT(stack_pop(_stack) == NULL);
+  ASSERT_EQ(0, stack_size(_stack));
 
   for(i = 0; i < 5; i++) {
-    queue_push(_queue, &evens[i], sizeof(int));
+    stack_push(_stack, &evens[i], sizeof(int));
   }
 
-  ASSERT_EQ(5, queue_size(_queue));
+  ASSERT_EQ(5, stack_size(_stack));
 
-  for(i = 0; i < 5; i++) {
-    int *p = (int*)queue_pop(_queue);
+  for(i = 4; i >= 0; i--) {
+    int *p = (int*)stack_pop(_stack);
     int val = DEREF_VOID(int, p);
     ASSERT_EQ(evens[i], val);
   }
 
-  ASSERT(queue_pop(_queue) == NULL);
-  ASSERT_EQ(0, queue_size(_queue));
+  ASSERT(stack_pop(_stack) == NULL);
+  ASSERT_EQ(0, stack_size(_stack));
 }
 
-TEST_F(QueueTest, QueuePushPopTest3) {
+TEST_F(StackTest, StackPushPopTest3) {
   const char *fruits[26] = {
     "Apple", "Banana", "Coconut", "Dragonfruit", "Elephant apple",
     "Finger lime", "Grape", "Honeydrew melon", "Indian prune",
@@ -122,18 +123,18 @@ TEST_F(QueueTest, QueuePushPopTest3) {
   int i;
   for(i = 0; i < 26; i++) {
     char *fruit = (char*)fruits[i];
-    queue_push(_queue, fruit, strlen(fruit)+1); 
-    ASSERT_EQ(i+1, queue_size(_queue));
+    stack_push(_stack, fruit, strlen(fruit)+1);
+    ASSERT_EQ(i+1, stack_size(_stack));
   }
 
-  ASSERT_EQ(26, queue_size(_queue));
+  ASSERT_EQ(26, stack_size(_stack));
 
-  for(i = 0; i < 26; i++) {
-    char *fruit = (char*)queue_pop(_queue);
+  for(i = 25; i >= 0; i--) {
+    char *fruit = (char*)stack_pop(_stack);
     ASSERT_STREQ(fruit, fruits[i]);
-    ASSERT_EQ(26-i-1, queue_size(_queue));
+    ASSERT_EQ(i, stack_size(_stack));
   }
 
-  ASSERT_EQ(0, queue_size(_queue));
-  ASSERT(queue_pop(_queue) == NULL);
+  ASSERT_EQ(0, stack_size(_stack));
+  ASSERT(stack_pop(_stack) == NULL);
 }
