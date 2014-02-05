@@ -56,6 +56,9 @@ buffer.o: buffer.c buffer.h
 array.o: array.c array.h
 	$(CC) $(CFLAGS) -c array.c
 
+queue.o: queue.c queue.h
+	$(CC) $(CFLAGS) -c queue.c
+
 obj: 					\
 	utils.o 		\
 	cutils.o    \
@@ -66,7 +69,8 @@ obj: 					\
 	strbuf.o 		\
 	bitmap.o 		\
 	buffer.o  	\
-	array.o
+	array.o   	\
+	queue.o
 
 _libbase.a: obj
 	$(AR) $(ARFLAGS) _libbase.a *.o

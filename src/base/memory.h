@@ -38,23 +38,40 @@ extern "C" {
 // convenience malloc macro.
 // USE WITH CAUTION
 //===========================================================================
-#define MALLOC(T)                         \
-  (T*)malloc(sizeof(T))
+#ifndef MALLOC
 
+  #define MALLOC(T)                    \
+    (T*)malloc(sizeof(T))
+
+#endif /* MALLOC */
+
+//===========================================================================
+// convenience malloc macro.
+// USE WITH CAUTION
+//===========================================================================
+#ifndef MALLOC_BY_SIZE
+
+  #define MALLOC_BY_SIZE(size)         \
+    malloc((size))
+
+#endif /* MALLOC_BY_SIZE */
 
 //===========================================================================
 // Convenience malloc macro.
 // If malloc fails, set errno to ENOMEM and return null.
 // USE WITH CAUTION
 //===========================================================================
-#define MALLOC_OR_ENOMEM(T, obj)         \
-  (obj) = (T*)malloc(sizeof(T));         \
-  do {                                   \
-    if((obj) == NULL) {                  \
-      errno = ENOMEM;                    \
-    }                                    \
-  } while(0)
+#ifndef MALLOC_OR_ENOMEM
 
+  #define MALLOC_OR_ENOMEM(T, obj)     \
+    (obj) = (T*)malloc(sizeof((T)));   \
+    do {                               \
+      if((obj) == NULL) {              \
+        errno = ENOMEM;                \
+      }                                \
+    } while(0)
+
+#endif /* MALLOC_OR_ENOMEM */
 
 //===========================================================================
 // Derefernece a void* pointer to a data of specified type.
@@ -75,44 +92,59 @@ extern "C" {
 //
 // USE WITH CAUTION
 //===========================================================================
-#define DEREF_VOID(T, v)                 \
-  *( (T*)( (v) ) );
+#ifndef DEREF_VOID
 
+  #define DEREF_VOID(T, v)             \
+    *( (T*)( (v) ) );
 
-//===========================================================================
-// Free-up memory.
-// USE WITH CAUTION
-//===========================================================================
-#define FREE(x)                          \
-  do {                                   \
-    if( (x) ) {                          \
-      free( (x) );                       \
-      (x) = NULL;                        \
-    }                                    \
-  } while(0)
+#endif /* DEREF_VOID */
 
 //===========================================================================
 // Free-up memory.
 // USE WITH CAUTION
 //===========================================================================
-#define DELETE(x)                        \
-  do {                                   \
-    if( (x) ) {                          \
-      delete (x);                        \
-      (x) = NULL;                        \
-    }                                    \
-  } while(0)
+#ifndef FREE
+
+  #define FREE(x)                      \
+    do {                               \
+      if( (x) ) {                      \
+        free( (x) );                   \
+        (x) = NULL;                    \
+      }                                \
+    } while(0)
+
+#endif /* FREE */
+
+//===========================================================================
+// Free-up memory.
+// USE WITH CAUTION
+//===========================================================================
+#ifndef DELETE
+
+  #define DELETE(x)                    \
+    do {                               \
+      if( (x) ) {                      \
+        delete (x);                    \
+        (x) = NULL;                    \
+      }                                \
+    } while(0)
+
+#endif /* DELETE */
 
 //===========================================================================
 // Free target if val is null.
 // USE WITH CAUTION
 //===========================================================================
-#define FREE_IF_NULL(val, target)        \
-  do {                                   \
-    if( (val) == NULL) {                 \
-      HEX_FREE( (target) );              \
-    }                                    \
-  } while(0)
+#ifndef FREE_IF_NULL
+
+  #define FREE_IF_NULL(val, target)    \
+    do {                               \
+      if( (val) == NULL) {             \
+        HEX_FREE( (target) );          \
+      }                                \
+    } while(0)
+
+#endif /* FREE_IF_NULL */
 
 
 #ifdef __cplusplus
