@@ -50,6 +50,9 @@ strbuf.o: strbuf.c strbuf.h
 bitmap.o: bitmap.c bitmap.h
 	$(CC) $(CFLAGS) -c bitmap.c
 
+buffer.o: buffer.c buffer.h
+	$(CC) $(CFLAGS) -c buffer.c
+
 obj: 					\
 	utils.o 		\
 	cutils.o    \
@@ -58,7 +61,8 @@ obj: 					\
 	dict.o  		\
 	strutils.o 	\
 	strbuf.o 		\
-	bitmap.o
+	bitmap.o 		\
+	buffer.o
 
 _libbase.a: obj
 	$(AR) $(ARFLAGS) _libbase.a *.o
