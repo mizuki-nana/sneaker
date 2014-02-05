@@ -47,6 +47,9 @@ strutils.o: strutils.c strutils.h
 strbuf.o: strbuf.c strbuf.h
 	$(CC) $(CFLAGS) -c strbuf.c
 
+bitmap.o: bitmap.c bitmap.h
+	$(CC) $(CFLAGS) -c bitmap.c
+
 obj: 					\
 	utils.o 		\
 	cutils.o    \
@@ -54,7 +57,8 @@ obj: 					\
 	hashmap.o 	\
 	dict.o  		\
 	strutils.o 	\
-	strbuf.o
+	strbuf.o 		\
+	bitmap.o
 
 _libbase.a: obj
 	$(AR) $(ARFLAGS) _libbase.a *.o
