@@ -27,9 +27,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string.h>
 #include <limits.h>
 #include "../_unittest.h"
-#include "../../src/libc/assert.h"
-#include "../../src/libc/cutils.h"
-#include "../../src/libc/memory.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/cutils.h"
+#include "../../include/libc/memory.h"
 
 #define _INT_MIN_ -32767
 #define _INT_MAX_ 32767

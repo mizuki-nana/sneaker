@@ -25,10 +25,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <stddef.h>
 #include "../_unittest.h"
-#include "../../src/libc/assert.h"
-#include "../../src/libc/c_str.h"
-#include "../../src/libc/memory.h"
-#include "../../src/libc/bitmap.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/c_str.h"
+#include "../../include/libc/memory.h"
+#include "../../include/libc/bitmap.h"
 
 TEST(bitmapTest, bitmap_createTest) {
  Bitmap bitmap = NULL;

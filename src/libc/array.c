@@ -23,10 +23,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <stddef.h>
 #include <limits.h>
-#include "memory.h"
-#include "assert.h"
-#include "utils.h"
-#include "array.h"
+#include "../../include/libc/memory.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/utils.h"
+#include "../../include/libc/array.h"
 
 #define DEFAULT_ARRAY_INITIAL_CAPACITY 4
 #define ARRAY_MAX_CAPACITY ((int)UINT_MAX/sizeof(void*))

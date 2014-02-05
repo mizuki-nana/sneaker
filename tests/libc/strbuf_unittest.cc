@@ -27,10 +27,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string.h>
 #include <limits.h>
 #include "../_unittest.h"
-#include "../../src/libc/assert.h"
-#include "../../src/libc/c_str.h"
-#include "../../src/libc/memory.h"
-#include "../../src/libc/strbuf.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/c_str.h"
+#include "../../include/libc/memory.h"
+#include "../../include/libc/strbuf.h"
 
 
 class StrbufTest : public ::testing::Test {

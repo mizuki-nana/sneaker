@@ -25,8 +25,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <string.h>
 #include "../_unittest.h"
-#include "../../src/libc/assert.h"
-#include "../../src/libc/utils.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/utils.h"
 
 /*******************************************
  * Tests for MAX(a,b)

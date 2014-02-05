@@ -23,10 +23,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <stddef.h>
 #include <math.h>
-#include "memory.h"
-#include "utils.h"
-#include "assert.h"
-#include "bitmap.h"
+#include "../../include/libc/memory.h"
+#include "../../include/libc/utils.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/bitmap.h"
 
 #define ROW(row) floor((double)(row) / sizeof(char))
 #define COL(col) floor((double)(col) / sizeof(char))

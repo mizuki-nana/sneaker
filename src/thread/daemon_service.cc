@@ -21,7 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-#include "daemon_service.h"
+#include "../../include/thread/daemon_service.h"
 
 DaemonService::DaemonService(bool wait_for_termination):
   _wait_for_termination(wait_for_termination)

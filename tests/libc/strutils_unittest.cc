@@ -25,7 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <string.h>
 #include "../_unittest.h"
-#include "../../src/libc/strutils.h"
+#include "../../include/libc/strutils.h"
 
 
 /***************************************

@@ -26,43 +26,43 @@ CFLAGS=-Wno-implicit -Wall -arch x86_64
 AR=ar
 ARFLAGS=rvs
 
-utils.o: utils.c utils.h
+utils.o: utils.c
 	$(CC) $(CFLAGS) -c utils.c
 
-cutils.o: cutils.h cutils.c
+cutils.o:  cutils.c
 	$(CC) $(CFLAGS) -c cutils.c
 
-hash.o: hash.c hash.h
+hash.o: hash.c
 	$(CC) $(CFLAGS) -c hash.c
 
 hashmap.o: hashmap.c
 	$(CC) $(CFLAGS) -c hashmap.c
 
-dict.o: dict.c dict.h
+dict.o: dict.c
 	$(CC) $(CFLAGS) -c dict.c
 
-strutils.o: strutils.c strutils.h
+strutils.o: strutils.c
 	$(CC) $(CFLAGS) -c strutils.c
 
-strbuf.o: strbuf.c strbuf.h
+strbuf.o: strbuf.c
 	$(CC) $(CFLAGS) -c strbuf.c
 
-bitmap.o: bitmap.c bitmap.h
+bitmap.o: bitmap.c
 	$(CC) $(CFLAGS) -c bitmap.c
 
-buffer.o: buffer.c buffer.h
+buffer.o: buffer.c
 	$(CC) $(CFLAGS) -c buffer.c
 
-array.o: array.c array.h
+array.o: array.c
 	$(CC) $(CFLAGS) -c array.c
 
-queue.o: queue.c queue.h
+queue.o: queue.c
 	$(CC) $(CFLAGS) -c queue.c
 
-stack.o: stack.c stack.h
+stack.o: stack.c
 	$(CC) $(CFLAGS) -c stack.c
 
-uuid.o: uuid.c uuid.h
+uuid.o: uuid.c
 	$(CC) $(CFLAGS) -c uuid.c
 
 obj: 					\

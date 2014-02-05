@@ -25,9 +25,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 #include "../_unittest.h"
-#include "../../src/libc/assert.h"
-#include "../../src/libc/dict.h"
-#include "../../src/libc/memory.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/dict.h"
+#include "../../include/libc/memory.h"
 
 class DictTest : public ::testing::Test {
 protected:

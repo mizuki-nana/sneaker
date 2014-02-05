@@ -25,8 +25,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 #include "../_unittest.h"
-#include "../../src/libc/assert.h"
-#include "../../src/libc/hash.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/hash.h"
 
 
 /********************************************

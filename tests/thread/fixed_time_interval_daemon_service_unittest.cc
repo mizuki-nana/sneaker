@@ -23,7 +23,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <stdio.h>
 #include "../_unittest.h"
-#include "../../src/thread/fixed_time_interval_daemon_service.h"
+#include "../../include/thread/fixed_time_interval_daemon_service.h"
 
 void DummyHandler()
 {

@@ -22,11 +22,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
 #include <errno.h>
-#include "assert.h"
-#include "common.h"
-#include "memory.h"
-#include "utils.h"
-#include "stack.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/common.h"
+#include "../../include/libc/memory.h"
+#include "../../include/libc/utils.h"
+#include "../../include/libc/stack.h"
 
 
 struct HexStack_s {

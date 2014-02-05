@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
 #include "../_unittest.h"
-#include "../../src/thread/daemon_service.h"
+#include "../../include/thread/daemon_service.h"
 
 class DummyDaemonService : public DaemonService {
 public:

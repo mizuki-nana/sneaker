@@ -24,10 +24,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <errno.h>
 #include <stddef.h>
 #include <stdlib.h>
-#include "memory.h"
-#include "assert.h"
-#include "utils.h"
-#include "buffer.h"
+#include "../../include/libc/memory.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/utils.h"
+#include "../../include/libc/buffer.h"
 
 
 struct HexBuffer_s {

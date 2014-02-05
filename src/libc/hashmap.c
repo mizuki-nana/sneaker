@@ -25,10 +25,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <sys/types.h>
 #include <pthread.h>
 #include <errno.h>
-#include "assert.h"
-#include "hashmap.h"
-#include "memory.h"
-#include "utils.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/hashmap.h"
+#include "../../include/libc/memory.h"
+#include "../../include/libc/utils.h"
 
 
 #define LOAD_FACTOR 0.75f

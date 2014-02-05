@@ -25,10 +25,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdio.h>
 #include <limits.h>
 #include <time.h>
-#include "assert.h"
-#include "hash.h"
-#include "utils.h"
-#include "uuid.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/hash.h"
+#include "../../include/libc/utils.h"
+#include "../../include/libc/uuid.h"
 
 
 int uuid_create(uuid *uuid)

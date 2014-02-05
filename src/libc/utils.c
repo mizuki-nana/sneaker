@@ -22,9 +22,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
 #include <stdlib.h>
-#include "assert.h"
-#include "c_str.h"
-#include "utils.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/c_str.h"
+#include "../../include/libc/utils.h"
 
 void
 set_nth_bit(int *val, char bit)

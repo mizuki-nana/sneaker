@@ -25,10 +25,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 #include "../_unittest.h"
-#include "../../src/libc/assert.h"
-#include "../../src/libc/hash.h"
-#include "../../src/libc/hashmap.h"
-#include "../../src/libc/utils.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/hash.h"
+#include "../../include/libc/hashmap.h"
+#include "../../include/libc/utils.h"
 
 
 hash_t simple_hash(char *s) {

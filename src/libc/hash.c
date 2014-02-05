@@ -30,8 +30,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <stddef.h>
 #include <string.h>
-#include "hash.h"
-#include "utils.h"
+#include "../../include/libc/hash.h"
+#include "../../include/libc/utils.h"
 
 
 #define GOLDEN_PRIME 1237

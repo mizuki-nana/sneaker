@@ -22,11 +22,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
 #include <stddef.h>
-#include "assert.h"
-#include "c_str.h"
-#include "memory.h"
-#include "strbuf.h"
-#include "utils.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/c_str.h"
+#include "../../include/libc/memory.h"
+#include "../../include/libc/strbuf.h"
+#include "../../include/libc/utils.h"
 
 
 #define DEFAULT_STRBUF_INITIAL_ALLOC 1024

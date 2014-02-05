@@ -26,8 +26,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <limits.h>
 #include "../_unittest.h"
-#include "../../src/libc/assert.h"
-#include "../../src/libc/uuid.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/uuid.h"
 
 
 /**********************************

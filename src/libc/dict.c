@@ -22,12 +22,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
 #include <string.h>
-#include "assert.h"
-#include "dict.h"
-#include "hash.h"
-#include "hashmap.h"
-#include "memory.h"
-#include "utils.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/dict.h"
+#include "../../include/libc/hash.h"
+#include "../../include/libc/hashmap.h"
+#include "../../include/libc/memory.h"
+#include "../../include/libc/utils.h"
 
 #define DICT_DEFAULT_CAPACITY 16
 
