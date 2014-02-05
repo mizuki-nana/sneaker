@@ -64,6 +64,9 @@ queue_unittest.test: base queue_unittest.cc
 stack_unittest.test: base stack_unittest.cc
 	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/_libbase.a ../_unittest.o stack_unittest.cc -o stack_unittest.test
 
+uuid_unittest.test: base uuid_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/_libbase.a ../_unittest.o uuid_unittest.cc -o uuid_unittest.test
+
 all: 											\
 	utils_unittest.test 		\
 	cutils_unittest.test 		\
@@ -76,7 +79,8 @@ all: 											\
 	buffer_unittest.test 		\
 	array_unittest.test 		\
 	queue_unittest.test 		\
-	stack_unittest.test
+	stack_unittest.test 		\
+	uuid_unittest.test
 
 .PHONY : clean
 clean:

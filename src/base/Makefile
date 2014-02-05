@@ -62,6 +62,9 @@ queue.o: queue.c queue.h
 stack.o: stack.c stack.h
 	$(CC) $(CFLAGS) -c stack.c
 
+uuid.o: uuid.c uuid.h
+	$(CC) $(CFLAGS) -c uuid.c
+
 obj: 					\
 	utils.o 		\
 	cutils.o    \
@@ -74,7 +77,8 @@ obj: 					\
 	buffer.o  	\
 	array.o   	\
 	queue.o 		\
-	stack.o
+	stack.o 		\
+	uuid.o
 
 _libbase.a: obj
 	$(AR) $(ARFLAGS) _libbase.a *.o
