@@ -55,6 +55,9 @@ bitmap_unittest.test: base bitmap_unittest.cc
 buffer_unittest.test: base buffer_unittest.cc
 	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/_libbase.a ../_unittest.o buffer_unittest.cc -o buffer_unittest.test
 
+array_unittest.test: base array_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/base/_libbase.a ../_unittest.o array_unittest.cc -o array_unittest.test
+
 all: 											\
 	utils_unittest.test 		\
 	cutils_unittest.test 		\
@@ -64,7 +67,8 @@ all: 											\
 	strutils_unittest.test 	\
 	strbuf_unittest.test 		\
 	bitmap_unittest.test 		\
-	buffer_unittest.test
+	buffer_unittest.test 		\
+	array_unittest.test
 
 .PHONY : clean
 clean:
