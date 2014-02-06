@@ -21,19 +21,34 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-#include <stdio.h>
-#include "../_unittest.h"
-#include "../../include/thread/fixed_time_interval_daemon_service.h"
+#include "../../include/threading/daemon_service.h"
 
-void DummyHandler()
+DaemonService::DaemonService(bool wait_for_termination):
+  _wait_for_termination(wait_for_termination)
 {
-  printf("Hello world...\n");
+  this->init();
 }
 
-class FixedTimeIntervalDaemonServiceUnitTest : public ::testing::Test {};
-
-TEST_F(FixedTimeIntervalDaemonServiceUnitTest, TestMagic)
+void
+DaemonService::init()
 {
-  FixedTimeIntervalDaemonService daemon_service(2, DummyHandler);
-  sleep(10);
+  pthread_attr_init(&_attr);
+  pthread_create(&_thread_id, &_attr, handler, (void*)this);
+
+  // if(_wait_for_termination) {
+  //   void* res = NULL;
+  //   pthread_join(_thread_id, &res);
+  // }
+}
+
+DaemonService::~DaemonService()
+{
+  // Do nothing here.
+}
+
+void*
+DaemonService::handler(void* instance)
+{
+  reinterpret_cast<DaemonService*>(instance)->handle();
+  return NULL;
 }

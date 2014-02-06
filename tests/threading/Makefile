@@ -29,11 +29,11 @@ LIBRARIES=$(LIBGTEST)
 
 OBJECTS= \
 	../_unittest.o \
-	../../src/thread/daemon_service.o \
-	../../src/thread/fixed_time_interval_daemon_service.o
+	../../src/threading/daemon_service.o \
+	../../src/threading/fixed_time_interval_daemon_service.o
 
 objects:
-	cd ../../src/thread/ && make all
+	cd ../../src/threading/ && make all
 
 _unittest.o:
 	cd ../ && $(CXX) $(CFLAGS) -DGTEST_HAS_TR1_TUPLE=0 -c _unittest.cc
