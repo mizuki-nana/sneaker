@@ -21,13 +21,16 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
+/* Unit test for `sneaker::threading::daemon_service`
+ * in include/threading/daemon_service.h */
+
 #include "../_unittest.h"
 #include "../../include/threading/daemon_service.h"
 
-class DummyDaemonService : public DaemonService {
+class dummy_daemon_service : public sneaker::threading::daemon_service {
 public:
-  DummyDaemonService(int num):
-    DaemonService(true),
+  dummy_daemon_service(int num):
+    daemon_service(true),
     _num(num)
   {
   }
@@ -50,7 +53,7 @@ class DaemonServiceUnitTest : public ::testing::Test {};
 
 TEST_F(DaemonServiceUnitTest, TestMagic)
 {
-  DummyDaemonService dummy_daemon(5);
+  dummy_daemon_service dummy_daemon(5);
 
   // sleep for one second in main thread to wait for daemon thread to process.
   sleep(1);

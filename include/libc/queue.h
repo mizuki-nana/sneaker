@@ -33,21 +33,21 @@ extern "C" {
 #endif
 
 
-typedef struct HexQueue_s *Queue;
+typedef struct __sneaker_queue_s * queue_t;
 
-Queue queue_create();
+queue_t queue_create();
 
-size_t queue_size(Queue queue);
+size_t queue_size(queue_t queue);
 
-void* queue_front(Queue queue);
+void* queue_front(queue_t queue);
 
-void* queue_back(Queue queue);
+void* queue_back(queue_t queue);
 
-int queue_push(Queue queue, void *val, size_t size);
+int queue_push(queue_t queue, void *val, size_t size);
 
-void* queue_pop(Queue queue);
+void* queue_pop(queue_t queue);
 
-void queue_free(Queue *queue);
+void queue_free(queue_t *queue);
 
 
 #ifdef __cplusplus

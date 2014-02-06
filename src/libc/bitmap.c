@@ -31,19 +31,19 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define ROW(row) floor((double)(row) / sizeof(char))
 #define COL(col) floor((double)(col) / sizeof(char))
 
-struct HexBitmap {
+struct __sneaker_bitmap_s {
   char **_content;
   size_t _width;
   size_t _height;
 };
 
 
-Bitmap bitmap_create(size_t width, size_t height)
+bitmap_t bitmap_create(size_t width, size_t height)
 {
   RETURN_VAL_IF_FALSE(width > 0, NULL);
   RETURN_VAL_IF_FALSE(height > 0, NULL);
 
-  Bitmap bitmap = MALLOC(struct HexBitmap);
+  bitmap_t bitmap = MALLOC(struct __sneaker_bitmap_s);
 
   if(!bitmap) {
     errno = ENOMEM;
@@ -69,9 +69,9 @@ Bitmap bitmap_create(size_t width, size_t height)
   return bitmap;
 }
 
-void bitmap_free(Bitmap *bitmap)
+void bitmap_free(bitmap_t *bitmap)
 {
-  Bitmap _bitmap = *bitmap;
+  bitmap_t _bitmap = *bitmap;
 
   ASSERT(_bitmap);
 
@@ -85,19 +85,19 @@ void bitmap_free(Bitmap *bitmap)
   *bitmap = _bitmap;
 }
 
-size_t bitmap_width(Bitmap bitmap)
+size_t bitmap_width(bitmap_t bitmap)
 {
   ASSERT(bitmap);
   return bitmap->_width;
 }
 
-size_t bitmap_height(Bitmap bitmap)
+size_t bitmap_height(bitmap_t bitmap)
 {
   ASSERT(bitmap);
   return bitmap->_height;
 }
 
-int bitmap_set_bit(Bitmap bitmap, size_t row, size_t col)
+int bitmap_set_bit(bitmap_t bitmap, size_t row, size_t col)
 {
   ASSERT(bitmap);
 
@@ -125,7 +125,7 @@ int bitmap_set_bit(Bitmap bitmap, size_t row, size_t col)
   return 1;
 }
 
-int bitmap_clear_bit(Bitmap bitmap, size_t row, size_t col)
+int bitmap_clear_bit(bitmap_t bitmap, size_t row, size_t col)
 {
   ASSERT(bitmap);
 
@@ -149,7 +149,7 @@ int bitmap_clear_bit(Bitmap bitmap, size_t row, size_t col)
   return 1;
 }
 
-int bitmap_is_set(Bitmap bitmap, size_t row, size_t col)
+int bitmap_is_set(bitmap_t bitmap, size_t row, size_t col)
 {
   ASSERT(bitmap);
 
@@ -169,7 +169,7 @@ int bitmap_is_set(Bitmap bitmap, size_t row, size_t col)
   return is_bit_set(val, bit);
 }
 
-void bitmap_clear(Bitmap bitmap)
+void bitmap_clear(bitmap_t bitmap)
 {
   ASSERT(bitmap);
 

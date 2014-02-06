@@ -33,20 +33,20 @@ extern "C" {
 #endif
 
 
-typedef struct HexStack_s *Stack;
+typedef struct __sneaker_stack_s * stack_t;
 
 
-Stack stack_create();
+stack_t stack_create();
 
-size_t stack_size(Stack stack);
+size_t stack_size(stack_t stack);
 
-void* stack_top(Stack stack);
+void* stack_top(stack_t stack);
 
-int stack_push(Stack stack, void *val, size_t size);
+int stack_push(stack_t stack, void *val, size_t size);
 
-void* stack_pop(Stack stack);
+void* stack_pop(stack_t stack);
 
-void stack_free(Stack *stack);
+void stack_free(stack_t *stack);
 
 
 #ifdef __cplusplus

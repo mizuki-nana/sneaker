@@ -38,7 +38,7 @@ extern "C" {
  * Byte buffer of known size. Keeps track of how much data has been read
  * into or written out of the buffer.
  */
-typedef struct HexBuffer_s *Buffer;
+typedef struct __sneaker_buffer_s * buffer_t;
 
 /*
  * Returns true if all data has been read into the buffer.
@@ -50,13 +50,13 @@ typedef struct HexBuffer_s *Buffer;
  */
 #define buffer_write_complete(buffer) ((buffer)->remaining == 0)
 
-Buffer buffer_create(size_t capacity);
+buffer_t buffer_create(size_t capacity);
 
-void buffer_free(Buffer *buffer);
+void buffer_free(buffer_t *buffer);
 
-char* buffer_get(Buffer buffer);
+char* buffer_get(buffer_t buffer);
 
-int buffer_prepare_for_read(Buffer buffer, size_t expected);
+int buffer_prepare_for_read(buffer_t buffer, size_t expected);
 
 /*
  * Reads some data into a buffer. Returns -1 in case of an error and sets 
@@ -65,9 +65,9 @@ int buffer_prepare_for_read(Buffer buffer, size_t expected);
  *
  * Precondition: buffer->size <= buffer->expected
  */
-ssize_t buffer_read(Buffer buffer, int fd);
+ssize_t buffer_read(buffer_t buffer, int fd);
 
-void buffer_prepare_for_write(Buffer buffer);
+void buffer_prepare_for_write(buffer_t buffer);
 
 /*
  * Writes data from buffer to the given fd. Returns -1 and sets errno in case
@@ -76,7 +76,7 @@ void buffer_prepare_for_write(Buffer buffer);
  *
  * Precondition: buffer->remaining > 0
  */
-ssize_t buffer_write(Buffer buffer, int fd);
+ssize_t buffer_write(buffer_t buffer, int fd);
 
 
 #ifdef __cplusplus

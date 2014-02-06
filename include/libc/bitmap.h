@@ -31,23 +31,24 @@ extern "C" {
 #endif
 
 
-typedef struct HexBitmap *Bitmap;
+typedef struct __sneaker_bitmap_s * bitmap_t;
 
-Bitmap bitmap_create(size_t width, size_t height);
 
-void bitmap_free(Bitmap *bitmap);
+bitmap_t bitmap_create(size_t width, size_t height);
 
-size_t bitmap_width(Bitmap bitmap);
+void bitmap_free(bitmap_t *bitmap);
 
-size_t bitmap_height(Bitmap bitmap);
+size_t bitmap_width(bitmap_t bitmap);
 
-int bitmap_set_bit(Bitmap bitmap, size_t row, size_t col);
+size_t bitmap_height(bitmap_t bitmap);
 
-int bitmap_clear_bit(Bitmap bitmap, size_t row, size_t col);
+int bitmap_set_bit(bitmap_t bitmap, size_t row, size_t col);
 
-int bitmap_is_set(Bitmap bitmap, size_t row, size_t col);
+int bitmap_clear_bit(bitmap_t bitmap, size_t row, size_t col);
 
-void bitmap_clear(Bitmap bitmap);
+int bitmap_is_set(bitmap_t bitmap, size_t row, size_t col);
+
+void bitmap_clear(bitmap_t bitmap);
 
 
 #ifdef __cplusplus

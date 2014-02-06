@@ -21,7 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for src/libc/stack.c */
+/* Unit test for `sneaker_stack_t` defined in include/libc/stack.h */
 
 
 #include <string.h>
@@ -45,7 +45,7 @@ protected:
     ASSERT(_stack == NULL);
   }
 
-  Stack _stack;
+  stack_t _stack;
 };
 
 

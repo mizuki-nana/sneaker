@@ -31,7 +31,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/libc/bitmap.h"
 
 TEST(bitmapTest, bitmap_createTest) {
- Bitmap bitmap = NULL;
+ bitmap_t bitmap = NULL;
 
  bitmap = bitmap_create(0, 10);
  ASSERT(bitmap == NULL);
@@ -44,7 +44,7 @@ TEST(bitmapTest, bitmap_createTest) {
 }
 
 TEST(bitmapTest, bitmap_createTest2) {
-  Bitmap bitmap = NULL;
+  bitmap_t bitmap = NULL;
   size_t width = 1;
   size_t height = 1;
 
@@ -60,7 +60,7 @@ TEST(bitmapTest, bitmap_createTest2) {
 }
 
 TEST(bitmapTest, bitmap_set_bitTest1) {
-  Bitmap bitmap = NULL;
+  bitmap_t bitmap = NULL;
   size_t width = 1;
   size_t height = 1;
   int res;
@@ -79,7 +79,7 @@ TEST(bitmapTest, bitmap_set_bitTest1) {
 }
 
 TEST(bitmapTest, bitmap_set_bitTest2) {
-  Bitmap bitmap = NULL;
+  bitmap_t bitmap = NULL;
   size_t width = 1;
   size_t height = 1;
   int res;
@@ -98,7 +98,7 @@ TEST(bitmapTest, bitmap_set_bitTest2) {
 }
 
 TEST(bitmapTest, bitmap_set_bitTest3) {
-  Bitmap bitmap = NULL;
+  bitmap_t bitmap = NULL;
   size_t width = 1;
   size_t height = 1;
   int res;
@@ -120,7 +120,7 @@ TEST(bitmapTest, bitmap_set_bitTest3) {
 }
 
 TEST(bitmapTest, BitmapSetAndClearBitTest1) {
-  Bitmap bitmap = NULL;
+  bitmap_t bitmap = NULL;
   size_t width = 2;
   size_t height = 2;
 
@@ -154,7 +154,7 @@ TEST(bitmapTest, BitmapSetAndClearBitTest1) {
 }
 
 TEST(bitmapTest, BitmapSetAndClearBitTest2) {
-  Bitmap bitmap = NULL;
+  bitmap_t bitmap = NULL;
   size_t width = 8;
   size_t height = 8;
 
@@ -218,7 +218,7 @@ TEST(bitmapTest, BitmapSetAndClearBitTest2) {
 }
 
 TEST(bitmapTest, BitmapSetAndClearBitTest3) {
-  Bitmap bitmap = NULL;
+  bitmap_t bitmap = NULL;
   size_t width = 16;
   size_t height = 16;
 

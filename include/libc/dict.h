@@ -23,26 +23,28 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* A dictionary container for storing key-value pairs with the keys being strings. */
 
-#include <stddef.h>
-
 #ifndef _DICT_H_
 #define _DICT_H_
+
+#include <stddef.h>
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef struct HexDict *Dict;
 
-Dict dict_create();
+typedef struct __sneaker_dict_s * dict_t;
 
-size_t dict_size(Dict dict);
+dict_t dict_create();
 
-void dict_free(Dict *dict);
+size_t dict_size(dict_t dict);
 
-void* dict_put(Dict dict, const char *key, void* val);
+void dict_free(dict_t *dict);
 
-void* dict_get(Dict dict, const char *key);
+void* dict_put(dict_t dict, const char *key, void* val);
+
+void* dict_get(dict_t dict, const char *key);
 
 
 #ifdef __cplusplus

@@ -21,7 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for src/libc/array.c */
+/* Unit test for `array_t` defined in include/libc/array.h */
 
 #include <string.h>
 #include <limits.h>
@@ -44,7 +44,7 @@ protected:
     ASSERT(_array == NULL);
   }
 
-  Array _array;
+  array_t _array;
 };
 
 TEST_F(ArrayTest, ArrayCreationTest) {

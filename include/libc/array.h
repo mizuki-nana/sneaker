@@ -33,23 +33,23 @@ extern "C" {
 #endif
 
 
-typedef struct HexArray_s *Array;
+typedef struct __sneaker_array_s * array_t;
 
-Array array_create();
+array_t array_create();
 
-void array_free(Array *array);
+void array_free(array_t *array);
 
-int array_append(Array array, void* ptr);
+int array_append(array_t array, void* ptr);
 
-void* array_get(Array array, int index);
+void* array_get(array_t array, int index);
 
-void* array_remove(Array array, int index);
+void* array_remove(array_t array, int index);
 
-void* array_set(Array array, int index, void* ptr);
+void* array_set(array_t array, int index, void* ptr);
 
-int array_size(Array array);
+int array_size(array_t array);
 
-const void** array_content(Array array);
+const void** array_content(array_t array);
 
 
 #ifdef __cplusplus

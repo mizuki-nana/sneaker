@@ -34,7 +34,7 @@ extern "C" {
 #endif
 
 
-typedef struct HexHashmap *Hashmap;
+typedef struct __sneaker_hashmap_s * hashmap_t;
 
 
 /* hash function */
@@ -45,42 +45,42 @@ typedef hash_t(*HashFunc)(void *key);
 typedef int(*KeyCmpFunc)(void *keyA, void *keyB);
 
 
-Hashmap hashmap_create(size_t initial_capacity,
+hashmap_t hashmap_create(size_t initial_capacity,
   HashFunc hashfunc, KeyCmpFunc keycmpfunc);
 
-size_t hashmap_size(Hashmap hashmap);
+size_t hashmap_size(hashmap_t hashmap);
 
-void hashmap_lock(Hashmap hashmap);
+void hashmap_lock(hashmap_t hashmap);
 
-void hashmap_unlock(Hashmap hashmap);
+void hashmap_unlock(hashmap_t hashmap);
 
-void hashmap_free(Hashmap *hashmap);
+void hashmap_free(hashmap_t *hashmap);
 
 int hashmap_hash(void *key, size_t key_size);
 
-void* hashmap_put(Hashmap hashmap, void *key, void *val);
+void* hashmap_put(hashmap_t hashmap, void *key, void *val);
 
-void* hashmap_get(Hashmap hashmap, void *key);
+void* hashmap_get(hashmap_t hashmap, void *key);
 
-int hashmap_contains_key(Hashmap hashmap, void *key);
+int hashmap_contains_key(hashmap_t hashmap, void *key);
 
-void* hashmap_remove(Hashmap hashmap, void *key);
+void* hashmap_remove(hashmap_t hashmap, void *key);
 
 void* hashmap_lookup(
-  Hashmap hashmap, int(*lookup)(void *key, void *value, void* arg), void *arg);
+  hashmap_t hashmap, int(*lookup)(void *key, void *value, void* arg), void *arg);
 
 void hashmap_iterate(
-  Hashmap hashmap, int(*callback)(void *key, void *value), int haltOnFail);
+  hashmap_t hashmap, int(*callback)(void *key, void *value), int haltOnFail);
 
-size_t hashmap_bucketcount(Hashmap hashmap);
+size_t hashmap_bucketcount(hashmap_t hashmap);
 
-size_t hashmap_capacity(Hashmap hashmap);
+size_t hashmap_capacity(hashmap_t hashmap);
 
-size_t hashmap_count_collisions(Hashmap hashmap);
+size_t hashmap_count_collisions(hashmap_t hashmap);
 
 int hashmap_int_equals(void *keyA, void *keyB);
 
-int hashmap_equal(Hashmap hashmap1, Hashmap hashmap2);
+int hashmap_equal(hashmap_t hashmap1, hashmap_t hashmap2);
 
 
 #ifdef __cplusplus

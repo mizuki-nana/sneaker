@@ -21,62 +21,39 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for src/libc/uuid.c */
-
+/* Unit test for `uuid_t` defined in include/libc/uuid.h */
 
 #include <limits.h>
+#include "../../include/libc/uuid.h"  /* this has to come before _unittest.h */
 #include "../_unittest.h"
 #include "../../include/libc/assert.h"
-#include "../../include/libc/uuid.h"
 
 
-/**********************************
- * Test for:
- * int uuid_create(uuid*)
- **********************************/
 TEST(uuid_createTest, UUIDCreationTest) {
-  uuid id;
-
-  ASSERT_TRUE(uuid_create(&id));
+  uuid_t id = uuid_create();
+  ASSERT_TRUE(id);
 }
 
-
-/**********************************
- * Test for:
- * int uuid_compare(uuid, uuid)
- **********************************/
 TEST(uuid_compareTest, UUIDCompareSameIDTest) {
-  uuid id;
-  ASSERT_TRUE(uuid_create(&id));
+  uuid_t id = uuid_create();
   ASSERT_TRUE(uuid_compare(id, id));
 }
 
 TEST(uuid_compareTest, UUIDCompareDifferentIDTest) {
-  uuid id1;
-  uuid id2;
+  uuid_t uuid1 = uuid_create();
+  uuid_t uuid2 = uuid_create();
 
-  ASSERT_TRUE(uuid_create(&id1));
-  ASSERT_TRUE(uuid_create(&id2));
-
-  /* two UUIDs should NOT be the same!!! */
-  ASSERT_FALSE(uuid_compare(id1, id2));
+  ASSERT_FALSE(uuid_compare(uuid1, uuid2));
 }
 
-/****************************************
- * Test for:
- * hash_t uuid_to_hash(const uuid)
- ****************************************/
 TEST(uuid_to_hashTest, HashOnDifferentUUIDTest1) {
-  uuid uuid1;
-  uuid uuid2;
-
-  ASSERT_TRUE(uuid_create(&uuid1));
-  ASSERT_TRUE(uuid_create(&uuid2));
+  uuid_t uuid1 = uuid_create();
+  uuid_t uuid2 = uuid_create();
 
   ASSERT_FALSE(uuid_compare(uuid1, uuid2));
 
-  hash_t hash1 = uuid_to_hash((const uuid)uuid1);
-  hash_t hash2 = uuid_to_hash((const uuid)uuid2);
+  hash_t hash1 = uuid_to_hash((const uuid_t)uuid1);
+  hash_t hash2 = uuid_to_hash((const uuid_t)uuid2);
 
   ASSERT_NE(hash1, hash2);
 }
@@ -84,17 +61,14 @@ TEST(uuid_to_hashTest, HashOnDifferentUUIDTest1) {
 TEST(uuid_to_hashTest, HashOnDifferentUUID_Test) {
   int i;
   for(i = 0; i < 100000; i++) {
-    uuid uuid1;
-    uuid uuid2;
-
-    ASSERT_TRUE(uuid_create(&uuid1));
-    ASSERT_TRUE(uuid_create(&uuid2));
+    uuid_t uuid1 = uuid_create();
+    uuid_t uuid2 = uuid_create();
 
     ASSERT_FALSE(uuid_compare(uuid1, uuid2));
 
     ASSERT_NE(
-      uuid_to_hash((const uuid)uuid1),
-      uuid_to_hash((const uuid)uuid2)
+      uuid_to_hash((const uuid_t)uuid1),
+      uuid_to_hash((const uuid_t)uuid2)
     );
   }
 }

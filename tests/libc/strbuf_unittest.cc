@@ -21,7 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for src/libc/strbuf.c */
+/* Unit test for `strbuf_t` defined in include/libc/strbuf.h */
 
 
 #include <string.h>
@@ -49,7 +49,7 @@ protected:
   void test_append(const c_str);
   void test_append(const c_str, const c_str, const c_str=NULL);
 
-  Strbuf _strbuf;
+  strbuf_t _strbuf;
 };
 
 void

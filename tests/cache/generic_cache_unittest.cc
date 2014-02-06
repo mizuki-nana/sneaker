@@ -21,7 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for `GenericCache` in src/cache/generic_cache.h */
+/* Unit test for `generic_cache` in include/cache/generic_cache.h */
 
 #include <map>
 #include <string>
@@ -58,7 +58,7 @@ bool DestroyHandler(K key, T* value)
 class GenericCacheTest : public ::testing::Test {
 protected:
   virtual void SetUp() {
-    _cache = new GenericCache<K, T, bool(*)(K, T*), bool(*)(K, T*)>(
+    _cache = new sneaker::cache::generic_cache<K, T, bool(*)(K, T*), bool(*)(K, T*)>(
       CreateHandler,
       DestroyHandler
     );
@@ -84,7 +84,7 @@ protected:
     ASSERT_EQ(itr != truth_map.end(), in);
   }
 
-  GenericCache<K, T, bool(*)(K, T*), bool(*)(K, T*)> * _cache;
+  sneaker::cache::generic_cache<K, T, bool(*)(K, T*), bool(*)(K, T*)> * _cache;
 };
 
 

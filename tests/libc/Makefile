@@ -62,10 +62,10 @@ queue_unittest.test: libc queue_unittest.cc
 	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/libc/libc.a ../_unittest.o queue_unittest.cc -o queue_unittest.test
 
 stack_unittest.test: libc stack_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/libc/libc.a ../_unittest.o stack_unittest.cc -o stack_unittest.test
+	$(CXX) $(CFLAGS) $(LIBGTEST) -D_STRUCT_SIGALTSTACK -D_STRUCT_UCONTEXT ../../src/libc/libc.a ../_unittest.o stack_unittest.cc -o stack_unittest.test
 
 uuid_unittest.test: libc uuid_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBGTEST) ../../src/libc/libc.a ../_unittest.o uuid_unittest.cc -o uuid_unittest.test
+	$(CXX) $(CFLAGS) $(LIBGTEST) -D__DARWIN_C_LEVEL=0 -D_UUID_T ../../src/libc/libc.a ../_unittest.o uuid_unittest.cc -o uuid_unittest.test
 
 all: 											\
 	utils_unittest.test 		\

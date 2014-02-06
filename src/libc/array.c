@@ -32,7 +32,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define ARRAY_MAX_CAPACITY ((int)UINT_MAX/sizeof(void*))
 
 
-struct HexArray_s {
+struct __sneaker_array_s {
   void** content;
   size_t size;
   size_t capacity;
@@ -44,7 +44,7 @@ struct HexArray_s {
  * capacity is greater than capacity of the array.
  */
 static int
-_array_ensure_capacity(Array array, size_t capacity)
+_array_ensure_capacity(array_t array, size_t capacity)
 {
   ASSERT(array);
 
@@ -85,17 +85,17 @@ _array_ensure_capacity(Array array, size_t capacity)
 }
 
 static
-inline void _array_check_bound(Array array, int index)
+inline void _array_check_bound(array_t array, int index)
 {
   ASSERT(array);
   ASSERT(index >= 0 && index < array->size);
 }
 
-Array array_create()
+array_t array_create()
 {
-  Array array = NULL;
+  array_t array = NULL;
 
-  array = MALLOC(struct HexArray_s);
+  array = MALLOC(struct __sneaker_array_s);
 
   if(!array) {
     errno = ENOMEM;
@@ -111,9 +111,9 @@ Array array_create()
   return array;
 }
 
-void array_free(Array *array)
+void array_free(array_t *array)
 {
-  Array _array = *array;
+  array_t _array = *array;
 
   ASSERT(_array);
   FREE(_array->content);
@@ -123,7 +123,7 @@ void array_free(Array *array)
 }
 
 int
-array_append(Array array, void* ptr)
+array_append(array_t array, void* ptr)
 {
   ASSERT(array);
 
@@ -139,7 +139,7 @@ array_append(Array array, void* ptr)
 }
 
 void*
-array_get(Array array, int index)
+array_get(array_t array, int index)
 {
   ASSERT(array);
 
@@ -149,7 +149,7 @@ array_get(Array array, int index)
 }
 
 void*
-array_remove(Array array, int index)
+array_remove(array_t array, int index)
 {
   ASSERT(array);
 
@@ -173,7 +173,7 @@ array_remove(Array array, int index)
 }
 
 void*
-array_set(Array array, int index, void* ptr)
+array_set(array_t array, int index, void* ptr)
 {
   ASSERT(array);
 
@@ -186,14 +186,14 @@ array_set(Array array, int index, void* ptr)
 }
 
 int
-array_size(Array array)
+array_size(array_t array)
 {
   ASSERT(array);
   return array->size;
 }
 
 const void**
-array_content(Array array)
+array_content(array_t array)
 {
   ASSERT(array);
   return (const void**)array->content;

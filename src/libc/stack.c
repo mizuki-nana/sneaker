@@ -29,15 +29,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/libc/stack.h"
 
 
-struct HexStack_s {
-  SinglyNode top;
+struct __sneaker_stack_s {
+  singly_node_t top;
   size_t size;
 };
 
 
-Stack stack_create()
+stack_t stack_create()
 {
-  Stack stack = MALLOC(struct HexStack_s);
+  stack_t stack = MALLOC(struct __sneaker_stack_s);
 
   if(stack == NULL) {
     errno = ENOMEM;
@@ -50,33 +50,33 @@ Stack stack_create()
   return stack;
 }
 
-size_t stack_size(Stack stack)
+size_t stack_size(stack_t stack)
 {
   ASSERT(stack);
   return stack->size;
 }
 
-void* stack_top(Stack stack)
+void* stack_top(stack_t stack)
 {
   ASSERT(stack);
   RETURN_VAL_IF_NULL(stack->top, NULL);
   return stack->top->value;
 }
 
-int stack_push(Stack stack, void *val, size_t size)
+int stack_push(stack_t stack, void *val, size_t size)
 {
   ASSERT(stack);
 
   RETURN_VAL_IF_NULL(val, 0);
 
-  SinglyNode node = MALLOC(struct SinglyNode_s);
+  singly_node_t node = MALLOC(struct __sneaker_singly_node_s);
 
   if(!node) {
     errno = ENOMEM;
     return -1;
   }
 
-  memset(node, 0, sizeof(struct SinglyNode_s));
+  memset(node, 0, sizeof(struct __sneaker_singly_node_s));
 
   node->value = MALLOC_BY_SIZE(size);
   RETURN_VAL_IF_NULL(node->value, -1);
@@ -94,13 +94,13 @@ int stack_push(Stack stack, void *val, size_t size)
   return 1;
 }
 
-void* stack_pop(Stack stack) 
+void* stack_pop(stack_t stack) 
 {
   ASSERT(stack);
 
   RETURN_VAL_IF_NULL(stack->top, NULL);
 
-  SinglyNode top = stack->top;
+  singly_node_t top = stack->top;
 
   ASSERT(top);
   stack->top = top->next;
@@ -113,9 +113,9 @@ void* stack_pop(Stack stack)
   return val;
 }
 
-void stack_free(Stack *stack)
+void stack_free(stack_t *stack)
 {
-  Stack _stack = *stack;
+  stack_t _stack = *stack;
   ASSERT(_stack);
 
   while(stack_size(_stack) > 0) {

@@ -23,9 +23,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for include/container/reservation_map.h */
 
+#include "../../include/libc/uuid.h" /* this needs to come before _unittest.h */
 #include "../_unittest.h"
 #include "../../include/libc/assert.h"
-#include "../../include/libc/uuid.h"
 #include "../../include/container/reservation_map.h"
 
 class ReservationMapUnitTest : public ::testing::Test {

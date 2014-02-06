@@ -21,7 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for src/libc/buffer.c */
+/* Unit test for `buffer_t` defined in include/libc/buffer.h */
 
 
 #include <string.h>
@@ -47,7 +47,7 @@ protected:
     ASSERT(_buffer == NULL);
   }
 
-  Buffer _buffer;
+  buffer_t _buffer;
 };
 
 

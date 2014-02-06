@@ -37,7 +37,7 @@ _unittest.o:
 	cd ../ && $(CXX) $(CFLAGS) -DGTEST_HAS_TR1_TUPLE=0 -c _unittest.cc
 
 reservation_map_unittest.test: _unittest.o reservation_map_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) reservation_map_unittest.cc -o reservation_map_unittest.test
+	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) -D__DARWIN_C_LEVEL=0 -D_UUID_T reservation_map_unittest.cc -o reservation_map_unittest.test
 
 
 all: \

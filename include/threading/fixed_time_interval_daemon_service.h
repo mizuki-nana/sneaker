@@ -21,19 +21,25 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
+#ifndef _FIXED_TIME_INTERVAL_DAEMON_SERVICE_H_
+#define _FIXED_TIME_INTERVAL_DAEMON_SERVICE_H_
+
 #include <boost/asio.hpp>
 #include <boost/system/error_code.hpp>
 #include "daemon_service.h"
 
-#ifndef _FIXED_TIME_INTERVAL_DAEMON_SERVICE_H_
-#define _FIXED_TIME_INTERVAL_DAEMON_SERVICE_H_
-
 typedef void(*ExternalHandler)(void);
 
-class FixedTimeIntervalDaemonService : public DaemonService {
+
+namespace sneaker {
+
+namespace threading {
+
+
+class fixed_time_interval_daemon_service : public sneaker::threading::daemon_service {
 public:
-  FixedTimeIntervalDaemonService(size_t, ExternalHandler);
-  ~FixedTimeIntervalDaemonService();
+  fixed_time_interval_daemon_service(size_t, ExternalHandler);
+  ~fixed_time_interval_daemon_service();
 
   size_t interval() const;
 
@@ -43,7 +49,7 @@ protected:
   static void tick_handler(
     const boost::system::error_code&,
     boost::asio::deadline_timer* t,
-    FixedTimeIntervalDaemonService*
+    fixed_time_interval_daemon_service*
   );
 
   void invoke_external_handler();
@@ -52,5 +58,11 @@ private:
   ExternalHandler _external_handler;
   size_t _interval;
 };
+
+
+} /* threading */
+
+} /* sneaker */
+
 
 #endif /* _FIXED_TIME_INTERVAL_DAEMON_SERVICE_H_ */

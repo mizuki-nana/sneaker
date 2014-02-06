@@ -21,15 +21,20 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-#include <pthread.h>
-
 #ifndef _DAEMON_SERVICE_
 #define _DAEMON_SERVICE_
 
-class DaemonService {
+#include <pthread.h>
+
+namespace sneaker {
+
+namespace threading {
+
+
+class daemon_service {
 public:
-  DaemonService(bool wait_for_termination=false);
-  ~DaemonService();
+  daemon_service(bool wait_for_termination=false);
+  ~daemon_service();
 
 protected:
   static void* handler(void*);
@@ -44,5 +49,11 @@ private:
 
   bool _wait_for_termination;
 };
+
+
+} /* namespace threading */
+
+} /* namespace sneaker */
+
 
 #endif /* _DAEMON_SERVICE_ */

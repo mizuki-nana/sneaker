@@ -34,7 +34,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 static const size_t _strbuf_alloc_size = DEFAULT_STRBUF_INITIAL_ALLOC;
 
 
-struct HexStrbuf_s {
+struct __sneaker_strbuf_s {
   char*  c_str;               /* pointer to the raw string */
   size_t  capacity;           /* size of allocated data */
   size_t  size;               /* amount of space used */
@@ -42,9 +42,9 @@ struct HexStrbuf_s {
 
 
 static
-void _strbuf_init(Strbuf *strbuf, size_t min_len)
+void _strbuf_init(strbuf_t *strbuf, size_t min_len)
 {
-  Strbuf _strbuf = *strbuf;
+  strbuf_t _strbuf = *strbuf;
 
   RETURN_IF_NULL(_strbuf);
 
@@ -70,9 +70,9 @@ void _strbuf_init(Strbuf *strbuf, size_t min_len)
 }
 
 static
-void _strbuf_allocate_more(Strbuf *strbuf, size_t len)
+void _strbuf_allocate_more(strbuf_t *strbuf, size_t len)
 {
-  Strbuf _strbuf = *strbuf;
+  strbuf_t _strbuf = *strbuf;
 
   ASSERT(_strbuf);
 
@@ -94,11 +94,11 @@ void _strbuf_allocate_more(Strbuf *strbuf, size_t len)
   *strbuf = _strbuf;
 }
 
-Strbuf strbuf_create()
+strbuf_t strbuf_create()
 {
-  Strbuf strbuf = NULL;
+  strbuf_t strbuf = NULL;
 
-  strbuf = MALLOC(struct HexStrbuf_s);
+  strbuf = MALLOC(struct __sneaker_strbuf_s);
 
   if(!strbuf) {
     errno = ENOMEM;
@@ -113,9 +113,9 @@ Strbuf strbuf_create()
 }
 
 void
-strbuf_free(Strbuf *strbuf)
+strbuf_free(strbuf_t *strbuf)
 {
-  Strbuf _strbuf = *strbuf;
+  strbuf_t _strbuf = *strbuf;
 
   ASSERT(_strbuf);
 
@@ -129,7 +129,7 @@ strbuf_free(Strbuf *strbuf)
 }
 
 void
-strbuf_empty(Strbuf strbuf)
+strbuf_empty(strbuf_t strbuf)
 {
   ASSERT(strbuf);
 
@@ -140,28 +140,28 @@ strbuf_empty(Strbuf strbuf)
 }
 
 size_t
-strbuf_len(Strbuf strbuf)
+strbuf_len(strbuf_t strbuf)
 {
   ASSERT(strbuf);
   return strbuf->size;
 }
 
 const c_str
-strbuf_cstr(Strbuf strbuf)
+strbuf_cstr(strbuf_t strbuf)
 {
   ASSERT(strbuf);
   return (const c_str)strbuf->c_str;
 }
 
 size_t
-strbuf_capacity(Strbuf strbuf)
+strbuf_capacity(strbuf_t strbuf)
 {
   ASSERT(strbuf);
   return strbuf->capacity;
 }
 
 int
-strbuf_append(Strbuf strbuf, const c_str in_str)
+strbuf_append(strbuf_t strbuf, const c_str in_str)
 {
   ASSERT(strbuf);
   ASSERT(in_str);

@@ -31,31 +31,31 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/threading/fixed_time_interval_daemon_service.h"
 #include "../../include/libc/assert.h"
 
-FixedTimeIntervalDaemonService::FixedTimeIntervalDaemonService(
+sneaker::threading::fixed_time_interval_daemon_service::fixed_time_interval_daemon_service(
   size_t interval,
   ExternalHandler external_handler
 ):
   _interval(interval),
   _external_handler(external_handler),
-  DaemonService(false)
+  sneaker::threading::daemon_service(false)
 {
   ASSERT(_interval);
   ASSERT(_external_handler);
 }
 
-FixedTimeIntervalDaemonService::~FixedTimeIntervalDaemonService()
+sneaker::threading::fixed_time_interval_daemon_service::~fixed_time_interval_daemon_service()
 {
   // Do nothing here.
 }
 
 size_t
-FixedTimeIntervalDaemonService::interval() const
+sneaker::threading::fixed_time_interval_daemon_service::interval() const
 {
   return _interval;
 }
 
 void
-FixedTimeIntervalDaemonService::handle()
+sneaker::threading::fixed_time_interval_daemon_service::handle()
 {
   boost::asio::io_service io;
   boost::asio::deadline_timer t(io, boost::posix_time::seconds(_interval));
@@ -68,16 +68,16 @@ FixedTimeIntervalDaemonService::handle()
 }
 
 void
-FixedTimeIntervalDaemonService::invoke_external_handler()
+sneaker::threading::fixed_time_interval_daemon_service::invoke_external_handler()
 {
   this->_external_handler();
 }
 
 void
-FixedTimeIntervalDaemonService::tick_handler(
+sneaker::threading::fixed_time_interval_daemon_service::tick_handler(
   const boost::system::error_code& e,
   boost::asio::deadline_timer* t,
-  FixedTimeIntervalDaemonService* daemon_service
+  sneaker::threading::fixed_time_interval_daemon_service* daemon_service
 )
 {
   t->expires_at(

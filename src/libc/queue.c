@@ -29,16 +29,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/libc/queue.h"
 
 
-struct HexQueue_s {
-  SinglyNode head;      /* pop at head */
-  SinglyNode tail;      /* push at tail */
+struct __sneaker_queue_s {
+  singly_node_t head;      /* pop at head */
+  singly_node_t tail;      /* push at tail */
   size_t size;
 };
 
 
-Queue queue_create()
+queue_t queue_create()
 {
-  Queue queue = MALLOC(struct HexQueue_s);
+  queue_t queue = MALLOC(struct __sneaker_queue_s);
 
   if(queue == NULL) {
     errno = ENOMEM;
@@ -52,40 +52,40 @@ Queue queue_create()
   return queue;
 }
 
-size_t queue_size(Queue queue)
+size_t queue_size(queue_t queue)
 {
   ASSERT(queue);
   return queue->size;
 }
 
-void* queue_front(Queue queue)
+void* queue_front(queue_t queue)
 {
   ASSERT(queue);
   RETURN_VAL_IF_NULL(queue->head, NULL);
   return queue->head->value;
 }
 
-void* queue_back(Queue queue)
+void* queue_back(queue_t queue)
 {
   ASSERT(queue);
   RETURN_VAL_IF_NULL(queue->tail, NULL);
   return queue->tail->value;
 }
 
-int queue_push(Queue queue, void *val, size_t size)
+int queue_push(queue_t queue, void *val, size_t size)
 {
   ASSERT(queue);
 
   RETURN_VAL_IF_NULL(val, 0);
 
-  SinglyNode node = MALLOC(struct SinglyNode_s);
+  singly_node_t node = MALLOC(struct __sneaker_singly_node_s);
 
   if(!node) {
     errno = ENOMEM;
     return -1;
   }
 
-  memset(node, 0, sizeof(struct SinglyNode_s));
+  memset(node, 0, sizeof(struct __sneaker_queue_s));
 
   node->value = MALLOC_BY_SIZE(size);
   RETURN_VAL_IF_NULL(node->value, -1);
@@ -107,7 +107,7 @@ int queue_push(Queue queue, void *val, size_t size)
   return 1;
 }
 
-void* queue_pop(Queue queue)
+void* queue_pop(queue_t queue)
 {
   ASSERT(queue);
 
@@ -117,7 +117,7 @@ void* queue_pop(Queue queue)
 
   void *val = queue->head->value;
 
-  SinglyNode next = queue->head->next;
+  singly_node_t next = queue->head->next;
 
   FREE(queue->head);
   queue->head = next;
@@ -131,9 +131,9 @@ void* queue_pop(Queue queue)
   return val;
 }
 
-void queue_free(Queue *queue)
+void queue_free(queue_t *queue)
 {
-  Queue _queue = *queue;
+  queue_t _queue = *queue;
   ASSERT(_queue);
 
   while(queue_size(_queue) > 0) {

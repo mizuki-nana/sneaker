@@ -21,7 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for src/libc/hashmap.c */
+/* Unit test for `hashmap_t` defined in include/libc/hashmap.h */
 
 
 #include "../_unittest.h"
@@ -94,7 +94,7 @@ protected:
     }
   }
 
-  Hashmap _hashmap;
+  hashmap_t _hashmap;
 };
 
 

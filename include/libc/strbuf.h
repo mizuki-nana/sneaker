@@ -23,31 +23,33 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Generic string buffer */
 
-#include <stddef.h>
-#include "c_str.h"
-
 #ifndef _STRBUF_H_
 #define _STRBUF_H_
+
+#include <stddef.h>
+#include "c_str.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef struct HexStrbuf_s *Strbuf;
 
-Strbuf strbuf_create();
+typedef struct __sneaker_strbuf_s * strbuf_t;
 
-void strbuf_free(Strbuf *strbuf);
+strbuf_t strbuf_create();
 
-void strbuf_empty(Strbuf strbuf);
+void strbuf_free(strbuf_t *strbuf);
 
-size_t strbuf_len(Strbuf strbuf);
+void strbuf_empty(strbuf_t strbuf);
 
-const c_str strbuf_cstr(Strbuf strbuf);
+size_t strbuf_len(strbuf_t strbuf);
 
-size_t strbuf_capacity(Strbuf strbuf);
+const c_str strbuf_cstr(strbuf_t strbuf);
 
-int strbuf_append(Strbuf strbuf, const c_str in_str);
+size_t strbuf_capacity(strbuf_t strbuf);
+
+int strbuf_append(strbuf_t strbuf, const c_str in_str);
+
 
 #ifdef __cplusplus
 }

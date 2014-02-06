@@ -32,10 +32,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   #define _SINGLY_NODE_
 
-  typedef struct SinglyNode_s {
+  typedef struct __sneaker_singly_node_s {
     void *value;
-    struct SinglyNode_s *next;
-  } * SinglyNode;
+    struct __sneaker_singly_node_s *next;
+  } * singly_node_t;
 
 #endif /* _SINGLY_NODE_ */
 
@@ -45,11 +45,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   #define _DOUBLY_NODE_
 
-  typedef struct DoublyNode_s {
+  typedef struct __sneaker_doubly_node_s {
     void *value;
-    struct DoublyNode_s *next;
-    struct DoublyNode_s *previous;
-  } * DoublyNode;
+    struct __sneaker_doubly_node_s *next;
+    struct __sneaker_doubly_node_s *previous;
+  } * doubly_node_t;
 
 #endif /* _DOUBLY_NODE_ */
 

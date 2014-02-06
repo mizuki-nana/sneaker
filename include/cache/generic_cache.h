@@ -21,16 +21,21 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-#include <map>
-#include <boost/smart_ptr.hpp>
-
 #ifndef _GENERIC_CACHE_H_
 #define _GENERIC_CACHE_H_
 
+#include <map>
+#include <boost/smart_ptr.hpp>
+
+namespace sneaker {
+
+namespace cache {
+
+
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
-class GenericCache {
+class generic_cache {
 public:
-  GenericCache(CreateHandler, DestroyHandler);
+  generic_cache(CreateHandler, DestroyHandler);
 
   bool empty() const;
 
@@ -58,7 +63,7 @@ private:
 };
 
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
-GenericCache<K, T, CreateHandler, DestroyHandler>::GenericCache(
+sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::generic_cache(
   CreateHandler create_handler,
   DestroyHandler destroy_handler
 ):
@@ -71,7 +76,7 @@ GenericCache<K, T, CreateHandler, DestroyHandler>::GenericCache(
 
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
 void
-GenericCache<K, T, CreateHandler, DestroyHandler>::_check_invariance() const
+sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::_check_invariance() const
 {
   ASSERT(this->_create_handler);
   ASSERT(this->_destroy_handler);
@@ -80,21 +85,21 @@ GenericCache<K, T, CreateHandler, DestroyHandler>::_check_invariance() const
 
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
 bool
-GenericCache<K, T, CreateHandler, DestroyHandler>::empty() const
+sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::empty() const
 {
   return this->_map->empty();
 }
 
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
 size_t
-GenericCache<K, T, CreateHandler, DestroyHandler>::size() const
+sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::size() const
 {
   return this->_map->size();
 }
 
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
 bool
-GenericCache<K, T, CreateHandler, DestroyHandler>::member(K key) const
+sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::member(K key) const
 {
   typename std::map<K, T>::iterator it;
   it =  this->_map->find(key);
@@ -103,7 +108,7 @@ GenericCache<K, T, CreateHandler, DestroyHandler>::member(K key) const
 
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
 bool
-GenericCache<K, T, CreateHandler, DestroyHandler>::get(K key, T* ptr)
+sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::get(K key, T* ptr)
 {
   ASSERT(ptr);
 
@@ -126,7 +131,7 @@ GenericCache<K, T, CreateHandler, DestroyHandler>::get(K key, T* ptr)
 
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
 bool
-GenericCache<K, T, CreateHandler, DestroyHandler>::put(K key, bool forceUpdate)
+sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::put(K key, bool forceUpdate)
 {
   if(member(key)) {
     if(!forceUpdate) {
@@ -151,7 +156,7 @@ GenericCache<K, T, CreateHandler, DestroyHandler>::put(K key, bool forceUpdate)
 
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
 bool
-GenericCache<K, T, CreateHandler, DestroyHandler>::erase(K key)
+sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::erase(K key)
 {
   bool res = this->_erase(key);
 
@@ -166,7 +171,7 @@ GenericCache<K, T, CreateHandler, DestroyHandler>::erase(K key)
 
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
 void
-GenericCache<K, T, CreateHandler, DestroyHandler>::clear()
+sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::clear()
 {
   typename std::map<K, T>::iterator itr;
   for(itr = _map->begin(); itr != _map->end(); itr++) {
@@ -179,7 +184,7 @@ GenericCache<K, T, CreateHandler, DestroyHandler>::clear()
 
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
 T
-GenericCache<K, T, CreateHandler, DestroyHandler>::_find(K key) const
+sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::_find(K key) const
 {
   typename std::map<K, T>::iterator itr;
   itr = _map->find(key);
@@ -188,7 +193,7 @@ GenericCache<K, T, CreateHandler, DestroyHandler>::_find(K key) const
 
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
 bool
-GenericCache<K, T, CreateHandler, DestroyHandler>::_erase(K key)
+sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::_erase(K key)
 {
   if(!this->member(key)) {
     return false;
@@ -206,5 +211,11 @@ GenericCache<K, T, CreateHandler, DestroyHandler>::_erase(K key)
 
   return res;
 }
+
+
+} /* namespace cache */
+
+} /* namespace sneaker */
+
 
 #endif /* _GENERIC_CACHE_H_ */

@@ -32,27 +32,15 @@ extern "C" {
 
 #include "hash.h"
 
-/*
- * struct __uuid_t
- * A 16-bytes structure
- */
-struct __uuid_t {
-  unsigned long  time_u;  /* 4 bytes */
-  unsigned long  time_l;  /* 4 bytes */
-  unsigned int   time_h;  /* 4 bytes */
-  unsigned short rand_1;  /* 2 bytes */
-  unsigned short rand_2;  /* 2 bytes */
-};
+
+typedef struct __sneaker_uuid_s * uuid_t;
 
 
-typedef struct __uuid_t uuid;
+uuid_t uuid_create();
 
+int uuid_compare(uuid_t, uuid_t);
 
-int uuid_create(uuid*);
-
-int uuid_compare(uuid, uuid);
-
-hash_t uuid_to_hash(const uuid);
+hash_t uuid_to_hash(const uuid_t);
 
 hash_t uuid_create_and_hash();
 

@@ -21,7 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for src/libc/queue.c */
+/* Unit test for `queue_t` defined in include/libc/queue.h */
 
 #include <string.h>
 #include <limits.h>
@@ -44,7 +44,7 @@ protected:
     ASSERT(_queue == NULL);
   }
 
-  Queue _queue;
+  queue_t _queue;
 };
 
 

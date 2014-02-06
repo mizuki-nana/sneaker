@@ -24,13 +24,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <errno.h>
 #include <stddef.h>
 #include <stdlib.h>
-#include "../../include/libc/memory.h"
 #include "../../include/libc/assert.h"
-#include "../../include/libc/utils.h"
 #include "../../include/libc/buffer.h"
+#include "../../include/libc/memory.h"
+#include "../../include/libc/utils.h"
 
 
-struct HexBuffer_s {
+
+struct __sneaker_buffer_s {
   char *data;                   /* byte array */
   union {
     size_t expected;            /* for reader, # of bytes expected */
@@ -41,12 +42,12 @@ struct HexBuffer_s {
 };
 
 
-Buffer
+buffer_t
 buffer_create(size_t capacity)
 {
-  Buffer buffer = NULL;
+  buffer_t buffer = NULL;
 
-  buffer = MALLOC(struct HexBuffer_s);
+  buffer = MALLOC(struct __sneaker_buffer_s);
 
   if(!buffer) {
     errno = ENOMEM;
@@ -64,9 +65,9 @@ buffer_create(size_t capacity)
 }
 
 void
-buffer_free(Buffer *buffer)
+buffer_free(buffer_t *buffer)
 {
-  Buffer _buffer = *buffer;
+  buffer_t _buffer = *buffer;
 
   ASSERT(_buffer);
   FREE(_buffer->data);
@@ -76,14 +77,14 @@ buffer_free(Buffer *buffer)
 }
 
 char*
-buffer_get(Buffer buffer)
+buffer_get(buffer_t buffer)
 {
   ASSERT(buffer);
   return buffer->data;
 }
 
 int
-buffer_prepare_for_read(Buffer buffer, size_t expected)
+buffer_prepare_for_read(buffer_t buffer, size_t expected)
 {
   ASSERT(buffer);
 
@@ -103,7 +104,7 @@ buffer_prepare_for_read(Buffer buffer, size_t expected)
 }
 
 ssize_t
-buffer_read(Buffer buffer, int fd)
+buffer_read(buffer_t buffer, int fd)
 {
   ASSERT(buffer);
 
@@ -124,14 +125,14 @@ buffer_read(Buffer buffer, int fd)
 }
 
 void
-buffer_prepare_for_write(Buffer buffer)
+buffer_prepare_for_write(buffer_t buffer)
 {
   ASSERT(buffer);
   buffer->remaining = buffer->size;
 }
 
 ssize_t
-buffer_write(Buffer buffer, int fd)
+buffer_write(buffer_t buffer, int fd)
 {
   ASSERT(buffer);
 

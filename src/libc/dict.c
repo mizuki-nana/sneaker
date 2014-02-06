@@ -31,8 +31,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define DICT_DEFAULT_CAPACITY 16
 
-struct HexDict {
-  Hashmap hashmap;
+struct __sneaker_dict_s {
+  hashmap_t hashmap;
 };
 
 static
@@ -53,16 +53,16 @@ inline hash_t _dict_hashfunc(void* key)
   return hash_str((char*)key);
 }
 
-Dict dict_create()
+dict_t dict_create()
 {
-  Dict dict = MALLOC(struct HexDict);
+  dict_t dict = MALLOC(struct __sneaker_dict_s);
 
   if(!dict) {
     errno = ENOMEM;
     return NULL;
   }
 
-  Hashmap hashmap = hashmap_create(
+  hashmap_t hashmap = hashmap_create(
     DICT_DEFAULT_CAPACITY,
     _dict_hashfunc,
     _dict_keycmpfunc
@@ -78,15 +78,15 @@ Dict dict_create()
   return dict;
 }
 
-size_t dict_size(Dict dict)
+size_t dict_size(dict_t dict)
 {
   ASSERT(dict);
   return hashmap_size(dict->hashmap);
 }
 
-void dict_free(Dict *dict)
+void dict_free(dict_t *dict)
 {
-  Dict _dict = *dict;
+  dict_t _dict = *dict;
 
   ASSERT(_dict);
 
@@ -97,7 +97,7 @@ void dict_free(Dict *dict)
   *dict = _dict;
 }
 
-void* dict_put(Dict dict, const char *key, void* val)
+void* dict_put(dict_t dict, const char *key, void* val)
 {
   ASSERT(dict);
   ASSERT(key);
@@ -106,7 +106,7 @@ void* dict_put(Dict dict, const char *key, void* val)
   return hashmap_put(dict->hashmap, (char*)key, val);
 }
 
-void* dict_get(Dict dict, const char *key)
+void* dict_get(dict_t dict, const char *key)
 {
   ASSERT(dict);
   ASSERT(key);

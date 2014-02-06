@@ -22,7 +22,6 @@
 CC=cc
 CXX=c++
 CFLAGS=-Wno-implicit -Wall -arch x86_64
-
 AR=ar
 ARFLAGS=rvs
 
@@ -60,10 +59,10 @@ queue.o: queue.c
 	$(CC) $(CFLAGS) -c queue.c
 
 stack.o: stack.c
-	$(CC) $(CFLAGS) -c stack.c
+	$(CC) $(CFLAGS) -c -D_STRUCT_SIGALTSTACK -D_STRUCT_UCONTEXT stack.c
 
 uuid.o: uuid.c
-	$(CC) $(CFLAGS) -c uuid.c
+	$(CC) $(CFLAGS) -c -D_UUID_T uuid.c
 
 obj: 					\
 	utils.o 		\

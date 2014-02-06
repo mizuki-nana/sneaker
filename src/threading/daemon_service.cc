@@ -23,14 +23,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "../../include/threading/daemon_service.h"
 
-DaemonService::DaemonService(bool wait_for_termination):
+sneaker::threading::daemon_service::daemon_service(bool wait_for_termination):
   _wait_for_termination(wait_for_termination)
 {
   this->init();
 }
 
 void
-DaemonService::init()
+sneaker::threading::daemon_service::init()
 {
   pthread_attr_init(&_attr);
   pthread_create(&_thread_id, &_attr, handler, (void*)this);
@@ -41,14 +41,14 @@ DaemonService::init()
   // }
 }
 
-DaemonService::~DaemonService()
+sneaker::threading::daemon_service::~daemon_service()
 {
   // Do nothing here.
 }
 
 void*
-DaemonService::handler(void* instance)
+sneaker::threading::daemon_service::handler(void* instance)
 {
-  reinterpret_cast<DaemonService*>(instance)->handle();
+  reinterpret_cast<sneaker::threading::daemon_service*>(instance)->handle();
   return NULL;
 }

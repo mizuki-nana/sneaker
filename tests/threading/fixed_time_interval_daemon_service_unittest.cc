@@ -21,6 +21,9 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
+/* Unit test for `sneaker::threading::fixed_time_interval_daemon_service`
+ * in include/threading/fixed_time_interval_daemon_service.h */
+
 #include <stdio.h>
 #include "../_unittest.h"
 #include "../../include/threading/fixed_time_interval_daemon_service.h"
@@ -34,6 +37,6 @@ class FixedTimeIntervalDaemonServiceUnitTest : public ::testing::Test {};
 
 TEST_F(FixedTimeIntervalDaemonServiceUnitTest, TestMagic)
 {
-  FixedTimeIntervalDaemonService daemon_service(2, DummyHandler);
+  sneaker::threading::fixed_time_interval_daemon_service daemon_service(2, DummyHandler);
   sleep(10);
 }
