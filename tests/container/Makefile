@@ -20,7 +20,7 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 CXX=c++
-CFLAGS=-Wno-implicit -Wall -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
+CFLAGS=-Wno-implicit -Wall -Wno-deprecated-writable-strings -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
 
 LIBGTEST=/usr/lib/libgtest.a
 
@@ -39,9 +39,13 @@ _unittest.o:
 reservation_map_unittest.test: _unittest.o reservation_map_unittest.cc
 	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) -D__DARWIN_C_LEVEL=0 -D_UUID_T reservation_map_unittest.cc -o reservation_map_unittest.test
 
+assorted_value_map_unittest.test: _unittest.o assorted_value_map_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) assorted_value_map_unittest.cc -o assorted_value_map_unittest.test
 
 all: \
-	reservation_map_unittest.test
+	reservation_map_unittest.test \
+	assorted_value_map_unittest.test
+
 
 .PHONY : clean
 clean:
