@@ -88,6 +88,8 @@ TEST_F(ReservationMapUnitTest, TestReservationsSuccessfulOnValidKeys)
   ASSERT_TRUE(_reservation_map->put(id_2, expected_value_2));
   ASSERT_TRUE(_reservation_map->put(id_3, expected_value_3));
 
+  ASSERT_EQ(3, _reservation_map->size());
+
   int actual_value_1 = 0;
   int actual_value_2 = 0;
   int actual_value_3 = 0;
