@@ -23,6 +23,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for `generic_cache` in include/cache/generic_cache.h */
 
+#ifndef GENERIC_CACHE_UNITTEST
+#define GENERIC_CACHE_UNITTEST
+
 #include <map>
 #include <string>
 #include "../_unittest.h"
@@ -30,8 +33,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/libc/c_str.h"
 #include "../../include/cache/generic_cache.h"
 
-#ifndef GENERIC_CACHE_UNITTEST
-#define GENERIC_CACHE_UNITTEST
 
 std::map<c_str, c_str> truth_map;
 
@@ -193,6 +194,7 @@ TEST_F(GenericCacheTest, TestEraseOnNonExistentKey)
 
   ASSERT_EQ(0, _cache->size());
 }
+
 
 #endif /* GENERIC_CACHE_UNITTEST */
 

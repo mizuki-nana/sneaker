@@ -30,7 +30,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/libc/utils.h"
 
 
-
 struct __sneaker_buffer_s {
   char *data;                   /* byte array */
   union {
@@ -76,6 +75,20 @@ buffer_free(buffer_t *buffer)
   *buffer = _buffer;
 }
 
+int
+buffer_read_complete(buffer_t buffer)
+{
+  ASSERT(buffer);
+  return buffer->expected == buffer->size;
+}
+
+int
+buffer_write_complete(buffer_t buffer)
+{
+  ASSERT(buffer);
+  return buffer->remaining == 0;
+}
+
 char*
 buffer_get(buffer_t buffer)
 {
@@ -112,8 +125,8 @@ buffer_read(buffer_t buffer, int fd)
 
   ssize_t bytesRead = read(
     fd,
-    buffer->data+buffer->size,
-    buffer->expected-buffer->size
+    buffer->data + buffer->size,
+    buffer->expected - buffer->size
   );
 
   if(bytesRead > 0) {

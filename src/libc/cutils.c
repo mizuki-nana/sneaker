@@ -35,7 +35,7 @@ char* _itoa_base(int value, char *str, int base)
 {
   unsigned int v = (unsigned int)value;
 
-  const int buf_size=60;
+  const int buf_size = 60;
   char buf[buf_size];
   int buf_index = 0;
 
@@ -52,7 +52,7 @@ char* _itoa_base(int value, char *str, int base)
   }
 
   char *_str = (char*)malloc(buf_index+2);
-  memset(_str, 0, buf_index+2);
+  memset(_str, 0, buf_index + 2);
 
   int str_index = 0;
 
@@ -69,8 +69,9 @@ char* _itoa_base(int value, char *str, int base)
 char*
 itoa(int value, char *str, int base)
 {
-  if(base != 10 && value >= base)
+  if(base != 10 && value >= base) {
     return _itoa_base(value, str, base);
+  }
 
   int isNegative = value < (int)0;
 
@@ -87,8 +88,7 @@ itoa(int value, char *str, int base)
     }
   }
 
-  size_t len = isNegative ?
-    numDigits + 2 : numDigits + 1;
+  size_t len = isNegative ? numDigits + 2 : numDigits + 1;
 
   char *_str = (char*)malloc(len);
   memset(_str, 0, len);
@@ -139,10 +139,10 @@ atoi(const char *str)
   int start = (*s == '-' || *s == '+') ? 1 : 0;
   int end = -1 + start;
 
-  /* potential start of the valid sequence of digits */
-  char *ss = s+start;
+  /* Potential start of the valid sequence of digits. */
+  char *ss = s + start;
 
-  /* check the first digit in the sequence is a numeric digit. */
+  /* Check the first digit in the sequence is a numeric digit. */
   RETURN_VAL_IF_FALSE(isdigit(*ss), 0);
 
   while(*ss!='\0') {
@@ -155,19 +155,19 @@ atoi(const char *str)
     }   
   }
 
-  /* this is not a number */
+  /* This is not a number. */
   RETURN_VAL_IF_TRUE(end < start, 0);
 
   int powerOfTen = 1;
   while(end >= start) {
-    char c = (char)*end_ptr;
-    val += (long)( (long)(c - '0') * powerOfTen );
+    char c = (char)(*end_ptr);
+    val += (long)((long)(c - '0') * powerOfTen);
     powerOfTen *= 10;
     end_ptr--;
     end--;
   }
 
-  val = isNegative ? val * (long)-1 : val;
+  val = isNegative ? val * (long) - 1 : val;
 
   RETURN_VAL_IF_TRUE((int)val < INT_MIN, INT_MIN);
   RETURN_VAL_IF_TRUE((int)val > INT_MAX, INT_MAX);

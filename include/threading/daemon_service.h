@@ -33,8 +33,10 @@ namespace threading {
 
 class daemon_service {
 public:
-  daemon_service(bool wait_for_termination=false);
+  daemon_service(bool=false);
   ~daemon_service();
+
+  virtual bool start();
 
 protected:
   static void* handler(void*);

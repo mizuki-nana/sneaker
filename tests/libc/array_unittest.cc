@@ -26,13 +26,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string.h>
 #include <limits.h>
 #include "../_unittest.h"
-#include "../../include/libc/utils.h"
-#include "../../include/libc/memory.h"
 #include "../../include/libc/assert.h"
 #include "../../include/libc/array.h"
+#include "../../include/libc/memory.h"
+#include "../../include/libc/utils.h"
 
 
-class ArrayTest : public ::testing::Test {
+class ArrayUnitTest : public ::testing::Test {
 protected:
   virtual void SetUp() {
     _array = array_create();
@@ -47,18 +47,21 @@ protected:
   array_t _array;
 };
 
-TEST_F(ArrayTest, ArrayCreationTest) {
+
+TEST_F(ArrayUnitTest, ArrayCreationTest)
+{
   ASSERT(_array);
   ASSERT_EQ(0, array_size(_array));
 }
 
-TEST_F(ArrayTest, ArrayAppendTest1) {
-  int numbers[] = {1,2,3,4,5,6,7,8,9,10};
+TEST_F(ArrayUnitTest, TestArrayAppendAndGet)
+{
+  int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   int i;
 
   for(i = 0; i < 10; i++) {
     array_append(_array, &numbers[i]);
-    ASSERT_EQ(i+1, array_size(_array));
+    ASSERT_EQ(i + 1, array_size(_array));
   }
 
   for(i = 0; i < 10; i++) {
@@ -71,57 +74,58 @@ TEST_F(ArrayTest, ArrayAppendTest1) {
   ASSERT_EQ(10, array_size(_array));
 }
 
-TEST_F(ArrayTest, ArrayAppendTest2) {
-  int numbers[] = {1,2,3,4,5,6,7,8,9,10};
+TEST_F(ArrayUnitTest, TestArrayAppendAndRemove)
+{
+  int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   int i;
 
   for(i = 0; i < 10; i++) {
     array_append(_array, &numbers[i]);
-    ASSERT_EQ(i+1, array_size(_array));
+    ASSERT_EQ(i + 1, array_size(_array));
   }
 
   for(i = 0; i < 10; i++) {
     void *p = array_remove(_array, 0);
     int val = DEREF_VOID(int, p);
     ASSERT_EQ(numbers[i], val);
-    ASSERT_EQ(10-i-1, array_size(_array));
+    ASSERT_EQ(10 - i - 1, array_size(_array));
   }
 
   ASSERT_EQ(0, array_size(_array));
 }
 
-TEST_F(ArrayTest, ArrayRemoveTest1) {
-  int odds[] = {1,3,5,7,9};
-  int evens[] = {2,4,6,8,10};
+TEST_F(ArrayUnitTest, TestArrayRemove)
+{
+  int odds[] = {1, 3, 5, 7, 9};
   int i;
 
   for(i = 0; i < 5; i++) {
     array_append(_array, &odds[i]);
-    ASSERT_EQ(i+1, array_size(_array));
+    ASSERT_EQ(i + 1, array_size(_array));
   }
 
-  /* array = {1,3,5,7,9} */
+  /* array = {1, 3, 5, 7, 9} */
   {
     int val = DEREF_VOID(int, array_remove(_array, 1));
     ASSERT_EQ(3, val);
     ASSERT_EQ(4, array_size(_array));
   }
 
-  /* array = {1,5,7,9} */
+  /* array = {1, 5, 7, 9} */
   {
     int val = DEREF_VOID(int, array_remove(_array, 2));
     ASSERT_EQ(7, val);
     ASSERT_EQ(3, array_size(_array));
   }
 
-  /* array = {1,5,9} */
+  /* array = {1, 5, 9} */
   {
     int val = DEREF_VOID(int, array_remove(_array, 2));
     ASSERT_EQ(9, val);
     ASSERT_EQ(2, array_size(_array));
   }
 
-  /* array = {1,5} */
+  /* array = {1, 5} */
   {
     int val = DEREF_VOID(int, array_remove(_array, 0));
     ASSERT_EQ(1, val);
@@ -136,14 +140,15 @@ TEST_F(ArrayTest, ArrayRemoveTest1) {
   }
 }
 
-TEST_F(ArrayTest, ArrayRemoveAndSetTest) {
+TEST_F(ArrayUnitTest, TestArrayRemoveAndSet)
+{
   int odds[] = {1,3,5,7,9};
   int evens[] = {2,4,6,8,10};
   int i;
 
   for(i = 0; i < 5; i++) {
     array_append(_array, &odds[i]);
-    ASSERT_EQ(i+1, array_size(_array));
+    ASSERT_EQ(i + 1, array_size(_array));
   }
 
   for(i = 0; i < 5; i++) {

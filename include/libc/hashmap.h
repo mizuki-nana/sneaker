@@ -37,11 +37,11 @@ extern "C" {
 typedef struct __sneaker_hashmap_s * hashmap_t;
 
 
-/* hash function */
+/* Hash function. */
 typedef hash_t(*HashFunc)(void *key);
 
 
-/* key comparison function */
+/* Key comparison function. */
 typedef int(*KeyCmpFunc)(void *keyA, void *keyB);
 
 
@@ -86,5 +86,6 @@ int hashmap_equal(hashmap_t hashmap1, hashmap_t hashmap2);
 #ifdef __cplusplus
 }
 #endif
+
 
 #endif /* _HASHMAP_H_ */

@@ -26,12 +26,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "../_unittest.h"
 #include "../../include/libc/assert.h"
+#include "../../include/libc/c_str.h"
 #include "../../include/libc/hash.h"
 #include "../../include/libc/hashmap.h"
 #include "../../include/libc/utils.h"
 
 
-hash_t simple_hash(char *s) {
+hash_t simple_hash(c_str s) {
   hash_t h = 0;
   int i;
 
@@ -44,20 +45,21 @@ hash_t simple_hash(char *s) {
 
 hash_t hashfunc(void *key) {
   RETURN_VAL_IF_NULL(key, 0);
-  char *s = (char*)key;
+  c_str s = (c_str)key;
   return simple_hash(s);
 }
 
 int keycmpfunc(void *key1, void *key2) {
-  return strcmp((char*)key1, (char*)key2) == 0;  
+  return strcmp((c_str)key1, (c_str)key2) == 0;  
 }
 
 #define HASHMAP_INITIAL_CAPACITY 10
 
 typedef struct {
-  char *key;
-  char *val;
+  c_str key;
+  c_str val;
 } KeyVal;
+
 
 KeyVal fruits[] = {
   {"a", "apple"},
@@ -78,14 +80,11 @@ KeyVal vehicles[] = {
 };
 
 
-class HashmapTest : public ::testing::Test {
+class HashmapUnitTest : public ::testing::Test {
 protected:
   virtual void SetUp() {
     _hashmap = hashmap_create(
-      HASHMAP_INITIAL_CAPACITY,
-      hashfunc,
-      keycmpfunc
-    );
+      HASHMAP_INITIAL_CAPACITY, hashfunc, keycmpfunc);
   }
 
   virtual void TearDown() {
@@ -98,16 +97,15 @@ protected:
 };
 
 
-TEST_F(HashmapTest, HashmapCreateTest) {
+TEST_F(HashmapUnitTest, TestHashmapCreationSuccessful)
+{
   ASSERT(_hashmap);
   ASSERT_EQ(hashmap_size(_hashmap), 0);
-  ASSERT_EQ(
-      hashmap_bucketcount(_hashmap),
-      8
-  );
+  ASSERT_EQ(hashmap_bucketcount(_hashmap), 8);
 }
 
-TEST_F(HashmapTest, HashmapPutSingleTest) {
+TEST_F(HashmapUnitTest, TestHashmapPutSingleItem)
+{
   ASSERT(_hashmap);
 
   hashmap_put(_hashmap, fruits[0].key, fruits[0].val);
@@ -121,26 +119,27 @@ TEST_F(HashmapTest, HashmapPutSingleTest) {
   ASSERT_TRUE(hashmap_contains_key(_hashmap, fruits[1].key));
   ASSERT_TRUE(hashmap_contains_key(_hashmap, fruits[2].key));
 
-  ASSERT_STREQ(fruits[0].val, (char*)hashmap_get(_hashmap, fruits[0].key));
-  ASSERT_STREQ(fruits[1].val, (char*)hashmap_get(_hashmap, fruits[1].key));
-  ASSERT_STREQ(fruits[2].val, (char*)hashmap_get(_hashmap, fruits[2].key));
+  ASSERT_STREQ(fruits[0].val, (c_str)hashmap_get(_hashmap, fruits[0].key));
+  ASSERT_STREQ(fruits[1].val, (c_str)hashmap_get(_hashmap, fruits[1].key));
+  ASSERT_STREQ(fruits[2].val, (c_str)hashmap_get(_hashmap, fruits[2].key));
 
-  ASSERT_STREQ(fruits[0].val, (char*)hashmap_remove(_hashmap, fruits[0].key));
-  ASSERT_STREQ(fruits[1].val, (char*)hashmap_remove(_hashmap, fruits[1].key));
-  ASSERT_STREQ(fruits[2].val, (char*)hashmap_remove(_hashmap, fruits[2].key));
+  ASSERT_STREQ(fruits[0].val, (c_str)hashmap_remove(_hashmap, fruits[0].key));
+  ASSERT_STREQ(fruits[1].val, (c_str)hashmap_remove(_hashmap, fruits[1].key));
+  ASSERT_STREQ(fruits[2].val, (c_str)hashmap_remove(_hashmap, fruits[2].key));
 
   ASSERT_EQ(0, hashmap_size(_hashmap));
   ASSERT_EQ(6, hashmap_capacity(_hashmap));
 }
 
-TEST_F(HashmapTest, HashmapPutMultipleValPerKeyTest) {
+TEST_F(HashmapUnitTest, TestHashmapPutMultipleValues)
+{
   ASSERT(_hashmap);
 
-  /************ fruits ************/
   hashmap_put(_hashmap, fruits[0].key, fruits[0].val);
   hashmap_put(_hashmap, fruits[1].key, fruits[1].val);
   hashmap_put(_hashmap, fruits[2].key, fruits[2].val);
 
+  /* Fruits */
   ASSERT_TRUE(hashmap_contains_key(_hashmap, fruits[0].key));
   ASSERT_TRUE(hashmap_contains_key(_hashmap, fruits[1].key));
   ASSERT_TRUE(hashmap_contains_key(_hashmap, fruits[2].key));
@@ -148,17 +147,17 @@ TEST_F(HashmapTest, HashmapPutMultipleValPerKeyTest) {
   ASSERT_EQ(3, hashmap_size(_hashmap));
   ASSERT_EQ(8, hashmap_bucketcount(_hashmap));
 
-  ASSERT_STREQ(fruits[0].val, (char*)hashmap_get(_hashmap, fruits[0].key));
-  ASSERT_STREQ(fruits[1].val, (char*)hashmap_get(_hashmap, fruits[1].key));
-  ASSERT_STREQ(fruits[2].val, (char*)hashmap_get(_hashmap, fruits[2].key));
+  ASSERT_STREQ(fruits[0].val, (c_str)hashmap_get(_hashmap, fruits[0].key));
+  ASSERT_STREQ(fruits[1].val, (c_str)hashmap_get(_hashmap, fruits[1].key));
+  ASSERT_STREQ(fruits[2].val, (c_str)hashmap_get(_hashmap, fruits[2].key));
 
-  ASSERT_STREQ(fruits[0].val, (char*)hashmap_remove(_hashmap, fruits[0].key));
-  ASSERT_STREQ(fruits[1].val, (char*)hashmap_remove(_hashmap, fruits[1].key));
-  ASSERT_STREQ(fruits[2].val, (char*)hashmap_remove(_hashmap, fruits[2].key));
+  ASSERT_STREQ(fruits[0].val, (c_str)hashmap_remove(_hashmap, fruits[0].key));
+  ASSERT_STREQ(fruits[1].val, (c_str)hashmap_remove(_hashmap, fruits[1].key));
+  ASSERT_STREQ(fruits[2].val, (c_str)hashmap_remove(_hashmap, fruits[2].key));
  
   ASSERT_EQ(0, hashmap_size(_hashmap));
 
-  /************* vehicles **************/ 
+  /* Vehicles */
   hashmap_put(_hashmap, vehicles[0].key, vehicles[0].val);
   hashmap_put(_hashmap, vehicles[1].key, vehicles[1].val);
   hashmap_put(_hashmap, vehicles[2].key, vehicles[2].val);
@@ -169,17 +168,17 @@ TEST_F(HashmapTest, HashmapPutMultipleValPerKeyTest) {
 
   ASSERT_EQ(3, hashmap_size(_hashmap));
   
-  ASSERT_STREQ(vehicles[0].val, (char*)hashmap_get(_hashmap, vehicles[0].key));
-  ASSERT_STREQ(vehicles[1].val, (char*)hashmap_get(_hashmap, vehicles[1].key));
-  ASSERT_STREQ(vehicles[2].val, (char*)hashmap_get(_hashmap, vehicles[2].key));
+  ASSERT_STREQ(vehicles[0].val, (c_str)hashmap_get(_hashmap, vehicles[0].key));
+  ASSERT_STREQ(vehicles[1].val, (c_str)hashmap_get(_hashmap, vehicles[1].key));
+  ASSERT_STREQ(vehicles[2].val, (c_str)hashmap_get(_hashmap, vehicles[2].key));
 
-  ASSERT_STREQ(vehicles[0].val, (char*)hashmap_remove(_hashmap, vehicles[0].key));
-  ASSERT_STREQ(vehicles[1].val, (char*)hashmap_remove(_hashmap, vehicles[1].key));
-  ASSERT_STREQ(vehicles[2].val, (char*)hashmap_remove(_hashmap, vehicles[2].key));
+  ASSERT_STREQ(vehicles[0].val, (c_str)hashmap_remove(_hashmap, vehicles[0].key));
+  ASSERT_STREQ(vehicles[1].val, (c_str)hashmap_remove(_hashmap, vehicles[1].key));
+  ASSERT_STREQ(vehicles[2].val, (c_str)hashmap_remove(_hashmap, vehicles[2].key));
 
   ASSERT_EQ(0, hashmap_size(_hashmap));
 
-  /************* sky *****************/
+  /* Sky */
   hashmap_put(_hashmap, sky[0].key, sky[0].val);
   hashmap_put(_hashmap, sky[1].key, sky[1].val);
   hashmap_put(_hashmap, sky[2].key, sky[2].val);
@@ -190,18 +189,19 @@ TEST_F(HashmapTest, HashmapPutMultipleValPerKeyTest) {
 
   ASSERT_EQ(3, hashmap_size(_hashmap));
 
-  ASSERT_STREQ(sky[0].val, (char*)hashmap_get(_hashmap, sky[0].key));
-  ASSERT_STREQ(sky[1].val, (char*)hashmap_get(_hashmap, sky[1].key));
-  ASSERT_STREQ(sky[2].val, (char*)hashmap_get(_hashmap, sky[2].key));
+  ASSERT_STREQ(sky[0].val, (c_str)hashmap_get(_hashmap, sky[0].key));
+  ASSERT_STREQ(sky[1].val, (c_str)hashmap_get(_hashmap, sky[1].key));
+  ASSERT_STREQ(sky[2].val, (c_str)hashmap_get(_hashmap, sky[2].key));
 
-  ASSERT_STREQ(sky[0].val, (char*)hashmap_remove(_hashmap, sky[0].key));
-  ASSERT_STREQ(sky[1].val, (char*)hashmap_remove(_hashmap, sky[1].key));
-  ASSERT_STREQ(sky[2].val, (char*)hashmap_remove(_hashmap, sky[2].key));
+  ASSERT_STREQ(sky[0].val, (c_str)hashmap_remove(_hashmap, sky[0].key));
+  ASSERT_STREQ(sky[1].val, (c_str)hashmap_remove(_hashmap, sky[1].key));
+  ASSERT_STREQ(sky[2].val, (c_str)hashmap_remove(_hashmap, sky[2].key));
 
   ASSERT_EQ(0, hashmap_size(_hashmap));
 }
 
-TEST_F(HashmapTest, TestHashmapGetWithNonExistentKeys) {
+TEST_F(HashmapUnitTest, TestHashmapGetWithNonExistentKeys)
+{
   ASSERT(_hashmap);
 
   hashmap_put(_hashmap, fruits[0].key, fruits[0].val);
@@ -215,14 +215,15 @@ TEST_F(HashmapTest, TestHashmapGetWithNonExistentKeys) {
   ASSERT_EQ(3, hashmap_size(_hashmap));
   ASSERT_EQ(8, hashmap_bucketcount(_hashmap));
 
-  ASSERT_STREQ(NULL, (char*)hashmap_get(_hashmap, (char*)"x"));
-  ASSERT_STREQ(NULL, (char*)hashmap_get(_hashmap, (char*)"y"));
-  ASSERT_STREQ(NULL, (char*)hashmap_get(_hashmap, (char*)"Z"));
+  ASSERT_STREQ(NULL, (c_str)hashmap_get(_hashmap, (char*)"x"));
+  ASSERT_STREQ(NULL, (c_str)hashmap_get(_hashmap, (char*)"y"));
+  ASSERT_STREQ(NULL, (c_str)hashmap_get(_hashmap, (char*)"Z"));
 
   ASSERT_EQ(3, hashmap_size(_hashmap));
 }
 
-TEST_F(HashmapTest, TestHashmapFree) {
+TEST_F(HashmapUnitTest, TestHashmapFree)
+{
   ASSERT(_hashmap);
 
   hashmap_put(_hashmap, fruits[0].key, fruits[0].val);

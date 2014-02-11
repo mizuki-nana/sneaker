@@ -21,7 +21,8 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for src/libc/cutils.c */
+
+/* Unit test for functions defined in include/libc/cutils.h */
 
 
 #include <string.h>
@@ -34,11 +35,29 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define _INT_MIN_ -32767
 #define _INT_MAX_ 32767
 
+
 /**********************************************
- * Test for:
+ * Unit test for:
  * char* itoa(int value, char *str, int base);
  **********************************************/
-TEST(itoaTest, itoaBase10NegativeIntegerTest) {
+class ItoaUnitTest : public ::testing::Test {
+public:
+  void test(int, int, char*);
+};
+
+
+void
+ItoaUnitTest::test(int base, int n, char* expected_str)
+{
+  char *str = NULL;
+  str = itoa(n, str, base);
+  ASSERT_STREQ(expected_str, str);
+  FREE(str);
+}
+
+
+TEST_F(ItoaUnitTest, TestBase10NegativeIntegerToASCII)
+{
   int i;
   for(i = _INT_MIN_; i < 0; i++) {
     char expected_str[15];
@@ -50,7 +69,8 @@ TEST(itoaTest, itoaBase10NegativeIntegerTest) {
   }
 }
 
-TEST(itoaTest, itoaBase10PositiveIntegerTest) {
+TEST_F(ItoaUnitTest, TestBase10PositiveIntegerToASCII)
+{
   int i;
   for(i = 0; i < _INT_MAX_; i++) {
     char expected_str[15];
@@ -62,113 +82,96 @@ TEST(itoaTest, itoaBase10PositiveIntegerTest) {
   }
 }
 
-/***********************************
- * itoa Base 2
- * *********************************/
-
-TEST(itoaTest, Base2_PositiveIntegerTest1) {
-  char *str=NULL;
-  str = itoa((int)0, str, 2);
-  ASSERT_STREQ("0", str);
-  FREE(str);
+TEST_F(ItoaUnitTest, TestBase2PositiveIntegerToASCII_1)
+{
+  test(2, 0, "0");
 }
 
-TEST(itoaTest, Base2_PositiveIntegerTest2) {
-  char *str=NULL;
-  str = itoa((int)1, str, 2);
-  ASSERT_STREQ("1", str);
-  FREE(str);
+TEST_F(ItoaUnitTest, TestBase2PositiveIntegerToASCII_2)
+{
+  test(2, 1, "1");
 }
 
-TEST(itoaTest, Base2_PositiveIntegerTest3) {
-  char *str=NULL;
-  str = itoa((int)2, str, 2);
-  ASSERT_STREQ("10", str);
-  FREE(str);
+TEST_F(ItoaUnitTest, TestBase2PositiveIntegerToASCII_3)
+{
+  test(2, 2, "10");
 }
 
-TEST(itoaTest, Base2_PositiveIntegerTest4) {
-  char *str=NULL;
-  str = itoa((int)4, str, 2);
-  ASSERT_STREQ("100", str);
-  FREE(str);
+TEST_F(ItoaUnitTest, TestBase2PositiveIntegerToASCII_4)
+{
+  test(2, 4, "100");
 }
 
-TEST(itoaTest, Base2_PositiveIntegerTest5) {
-  char *str=NULL;
-  str = itoa((int)7, str, 2);
-  ASSERT_STREQ("111", str);
-  FREE(str);
+TEST_F(ItoaUnitTest, TestBase2PositiveIntegerToASCII_5)
+{
+  test(2, 7, "111");
 }
 
-TEST(itoaTest, Base2_PositiveIntegerTest6) {
-  char *str=NULL;
-  str = itoa((int)512, str, 2);
-  ASSERT_STREQ("1000000000", str);
-  FREE(str);
+TEST_F(ItoaUnitTest, TestBase2PositiveIntegerToASCII_6)
+{
+  test(2, 512, "1000000000");
 }
 
-TEST(itoaTest, Base2_PositiveIntegerTest7) {
-  char *str=NULL;
-  str = itoa((int)1024, str, 2);
-  ASSERT_STREQ("10000000000", str);
-  FREE(str);
+TEST_F(ItoaUnitTest, TestBase2PositiveIntegerToASCII_7)
+{
+  test(2, 1024, "10000000000");
 }
 
-TEST(itoaTest, Base2_PositiveIntegerTest8) {
-  char *str=NULL;
-  str = itoa((int)(1024+512), str, 2);
-  ASSERT_STREQ("11000000000", str);
-  FREE(str);
+TEST_F(ItoaUnitTest, TestBase2PositiveIntegerToASCII_8)
+{
+  test(2, 1024 + 512, "11000000000");
 }
 
-/***********************************
- * itoa Base 8
- * *********************************/
-TEST(itoaTest, Base8_PositiveIntegerTest1) {
-  char *str=NULL;
-  str = itoa((int)7, str, 8);
-  ASSERT_STREQ("7", str);
-  FREE(str);
+TEST_F(ItoaUnitTest, TestBase8PositiveIntegerToASCII_1)
+{
+  test(8, 7, "7");
 }
 
-TEST(itoaTest, Base8_PositiveIntegerTest2) {
-  char *str=NULL;
-  str = itoa((int)8, str, 8);
-  ASSERT_STREQ("10", str);
-  FREE(str);
+TEST_F(ItoaUnitTest, TestBase8PositiveIntegerToASCII_2)
+{
+  test(8, 8, "10");
 }
 
-TEST(itoaTest, Base8_PositiveIntegerTest3) {
-  char *str=NULL;
-  str = itoa((int)15, str, 8);
-  ASSERT_STREQ("17", str);
-  FREE(str);
+TEST_F(ItoaUnitTest, TestBase8PositiveIntegerToASCII_3)
+{
+  test(8, 15, "17");
 }
 
-TEST(itoaTest, Base8_PositiveIntegerTest4) {
-  char *str=NULL;
-  str = itoa((int)16, str, 8);
-  ASSERT_STREQ("20", str);
-  FREE(str);
+TEST_F(ItoaUnitTest, TestBase8PositiveIntegerToASCII_4)
+{
+  test(8, 16, "20");
 }
 
-TEST(itoaTest, Base8_PositiveIntegerTest5) {
-  char *str=NULL;
-  str = itoa((int)64, str, 8);
-  ASSERT_STREQ("100", str);
-  FREE(str);
+TEST_F(ItoaUnitTest, TestBase8PositiveIntegerToASCII_5)
+{
+  test(8, 64, "100");
 }
 
-/*******************************************************************************
- * Test for:
+
+/***************************************
+ * Unit test for:
  * int atoi(const char * str);
- ******************************************************************************/
-TEST(atoiTest, NullStringTest) {
-  ASSERT_EQ(0, atoi(NULL));
+ ***************************************/
+class AtoiUnitTest : public ::testing::Test {
+public:
+  void test(char*, int);
+};
+
+
+void
+AtoiUnitTest::test(char* input_str, int expected_int)
+{
+  ASSERT_EQ(expected_int, atoi(input_str));
 }
 
-TEST(atoiTest, ValidBase10NegativeIntegerTest) {
+
+TEST_F(AtoiUnitTest, TestNULLStringToInteger)
+{
+  test(NULL, 0);
+}
+
+TEST_F(AtoiUnitTest, TestValidBase10NegativeIntegerToASCII)
+{
   int i;
   for(i = _INT_MIN_; i < 0; i++) {
     int expected_int = i;
@@ -179,7 +182,8 @@ TEST(atoiTest, ValidBase10NegativeIntegerTest) {
   }
 }
 
-TEST(atoiTest, ValidBase10PositiveIntegerTest) {
+TEST_F(AtoiUnitTest, TestValidBase10PositiveIntegerToASCII)
+{
   int i;
   for(i = 0; i <= _INT_MAX_; i++) {
     int expected_int = i;
@@ -190,56 +194,45 @@ TEST(atoiTest, ValidBase10PositiveIntegerTest) {
   }
 }
 
-TEST(atoiTest, ValidBase10PositiveIntegerWithSignTest) {
+TEST_F(AtoiUnitTest, TestValidBase10PositiveIntegerWithSignToASCII)
+{
   int i;
   for(i = 0; i <= _INT_MAX_; i++) {
     int expected_int = i;
     char expected_str[10];
-    snprintf(expected_str+1, sizeof(expected_str)-1, "%d", i);
+    snprintf(expected_str + 1, sizeof(expected_str)-1, "%d", i);
     expected_str[0] = '+';
     int actual_int = atoi(expected_str);
     ASSERT_EQ(expected_int, actual_int);
   }
 }
 
-TEST(atoiTest, InvalidBase10PositiveIntegerTest1) {
-  char str[] = "++123";
-  int expected_int = atoi(str);
-  int actual_int = 0;
-  ASSERT_EQ(expected_int, actual_int);
+TEST_F(AtoiUnitTest, TestInvalidBase10PositiveIntegerToASCII_1)
+{
+  test("++123", 0);
 }
 
-TEST(atoiTest, InvalidBase10PositiveIntegerTest2) {
-  char str[] = "+123++";
-  int expected_int = atoi(str);
-  int actual_int = 123;
-  ASSERT_EQ(expected_int, actual_int);
+TEST_F(AtoiUnitTest, TestInvalidBase10NegativeIntegerToASCII_2)
+{
+  test("--123", 0);
 }
 
-TEST(atoiTest, InvalidBase10PositiveIntegerTest3) {
-  char str[] = " 123 ";
-  int expected_int = atoi(str);
-  int actual_int = 123;
-  ASSERT_EQ(expected_int, actual_int);
+TEST_F(AtoiUnitTest, TestValidBase10PositiveIntegerToASCII_1)
+{
+  test("+123++", 123);
 }
 
-TEST(atoiTest, InvalidBase10NegativeIntegerTest1) {
-  char str[] = "--123";
-  int expected_int = atoi(str);
-  int actual_int = 0;
-  ASSERT_EQ(expected_int, actual_int);
+TEST_F(AtoiUnitTest, TestValidBase10PositiveIntegerToASCII_2)
+{
+  test(" 123 ", 123);
 }
 
-TEST(atoiTest, InvalidBase10NegativeIntegerTest2) {
-  char str[] = "-123--";
-  int expected_int = atoi(str);
-  int actual_int = -123;
-  ASSERT_EQ(expected_int, actual_int);
+TEST_F(AtoiUnitTest, TestValidBase10NegativeIntegerToASCII_1)
+{
+  test("-123--", -123);
 }
 
-TEST(atoiTest, InvalidBase10NegativeIntegerTest3) {
-  char str[] = " -123 ";
-  int expected_int = atoi(str);
-  int actual_int = -123;
-  ASSERT_EQ(expected_int, actual_int);
+TEST_F(AtoiUnitTest, TestValidBase10NegativeIntegerToASCII_2)
+{
+  test(" -123 ", -123);
 }

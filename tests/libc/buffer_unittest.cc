@@ -27,10 +27,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string.h>
 #include <limits.h>
 #include "../_unittest.h"
-#include "../../include/libc/utils.h"
-#include "../../include/libc/memory.h"
 #include "../../include/libc/assert.h"
 #include "../../include/libc/buffer.h"
+#include "../../include/libc/memory.h"
+#include "../../include/libc/utils.h"
+
 
 #define BUFFER_SIZE 1024
 
@@ -51,6 +52,7 @@ protected:
 };
 
 
-TEST_F(BufferTest, BufferCreationTest) {
+TEST_F(BufferTest, TestBufferCreationTest)
+{
   ASSERT(_buffer);
 }

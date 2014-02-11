@@ -20,7 +20,7 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 CXX=c++
-CFLAGS=-Wno-implicit -w -g -std=c++11 -arch x86_64
+CFLAGS=-Wall -g -std=c++11 -arch x86_64
 
 daemon_service.o: daemon_service.cc
 	$(CXX) $(CFLAGS) -c daemon_service.cc
@@ -28,9 +28,11 @@ daemon_service.o: daemon_service.cc
 fixed_time_interval_daemon_service.o: fixed_time_interval_daemon_service.cc
 	$(CXX) $(CFLAGS) -c fixed_time_interval_daemon_service.cc
 
+
 all: \
 	daemon_service.o \
 	fixed_time_interval_daemon_service.o
+
 
 .PHONY : clean
 clean:

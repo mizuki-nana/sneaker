@@ -21,32 +21,40 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit tests for src/libc/utils.c */
+/* Unit tests for functions defined in include/libc/utils.h */
 
 #include <string.h>
 #include "../_unittest.h"
 #include "../../include/libc/assert.h"
 #include "../../include/libc/utils.h"
 
+
 /*******************************************
  * Tests for MAX(a,b)
  *******************************************/
-TEST(MaxTest, MaxOfPositiveInteger) {
-  EXPECT_EQ(6, MAX(5,6));
-  EXPECT_EQ(6, MAX(0,6));
+class MAXUnitTest : public ::testing::Test {};
+
+
+TEST_F(MAXUnitTest, TestMaxOfPositiveInteger)
+{
+  EXPECT_EQ(6, MAX(5, 6));
+  EXPECT_EQ(6, MAX(0, 6));
 }
 
-TEST(MaxTest, MaxOfNegativeInteger) {
-  EXPECT_EQ(-5, MAX(-5,-6));
-  EXPECT_EQ(0, MAX(-5,0));
+TEST_F(MAXUnitTest, TestMaxOfNegativeInteger)
+{
+  EXPECT_EQ(-5, MAX(-5, -6));
+  EXPECT_EQ(0, MAX(-5, 0));
 }
 
-TEST(MaxTest, MaxOfPositiveFloatingNumber) {
+TEST_F(MAXUnitTest, TestMaxOfPositiveFloatingNumber)
+{
   EXPECT_EQ(880.0f, MAX(0.2f, 880.0f));
   EXPECT_EQ(0.1f, MAX(0.0f, 0.1f));
 }
 
-TEST(MaxTest, MaxOfNegativeFloatingNumber) {
+TEST_F(MAXUnitTest, TestMaxOfNegativeFloatingNumber)
+{
   EXPECT_EQ(-5.0f, MAX(-5.0f, -6.0f));
   EXPECT_EQ(0.0f, MAX(-5.0f, 0.0f));
 }
@@ -55,218 +63,268 @@ TEST(MaxTest, MaxOfNegativeFloatingNumber) {
 /*******************************************
  * Tests for MIN(a,b)
  *******************************************/
-TEST(MinTest, MinOfPositiveInteger) {
+class MINUnitTest : public ::testing::Test {};
+
+
+TEST_F(MINUnitTest, TestMinOfPositiveInteger)
+{
   EXPECT_EQ(5, MIN(5,6));
   EXPECT_EQ(0, MIN(5,0));
 }
 
-TEST(MinTest, MinOfNegativeInteger) {
+TEST_F(MINUnitTest, TestMinOfNegativeInteger)
+{
   EXPECT_EQ(-6, MIN(-5, -6));
   EXPECT_EQ(-6, MIN(0, -6));
 }
 
-TEST(MinTest, MinOfPositiveFloatingNumber) {
+TEST_F(MINUnitTest, TestMinOfPositiveFloatingNumber)
+{
   EXPECT_EQ(5.0f, MIN(5.0f, 6.0f));
   EXPECT_EQ(0.0f, MIN(0.0f, 5.0f));
 }
 
-TEST(MinTest, MinOfNegativeFloatingNumber) {
+TEST_F(MINUnitTest, TestMinOfNegativeFloatingNumber)
+{
   EXPECT_EQ(-6.0f, MIN(-5.0f, -6.0f));
   EXPECT_EQ(-6.0f, MIN(0.0f, -6.0f));
 }
 
+
 /*******************************************
- * Tests for:
+ * Unit test for:
  * RETURN_IF_NULL(val)
  *******************************************/
-TEST(RETURN_IF_NULLTest, PassNullTest) {
+class ReturnIfNullUnitTest : public ::testing::Test {};
+
+
+TEST_F(ReturnIfNullUnitTest, TestPassNull)
+{
   char *val = NULL;
   RETURN_IF_NULL(val);
   ASSERT_EQ(1, 2);
 }
 
-TEST(RETURN_IF_NULLTest, PassNotNullTest) {
+TEST_F(ReturnIfNullUnitTest, TestPassNotNull)
+{
   char *val = (char*)malloc(sizeof(char));
   ASSERT_TRUE(val != NULL);
   RETURN_IF_NULL(val);
   free(val);
 }
 
+
 /*******************************************
- * Tests for:
+ * Unit test for:
  * RETURN_IF_TRUE(val)
  *******************************************/
-TEST(RETURN_IF_TRUETest, PassTrueTest) {
+class ReturnIfTrueUnitTest : public ::testing::Test {};
+
+
+TEST_F(ReturnIfTrueUnitTest, TestPassTrue)
+{
   int val = 1 == 1;
   RETURN_IF_TRUE(val);
-  ASSERT_EQ(1,2);
+  ASSERT_EQ(1, 2);
 }
 
-TEST(RETURN_IF_TRUETest, PassFalseTest) {
+TEST_F(ReturnIfTrueUnitTest, TestPassFalse)
+{
   int val = 1 == 2;
   RETURN_IF_TRUE(val);
   ASSERT_EQ(1, 1);
 }
+
 
 /*******************************************
  * Tests for:
  * RETURN_IF_FALSE(val)
  *******************************************/
-TEST(RETURN_IF_FALSETest, PassTrueTest) {
+class ReturnIfFalseUnitTest : public ::testing::Test {};
+
+
+TEST_F(ReturnIfFalseUnitTest, TestPassTrue)
+{
   int val = 1 == 1;
   RETURN_IF_FALSE(val);
   ASSERT_EQ(1, 1);
 }
 
-TEST(RETURN_IF_FALSETest, PassFalseTest) {
+TEST_F(ReturnIfFalseUnitTest, TestPassFalseTest)
+{
   int val = 1 == 2;
   RETURN_IF_FALSE(val);
   ASSERT_EQ(1, 2);
 }
 
+
 /*******************************************
- * Tests for:
+ * Unit test for:
  * RETURN_IF_EQUALS(val1, val2)
  *******************************************/
-TEST(RETURN_IF_EQUALSTest, PassTrueTest) {
+class ReturnIfEqualsUnitTest : public ::testing::Test {};
+
+
+TEST_F(ReturnIfEqualsUnitTest, TestPassTrue)
+{
   int val1 = 1;
   int val2 = 1;
   RETURN_IF_EQUALS(val1, val2);
   ASSERT_EQ(1, 2);
 }
 
-TEST(RETURN_IF_EQUALSTest, PassFalseTest) {
+TEST_F(ReturnIfEqualsUnitTest, TestPassFalse)
+{
   int val1 = 1;
   int val2 = 2;
   RETURN_IF_EQUALS(val1, val2);
   ASSERT_EQ(1, 1);
 }
 
+
 /*******************************************
- * Tests for:
+ * Unit tests for:
  * void set_nth_bit(int *val, char bit) 
  *******************************************/
-TEST(set_nth_bitTest, Set1stBit) {
-  int val=0;
-  set_nth_bit(&val, 1);
-  EXPECT_EQ(0x00000001, val);
+class SetNthBitUnitTest : public ::testing::Test {
+public:
+  void test(int, int);
+};
+
+
+void
+SetNthBitUnitTest::test(int bit, int expected_value)
+{
+  int val = 0;
+  set_nth_bit(&val, bit);
+  EXPECT_EQ(expected_value, val);
 }
 
-TEST(set_nth_bitTest, Set2ndBit) {
-  int val=0;
-  set_nth_bit(&val, 2);
-  EXPECT_EQ(0x00000002, val);
+
+TEST_F(SetNthBitUnitTest, TestSet1stBit)
+{
+  test(1, 0x0001);
 }
 
-TEST(set_nth_bitTest, Set4thBit) {
-  int val=0;
-  set_nth_bit(&val, 4);
-  EXPECT_EQ(0x000000008, val);
+TEST_F(SetNthBitUnitTest, TestSet2ndBit)
+{
+  test(2, 0x0002);
 }
 
-TEST(set_nth_bitTest, Set8thBit) {
-  int val=0;
-  set_nth_bit(&val, 8);
-  EXPECT_EQ(128, val);
+TEST_F(SetNthBitUnitTest, TestSet4thBit)
+{
+  test(4, 0x0008);
 }
 
-TEST(set_nth_bitTest, Set16thBit) {
-  int val=0;
-  set_nth_bit(&val, 16);
-  EXPECT_EQ(32768, val);
+TEST_F(SetNthBitUnitTest, TestSet8thBit)
+{
+  test(8, 128);
 }
 
-TEST(set_nth_bitTest, Set32thBit) {
-  int val=0;
-  set_nth_bit(&val, 32);
-  unsigned int val2 = 1;
-  val2 <<= 31;
+TEST_F(SetNthBitUnitTest, TestSet16thBit)
+{
+  test(16, 32768);
+}
 
-  EXPECT_EQ((int)((val2)*(-1)), val);
+TEST_F(SetNthBitUnitTest, TestSet32thBit)
+{
+  test(32, -(1 << 31));
 }
 
 
 /*******************************************
- * Tests for:
+ * Unit tests for:
  * void clear_nth_bit(int *val, char bit) 
  *******************************************/
-TEST(clear_nth_bitTest, Clear1stBit) {
-  int val=0x00001;
-  clear_nth_bit(&val, 1);
-  EXPECT_EQ(0, val);
+class ClearNthBitUnitTest : public ::testing::Test {
+public:
+  void test(int, int, int=0);
+};
+
+
+void
+ClearNthBitUnitTest::test(int value, int bit, int expected_value)
+{
+  clear_nth_bit(&value, bit);
+  EXPECT_EQ(expected_value, value);
 }
 
-TEST(clear_nth_bitTest, Clear2ndBit) {
-  int val=0x0002;
-  clear_nth_bit(&val, 2);
-  EXPECT_EQ(0, val);
+
+TEST_F(ClearNthBitUnitTest, TestClear1stBit)
+{
+  test(0x0001, 1);
 }
 
-TEST(clear_nth_bitTest, Clear4thBit) {
-  int val=0x0008;
-  clear_nth_bit(&val, 4);
-  EXPECT_EQ(0, val);
+TEST_F(ClearNthBitUnitTest, TestClear2ndBit)
+{
+  test(0x0002, 2);
 }
 
-TEST(clear_nth_bitTest, Clear8thBit) {
-  int val=128;
-  clear_nth_bit(&val, 8);
-  EXPECT_EQ(0, val);
+TEST_F(ClearNthBitUnitTest, TestClear4thBit)
+{
+  test(0x0008, 4);
 }
 
-TEST(clear_nth_bitTest, Clear16thBit) {
-  int val=32768;
-  clear_nth_bit(&val, 16);
-  EXPECT_EQ(0, val);
+TEST_F(ClearNthBitUnitTest, TestClear8thBit)
+{
+  test(128, 8);
 }
 
-TEST(clear_nth_bitTest, Clear32thBit) {
-  int val=0;
-  unsigned int val2 = 1;
-  val2 <<= 31;
-  val = val2 * (-1);
-  clear_nth_bit(&val, 32);
-  EXPECT_EQ(0, val);
+TEST_F(ClearNthBitUnitTest, TestClear16thBit)
+{
+  test(32768, 16);
+}
+
+TEST_F(ClearNthBitUnitTest, TestClear32thBit)
+{
+  test(-(1 << 31), 32);
 }
 
 
 /*******************************************
- * Tests for:
+ * Unit test for:
  * void is_bit_set(int val, char bit) 
  *******************************************/
-TEST(is_bit_setTest, TestBitSetOnZeroValueInteger) {
-  int val=0;
-  EXPECT_FALSE(is_bit_set(val, 1));
+class IsBitSetUnitTest : public ::testing::Test {};
+
+
+TEST_F(IsBitSetUnitTest, TestBitSetOnZeroValueInteger)
+{
+  EXPECT_FALSE(is_bit_set(0, 1));
 }
 
-TEST(is_bit_setTest, TestSetOn1stBit) {
-  int val=1;
-  EXPECT_TRUE(is_bit_set(val, 1));
+TEST_F(IsBitSetUnitTest, TestSetOn1stBit)
+{
+  EXPECT_TRUE(is_bit_set(1, 1));
 }
 
-TEST(is_bit_setTest, TestSetOn2ndBit) {
-  int val=2;
+TEST_F(IsBitSetUnitTest, TestSetOn2ndBit)
+{
+  int val = 2;
   EXPECT_FALSE(is_bit_set(val, 1));
   EXPECT_TRUE(is_bit_set(val, 2));
 }
 
-TEST(is_bit_setTest, TestSetOn4thBit) {
-  int val=8;
+TEST_F(IsBitSetUnitTest, TestSetOn4thBit)
+{
+  int val = 8;
   EXPECT_FALSE(is_bit_set(val, 1));
   EXPECT_FALSE(is_bit_set(val, 2));
   EXPECT_TRUE(is_bit_set(val, 4));
 }
 
-TEST(is_bit_setTest, TestSetOn8thBit) {
-  int val=128;
+TEST_F(IsBitSetUnitTest, TestSetOn8thBit)
+{
+  int val = 128;
   EXPECT_FALSE(is_bit_set(val, 1));
   EXPECT_FALSE(is_bit_set(val, 2));
   EXPECT_FALSE(is_bit_set(val, 4));
   EXPECT_TRUE(is_bit_set(val, 8));
 }
 
-TEST(is_bit_setTest, TestSetOn16thBit) {
-  int val=32768;
+TEST_F(IsBitSetUnitTest, TestSetOn16thBit)
+{
+  int val = 32768;
   EXPECT_FALSE(is_bit_set(val, 1));
   EXPECT_FALSE(is_bit_set(val, 2));
   EXPECT_FALSE(is_bit_set(val, 4));
@@ -274,11 +332,9 @@ TEST(is_bit_setTest, TestSetOn16thBit) {
   EXPECT_TRUE(is_bit_set(val, 16));
 }
 
-TEST(is_bit_setTest, TestSetOn32thBit) { 
-  int val=0;
-  unsigned int val2 = 1;
-  val2 <<= 31;
-  val = val2 * (-1); 
+TEST_F(IsBitSetUnitTest, TestSetOn32thBit)
+{ 
+  int val = -(1 << 31);
   EXPECT_FALSE(is_bit_set(val, 1));
   EXPECT_FALSE(is_bit_set(val, 2));
   EXPECT_FALSE(is_bit_set(val, 4));
@@ -287,11 +343,16 @@ TEST(is_bit_setTest, TestSetOn32thBit) {
   EXPECT_TRUE(is_bit_set(val, 32));
 }
 
+
 /*******************************************
- * Tests for:
+ * Unit Test for:
  * rand_top(int top)
  *******************************************/
-TEST(rand_topTest, rand_topTest) {
+class RandTopUnitTest : public ::testing::Test {};
+
+
+TEST_F(RandTopUnitTest, TestRandomness)
+{
   int i;
   for(i = 1; i <= 5000; i++) {
     ASSERT_LE(rand_top(i), i);
@@ -299,10 +360,14 @@ TEST(rand_topTest, rand_topTest) {
 }
 
 /*******************************************
- * Tests for:
+ * Unit Test for:
  * rand_range(int min, int max)
  *******************************************/
-TEST(rand_rangeTest, rand_rangeTest) {
+class RandRangeUnitTest : public ::testing::Test {};
+
+
+TEST_F(RandRangeUnitTest, TestRandomness)
+{
   int i;
   int min = 20;
   for(i = min; i <= 5000; i++) {
@@ -313,10 +378,14 @@ TEST(rand_rangeTest, rand_rangeTest) {
 }
 
 /*******************************************
- * Tests for:
+ * Unit Tests for:
  * randf_top(double top)
  *******************************************/
-TEST(randf_topTest, randf_topTest) {
+class RandFTopUnitTest : public ::testing::Test {};
+
+
+TEST_F(RandFTopUnitTest, TestRandomness)
+{
   int i;
   for(i = 1.0f; i <= 5000.0f; i++) {
     ASSERT_LE(rand_top(i), i);
@@ -324,10 +393,14 @@ TEST(randf_topTest, randf_topTest) {
 }
 
 /*******************************************
- * Tests for:
+ * Unit Tests for:
  * randf_range(double min, double max)
  *******************************************/
-TEST(randf_rangeTest, randf_rangeTest) {
+class RandFRangeUnitTest : public ::testing::Test {};
+
+
+TEST_F(RandFRangeUnitTest, TestRandomness)
+{
   double i;
   double min = 20.0f;
   for(i = min; i <= 5000.0f; i++) {
@@ -341,19 +414,25 @@ TEST(randf_rangeTest, randf_rangeTest) {
  * Tests for:
  * generate_text(size_t len, size_t max) 
  *******************************************/
-TEST(generate_textTest, PassNonZeroLenAndMaxTest) {
+class GenerateTextUnitTest : public ::testing::Test {};
+
+
+TEST_F(GenerateTextUnitTest, TestPassNonZeroLenAndMax)
+{
   char *text = generate_text(6, 12);
   ASSERT(text);
   ASSERT_LE(6, strlen(text));
   ASSERT_GE(12, strlen(text));
 }
 
-TEST(generate_textTest, PassZeroMinAndMaxTest) {
+TEST_F(GenerateTextUnitTest, TestPassZeroMinAndMax)
+{
   char *text = generate_text(0, 0);
   ASSERT(text == NULL);
 }
 
-TEST(generate_textTest, PassNonZeroLenAndZeroMaxTest) {
+TEST_F(GenerateTextUnitTest, TestPassNonZeroLenAndZeroMax)
+{
   int i;
   for(i = 1; i <= 5000; i++) {
     char *text = generate_text(i, 0);
@@ -363,7 +442,8 @@ TEST(generate_textTest, PassNonZeroLenAndZeroMaxTest) {
   }
 }
 
-TEST(generate_textTest, PassZeroLenAndNonZeroMaxTest) {
+TEST_F(GenerateTextUnitTest, TestPassZeroLenAndNonZeroMax)
+{
   int i;
   for(i = 1; i <= 5000; i++) {
     char *text = generate_text(0, i);
@@ -374,10 +454,14 @@ TEST(generate_textTest, PassZeroLenAndNonZeroMaxTest) {
 }
 
 /*******************************************
- * Tests for:
+ * Unit Tests for:
  * generate_loremipsum()
  *******************************************/
-TEST(generate_loremipsumTest, generate_loremipsumTest) {
+class GenerateLoremIpsumUnitTest : public ::testing::Test {};
+
+
+TEST_F(GenerateLoremIpsumUnitTest, TestGenerateLoremIpsum)
+{
   char *ipsum = generate_loremipsum();
   ASSERT(ipsum);
   ASSERT_GE(strlen(ipsum), 0);

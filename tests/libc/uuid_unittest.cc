@@ -29,24 +29,31 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/libc/assert.h"
 
 
-TEST(uuid_createTest, UUIDCreationTest) {
+class UUIDUnitTest : public ::testing::Test {};
+
+
+TEST_F(UUIDUnitTest, TestUUIDCreation)
+{
   uuid_t id = uuid_create();
   ASSERT_TRUE(id);
 }
 
-TEST(uuid_compareTest, UUIDCompareSameIDTest) {
+TEST_F(UUIDUnitTest, TestUUIDCompareSameID)
+{
   uuid_t id = uuid_create();
   ASSERT_TRUE(uuid_compare(id, id));
 }
 
-TEST(uuid_compareTest, UUIDCompareDifferentIDTest) {
+TEST_F(UUIDUnitTest, TestUUIDCompareDifferentID)
+{
   uuid_t uuid1 = uuid_create();
   uuid_t uuid2 = uuid_create();
 
   ASSERT_FALSE(uuid_compare(uuid1, uuid2));
 }
 
-TEST(uuid_to_hashTest, HashOnDifferentUUIDTest1) {
+TEST_F(UUIDUnitTest, TestHashOnDifferentUUID_1)
+{
   uuid_t uuid1 = uuid_create();
   uuid_t uuid2 = uuid_create();
 
@@ -58,7 +65,8 @@ TEST(uuid_to_hashTest, HashOnDifferentUUIDTest1) {
   ASSERT_NE(hash1, hash2);
 }
 
-TEST(uuid_to_hashTest, HashOnDifferentUUID_Test) {
+TEST_F(UUIDUnitTest, TestHashOnDifferentUUID_2)
+{
   int i;
   for(i = 0; i < 100000; i++) {
     uuid_t uuid1 = uuid_create();
@@ -73,7 +81,8 @@ TEST(uuid_to_hashTest, HashOnDifferentUUID_Test) {
   }
 }
 
-TEST(uuid_create_and_hashTest, UUIDCreateAndHash_Test) {
+TEST_F(UUIDUnitTest, TestUUIDCreateAndHash)
+{
   int i;
   for(i = 0; i < 100000; i++) {
     ASSERT_NE(

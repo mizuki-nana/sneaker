@@ -21,7 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Buffer abstraction */
+/* Generic buffer that can read/write from/to files.  */
 
 #ifndef _BUFFER_H_
 #define _BUFFER_H_
@@ -40,21 +40,25 @@ extern "C" {
  */
 typedef struct __sneaker_buffer_s * buffer_t;
 
+
+buffer_t buffer_create(size_t capacity);
+
+
+void buffer_free(buffer_t *buffer);
+
 /*
  * Returns true if all data has been read into the buffer.
  */
-#define buffer_read_complete(buffer) ((buffer)->expected == (buffer)->size)
+int buffer_read_complete(buffer_t buffer);
 
 /*
  * Returns true if the buffer has been completely written.
  */
-#define buffer_write_complete(buffer) ((buffer)->remaining == 0)
+int buffer_write_complete(buffer_t buffer);
 
-buffer_t buffer_create(size_t capacity);
-
-void buffer_free(buffer_t *buffer);
 
 char* buffer_get(buffer_t buffer);
+
 
 int buffer_prepare_for_read(buffer_t buffer, size_t expected);
 
@@ -67,7 +71,9 @@ int buffer_prepare_for_read(buffer_t buffer, size_t expected);
  */
 ssize_t buffer_read(buffer_t buffer, int fd);
 
+
 void buffer_prepare_for_write(buffer_t buffer);
+
 
 /*
  * Writes data from buffer to the given fd. Returns -1 and sets errno in case

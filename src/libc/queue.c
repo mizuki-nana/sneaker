@@ -25,8 +25,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/libc/assert.h"
 #include "../../include/libc/common.h"
 #include "../../include/libc/memory.h"
-#include "../../include/libc/utils.h"
 #include "../../include/libc/queue.h"
+#include "../../include/libc/utils.h"
 
 
 struct __sneaker_queue_s {

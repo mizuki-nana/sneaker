@@ -31,13 +31,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define DEFAULT_STRBUF_INITIAL_ALLOC 1024
 
+
 static const size_t _strbuf_alloc_size = DEFAULT_STRBUF_INITIAL_ALLOC;
 
 
 struct __sneaker_strbuf_s {
-  char*  c_str;               /* pointer to the raw string */
-  size_t  capacity;           /* size of allocated data */
-  size_t  size;               /* amount of space used */
+  c_str c_str;
+  size_t capacity;
+  size_t size;
 };
 
 
@@ -136,6 +137,7 @@ strbuf_empty(strbuf_t strbuf)
   FREE(strbuf->c_str);
   strbuf->size = 0;
   strbuf->capacity = 0;
+
   _strbuf_init(&strbuf, _strbuf_alloc_size);
 }
 

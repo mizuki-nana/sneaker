@@ -63,10 +63,6 @@ TEST_F(AssortedValueMapWithNoValueTypeUnitTest, TestPutAndAt)
 
   ASSERT_FALSE(_map->empty());
   ASSERT_EQ(3, _map->size());
-
-  // boost::tuple<int> t(1);
-  // auto v = boost::get<0>(t);
-  // ASSERT_EQ(1, _map->at(1).get<0>());
 }
 
 

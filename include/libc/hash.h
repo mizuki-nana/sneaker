@@ -21,7 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Hashing facilities. */
+/* Hash fucntion. */
 
 #ifndef _HASH_H_
 #define _HASH_H_
@@ -31,20 +31,17 @@ extern "C" {
 #endif
 
 
-/* hash_t
- * A unsigned long integer hash number
- * */
 typedef unsigned long long hash_t;
+
+
+hash_t linear_horners_rule_str_hash(const char * str);
+
+hash_t log_horners_rule_str_hash(const char * str);
 
 hash_t hash32shift(unsigned int);
 
 hash_t hash64shift(unsigned long);
 
-hash_t hash_str(const char * str);
-
-/*
- * Bob Jenkin's one-at-a-time hash funciton.
- * */
 hash_t hash_str_jenkins_one_at_a_time(const char * str);
 
 hash_t hash_robert_jenkin(unsigned int); 

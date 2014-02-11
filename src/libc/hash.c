@@ -37,12 +37,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define GOLDEN_PRIME 1237
 
 
-/*************************************
+/*
  * Use Horner's rule to hash string.
  * O(n) runtime for short string.
- * ************************************/
+ */
 static
-hash_t _hash_str_short(const char * str, size_t len)
+hash_t _linear_horners_rule_str_hash(const char * str, size_t len)
 {
   hash_t h = 0;
 
@@ -54,41 +54,48 @@ hash_t _hash_str_short(const char * str, size_t len)
   return h;
 }
 
-/*************************************
+/*
  * Use Horner's rule to hash string.
  * O(ln(n)) runtime for long string.
- * ************************************/
+ */
 static
-hash_t _hash_str_long(const char * str, size_t len)
+hash_t _log_horners_rule_str_hash(const char * str, size_t len)
 {
   hash_t h = 0;
 
   int i;
-  for(i=1; i <= len; i*=2) {
-    h = GOLDEN_PRIME * h + str[i-1];
+  for(i = 1; i <= len; i *= 2) {
+    h = GOLDEN_PRIME * h + str[i - 1];
   }
 
   return h;
 }
 
-#define LONG_STR_LENGTH 20
-
-hash_t hash_str(const char * str)
+hash_t linear_horners_rule_str_hash(const char * str)
 {
   RETURN_VAL_IF_NULL(str, 0);
 
   size_t len = strlen(str);
 
-  return _hash_str_short(str, len);
+  return _linear_horners_rule_str_hash(str, len);
+}
+
+hash_t log_horners_rule_str_hash(const char * str)
+{
+  RETURN_VAL_IF_NULL(str, 0);
+
+  size_t len = strlen(str);
+
+  return _log_horners_rule_str_hash(str, len);
 }
 
 hash_t hash32shift(unsigned int key)
 {
-  key = ~key + (key << 15); // key = (key << 15) - key - 1;
+  key = (key << 15) - key - 1;
   key = key ^ (key >> 12);
   key = key + (key << 2);
   key = key ^ (key >> 4);
-  key = key * 2057; // key = (key + (key << 3)) + (key << 11);
+  key = (key + (key << 3)) + (key << 11);
   key = key ^ (key >> 16);
 
   return (hash_t)key;
@@ -96,11 +103,11 @@ hash_t hash32shift(unsigned int key)
 
 hash_t hash64shift(unsigned long key)
 {
-  key = (~key) + (key << 21); // key = (key << 21) - key - 1;
+  key = (key << 21) - key - 1;
   key = key ^ (key >> 24);
-  key = (key + (key << 3)) + (key << 8); // key * 265
+  key = (key + (key << 3)) + (key << 8);
   key = key ^ (key >> 14);
-  key = (key + (key << 2)) + (key << 4); // key * 21
+  key = (key + (key << 2)) + (key << 4);
   key = key ^ (key >> 28);
   key = key + (key << 31);
 

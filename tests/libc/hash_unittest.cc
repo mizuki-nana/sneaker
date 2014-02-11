@@ -21,7 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit tests for src/libc/hash.c */
+/* Unit tests for functions in include/libc/hash.h */
 
 
 #include "../_unittest.h"
@@ -30,100 +30,45 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 /********************************************
- * Test for:
- * hash_t hash_str(const char * str)
+ * Unit test for:
+ * hash_t linear_horners_rule_str_hash(const char * str)
  ********************************************/
-TEST(hash_strTest, HashNullStringTest) {
-  ASSERT_EQ(hash_str(NULL), hash_str(NULL));
-}
+class LinearHornersRuleStrHashUnitTest : public ::testing::Test {};
 
-TEST(hash_strTest, HashOneCharacterStringTest1) {
-  ASSERT_EQ(hash_str("c"), hash_str("c"));
-}
 
-TEST(hash_strTest, HashOneCharacterStringTest2) {
-  ASSERT_NE(hash_str("a"), hash_str(NULL));
-}
-
-TEST(hash_strTest, HashOneCharacterStringTest3) {
-  ASSERT_NE(hash_str("0"), hash_str("z"));
-}
-
-TEST(hash_strTest, HashShortStringTest1) {
-  ASSERT_EQ(hash_str("hash string"), hash_str("hash string"));
-}
-
-TEST(hash_strTest, HashShortStringTest2) {
-  ASSERT_NE(hash_str("hash another string"), hash_str(NULL)); 
-}
-
-TEST(hash_strTest, HashShortStringTest3) {
-  ASSERT_EQ(hash_str("abbcccbba"), hash_str("abbcccbba"));
-}
-
-TEST(hash_strTest, HashShortStringTest4) {
-  ASSERT_EQ(hash_str("   "), hash_str("   "));
-}
-
-TEST(hash_strTest, HashShortStringTest5) {
-  ASSERT_NE(hash_str(" "), hash_str("     "));
-}
-
-TEST(hash_strTest, HashShortStringTest6) {
-  ASSERT_EQ(hash_str(""), hash_str(NULL));
-}
-
-TEST(hash_strTest, HashLongStringTest1) {
-  char str[] = "hash a string to test hash a string then hash another string";
+TEST_F(LinearHornersRuleStrHashUnitTest, TestHashNullString)
+{
   ASSERT_EQ(
-    hash_str(str),
-    hash_str(str)
+    linear_horners_rule_str_hash(NULL),
+    linear_horners_rule_str_hash(NULL)
   );
 }
 
-TEST(hash_strTest, HashLongStringTest2) {
-  ASSERT_NE(
-    hash_str("put .gitignore in .gitignore to make git ignore .gitignore"),
-    hash_str(NULL)
-  ); 
-}
-
-TEST(hash_strTest, HashLongStringTest3) {
-  char palindrome[] = "abbcccddddeeeeeffffffgggggggffffffeeeeeddddcccbba";
+TEST_F(LinearHornersRuleStrHashUnitTest, TestHashOneCharacterString)
+{
   ASSERT_EQ(
-    hash_str(palindrome),
-    hash_str(palindrome)
+    linear_horners_rule_str_hash("c"),
+    linear_horners_rule_str_hash("c")
   );
 }
 
-TEST(hash_strTest, HashLongStringTest4) {
+TEST_F(LinearHornersRuleStrHashUnitTest, TestHashSameString_1)
+{
   ASSERT_EQ(
-    hash_str("                                                               "),
-    hash_str("                                                               ")
+    linear_horners_rule_str_hash("hash string"),
+    linear_horners_rule_str_hash("hash string")
   );
 }
 
-TEST(hash_strTest, HashLongStringTest5) {
-  ASSERT_NE(
-    hash_str(" "),
-    hash_str("                                                               ")
-  );
-}
-
-TEST(hash_strTest, HashLongStringTest6) {
-  ASSERT_NE(
-    hash_str("                                                               "),
-    hash_str(NULL)
-  );
-}
-
-TEST(hash_strTest, HashLongStringTest7) {
+TEST_F(LinearHornersRuleStrHashUnitTest, TestHashSameString_2)
+{
   char str1[] = "HEX is a multi-paradigm programming language that supports "
     "both static and dynamic types, and was designed with the core principles "
     "of simplicity, readability, versatility and scalability to allow "
     "developers to create a diversity of types of computer programs with "
     "modern language features, succinct syntax and semantics that are built "
-    "into the core of the language construct."; 
+    "into the core of the language construct.";
+
   char str2[] = "HEX syntax and semantics resembles a lot of the modern "
     "programming languages that you've probably heard or even used. "
     "For example, HEX has a indented syntax very much like Python. "
@@ -132,17 +77,73 @@ TEST(hash_strTest, HashLongStringTest7) {
     "statements such as if, for, and while just like pretty much every other "
     "languages out there. However, HEX does have its own syntax and semantics "
     "for aspects of the language that might not seen familiar to you.";
+
   ASSERT_NE(
-    hash_str(str1),
-    hash_str(str2)
+    linear_horners_rule_str_hash(str1),
+    linear_horners_rule_str_hash(str2)
   );
 }
 
+
 /********************************************
- * Test for:
+ * Unit test for:
+ * hash_t log_horners_rule_str_hash(const char * str)
+ ********************************************/
+class LogHornersRuleStrHashUnitTest : public ::testing::Test {};
+
+
+TEST_F(LogHornersRuleStrHashUnitTest, TestHashNullString)
+{
+  ASSERT_EQ(log_horners_rule_str_hash(NULL), log_horners_rule_str_hash(NULL));
+}
+
+TEST_F(LogHornersRuleStrHashUnitTest, TestHashOneCharacterString)
+{
+  ASSERT_EQ(log_horners_rule_str_hash("c"), log_horners_rule_str_hash("c"));
+}
+
+TEST_F(LogHornersRuleStrHashUnitTest, TestHashSameString_1)
+{
+  ASSERT_EQ(
+    log_horners_rule_str_hash("hash string"),
+    log_horners_rule_str_hash("hash string")
+  );
+}
+
+TEST_F(LogHornersRuleStrHashUnitTest, TestHashSameString_2)
+{
+  char str1[] = "HEX is a multi-paradigm programming language that supports "
+    "both static and dynamic types, and was designed with the core principles "
+    "of simplicity, readability, versatility and scalability to allow "
+    "developers to create a diversity of types of computer programs with "
+    "modern language features, succinct syntax and semantics that are built "
+    "into the core of the language construct.";
+
+  char str2[] = "HEX syntax and semantics resembles a lot of the modern "
+    "programming languages that you've probably heard or even used. "
+    "For example, HEX has a indented syntax very much like Python. "
+    "It supports objected-oriented programming with class and struct "
+    "definitions very much like C++ and Java. It utilizes basic control "
+    "statements such as if, for, and while just like pretty much every other "
+    "languages out there. However, HEX does have its own syntax and semantics "
+    "for aspects of the language that might not seen familiar to you.";
+
+  ASSERT_NE(
+    log_horners_rule_str_hash(str1),
+    log_horners_rule_str_hash(str2)
+  );
+}
+
+
+/********************************************
+ * Unit test for:
  * hash_t hash32shift(unsigned int)
  ********************************************/
-TEST(hash32shiftTest, HashOnSameKeyTest) {
+class Hash32ShiftUnitTest : public ::testing::Test {};
+
+
+TEST_F(Hash32ShiftUnitTest, TestHashOnSameKey)
+{
   unsigned int key = 6688;
   ASSERT_EQ(
     hash32shift(key),
@@ -150,7 +151,8 @@ TEST(hash32shiftTest, HashOnSameKeyTest) {
   );
 }
 
-TEST(hash32shiftTest, HashOnDifferentKeyTest) {
+TEST_F(Hash32ShiftUnitTest, TestHashOnDifferentKey)
+{
   int i;
   for(i = 0; i < 499; i++) {
     unsigned int key1 = (unsigned int)i;
@@ -165,10 +167,14 @@ TEST(hash32shiftTest, HashOnDifferentKeyTest) {
 
 
 /********************************************
- * Test for:
+ * Unit test for:
  * hash_t hash64shift(unsigned int)
  ********************************************/
-TEST(hash64shiftTest, HashOnSameKeyTest) {
+class Hash64ShiftUnitTest : public ::testing::Test {};
+
+
+TEST_F(Hash64ShiftUnitTest, TestHashOnSameKey)
+{
   unsigned long key = 66888888;
   ASSERT_EQ(
     hash64shift(key),
@@ -176,7 +182,8 @@ TEST(hash64shiftTest, HashOnSameKeyTest) {
   );
 }
 
-TEST(hash64shiftTest, HashOnDifferentKeyTest) {
+TEST_F(Hash64ShiftUnitTest, TestHashOnDifferentKey)
+{
   int i;
   for(i = 0; i < 9999; i++) {
     unsigned long key1 = (unsigned long)i;
@@ -194,14 +201,19 @@ TEST(hash64shiftTest, HashOnDifferentKeyTest) {
  * Test for:
  * hash_t hash_str_jenkins_one_at_a_time(const char * str)
  **********************************************************/
-TEST(hash_str_jenkins_one_at_a_timeTest, HashNullStringTest) {
+class HashStrJenkinsOneAtATimeUnitTest : public ::testing::Test {};
+
+
+TEST_F(HashStrJenkinsOneAtATimeUnitTest, TestHashNullString)
+{
   ASSERT_EQ(
     hash_str_jenkins_one_at_a_time(NULL),
     hash_str_jenkins_one_at_a_time(NULL)
   );
 }
 
-TEST(hash_str_jenkins_one_at_a_timeTest, HashSameStringTest1) {
+TEST_F(HashStrJenkinsOneAtATimeUnitTest, TestHashSameString)
+{
   const char str[] = "this is a test string!!!";
 
   ASSERT_EQ(
@@ -210,57 +222,48 @@ TEST(hash_str_jenkins_one_at_a_timeTest, HashSameStringTest1) {
   );
 }
 
-TEST(hash_str_jenkins_one_at_a_timeTest, HashSameStringTest2) {
-  const char str[] = "!@#$%^&*()_+{}";
-
-  ASSERT_EQ(
-    hash_str_jenkins_one_at_a_time(str),
-    hash_str_jenkins_one_at_a_time(str)
-  );
-}
-
-TEST(hash_str_jenkins_one_at_a_timeTest, HashSameStringTest3) {
-  const char str[] = "";
-
-  ASSERT_EQ(
-    hash_str_jenkins_one_at_a_time(str),
-    hash_str_jenkins_one_at_a_time(str)
-  );
-}
-
-TEST(hash_str_jenkins_one_at_a_timeTest, HashDifferentStringTest1) {
+TEST_F(HashStrJenkinsOneAtATimeUnitTest, TestHashDifferentString_1)
+{
   ASSERT_NE(
     hash_str_jenkins_one_at_a_time("test"),
     hash_str_jenkins_one_at_a_time("test test test test")
   );
 }
 
-TEST(hash_str_jenkins_one_at_a_timeTest, HashDifferentStringTest2) {
+TEST_F(HashStrJenkinsOneAtATimeUnitTest, TestHashDifferentString_2)
+{
   ASSERT_NE(
     hash_str_jenkins_one_at_a_time(" "),
     hash_str_jenkins_one_at_a_time("")
   );
 }
 
+
 /**********************************************************
- * Test for:
+ * Unit test for:
  * hash_t hash_robert_jenkin(unsigned int)
  **********************************************************/
-TEST(hash_robert_jenkinTest, HashSameNumberTest1) {
+class HashRobertJenkinUnitTest : public ::testing::Test {};
+
+
+TEST_F(HashRobertJenkinUnitTest, TestHashSameNumberTest_1)
+{
   ASSERT_EQ(
     hash_robert_jenkin(0),
     hash_robert_jenkin(0)
   );
 }
 
-TEST(hash_robert_jenkinTest, HashSameNumberTest2) {
+TEST_F(HashRobertJenkinUnitTest, TestHashSameNumberTest_2)
+{
   ASSERT_EQ(
     hash_robert_jenkin(9999),
     hash_robert_jenkin(9999)
   );
 }
 
-TEST(hash_robert_jenkinTest, HashDifferentNumberTest) {
+TEST_F(HashRobertJenkinUnitTest, TestHashDifferentNumberTest)
+{
   int i;
   for(i = 0; i < 499; i++) {
     ASSERT_NE(

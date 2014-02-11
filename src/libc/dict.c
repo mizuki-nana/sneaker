@@ -23,6 +23,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <string.h>
 #include "../../include/libc/assert.h"
+#include "../../include/libc/c_str.h"
 #include "../../include/libc/dict.h"
 #include "../../include/libc/hash.h"
 #include "../../include/libc/hashmap.h"
@@ -41,8 +42,8 @@ inline int _dict_keycmpfunc(void* key1, void* key2)
   ASSERT(key1);
   ASSERT(key2);
 
-  char *_key1 = (char*)key1;
-  char *_key2 = (char*)key2;
+  c_str _key1 = (c_str)key1;
+  c_str _key2 = (c_str)key2;
 
   return strcmp(_key1, _key2) == 0;
 }
@@ -50,7 +51,7 @@ inline int _dict_keycmpfunc(void* key1, void* key2)
 static
 inline hash_t _dict_hashfunc(void* key)
 {
-  return hash_str((char*)key);
+  return linear_horners_rule_str_hash((c_str)key);
 }
 
 dict_t dict_create()
@@ -103,7 +104,7 @@ void* dict_put(dict_t dict, const char *key, void* val)
   ASSERT(key);
   ASSERT(val);
 
-  return hashmap_put(dict->hashmap, (char*)key, val);
+  return hashmap_put(dict->hashmap, (c_str)key, val);
 }
 
 void* dict_get(dict_t dict, const char *key)
@@ -111,5 +112,5 @@ void* dict_get(dict_t dict, const char *key)
   ASSERT(dict);
   ASSERT(key);
 
-  return hashmap_get(dict->hashmap, (char*)key);
+  return hashmap_get(dict->hashmap, (c_str)key);
 }

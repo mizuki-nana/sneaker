@@ -22,21 +22,22 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
 /* Unit test for `sneaker::threading::daemon_service`
- * in include/threading/daemon_service.h */
+ * defined in include/threading/daemon_service.h */
 
 #include "../_unittest.h"
 #include "../../include/threading/daemon_service.h"
 
+
 class dummy_daemon_service : public sneaker::threading::daemon_service {
 public:
-  dummy_daemon_service(int num):
-    daemon_service(true),
+  dummy_daemon_service(int num, bool wait_for_termination=false):
+    daemon_service(wait_for_termination),
     _num(num)
   {
   }
 
   virtual void handle() {
-    this->_num+=1;
+    this->_num += 1;
   }
 
   int num() {
@@ -51,12 +52,21 @@ private:
 class DaemonServiceUnitTest : public ::testing::Test {};
 
 
-TEST_F(DaemonServiceUnitTest, TestMagic)
+TEST_F(DaemonServiceUnitTest, TestRunDaemonAsynchronously)
 {
   dummy_daemon_service dummy_daemon(5);
+  dummy_daemon.start();
 
   // sleep for one second in main thread to wait for daemon thread to process.
   sleep(1);
 
-  ASSERT_EQ(5+1, dummy_daemon.num());
+  ASSERT_EQ(5 + 1, dummy_daemon.num());
+}
+
+TEST_F(DaemonServiceUnitTest, TestRunDaemonSynchronously)
+{
+  dummy_daemon_service dummy_daemon(5, true);
+  dummy_daemon.start();
+
+  ASSERT_EQ(5 + 1, dummy_daemon.num());
 }

@@ -23,10 +23,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <stddef.h>
 #include <math.h>
-#include "../../include/libc/memory.h"
-#include "../../include/libc/utils.h"
 #include "../../include/libc/assert.h"
 #include "../../include/libc/bitmap.h"
+#include "../../include/libc/memory.h"
+#include "../../include/libc/utils.h"
+
 
 #define ROW(row) floor((double)(row) / sizeof(char))
 #define COL(col) floor((double)(col) / sizeof(char))
@@ -54,9 +55,13 @@ bitmap_t bitmap_create(size_t width, size_t height)
   unsigned int _cols = ceil((double)width / sizeof(char));
   int i;
 
-  char **_content=NULL;
+  char **_content = (char**)calloc(_rows, sizeof(char*));
 
-  _content = (char**)calloc(_rows, sizeof(char*));
+  if(!bitmap) {
+    errno = ENOMEM;
+    return NULL;
+  }
+
   for(i = 0; i < _rows; i++) {
     _content[i] = (char*)calloc(_cols, sizeof(char));
     memset(_content[i], 0, _cols);

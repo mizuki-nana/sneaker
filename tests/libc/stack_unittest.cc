@@ -21,16 +21,15 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for `sneaker_stack_t` defined in include/libc/stack.h */
+/* Unit test for `stack_t` defined in include/libc/stack.h */
 
-
-#include <string.h>
 #include <limits.h>
+#include <string.h>
 #include "../_unittest.h"
-#include "../../include/libc/utils.h"
-#include "../../include/libc/memory.h"
 #include "../../include/libc/assert.h"
+#include "../../include/libc/memory.h"
 #include "../../include/libc/stack.h"
+#include "../../include/libc/utils.h"
 
 
 class StackTest : public ::testing::Test {
@@ -49,15 +48,18 @@ protected:
 };
 
 
-TEST_F(StackTest, StackCreationTest) {
+TEST_F(StackTest, TestStackCreation)
+{
   ASSERT(_stack);
   ASSERT_EQ(0, stack_size(_stack));
   ASSERT(stack_pop(_stack) == NULL);
 }
 
-TEST_F(StackTest, StackPushPopTest1) {
-  int numbers[] = {1,2,3,4,5,6,7,8,9,10};
+TEST_F(StackTest, TestStackPushAndPop_1)
+{
+  int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   int i;
+
   for(i = 0; i < 10; i++) {
     stack_push(_stack, &numbers[i], sizeof(int));
   }
@@ -75,9 +77,10 @@ TEST_F(StackTest, StackPushPopTest1) {
   ASSERT_EQ(0, stack_size(_stack));
 }
 
-TEST_F(StackTest, StackPushPopTest2) {
-  int odds[] = {1,3,5,7,9};
-  int evens[] = {2,4,6,8,10};
+TEST_F(StackTest, TestStackPushAndPop_2)
+{
+  int odds[] = {1, 3, 5, 7, 9};
+  int evens[] = {2, 4, 6, 8, 10};
   
   int i;
   for(i = 0; i < 5; i++) {
@@ -111,7 +114,8 @@ TEST_F(StackTest, StackPushPopTest2) {
   ASSERT_EQ(0, stack_size(_stack));
 }
 
-TEST_F(StackTest, StackPushPopTest3) {
+TEST_F(StackTest, TestStackPushAndPop_3)
+{
   const char *fruits[26] = {
     "Apple", "Banana", "Coconut", "Dragonfruit", "Elephant apple",
     "Finger lime", "Grape", "Honeydrew melon", "Indian prune",
@@ -124,7 +128,7 @@ TEST_F(StackTest, StackPushPopTest3) {
   for(i = 0; i < 26; i++) {
     char *fruit = (char*)fruits[i];
     stack_push(_stack, fruit, strlen(fruit)+1);
-    ASSERT_EQ(i+1, stack_size(_stack));
+    ASSERT_EQ(i + 1, stack_size(_stack));
   }
 
   ASSERT_EQ(26, stack_size(_stack));

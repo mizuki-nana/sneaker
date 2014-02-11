@@ -26,8 +26,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "../_unittest.h"
 #include "../../include/libc/assert.h"
+#include "../../include/libc/c_str.h"
 #include "../../include/libc/dict.h"
 #include "../../include/libc/memory.h"
+
 
 class DictTest : public ::testing::Test {
 protected:
@@ -44,10 +46,12 @@ protected:
   dict_t _dict;
 };
 
+
 typedef struct {
-  char *key;
-  char *val;
+  c_str key;
+  c_str val;
 } KeyVal;
+
 
 KeyVal fruits[] = {
   {"a", "apple"},
@@ -68,22 +72,26 @@ KeyVal vehicles[] = {
 };
 
 
-TEST_F(DictTest, dict_createTest) {
+TEST_F(DictTest, TestDictCreation)
+{
   ASSERT(_dict);
   ASSERT_EQ(0, dict_size(_dict));
 }
 
-TEST_F(DictTest, dict_putTest1) {
+TEST_F(DictTest, TestDictPut)
+{
   dict_put(_dict, fruits[0].key, fruits[0].val);
   ASSERT_EQ(1, dict_size(_dict));
+
   dict_put(_dict, fruits[1].key, fruits[1].val);
   ASSERT_EQ(2, dict_size(_dict));
+
   dict_put(_dict, fruits[2].key, fruits[2].val);
   ASSERT_EQ(3, dict_size(_dict));
 
-  char *val1 = (char*)dict_get(_dict, fruits[0].key);
-  char *val2 = (char*)dict_get(_dict, fruits[1].key);
-  char *val3 = (char*)dict_get(_dict, fruits[2].key);
+  c_str val1 = (c_str)dict_get(_dict, fruits[0].key);
+  c_str val2 = (c_str)dict_get(_dict, fruits[1].key);
+  c_str val3 = (c_str)dict_get(_dict, fruits[2].key);
 
   ASSERT(val1);
   ASSERT(val2);
@@ -94,7 +102,8 @@ TEST_F(DictTest, dict_putTest1) {
   ASSERT_STREQ(val3, fruits[2].val);
 }
 
-TEST_F(DictTest, dict_getTest) {
+TEST_F(DictTest, TestDictGet)
+{
   dict_put(_dict, fruits[0].key, fruits[0].val);
   dict_put(_dict, fruits[1].key, fruits[1].val);
   dict_put(_dict, fruits[2].key, fruits[2].val);
@@ -110,14 +119,14 @@ TEST_F(DictTest, dict_getTest) {
   ASSERT_EQ(3, dict_size(_dict));
 
   ASSERT_EQ(fruits[0].val, dict_get(_dict, fruits[0].key));
-  ASSERT_EQ(sky[1].val, dict_get(_dict, sky[1].key));
+  ASSERT_EQ(sky[1].val,    dict_get(_dict, sky[1].key));
   ASSERT_EQ(fruits[2].val, dict_get(_dict, fruits[2].key));
 
   ASSERT(dict_put(_dict, vehicles[2].key, vehicles[2].val));
 
   ASSERT_EQ(3, dict_size(_dict));
 
-  ASSERT_EQ(fruits[0].val, (char*)dict_get(_dict, fruits[0].key));
-  ASSERT_EQ(sky[1].val, (char*)dict_get(_dict, sky[1].key));
-  ASSERT_EQ(vehicles[2].val, (char*)dict_get(_dict, vehicles[2].key));
+  ASSERT_EQ(fruits[0].val,   (c_str)dict_get(_dict, fruits[0].key));
+  ASSERT_EQ(sky[1].val,      (c_str)dict_get(_dict, sky[1].key));
+  ASSERT_EQ(vehicles[2].val, (c_str)dict_get(_dict, vehicles[2].key));
 }

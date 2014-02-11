@@ -20,7 +20,7 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 CXX=c++
-CFLAGS=-Wno-implicit -w -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
+CFLAGS=-Wall -Wno-deprecated-writable-strings -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
 
 LIBGTEST=/usr/lib/libgtest.a
 
@@ -40,6 +40,7 @@ generic_cache_unittest.test: objects _unittest.o generic_cache_unittest.cc
 
 all: \
 	generic_cache_unittest.test
+
 
 .PHONY : clean
 clean:

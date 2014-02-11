@@ -21,9 +21,9 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 #include "../../include/libc/assert.h"
 #include "../../include/libc/hash.h"
@@ -58,11 +58,11 @@ uuid_t uuid_create()
   char buf[30];
   unsigned long long ll;
 
-  unsigned long  u1=0;
-  unsigned long  u2=0;
-  unsigned int   u3=0;
-  unsigned short u4=0;
-  unsigned short u5=0;
+  unsigned long  u1 = 0;
+  unsigned long  u2 = 0;
+  unsigned int   u3 = 0;
+  unsigned short u4 = 0;
+  unsigned short u5 = 0;
 
   t = time(NULL);
   snprintf(buf, sizeof(buf), "%lld", (unsigned long long)t);
@@ -70,7 +70,7 @@ uuid_t uuid_create()
 
   u1 = (ll & 0xFFFF0000) >> 16;
   u2 = ll & 0xFFFF;
-  u3 = hash_str(buf);
+  u3 = linear_horners_rule_str_hash(buf);
   u4 = (unsigned short)rand_top(USHRT_MAX);
   u5 = (unsigned short)rand_top(USHRT_MAX);
 

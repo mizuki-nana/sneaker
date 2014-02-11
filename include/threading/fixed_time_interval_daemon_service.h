@@ -24,6 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef _FIXED_TIME_INTERVAL_DAEMON_SERVICE_H_
 #define _FIXED_TIME_INTERVAL_DAEMON_SERVICE_H_
 
+#include <limits.h>
 #include <boost/asio.hpp>
 #include <boost/system/error_code.hpp>
 #include "daemon_service.h"
@@ -38,7 +39,7 @@ namespace threading {
 
 class fixed_time_interval_daemon_service : public sneaker::threading::daemon_service {
 public:
-  fixed_time_interval_daemon_service(size_t, ExternalHandler);
+  fixed_time_interval_daemon_service(size_t, ExternalHandler, bool=false, size_t=UINT_MAX);
   ~fixed_time_interval_daemon_service();
 
   size_t interval() const;
@@ -54,9 +55,15 @@ protected:
 
   void invoke_external_handler();
 
+  void increment_iteration_count();
+
+  bool can_continue();
+
 private:
   ExternalHandler _external_handler;
   size_t _interval;
+  size_t _max_iterations;
+  size_t _iteration_count;
 };
 
 

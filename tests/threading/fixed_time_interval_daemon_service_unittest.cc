@@ -22,21 +22,43 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
 /* Unit test for `sneaker::threading::fixed_time_interval_daemon_service`
- * in include/threading/fixed_time_interval_daemon_service.h */
+ * defined in include/threading/fixed_time_interval_daemon_service.h */
 
 #include <stdio.h>
 #include "../_unittest.h"
 #include "../../include/threading/fixed_time_interval_daemon_service.h"
 
+
+using namespace sneaker::threading;
+
+
 void DummyHandler()
 {
-  printf("Hello world...\n");
+  printf("Dummy handler for daemon service running in the background thread...\n");
 }
 
 class FixedTimeIntervalDaemonServiceUnitTest : public ::testing::Test {};
 
-TEST_F(FixedTimeIntervalDaemonServiceUnitTest, TestMagic)
+
+TEST_F(FixedTimeIntervalDaemonServiceUnitTest, TestRunDaemonAsynchronously)
 {
-  sneaker::threading::fixed_time_interval_daemon_service daemon_service(2, DummyHandler);
+  fixed_time_interval_daemon_service daemon_service(2, DummyHandler);
+  daemon_service.start();
+
   sleep(10);
+
+  printf("10 seconds has passed...\n");
+
+  return;
+}
+
+TEST_F(FixedTimeIntervalDaemonServiceUnitTest, TestRunDaemonSynchronously)
+{
+  fixed_time_interval_daemon_service daemon_service(2, DummyHandler, true, 5);
+  daemon_service.start();
+
+  printf("Dummy handler should ran 5 times...\n");
+  // sleep(10);
+
+  return;
 }

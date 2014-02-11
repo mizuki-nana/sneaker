@@ -23,12 +23,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <stddef.h>
 #include <limits.h>
-#include "../../include/libc/memory.h"
-#include "../../include/libc/assert.h"
-#include "../../include/libc/utils.h"
 #include "../../include/libc/array.h"
+#include "../../include/libc/assert.h"
+#include "../../include/libc/memory.h"
+#include "../../include/libc/utils.h"
+
 
 #define DEFAULT_ARRAY_INITIAL_CAPACITY 4
+
 #define ARRAY_MAX_CAPACITY ((int)UINT_MAX/sizeof(void*))
 
 
@@ -62,7 +64,7 @@ _array_ensure_capacity(array_t array, size_t capacity)
       newCapcity = newCap;
     }
 
-    void **newContent=NULL;
+    void **newContent = NULL;
     if(!array->content) {
       newContent = malloc(newCapcity * sizeof(void*));
       if(!newContent) {

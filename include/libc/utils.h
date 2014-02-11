@@ -23,11 +23,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Miscellaneous utility functions. */
 
-#include <stddef.h>
-#include "c_str.h"
-
 #ifndef _UTILS_H_
 #define _UTILS_H_
+
+#include <stddef.h>
+#include "c_str.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -253,8 +253,10 @@ generate_text(size_t len, size_t max);
 c_str
 generate_loremipsum();
 
+
 #ifdef __cplusplus
 }
 #endif
+
 
 #endif /* _UTILS_H_ */

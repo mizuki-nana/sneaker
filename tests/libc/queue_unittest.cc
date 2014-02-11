@@ -23,13 +23,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for `queue_t` defined in include/libc/queue.h */
 
-#include <string.h>
 #include <limits.h>
+#include <string.h>
 #include "../_unittest.h"
-#include "../../include/libc/utils.h"
-#include "../../include/libc/memory.h"
 #include "../../include/libc/assert.h"
+#include "../../include/libc/memory.h"
 #include "../../include/libc/queue.h"
+#include "../../include/libc/utils.h"
 
 
 class QueueTest : public ::testing::Test {
@@ -48,14 +48,16 @@ protected:
 };
 
 
-TEST_F(QueueTest, QueueCreationTest) {
+TEST_F(QueueTest, TestQueueCreation)
+{
   ASSERT(_queue);
   ASSERT_EQ(0, queue_size(_queue));
   ASSERT(queue_pop(_queue) == NULL);
 }
 
-TEST_F(QueueTest, QueuePushPopTest1) {
-  int numbers[] = {1,2,3,4,5,6,7,8,9,10};
+TEST_F(QueueTest, TestQueuePushAndPop_1)
+{
+  int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   int i;
   for(i = 0; i < 10; i++) {
     queue_push(_queue, &numbers[i], sizeof(int));
@@ -74,9 +76,10 @@ TEST_F(QueueTest, QueuePushPopTest1) {
   ASSERT_EQ(0, queue_size(_queue));
 }
 
-TEST_F(QueueTest, QueuePushPopTest2) {
-  int odds[] = {1,3,5,7,9};
-  int evens[] = {2,4,6,8,10};
+TEST_F(QueueTest, TestQueuePushAndPop_2)
+{
+  int odds[] = {1, 3, 5, 7, 9};
+  int evens[] = {2, 4, 6, 8, 10};
   
   int i;
   for(i = 0; i < 5; i++) {
@@ -110,7 +113,8 @@ TEST_F(QueueTest, QueuePushPopTest2) {
   ASSERT_EQ(0, queue_size(_queue));
 }
 
-TEST_F(QueueTest, QueuePushPopTest3) {
+TEST_F(QueueTest, TestQueuePushAndPop_3)
+{
   const char *fruits[26] = {
     "Apple", "Banana", "Coconut", "Dragonfruit", "Elephant apple",
     "Finger lime", "Grape", "Honeydrew melon", "Indian prune",
@@ -123,7 +127,7 @@ TEST_F(QueueTest, QueuePushPopTest3) {
   for(i = 0; i < 26; i++) {
     char *fruit = (char*)fruits[i];
     queue_push(_queue, fruit, strlen(fruit)+1); 
-    ASSERT_EQ(i+1, queue_size(_queue));
+    ASSERT_EQ(i +1 , queue_size(_queue));
   }
 
   ASSERT_EQ(26, queue_size(_queue));
@@ -131,7 +135,7 @@ TEST_F(QueueTest, QueuePushPopTest3) {
   for(i = 0; i < 26; i++) {
     char *fruit = (char*)queue_pop(_queue);
     ASSERT_STREQ(fruit, fruits[i]);
-    ASSERT_EQ(26-i-1, queue_size(_queue));
+    ASSERT_EQ(26 - i - 1, queue_size(_queue));
   }
 
   ASSERT_EQ(0, queue_size(_queue));

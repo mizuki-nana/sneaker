@@ -23,9 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for `strbuf_t` defined in include/libc/strbuf.h */
 
-
-#include <string.h>
 #include <limits.h>
+#include <string.h>
 #include "../_unittest.h"
 #include "../../include/libc/assert.h"
 #include "../../include/libc/c_str.h"
@@ -89,19 +88,20 @@ StrbufTest::test_append(
   }
 }
 
-TEST_F(StrbufTest, StrbufCreationTest)
+
+TEST_F(StrbufTest, TestStrbufCreation)
 {
   ASSERT(_strbuf);
   ASSERT(strbuf_cstr(_strbuf));
 }
 
-TEST_F(StrbufTest, StrbufAppendTest1)
+TEST_F(StrbufTest, TestStrbufAppend_1)
 {
   char text[] = "Testing strbuf";
   this->test_append(text);
 }
 
-TEST_F(StrbufTest, StrbufAppendTest2)
+TEST_F(StrbufTest, TestStrbufAppend_2)
 {
   char text1[] = "5 km a day, ";
   char text2[] = "keep the doctor away!";
@@ -113,7 +113,7 @@ TEST_F(StrbufTest, StrbufAppendTest2)
   );
 }
 
-TEST_F(StrbufTest, StrbufAppendTest3)
+TEST_F(StrbufTest, TestStrbufAppend_3)
 {
   char text1[] = "Apple, banana, coconut";
   char text2[] = "Airplane, boat, car";
@@ -127,10 +127,11 @@ TEST_F(StrbufTest, StrbufAppendTest3)
   this->test_append(text2);
 }
 
-TEST_F(StrbufTest, StrbufAppendTest4)
+TEST_F(StrbufTest, TestStrbufAppend_4)
 {
   char text1[1000];
   int i;
+
   for(i = 0; i < 999; i++) {
     text1[i] = (char)(i % 26) + '0';
   }
@@ -144,7 +145,7 @@ TEST_F(StrbufTest, StrbufAppendTest4)
 
   c_str text = (c_str)malloc(size+1);
   ASSERT(text);
-  memset(text, 0, size+1);
+  memset(text, 0, size + 1);
   text = strcat(text, text1);
   text = strcat(text, text2);
 
@@ -154,10 +155,11 @@ TEST_F(StrbufTest, StrbufAppendTest4)
   ASSERT_EQ(size, strbuf_len(_strbuf));
 }
 
-TEST_F(StrbufTest, StrbufAppendTest5)
+TEST_F(StrbufTest, TestStrbufAppend_5)
 {
   char text1[3000];
   int i;
+
   for(i = 0; i < 2999; i++) {
     text1[i] = (char)(i % 26) + '0';
   }
@@ -169,9 +171,9 @@ TEST_F(StrbufTest, StrbufAppendTest5)
 
   size_t size = strlen(text1) + strlen(text2);
 
-  c_str text = (c_str)malloc(size+1);
+  c_str text = (c_str)malloc(size + 1);
   ASSERT(text);
-  memset(text, 0 , size+1);
+  memset(text, 0 , size + 1);
   text = strcat(text, text1);
   text = strcat(text, text2);
 
@@ -181,10 +183,11 @@ TEST_F(StrbufTest, StrbufAppendTest5)
   ASSERT_EQ(size, strbuf_len(_strbuf));
 }
 
-TEST_F(StrbufTest, StrbufEmptyTest)
+TEST_F(StrbufTest, TestStrbufEmpty)
 {
   char text[] = "Another test for strbuf";
   strbuf_append(_strbuf, text);
+
   ASSERT_STREQ(text, strbuf_cstr(_strbuf));
   ASSERT_EQ(strlen(text), strbuf_len(_strbuf));
 
@@ -193,9 +196,11 @@ TEST_F(StrbufTest, StrbufEmptyTest)
 
   this->test_empty();
 
-  /* append text after empty() */
+  /* Append text after empty() */
   char text2[] = "An apple a day, keep the doctor away.";
+
   strbuf_append(_strbuf, text2);
+
   ASSERT_STREQ(text2, strbuf_cstr(_strbuf));
   ASSERT_EQ(strlen(text2), strbuf_len(_strbuf));
   ASSERT_LE(0, strbuf_capacity(_strbuf));

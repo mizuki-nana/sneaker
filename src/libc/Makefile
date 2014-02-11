@@ -21,15 +21,21 @@
 
 CC=cc
 CXX=c++
-CFLAGS=-Wno-implicit -Wall -arch x86_64
+CFLAGS=-Wall -arch x86_64
 AR=ar
 ARFLAGS=rvs
 
-utils.o: utils.c
-	$(CC) $(CFLAGS) -c utils.c
+array.o: array.c
+	$(CC) $(CFLAGS) -c array.c
+
+bitmap.o: bitmap.c
+	$(CC) $(CFLAGS) -c bitmap.c
 
 cutils.o:  cutils.c
 	$(CC) $(CFLAGS) -c cutils.c
+
+dict.o: dict.c
+	$(CC) $(CFLAGS) -c dict.c
 
 hash.o: hash.c
 	$(CC) $(CFLAGS) -c hash.c
@@ -37,46 +43,37 @@ hash.o: hash.c
 hashmap.o: hashmap.c
 	$(CC) $(CFLAGS) -c hashmap.c
 
-dict.o: dict.c
-	$(CC) $(CFLAGS) -c dict.c
-
-strutils.o: strutils.c
-	$(CC) $(CFLAGS) -c strutils.c
-
-strbuf.o: strbuf.c
-	$(CC) $(CFLAGS) -c strbuf.c
-
-bitmap.o: bitmap.c
-	$(CC) $(CFLAGS) -c bitmap.c
-
-buffer.o: buffer.c
-	$(CC) $(CFLAGS) -c buffer.c
-
-array.o: array.c
-	$(CC) $(CFLAGS) -c array.c
-
 queue.o: queue.c
 	$(CC) $(CFLAGS) -c queue.c
 
 stack.o: stack.c
 	$(CC) $(CFLAGS) -c -D_STRUCT_SIGALTSTACK -D_STRUCT_UCONTEXT stack.c
 
+strbuf.o: strbuf.c
+	$(CC) $(CFLAGS) -c strbuf.c
+
+strutils.o: strutils.c
+	$(CC) $(CFLAGS) -c strutils.c
+
+utils.o: utils.c
+	$(CC) $(CFLAGS) -c utils.c
+
 uuid.o: uuid.c
 	$(CC) $(CFLAGS) -c -D_UUID_T uuid.c
 
+
 obj: 					\
-	utils.o 		\
+	array.o   	\
+	bitmap.o 		\
 	cutils.o    \
+	dict.o  		\
 	hash.o  		\
 	hashmap.o 	\
-	dict.o  		\
-	strutils.o 	\
-	strbuf.o 		\
-	bitmap.o 		\
-	buffer.o  	\
-	array.o   	\
 	queue.o 		\
 	stack.o 		\
+	strbuf.o 		\
+	strutils.o 	\
+	utils.o 		\
 	uuid.o
 
 libc.a: obj

@@ -21,10 +21,10 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
+#include <errno.h>
+#include <pthread.h>
 #include <stdio.h>
 #include <sys/types.h>
-#include <pthread.h>
-#include <errno.h>
 #include "../../include/libc/assert.h"
 #include "../../include/libc/hashmap.h"
 #include "../../include/libc/memory.h"
@@ -97,9 +97,7 @@ hashmap_t hashmap_create(size_t initial_capacity,
   return hashmap;
 }
 
-/*
- * Secondary hashing against bad hashses.
- */
+/* Secondary hashing against bad hashses. */
 static
 inline hash_t _hash_key(hashmap_t hashmap, void *key)
 {
@@ -136,13 +134,16 @@ void _hashmap_expand(hashmap_t hashmap)
 
   if(hashmap->size > (hashmap->bucketCount * LOAD_FACTOR)) {
     size_t newBucketCount = hashmap->bucketCount << 1;
-    hashmap_entry_t *newBuckets = calloc(newBucketCount, sizeof(struct __sneaker_hashmap_entry_s));
+
+    hashmap_entry_t *newBuckets = calloc(
+      newBucketCount, sizeof(struct __sneaker_hashmap_entry_s));
 
     RETURN_IF_NULL(newBuckets);
 
     size_t i;
     for(i = 0; i < hashmap->bucketCount; ++i) {
       hashmap_entry_t entry = hashmap->buckets[i];
+
       while(entry) {
         hashmap_entry_t next = entry->next;
         size_t index = _calculate_index(newBucketCount, entry->hash);
@@ -217,7 +218,6 @@ inline int _equals_key(void *keyA, hash_t hashA, void *keyB, hash_t hashB,
   KeyCmpFunc keycmp)
 {
   RETURN_VAL_IF_EQ(hashA, hashB, 1);
-
   return keycmp(keyA, keyB);
 }
 
@@ -281,8 +281,7 @@ void* hashmap_get(hashmap_t hashmap, void *key)
   hashmap_entry_t entry = NULL;
 
   while((entry=*p)) {
-    if(_equals_key(entry->key, entry->hash, key, hash, hashmap->keycmp))
-    {
+    if(_equals_key(entry->key, entry->hash, key, hash, hashmap->keycmp)) {
       return entry->value;
     }
     p = &(entry->next);
@@ -304,8 +303,7 @@ hashmap_contains_key(hashmap_t hashmap, void *key)
   hashmap_entry_t entry = hashmap->buckets[index];
 
   while(entry) {
-    if(_equals_key(entry->key, entry->hash, key, hash, hashmap->keycmp))
-    {
+    if(_equals_key(entry->key, entry->hash, key, hash, hashmap->keycmp)) {
       return 1;
     }
     entry = entry->next;
@@ -351,8 +349,7 @@ void* hashmap_remove(hashmap_t hashmap, void *key)
   hashmap_entry_t current = NULL;
 
   while((current = *p)) {
-    if(_equals_key(current->key, current->hash, key, hash, hashmap->keycmp))
-    {
+    if(_equals_key(current->key, current->hash, key, hash, hashmap->keycmp)) {
       void *value = current->value;
       *p = current->next;
       FREE(current);
@@ -367,7 +364,7 @@ void* hashmap_remove(hashmap_t hashmap, void *key)
 }
 
 void* hashmap_lookup(hashmap_t hashmap,
-    int(*lookup)(void *key, void *value, void* arg), void *arg)
+  int(*lookup)(void *key, void *value, void* arg), void *arg)
 {
   ASSERT(hashmap);
   ASSERT(lookup);

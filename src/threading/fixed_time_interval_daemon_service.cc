@@ -21,23 +21,24 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-// Define `BOOST_SYSTEM_NO_DEPRECATED` to not including deprecated
-// definitions during compilation.
-#define BOOST_SYSTEM_NO_DEPRECATED
-
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include "../../include/threading/fixed_time_interval_daemon_service.h"
 #include "../../include/libc/assert.h"
 
+
 sneaker::threading::fixed_time_interval_daemon_service::fixed_time_interval_daemon_service(
   size_t interval,
-  ExternalHandler external_handler
+  ExternalHandler external_handler,
+  bool wait_for_termination,
+  size_t max_iterations
 ):
-  _interval(interval),
+  sneaker::threading::daemon_service(wait_for_termination),
   _external_handler(external_handler),
-  sneaker::threading::daemon_service(false)
+  _interval(interval),
+  _max_iterations(max_iterations),
+  _iteration_count(0)
 {
   ASSERT(_interval);
   ASSERT(_external_handler);
@@ -71,6 +72,19 @@ void
 sneaker::threading::fixed_time_interval_daemon_service::invoke_external_handler()
 {
   this->_external_handler();
+  this->increment_iteration_count();
+}
+
+void
+sneaker::threading::fixed_time_interval_daemon_service::increment_iteration_count()
+{
+  this->_iteration_count++;
+}
+
+bool
+sneaker::threading::fixed_time_interval_daemon_service::can_continue()
+{
+  return this->_iteration_count < this->_max_iterations;
 }
 
 void
@@ -80,6 +94,10 @@ sneaker::threading::fixed_time_interval_daemon_service::tick_handler(
   sneaker::threading::fixed_time_interval_daemon_service* daemon_service
 )
 {
+  if(!daemon_service->can_continue()) {
+    return;
+  }
+
   t->expires_at(
     t->expires_at() + boost::posix_time::seconds(daemon_service->interval())
   );
