@@ -21,12 +21,72 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Include this file in any test files. */
+/*
+ * Fixture-based test that allows test fixtures to be added in tests,
+ * which are collected and deallocated in teardown.
+ */
 
-#ifndef _TESTING_
-#define _TESTING_
+#ifndef _FIXTURE_BASED_TEST_H_
+#define _FIXTURE_BASED_TEST_H_
 
+
+#include <vector>
 #include "_unittest.h"
-#include "fixture_based_test.h"
 
-#endif /* _TESTING_ */
+
+namespace sneaker {
+
+
+namespace testing {
+
+
+template<class T>
+class fixture_based_test : public ::testing::Test {
+  typedef void(*FixtureTeardownHandler)(T);
+
+public:
+  fixture_based_test(FixtureTeardownHandler);
+
+  void add_fixture(T);
+
+protected:
+  virtual void TearDown();
+
+  std::vector<T> _fixtures;
+  FixtureTeardownHandler _teardown_handler;
+};
+
+
+template<class T>
+sneaker::testing::fixture_based_test<T>::fixture_based_test(
+  FixtureTeardownHandler teardown_handler
+):
+  _teardown_handler(teardown_handler)
+{
+}
+
+template<class T>
+void
+sneaker::testing::fixture_based_test<T>::add_fixture(T fixture)
+{
+  _fixtures.push_back(fixture);
+}
+
+template<class T>
+void
+sneaker::testing::fixture_based_test<T>::TearDown()
+{
+  typename std::vector<T>::iterator itr;
+  for(itr = _fixtures.begin(); itr != _fixtures.end(); itr++) {
+    _teardown_handler(static_cast<T>(*itr));
+  }
+}
+
+
+} /* namespace testing */
+
+
+} /* namespace sneaker */
+
+
+#endif /* _FIXTURE_BASED_TEST_H_ */
