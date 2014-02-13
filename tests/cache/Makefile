@@ -23,20 +23,16 @@ CXX=c++
 CFLAGS=-Wall -Wno-deprecated-writable-strings -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
 
 LIBGTEST=/usr/lib/libgtest.a
+TESTING=../../src/testing/testing.a
 
-LIBRARIES=$(LIBGTEST)
+LIBRARIES=$(LIBGTEST) $(TESTING)
 
-OBJECTS= \
-	../_unittest.o
-
-objects:
+dependencies:
+	cd ../../src/testing/ && make all
 	cd ../../src/cache/ && make all
 
-_unittest.o:
-	cd ../ && $(CXX) $(CFLAGS) -DGTEST_HAS_TR1_TUPLE=0 -c _unittest.cc
-
-generic_cache_unittest.test: objects _unittest.o generic_cache_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) generic_cache_unittest.cc -o generic_cache_unittest.test
+generic_cache_unittest.test: dependencies generic_cache_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBRARIES) generic_cache_unittest.cc -o generic_cache_unittest.test
 
 all: \
 	generic_cache_unittest.test

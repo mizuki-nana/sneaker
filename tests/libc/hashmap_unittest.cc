@@ -24,7 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /* Unit test for `hashmap_t` defined in include/libc/hashmap.h */
 
 
-#include "../_unittest.h"
+#include "../../include/testing/testing.h"
 #include "../../include/libc/assert.h"
 #include "../../include/libc/c_str.h"
 #include "../../include/libc/hash.h"

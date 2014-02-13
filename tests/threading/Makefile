@@ -24,25 +24,22 @@ CXX=c++
 CFLAGS=-Wall -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0 -lboost_system-mt
 
 LIBGTEST=/usr/lib/libgtest.a
+TESTING=../../src/testing/testing.a
 
-LIBRARIES=$(LIBGTEST)
+LIBRARIES=$(LIBGTEST) $(TESTING)
 
 OBJECTS= \
-	../_unittest.o \
 	../../src/threading/daemon_service.o \
 	../../src/threading/fixed_time_interval_daemon_service.o
 
-
-objects:
+dependencies:
+	cd ../../src/testing/ && make all
 	cd ../../src/threading/ && make all
 
-_unittest.o:
-	cd ../ && $(CXX) $(CFLAGS) -DGTEST_HAS_TR1_TUPLE=0 -c _unittest.cc
-
-daemon_service_unittest.test: objects _unittest.o daemon_service_unittest.cc
+daemon_service_unittest.test: dependencies daemon_service_unittest.cc
 	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) daemon_service_unittest.cc -o daemon_service_unittest.test
 
-fixed_time_interval_daemon_service_unittest.test: objects _unittest.o fixed_time_interval_daemon_service_unittest.cc
+fixed_time_interval_daemon_service_unittest.test: dependencies fixed_time_interval_daemon_service_unittest.cc
 	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) fixed_time_interval_daemon_service_unittest.cc -o fixed_time_interval_daemon_service_unittest.test
 
 

@@ -24,7 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /* Unit test for functions defined in include/libc/strutils.h */
 
 #include <string.h>
-#include "../_unittest.h"
+#include "../../include/testing/testing.h"
 #include "../../include/libc/strutils.h"
 
 

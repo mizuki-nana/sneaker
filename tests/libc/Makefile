@@ -25,50 +25,49 @@ CFLAGS=-Wall -Wno-deprecated-writable-strings -arch x86_64 -DGTEST_HAS_TR1_TUPLE
 
 LIBGTEST=/usr/lib/libgtest.a
 LIBC=../../src/libc/libc.a
+TESTING=../../src/testing/testing.a
 
-LIBRARIES=$(LIBGTEST) $(LIBC)
+LIBRARIES=$(LIBGTEST) $(LIBC) $(TESTING)
 
-OBJECTS=../_unittest.o
-
-
-libc:
+dependencies:
+	cd ../../src/testing/ && make all
 	cd ../../src/libc/ && make all
 
-array_unittest.test: libc array_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) array_unittest.cc -o array_unittest.test
+array_unittest.test: dependencies array_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBRARIES) array_unittest.cc -o array_unittest.test
 
-bitmap_unittest.test: libc bitmap_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) bitmap_unittest.cc -o bitmap_unittest.test
+bitmap_unittest.test: dependencies bitmap_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBRARIES) bitmap_unittest.cc -o bitmap_unittest.test
 
-cutils_unittest.test: libc cutils_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) cutils_unittest.cc -o cutils_unittest.test
+cutils_unittest.test: dependencies cutils_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBRARIES) cutils_unittest.cc -o cutils_unittest.test
 
-dict_unittest.test: libc dict_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) dict_unittest.cc -o dict_unittest.test
+dict_unittest.test: dependencies dict_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBRARIES) dict_unittest.cc -o dict_unittest.test
 
-hash_unittest.test: libc hashmap_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) hash_unittest.cc -o hash_unittest.test
+hash_unittest.test: dependencies hashmap_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBRARIES) hash_unittest.cc -o hash_unittest.test
 
-hashmap_unittest.test: libc hashmap_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) hashmap_unittest.cc -o hashmap_unittest.test
+hashmap_unittest.test: dependencies hashmap_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBRARIES) hashmap_unittest.cc -o hashmap_unittest.test
 
-queue_unittest.test: libc queue_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) queue_unittest.cc -o queue_unittest.test
+queue_unittest.test: dependencies queue_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBRARIES) queue_unittest.cc -o queue_unittest.test
 
-stack_unittest.test: libc stack_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) -D_STRUCT_SIGALTSTACK -D_STRUCT_UCONTEXT $(OBJECTS) stack_unittest.cc -o stack_unittest.test
+stack_unittest.test: dependencies stack_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBRARIES) -D_STRUCT_SIGALTSTACK -D_STRUCT_UCONTEXT stack_unittest.cc -o stack_unittest.test
 
-strbuf_unittest.test: libc strbuf_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) strbuf_unittest.cc -o strbuf_unittest.test
+strbuf_unittest.test: dependencies strbuf_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBRARIES) strbuf_unittest.cc -o strbuf_unittest.test
 
-strutils_unittest.test: libc strutils_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) strutils_unittest.cc -o strutils_unittest.test
+strutils_unittest.test: dependencies strutils_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBRARIES) strutils_unittest.cc -o strutils_unittest.test
 
-utils_unittest.test: libc utils_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) utils_unittest.cc -o utils_unittest.test
+utils_unittest.test: dependencies utils_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBRARIES) utils_unittest.cc -o utils_unittest.test
 
-uuid_unittest.test: libc uuid_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) -D__DARWIN_C_LEVEL=0 -D_UUID_T $(OBJECTS) uuid_unittest.cc -o uuid_unittest.test
+uuid_unittest.test: dependencies uuid_unittest.cc
+	$(CXX) $(CFLAGS) $(LIBRARIES) -D__DARWIN_C_LEVEL=0 -D_UUID_T uuid_unittest.cc -o uuid_unittest.test
 
 
 all: 											\

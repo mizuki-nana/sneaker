@@ -25,7 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * defined in include/threading/fixed_time_interval_daemon_service.h */
 
 #include <stdio.h>
-#include "../_unittest.h"
+#include "../../include/testing/testing.h"
 #include "../../include/threading/fixed_time_interval_daemon_service.h"
 
 

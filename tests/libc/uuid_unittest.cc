@@ -25,7 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <limits.h>
 #include "../../include/libc/uuid.h"  /* this has to come before _unittest.h */
-#include "../_unittest.h"
+#include "../../include/testing/testing.h"
 #include "../../include/libc/assert.h"
 
 

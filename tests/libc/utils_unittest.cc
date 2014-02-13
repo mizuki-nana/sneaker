@@ -24,7 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /* Unit tests for functions defined in include/libc/utils.h */
 
 #include <string.h>
-#include "../_unittest.h"
+#include "../../include/testing/testing.h"
 #include "../../include/libc/assert.h"
 #include "../../include/libc/utils.h"
 

@@ -23,7 +23,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for include/container/assorted_value_map.h */
 
-#include "../_unittest.h"
+#include "../../include/testing/testing.h"
 #include "../../include/libc/assert.h"
 #include "../../include/container/assorted_value_map.h"
 

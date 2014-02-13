@@ -20,34 +20,23 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 CXX=c++
-CFLAGS=-Wall -Wno-deprecated-writable-strings -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
-
-LIBGTEST=/usr/lib/libgtest.a
-TESTING=../../src/testing/testing.a
-
-LIBRARIES=$(LIBGTEST) $(TESTING)
-
-OBJECTS= \
-	../../src/libc/libc.a
-
-dependencies:
-	cd ../../src/libc/ && make all
-
-_unittest.o:
-	cd ../ && $(CXX) $(CFLAGS) -DGTEST_HAS_TR1_TUPLE=0 -c _unittest.cc
-
-assorted_value_map_unittest.test: dependencies assorted_value_map_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) assorted_value_map_unittest.cc -o assorted_value_map_unittest.test
-
-reservation_map_unittest.test: dependencies reservation_map_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) -D__DARWIN_C_LEVEL=0 -D_UUID_T reservation_map_unittest.cc -o reservation_map_unittest.test
+CFLAGS=-Wall -g -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
+AR=ar
+ARFLAGS=rvs
 
 
-all: \
-	assorted_value_map_unittest.test \
-	reservation_map_unittest.test
+_unittest.o: _unittest.cc
+	$(CXX) $(CFLAGS) -c _unittest.cc
+
+obj: \
+	_unittest.o
+
+testing.a: obj
+	$(AR) $(ARFLAGS) testing.a *.o
+
+all: testing.a
 
 
 .PHONY : clean
 clean:
-	rm *.gch *.o *.a *.out *.test
+	rm *.gch *.out *.o *.a

@@ -21,52 +21,24 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for `sneaker::threading::daemon_service`
- * defined in include/threading/daemon_service.h */
+/*
+ * Program entry point for all test files.
+ * Any executable tests compiled must be linked with this file.
+ */
 
-#include "../../include/testing/testing.h"
-#include "../../include/threading/daemon_service.h"
+#include "../../include/testing/_unittest.h"
 
+using ::testing::EmptyTestEventListener;
+using ::testing::InitGoogleTest;
+using ::testing::Test;
+using ::testing::TestCase;
+using ::testing::TestEventListeners;
+using ::testing::TestInfo;
+using ::testing::TestPartResult;
+using ::testing::UnitTest;
 
-class dummy_daemon_service : public sneaker::threading::daemon_service {
-public:
-  dummy_daemon_service(int num, bool wait_for_termination=false):
-    daemon_service(wait_for_termination),
-    _num(num)
-  {
-  }
-
-  virtual void handle() {
-    this->_num += 1;
-  }
-
-  int num() {
-    return this->_num;
-  }
-
-private:
-  int _num;
-};
-
-
-class DaemonServiceUnitTest : public ::testing::Test {};
-
-
-TEST_F(DaemonServiceUnitTest, TestRunDaemonAsynchronously)
+int main(int argc, char **argv)
 {
-  dummy_daemon_service dummy_daemon(5);
-  dummy_daemon.start();
-
-  // sleep for one second in main thread to wait for daemon thread to process.
-  sleep(1);
-
-  ASSERT_EQ(5 + 1, dummy_daemon.num());
-}
-
-TEST_F(DaemonServiceUnitTest, TestRunDaemonSynchronously)
-{
-  dummy_daemon_service dummy_daemon(5, true);
-  dummy_daemon.start();
-
-  ASSERT_EQ(5 + 1, dummy_daemon.num());
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }
