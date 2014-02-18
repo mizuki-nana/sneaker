@@ -100,7 +100,7 @@ TEST_F(GenericCacheTest, TestInsertAndFindOneItem)
 {
   bool res;
 
-  c_str item = "abc";
+  c_str item = const_cast<c_str>("abc");
 
   res = _cache->put(item);
   ASSERT_EQ(true, res);
@@ -120,9 +120,9 @@ TEST_F(GenericCacheTest, TestInsertAndFindMultipleItems)
 {
   bool res;
 
-  c_str item1 = "Today is a good day!";
-  c_str item2 = "An apple a day, keep the doctor away.";
-  c_str item3 = "Better be crippled in body, than be corrputed in mind.";
+  c_str item1 = const_cast<c_str>("Today is a good day!");
+  c_str item2 = const_cast<c_str>("An apple a day, keep the doctor away.");
+  c_str item3 = const_cast<c_str>("Better be crippled in body, than be corrputed in mind.");
 
   res = _cache->put(item1); ASSERT_EQ(true, res);
   res = _cache->put(item2); ASSERT_EQ(true, res);
@@ -159,7 +159,7 @@ TEST_F(GenericCacheTest, TestInsertWithTheSameKey)
 {
   bool res;
 
-  c_str item = "xyz";
+  c_str item = const_cast<c_str>("xyz");
 
   res = _cache->put(item);
   ASSERT_EQ(true, res);
@@ -181,15 +181,19 @@ TEST_F(GenericCacheTest, TestEraseOnNonExistentKey)
 {
   bool res;
 
+  c_str non_existent_key_1 = const_cast<c_str>("some key 1");
+  c_str non_existent_key_2 = const_cast<c_str>("some key 2");
+  c_str non_existent_key_3 = const_cast<c_str>("some key 3");
+
   ASSERT_EQ(0, _cache->size());
 
-  res = _cache->erase("some key 1");
+  res = _cache->erase(non_existent_key_1);
   ASSERT_EQ(false, res);
 
-  res = _cache->erase("some key 2");
+  res = _cache->erase(non_existent_key_2);
   ASSERT_EQ(false, res);
 
-  res = _cache->erase("some key 3");
+  res = _cache->erase(non_existent_key_3);
   ASSERT_EQ(false, res);
 
   ASSERT_EQ(0, _cache->size());

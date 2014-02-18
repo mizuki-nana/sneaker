@@ -58,7 +58,6 @@ TEST_F(FixedTimeIntervalDaemonServiceUnitTest, TestRunDaemonSynchronously)
   daemon_service.start();
 
   printf("Dummy handler should ran 5 times...\n");
-  // sleep(10);
 
   return;
 }

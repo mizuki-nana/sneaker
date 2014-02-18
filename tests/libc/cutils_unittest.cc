@@ -42,12 +42,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  **********************************************/
 class ItoaUnitTest : public ::testing::Test {
 public:
-  void test(int, int, char*);
+  void test(int, int, const char*);
 };
 
 
 void
-ItoaUnitTest::test(int base, int n, char* expected_str)
+ItoaUnitTest::test(int base, int n, const char* expected_str)
 {
   char *str = NULL;
   str = itoa(n, str, base);
@@ -154,12 +154,12 @@ TEST_F(ItoaUnitTest, TestBase8PositiveIntegerToASCII_5)
  ***************************************/
 class AtoiUnitTest : public ::testing::Test {
 public:
-  void test(char*, int);
+  void test(const char*, int);
 };
 
 
 void
-AtoiUnitTest::test(char* input_str, int expected_int)
+AtoiUnitTest::test(const char* input_str, int expected_int)
 {
   ASSERT_EQ(expected_int, atoi(input_str));
 }

@@ -20,34 +20,30 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 CXX=c++
-CFLAGS=-Wall -Wno-deprecated-writable-strings -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
+CFLAGS=-Wall -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
 
 LIBGTEST=/usr/lib/libgtest.a
+LIBC=../../src/libc/libc.a
 TESTING=../../src/testing/testing.a
 
-LIBRARIES=$(LIBGTEST) $(TESTING)
+LIBRARIES=$(LIBGTEST) $(LIBC) $(TESTING)
+	
 
-OBJECTS= \
-	../../src/libc/libc.a
+INPUTS=assorted_value_map_unittest 
+INPUTS_SPECIAL=reservation_map_unittest
 
-dependencies:
-	cd ../../src/libc/ && make all
+OUTPUTS=assorted_value_map_unittest.test reservation_map_unittest.test
 
-_unittest.o:
-	cd ../ && $(CXX) $(CFLAGS) -DGTEST_HAS_TR1_TUPLE=0 -c _unittest.cc
+inputs:
+	-for f in $(INPUTS); do $(CXX) $(CFLAGS) $(LIBRARIES) $$f.cc -o $$f.test; done
 
-assorted_value_map_unittest.test: dependencies assorted_value_map_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) assorted_value_map_unittest.cc -o assorted_value_map_unittest.test
-
-reservation_map_unittest.test: dependencies reservation_map_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) -D__DARWIN_C_LEVEL=0 -D_UUID_T reservation_map_unittest.cc -o reservation_map_unittest.test
+inputs_special:
+	-for f in $(INPUTS_SPECIAL); do $(CXX) $(CFLAGS) $(LIBRARIES) -D__DARWIN_C_LEVEL=0 -D_UUID_T $$f.cc -o $$f.test; done
 
 
-all: \
-	assorted_value_map_unittest.test \
-	reservation_map_unittest.test
+all: inputs inputs_special
 
 
-.PHONY : clean
+.PHONY: clean
 clean:
-	rm *.gch *.o *.a *.out *.test
+	-for f in $(OUTPUTS); do rm -f $$f; done;

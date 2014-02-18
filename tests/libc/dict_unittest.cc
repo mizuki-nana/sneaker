@@ -54,21 +54,48 @@ typedef struct {
 
 
 KeyVal fruits[] = {
-  {"a", "apple"},
-  {"b", "banana"},
-  {"c", "coconut"}
+  {
+    (c_str)"a",
+    (c_str)"apple"
+  },
+  {
+    (c_str)"b",
+    (c_str)"banana"
+  },
+  {
+    (c_str)"c",
+    (c_str)"coconut"
+  }
 };
 
 KeyVal sky[] = {
-  {"a", "air"},
-  {"b", "balloon"},
-  {"c", "cloud"}
+  {
+    (c_str)"a",
+    (c_str)"air"
+  },
+  {
+    (c_str)"b",
+    (c_str)"balloon"
+  },
+  {
+    (c_str)"c",
+    (c_str)"cloud"
+  }
 };
 
 KeyVal vehicles[] = {
-  {"a", "airplane"},
-  {"b", "boat"},
-  {"c", "car"}
+  {
+    (c_str)"a",
+    (c_str)"airplane"
+  },
+  {
+    (c_str)"b",
+    (c_str)"boat"
+  },
+  {
+    (c_str)"c",
+    (c_str)"car"
+  }
 };
 
 

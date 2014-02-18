@@ -28,26 +28,17 @@ TESTING=../../src/testing/testing.a
 
 LIBRARIES=$(LIBGTEST) $(TESTING)
 
-OBJECTS= \
-	../../src/threading/daemon_service.o \
-	../../src/threading/fixed_time_interval_daemon_service.o
+OBJECTS=../../src/threading/daemon_service.o ../../src/threading/fixed_time_interval_daemon_service.o
 
-dependencies:
-	cd ../../src/testing/ && make all
-	cd ../../src/threading/ && make all
+INPUTS=daemon_service_unittest fixed_time_interval_daemon_service_unittest
 
-daemon_service_unittest.test: dependencies daemon_service_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) daemon_service_unittest.cc -o daemon_service_unittest.test
-
-fixed_time_interval_daemon_service_unittest.test: dependencies fixed_time_interval_daemon_service_unittest.cc
-	$(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) fixed_time_interval_daemon_service_unittest.cc -o fixed_time_interval_daemon_service_unittest.test
+OUTPUTS=daemon_service_unittest.test fixed_time_interval_daemon_service_unittest.test
 
 
-all: \
-	daemon_service_unittest.test \
-	fixed_time_interval_daemon_service_unittest.test
+all:
+	-for f in $(INPUTS); do $(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) $$f.cc -o $$f.test; done
 
 
-.PHONY : clean
+.PHONY: clean
 clean:
-	rm *.gch *.o *.a *.out *.test
+	-for f in $(OUTPUTS); do rm -f $$f; done;

@@ -25,6 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "../../include/testing/testing.h"
 #include "../../include/libc/assert.h"
+#include "../../include/libc/c_str.h"
 #include "../../include/container/assorted_value_map.h"
 
 
@@ -182,8 +183,8 @@ class AssortedValueMapUnitTest : public AssortedValueMapUnitTestBase {};
 
 TEST_F(AssortedValueMapUnitTest, TestSwap)
 {
-  sneaker::container::assorted_value_map<char*, int, bool, char*> map1;
-  sneaker::container::assorted_value_map<char*, int, bool, char*> map2;
+  sneaker::container::assorted_value_map<cc_str, int, bool, cc_str> map1;
+  sneaker::container::assorted_value_map<cc_str, int, bool, cc_str> map2;
 
   map1.insert("Grape",      60,  false, "Too sour, don't like...");
   map1.insert("Watermalon", 90,  false, "The best in the summer");
@@ -202,31 +203,31 @@ TEST_F(AssortedValueMapUnitTest, TestSwap)
   ASSERT_EQ(2, map2.size());
 
   // check map1
-  int   map1_a1 = map1.get<int,   0>("Apple");      ASSERT_EQ(map1_a1, 100);
-  bool  map1_a2 = map1.get<bool,  1>("Apple");      ASSERT_EQ(map1_a2, false);
-  char* map1_a3 = map1.get<char*, 2>("Apple");      ASSERT_EQ(map1_a3, "best thing ever :-)");
+  int    map1_a1 = map1.get<int,    0>("Apple");      ASSERT_EQ(map1_a1, 100);
+  bool   map1_a2 = map1.get<bool,   1>("Apple");      ASSERT_EQ(map1_a2, false);
+  cc_str map1_a3 = map1.get<cc_str, 2>("Apple");      ASSERT_EQ(map1_a3, "best thing ever :-)");
 
-  int   map1_b1 = map1.get<int,   0>("Orange");     ASSERT_EQ(map1_b1, 80);
-  bool  map1_b2 = map1.get<bool,  1>("Orange");     ASSERT_EQ(map1_b2, true);
-  char* map1_b3 = map1.get<char*, 2>("Orange");     ASSERT_EQ(map1_b3, "I'm lovin' it <3");
+  int    map1_b1 = map1.get<int,    0>("Orange");     ASSERT_EQ(map1_b1, 80);
+  bool   map1_b2 = map1.get<bool,   1>("Orange");     ASSERT_EQ(map1_b2, true);
+  cc_str map1_b3 = map1.get<cc_str, 2>("Orange");     ASSERT_EQ(map1_b3, "I'm lovin' it <3");
 
-  int   map1_c1 = map1.get<int,   0>("Bananna");    ASSERT_EQ(map1_c1, 90);
-  bool  map1_c2 = map1.get<bool,  1>("Bananna");    ASSERT_EQ(map1_c2, false);
-  char* map1_c3 = map1.get<char*, 2>("Bananna");    ASSERT_EQ(map1_c3, "get ALL the Potassium!!!");
+  int    map1_c1 = map1.get<int,    0>("Bananna");    ASSERT_EQ(map1_c1, 90);
+  bool   map1_c2 = map1.get<bool,   1>("Bananna");    ASSERT_EQ(map1_c2, false);
+  cc_str map1_c3 = map1.get<cc_str, 2>("Bananna");    ASSERT_EQ(map1_c3, "get ALL the Potassium!!!");
 
   // check map2
-  int   map2_a1 = map2.get<int,   0>("Grape");      ASSERT_EQ(map2_a1, 60);
-  bool  map2_a2 = map2.get<bool,  1>("Grape");      ASSERT_EQ(map2_a2, false);
-  char* map2_a3 = map2.get<char*, 2>("Grape");      ASSERT_EQ(map2_a3, "Too sour, don't like...");
+  int    map2_a1 = map2.get<int,    0>("Grape");      ASSERT_EQ(map2_a1, 60);
+  bool   map2_a2 = map2.get<bool,   1>("Grape");      ASSERT_EQ(map2_a2, false);
+  cc_str map2_a3 = map2.get<cc_str, 2>("Grape");      ASSERT_EQ(map2_a3, "Too sour, don't like...");
 
-  int   map2_b1 = map2.get<int,   0>("Watermalon"); ASSERT_EQ(map2_b1, 90);
-  bool  map2_b2 = map2.get<bool,  1>("Watermalon"); ASSERT_EQ(map2_b2, false);
-  char* map2_b3 = map2.get<char*, 2>("Watermalon"); ASSERT_EQ(map2_b3, "The best in the summer");
+  int    map2_b1 = map2.get<int,    0>("Watermalon"); ASSERT_EQ(map2_b1, 90);
+  bool   map2_b2 = map2.get<bool,   1>("Watermalon"); ASSERT_EQ(map2_b2, false);
+  cc_str map2_b3 = map2.get<cc_str, 2>("Watermalon"); ASSERT_EQ(map2_b3, "The best in the summer");
 }
 
 TEST_F(AssortedValueMapUnitTest, TestFind)
 {
-  typedef sneaker::container::assorted_value_map<char*, int, bool> _map_type;
+  typedef sneaker::container::assorted_value_map<cc_str, int, bool> _map_type;
   _map_type map;
 
   _map_type::iterator itr = map.find("Apple");

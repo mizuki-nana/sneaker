@@ -20,23 +20,29 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 CXX=c++
-CFLAGS=-Wall -g -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
+CFLAGS=-Wall -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
 AR=ar
 ARFLAGS=rvs
 
 
-_unittest.o: _unittest.cc
-	$(CXX) $(CFLAGS) -c _unittest.cc
+INPUTS = _unittest.cc
 
-obj: \
-	_unittest.o
+OBJECTS = _unittest.o
 
-testing.a: obj
-	$(AR) $(ARFLAGS) testing.a *.o
+LIBTESTING = testing.a
 
-all: testing.a
+OUTPUTS = $(OBJECTS) $(LIBTESTING)
 
 
-.PHONY : clean
+objects: $(INPUTS)
+	-for f in $(INPUTS); do $(CXX) $(CFLAGS) -c $$f; done
+
+testing.a: objects
+	$(AR) $(ARFLAGS) $(LIBTESTING) $(OBJECTS)
+
+all: objects testing.a
+
+
+.PHONY: clean
 clean:
-	rm *.gch *.out *.o *.a
+	-for f in $(OUTPUTS); do rm -f $$f; done;

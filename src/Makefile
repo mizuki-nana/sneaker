@@ -19,10 +19,14 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-CXX=c++
-CFLAGS=-Wall -std=c++11 -arch x86_64
+SUBDIRS = testing libc container cache threading
 
+
+.PHONY: all
 all:
+	-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir all;); done
+
 
 .PHONY: clean
 clean:
+	-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir clean;); done

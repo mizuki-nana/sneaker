@@ -21,66 +21,29 @@
 
 CC=cc
 CXX=c++
-CFLAGS=-Wall -arch x86_64
+CFLAGS=-Wall -arch x86_64 -D_STRUCT_SIGALTSTACK -D_STRUCT_UCONTEXT -D_UUID_T
 AR=ar
 ARFLAGS=rvs
 
-array.o: array.c
-	$(CC) $(CFLAGS) -c array.c
 
-bitmap.o: bitmap.c
-	$(CC) $(CFLAGS) -c bitmap.c
+INPUTS = array.c bitmap.c cutils.c dict.c hash.c hashmap.c queue.c stack.c strbuf.c strutils.c utils.c uuid.c
 
-cutils.o:  cutils.c
-	$(CC) $(CFLAGS) -c cutils.c
+OBJECTS = array.o bitmap.o cutils.o dict.o hash.o hashmap.o queue.o stack.o strbuf.o strutils.o utils.o uuid.o
 
-dict.o: dict.c
-	$(CC) $(CFLAGS) -c dict.c
+LIBC = libc.a
 
-hash.o: hash.c
-	$(CC) $(CFLAGS) -c hash.c
-
-hashmap.o: hashmap.c
-	$(CC) $(CFLAGS) -c hashmap.c
-
-queue.o: queue.c
-	$(CC) $(CFLAGS) -c queue.c
-
-stack.o: stack.c
-	$(CC) $(CFLAGS) -c -D_STRUCT_SIGALTSTACK -D_STRUCT_UCONTEXT stack.c
-
-strbuf.o: strbuf.c
-	$(CC) $(CFLAGS) -c strbuf.c
-
-strutils.o: strutils.c
-	$(CC) $(CFLAGS) -c strutils.c
-
-utils.o: utils.c
-	$(CC) $(CFLAGS) -c utils.c
-
-uuid.o: uuid.c
-	$(CC) $(CFLAGS) -c -D_UUID_T uuid.c
+OUTPUTS = $(OBJECTS) $(LIBC)
 
 
-obj: 					\
-	array.o   	\
-	bitmap.o 		\
-	cutils.o    \
-	dict.o  		\
-	hash.o  		\
-	hashmap.o 	\
-	queue.o 		\
-	stack.o 		\
-	strbuf.o 		\
-	strutils.o 	\
-	utils.o 		\
-	uuid.o
+objects: $(INPUTS)
+	-for f in $(INPUTS); do $(CC) $(CFLAGS) -c $$f; done
 
-libc.a: obj
-	$(AR) $(ARFLAGS) libc.a *.o
+libc.a: objects
+	$(AR) $(ARFLAGS) $(LIBC) $(OBJECTS)
 
-all: libc.a
+all: objects libc.a
 
-.PHONY : clean
+
+.PHONY: clean
 clean:
-	rm *.gch *.o *.a *.out
+	-for f in $(OUTPUTS); do rm -f $$f; done;

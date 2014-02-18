@@ -20,20 +20,21 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 CXX=c++
-CFLAGS=-Wall -g -std=c++11 -arch x86_64
+CFLAGS=-Wall -std=c++11 -arch x86_64
 
-daemon_service.o: daemon_service.cc
-	$(CXX) $(CFLAGS) -c daemon_service.cc
+INPUTS = daemon_service.cc fixed_time_interval_daemon_service.cc
 
-fixed_time_interval_daemon_service.o: fixed_time_interval_daemon_service.cc
-	$(CXX) $(CFLAGS) -c fixed_time_interval_daemon_service.cc
+OBJECTS = daemon_service.o fixed_time_interval_daemon_service.o
 
-
-all: \
-	daemon_service.o \
-	fixed_time_interval_daemon_service.o
+OUTPUTS = $(OBJECTS)
 
 
-.PHONY : clean
+objects: $(INPUTS)
+	-for f in $(INPUTS); do $(CXX) $(CFLAGS) -c $$f; done
+
+all: objects
+
+
+.PHONY: clean
 clean:
-	rm *.gch *.out *.o *.a
+	-for f in $(OUTPUTS); do rm -f $$f; done;

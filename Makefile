@@ -19,10 +19,51 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-CXX=c++
-CFLAGS=-Wall -std=c++11 -arch x86_64
+# Top level Makefile.
 
-all:
+AR=ar
+ARFLAGS=rvs
+CPFLAGS=-vr
+
+SRC=src
+TESTS=tests
+SUBDIRS=$(SRC) $(TESTS)
+
+LIBSNEAKER=libsneaker.a
+
+
+.PHONY: build
+build:
+	-for dir in $(SRC); do ($(MAKE) -C $$dir all;); done
+
+
+.PHONY:
+libsneaker.a:
+	find . -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER)
+
+
+.PHONY: all
+all: build libsneaker.a
+
+
+.PHONY: tests
+tests: build
+	-for dir in $(TESTS); do ($(MAKE) -C $$dir all;); done
+
 
 .PHONY: clean
 clean:
+	-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir clean;); done
+
+
+.PHONY: install
+install: all
+	mkdir -p /usr/local/libsneaker/include/
+	cp -vr include/* /usr/local/libsneaker/include/
+	cp -vr libsneaker.a /usr/local/lib/
+
+
+.PHONY: uninstall
+uninstall:
+	rm -rf /usr/local/libsneaker/
+	rm -rf /usr/local/lib/libsneaker.a
