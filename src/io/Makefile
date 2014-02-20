@@ -19,54 +19,24 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# Top level Makefile.
-
-VERSION=v0.1.2
-
-AR=ar
-ARFLAGS=rvs
-CPFLAGS=-vr
-
-INCLUDE=./include
-SRC=./src
-TESTS=./tests
-SUBDIRS=$(SRC) $(TESTS)
-
-LIBSNEAKER=libsneaker.a
-LIBSNEAKER_GZIP=$(LIBSNEAKER)-$(VERSION).tar.gz
+CXX=c++
+CFLAGS=-Wall -std=c++11 -arch x86_64
 
 
-.PHONY: build
-build:
-	-for dir in $(SRC); do ($(MAKE) -C $$dir all;); done
+INPUTS = file_reader.cc
+
+OBJECTS = file_reader.o
+
+OUTPUTS = $(OBJECTS)
 
 
-.PHONY: all
-all: build
-	find . -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER)
+objects: $(INPUTS)
+	-for f in $(INPUTS); do $(CXX) $(CFLAGS) -c $$f; done
 
 
-.PHONY: tests
-tests: build
-	-for dir in $(TESTS); do ($(MAKE) -C $$dir all;); done
+all: objects
 
 
 .PHONY: clean
 clean:
-	-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir clean;); done
-	rm -rf ./$(LIBSNEAKER)
-
-.PHONY: install
-install: all
-	mkdir -p /usr/local/include/sneaker
-	cp -vr include/* /usr/local/include/sneaker
-	cp -vr libsneaker.a /usr/local/lib/
-	tar -zcvf $(LIBSNEAKER_GZIP) $(INCLUDE) $(SRC) $(TESTS) LICENSE Makefile README.md ./*.png
-
-
-.PHONY: uninstall
-uninstall:
-	rm -rf /usr/local/include/sneaker
-	rm -rf /usr/local/lib/libsneaker.a
-	rm -rf ./*.tar.gz
-	rm -rf ./$(LIBSNEAKER)
+	-for f in $(OUTPUTS); do rm -f $$f; done;

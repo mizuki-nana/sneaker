@@ -21,22 +21,39 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
+/* Thin file reader abstraction */
 
-/* Defines version number of the build of libsneaker.a */
+#ifndef _FILE_READER_H_
+#define _FILE_READER_H_
 
-
-#ifndef _SNEAKER_VERSION_H_
-#define _SNEAKER_VERSION_H_
-
-
-// SNEAKER_VERSION % 100 is the patch level.
-// SNEAKER_VERSION / 100 % 1000 is the minor version.
-// SNEAKER_VERSION / 100000 is the major version.
-#define SNEAKER_VERSION 001200
+#include <boost/smart_ptr.hpp>
+#include "../libc/c_str.h"
 
 
-// Canonical version of library.
-#define SNEAKER_LIB_VERSION "0.12"
+namespace sneaker {
 
 
-#endif /* _SNEAKER_VERSION_H_ */
+namespace io {
+
+
+class file_reader {
+public:
+  file_reader();
+  file_reader(const c_str);
+
+  const c_str file_path() const;
+  void set_path(const c_str);
+
+  bool read_file(c_str*) const;
+protected:
+  boost::scoped_ptr<char> _path;
+};
+
+
+} /* namespace io */
+
+
+} /* namespace sneaker */
+
+
+#endif /* _FILE_READER_H_ */
