@@ -21,12 +21,15 @@
 
 # Top level Makefile.
 
+VERSION=v0.1.1
+
 AR=ar
 ARFLAGS=rvs
 CPFLAGS=-vr
 
-SRC=src
-TESTS=tests
+INCLUDE=./include
+SRC=./src
+TESTS=./tests
 SUBDIRS=$(SRC) $(TESTS)
 
 LIBSNEAKER=libsneaker.a
@@ -58,12 +61,14 @@ clean:
 
 .PHONY: install
 install: all
-	mkdir -p /usr/local/libsneaker/include/
-	cp -vr include/* /usr/local/libsneaker/include/
+	mkdir -p /usr/local/include/sneaker
+	cp -vr include/* /usr/local/include/sneaker
 	cp -vr libsneaker.a /usr/local/lib/
+	tar -zcvf libsneaker-$(VERSION).tar.gz $(INCLUDE) $(SRC) $(TESTS) LICENSE Makefile README.md ./*.png
 
 
 .PHONY: uninstall
 uninstall:
 	rm -rf /usr/local/libsneaker/
 	rm -rf /usr/local/lib/libsneaker.a
+	rm -rf ./*.tar.gz
