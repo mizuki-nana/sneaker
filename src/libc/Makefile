@@ -26,9 +26,9 @@ AR=ar
 ARFLAGS=rvs
 
 
-INPUTS = array.c bitmap.c cutils.c dict.c hash.c hashmap.c queue.c stack.c strbuf.c strutils.c utils.c uuid.c
+INPUTS = array.c bitmap.c cutils.c dict.c hash.c hashmap.c math.c queue.c stack.c strbuf.c strutils.c utils.c uuid.c
 
-OBJECTS = array.o bitmap.o cutils.o dict.o hash.o hashmap.o queue.o stack.o strbuf.o strutils.o utils.o uuid.o
+OBJECTS = array.o bitmap.o cutils.o dict.o hash.o hashmap.o math.o queue.o stack.o strbuf.o strutils.o utils.o uuid.o
 
 LIBC = libc.a
 

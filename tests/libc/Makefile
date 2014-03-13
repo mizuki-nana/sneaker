@@ -35,6 +35,7 @@ INPUTS= array_unittest \
 				dict_unittest \
 				hash_unittest \
 				hashmap_unittest \
+				math_unittest \
 				queue_unittest \
 				strbuf_unittest \
 				strutils_unittest \
@@ -50,6 +51,7 @@ OUTPUTS= array_unittest.test \
 				dict_unittest.test \
 				hash_unittest.test \
 				hashmap_unittest.test \
+				math_unittest.test \
 				queue_unittest.test \
 				stack_unittest.test \
 				strbuf_unittest.test \
