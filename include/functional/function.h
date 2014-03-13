@@ -51,11 +51,7 @@ public:
 
   const function<R, Args...>& operator=(_F);
 
-  // const function<R, Args...>& operator=(void*);
-
-  R operator() (Args... args);
-
-  // R operator() ();
+  R operator() (Args... args) const;
 
   operator _F();
 
@@ -95,28 +91,12 @@ sneaker::functional::function<R, Args...>::operator=(_F func)
   return *this;
 }
 
-// template<class R, class... Args>
-// const _MyType<R, Args...>&
-// sneaker::functional::function<R, Args...>::operator=(void* func)
-// {
-//   ASSERT(func);
-//   _func = reinterpret_cast<_F>(func);
-//   return *this;
-// }
-
 template<class R, class... Args>
 R
-sneaker::functional::function<R, Args...>::operator() (Args... args)
+sneaker::functional::function<R, Args...>::operator() (Args... args) const
 {
   return _func(args...);
 }
-
-// template<class R, class... Args>
-// R
-// sneaker::functional::function<R, Args...>::operator() ()
-// {
-//   return _func();
-// }
 
 template<class R, class... Args>
 sneaker::functional::function<R, Args...>::operator _F()
