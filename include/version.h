@@ -32,11 +32,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // SNEAKER_VERSION % 100 is the patch level.
 // SNEAKER_VERSION / 100 % 1000 is the minor version.
 // SNEAKER_VERSION / 100000 is the major version.
-#define SNEAKER_VERSION 001200
+#define SNEAKER_VERSION 001300
 
 
 // Canonical version of library.
-#define SNEAKER_LIB_VERSION "0.12"
+#define SNEAKER_LIB_VERSION "0.13"
 
 
 #endif /* _SNEAKER_VERSION_H_ */

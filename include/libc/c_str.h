@@ -23,10 +23,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Redefinitions of C-string types. */
 
-#ifndef _C_STR_H_
-#define _C_STR_H_
+#ifndef SNEAKER_C_STR_H_
+#define SNEAKER_C_STR_H_
+
 
 typedef char* c_str;
 typedef const char* cc_str;
 
-#endif /* _C_STR_H_ */
+
+#endif /* SNEAKER_C_STR_H_ */

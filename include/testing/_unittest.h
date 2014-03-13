@@ -21,9 +21,9 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-#ifndef _UNIT_TEST_H_
-#define _UNIT_TEST_H_
+#ifndef SNEAKER_UNIT_TEST_H_
+#define SNEAKER_UNIT_TEST_H_
 
 #include <gtest/gtest.h>
 
-#endif /* _UNIT_TEST_H_ */
+#endif /* SNEAKER_UNIT_TEST_H_ */

@@ -23,8 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Queue - FIFO storage container. */
 
-#ifndef _QUEUE_H_
-#define _QUEUE_H_
+#ifndef SNEAKER_QUEUE_H_
+#define SNEAKER_QUEUE_H_
 
 #include <stddef.h>
 
@@ -55,4 +55,4 @@ void queue_free(queue_t *queue);
 #endif
 
 
-#endif /* _QUEUE_H_ */
+#endif /* SNEAKER_QUEUE_H_ */

@@ -26,8 +26,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string.h>
 #include <errno.h>
 
-#ifndef _MEMORY_H_
-#define _MEMORY_H_
+#ifndef SNEAKER_MEMORY_H_
+#define SNEAKER_MEMORY_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -152,4 +152,4 @@ extern "C" {
 #endif
 
 
-#endif /* _MEMORY_H_ */
+#endif /* SNEAKER_MEMORY_H_ */

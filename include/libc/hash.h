@@ -23,8 +23,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Hash fucntion. */
 
-#ifndef _HASH_H_
-#define _HASH_H_
+#ifndef SNEAKER_HASH_H_
+#define SNEAKER_HASH_H_
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -51,4 +52,5 @@ hash_t hash_robert_jenkin(unsigned int);
 }
 #endif
 
-#endif /* _HASH_H_ */
+
+#endif /* SNEAKER_HASH_H_ */

@@ -23,8 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* General assertion */
 
-#ifndef _ASSERT_H_
-#define _ASSERT_H_
+#ifndef SNEAKER_ASSERT_H_
+#define SNEAKER_ASSERT_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -52,4 +52,4 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     } while(0)
 #endif
 
-#endif /* _ASSERT_H_ */
+#endif /* SNEAKER_ASSERT_H_ */

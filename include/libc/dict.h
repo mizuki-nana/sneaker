@@ -23,8 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* A hash table structure for storing key-value pairs with the keys being strings. */
 
-#ifndef _DICT_H_
-#define _DICT_H_
+#ifndef SNEAKER_DICT_H_
+#define SNEAKER_DICT_H_
 
 #include <stddef.h>
 
@@ -51,4 +51,5 @@ void* dict_get(dict_t dict, const char *key);
 }
 #endif
 
-#endif /* _DICT_H_ */
+
+#endif /* SNEAKER_DICT_H_ */

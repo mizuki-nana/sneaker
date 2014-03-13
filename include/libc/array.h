@@ -23,8 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Array abstraction */
 
-#ifndef _ARRAY_H_
-#define _ARRAY_H_
+#ifndef SNEAKER_ARRAY_H_
+#define SNEAKER_ARRAY_H_
 
 #include <stddef.h>
 
@@ -57,4 +57,4 @@ const void** array_content(array_t array);
 #endif
 
 
-#endif /* _ARRAY_H_ */
+#endif /* SNEAKER_ARRAY_H_ */

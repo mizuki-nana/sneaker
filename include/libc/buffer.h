@@ -23,8 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Generic buffer that can read/write from/to files.  */
 
-#ifndef _BUFFER_H_
-#define _BUFFER_H_
+#ifndef SNEAKER_BUFFER_H_
+#define SNEAKER_BUFFER_H_
 
 #include <stddef.h>
 #include <unistd.h>
@@ -90,4 +90,4 @@ ssize_t buffer_write(buffer_t buffer, int fd);
 #endif
 
 
-#endif /* _BUFFER_H_ */
+#endif /* SNEAKER_BUFFER_H_ */

@@ -23,8 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Universally Unique Idetifier */
 
-#ifndef _UUID_H_
-#define _UUID_H_
+#ifndef SNEAKER_UUID_H_
+#define SNEAKER_UUID_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -50,4 +50,4 @@ hash_t uuid_create_and_hash();
 #endif
 
 
-#endif /* _UUID_H_ */
+#endif /* SNEAKER_UUID_H_ */

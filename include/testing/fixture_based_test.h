@@ -26,8 +26,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * which are collected and deallocated in teardown.
  */
 
-#ifndef _FIXTURE_BASED_TEST_H_
-#define _FIXTURE_BASED_TEST_H_
+#ifndef SNEAKER_FIXTURE_BASED_TEST_H_
+#define SNEAKER_FIXTURE_BASED_TEST_H_
 
 
 #include <vector>
@@ -83,10 +83,10 @@ sneaker::testing::fixture_based_test<T>::TearDown()
 }
 
 
-} /* namespace testing */
+} /* end namespace testing */
 
 
-} /* namespace sneaker */
+} /* end namespace sneaker */
 
 
-#endif /* _FIXTURE_BASED_TEST_H_ */
+#endif /* SNEAKER_FIXTURE_BASED_TEST_H_ */

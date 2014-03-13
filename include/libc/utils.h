@@ -23,8 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Miscellaneous utility functions. */
 
-#ifndef _UTILS_H_
-#define _UTILS_H_
+#ifndef SNEAKER_UTILS_H_
+#define SNEAKER_UTILS_H_
 
 #include <stddef.h>
 #include "c_str.h"
@@ -32,6 +32,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
@@ -259,4 +260,4 @@ generate_loremipsum();
 #endif
 
 
-#endif /* _UTILS_H_ */
+#endif /* SNEAKER_UTILS_H_ */

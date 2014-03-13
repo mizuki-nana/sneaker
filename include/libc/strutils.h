@@ -25,8 +25,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <stddef.h>
 
-#ifndef _STRUTILS_H_
-#define _STRUTILS_H_
+#ifndef SNEAKER_STRUTILS_H_
+#define SNEAKER_STRUTILS_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -73,4 +73,5 @@ char* strncpy_safe(char *dst, const char *src, size_t size);
 }
 #endif
 
-#endif /* _STRUTILS_H_ */
+
+#endif /* SNEAKER_STRUTILS_H_ */

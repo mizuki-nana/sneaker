@@ -23,8 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Generic string buffer */
 
-#ifndef _STRBUF_H_
-#define _STRBUF_H_
+#ifndef SNEAKER_STRBUF_H_
+#define SNEAKER_STRBUF_H_
 
 #include <stddef.h>
 #include "c_str.h"
@@ -55,4 +55,5 @@ int strbuf_append(strbuf_t strbuf, const c_str in_str);
 }
 #endif
 
-#endif /* _STRBUF_H_ */
+
+#endif /* SNEAKER_STRBUF_H_ */

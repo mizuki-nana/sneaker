@@ -23,8 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Generic hashmap */
 
-#ifndef _HASHMAP_H_
-#define _HASHMAP_H_
+#ifndef SNEAKER_HASHMAP_H_
+#define SNEAKER_HASHMAP_H_
 
 #include <stddef.h>
 #include "hash.h"
@@ -88,4 +88,4 @@ int hashmap_equal(hashmap_t hashmap1, hashmap_t hashmap2);
 #endif
 
 
-#endif /* _HASHMAP_H_ */
+#endif /* SNEAKER_HASHMAP_H_ */

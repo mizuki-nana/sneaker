@@ -23,8 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* 2-Dimensional bitmap. */
 
-#ifndef _BITMAP_H_
-#define _BITMAP_H_
+#ifndef SNEAKER_BITMAP_H_
+#define SNEAKER_BITMAP_H_
 
 #include <stddef.h>
 
@@ -58,4 +58,4 @@ void bitmap_clear(bitmap_t bitmap);
 #endif
 
 
-#endif /* _BITMAP_H_ */
+#endif /* SNEAKER_BITMAP_H_ */

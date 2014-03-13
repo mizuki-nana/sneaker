@@ -47,8 +47,8 @@ std::cout << "My favorite is Apple: %s (score %d)" << fruits.get<char*, 0>("Appl
     << fruits.get<int, 1>("Apple") << std::endl;
 */
 
-#ifndef _ASSORTED_MULTIMAP_H_
-#define _ASSORTED_MULTIMAP_H_
+#ifndef SNEAKER_ASSORTED_MULTIMAP_H_
+#define SNEAKER_ASSORTED_MULTIMAP_H_
 
 #include <map>
 #include <boost/smart_ptr.hpp>
@@ -367,9 +367,10 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::find(K key) const
 }
 
 
-} /* namespace container */
-
-} /* namespace sneaker */
+} /* end namespace container */
 
 
-#endif /* _ASSORTED_MULTIMAP_H_ */
+} /* end namespace sneaker */
+
+
+#endif /* SNEAKER_ASSORTED_MULTIMAP_H_ */

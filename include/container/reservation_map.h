@@ -21,8 +21,8 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-#ifndef _RESERVATION_MAP_H_
-#define _RESERVATION_MAP_H_
+#ifndef SNEAKER_RESERVATION_MAP_H_
+#define SNEAKER_RESERVATION_MAP_H_
 
 #include <boost/smart_ptr.hpp>
 #include <stdlib.h>
@@ -37,6 +37,7 @@ typedef hash_t token_t;
 
 
 namespace sneaker {
+
 
 namespace container {
 
@@ -180,9 +181,10 @@ sneaker::container::reservation_map<T>::clear()
 }
 
 
-} /* namespace container */
-
-} /* namespace sneaker */
+} /* end namespace container */
 
 
-#endif /* _RESERVATION_MAP_H_ */
+} /* end namespace sneaker */
+
+
+#endif /* SNEAKER_RESERVATION_MAP_H_ */

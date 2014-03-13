@@ -23,8 +23,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* General C utilities */
 
-#ifndef _C_UTILS_H_
-#define _C_UTILS_H_
+#ifndef SNEAKER_C_UTILS_H_
+#define SNEAKER_C_UTILS_H_
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -77,4 +78,5 @@ atoi(const char *str);
 }
 #endif
 
-#endif /* _C_UTILS_H_ */
+
+#endif /* SNEAKER_C_UTILS_H_ */

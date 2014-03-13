@@ -23,8 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Thin file reader abstraction */
 
-#ifndef _FILE_READER_H_
-#define _FILE_READER_H_
+#ifndef SNEAKER_FILE_READER_H_
+#define SNEAKER_FILE_READER_H_
 
 #include <boost/smart_ptr.hpp>
 #include "../libc/c_str.h"
@@ -50,10 +50,10 @@ protected:
 };
 
 
-} /* namespace io */
+} /* end namespace io */
 
 
-} /* namespace sneaker */
+} /* end namespace sneaker */
 
 
-#endif /* _FILE_READER_H_ */
+#endif /* SNEAKER_FILE_READER_H_ */

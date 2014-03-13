@@ -21,8 +21,8 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-#ifndef _MATH_H_
-#define _MATH_H_
+#ifndef SNEAKER_MATH_H_
+#define SNEAKER_MATH_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -48,4 +48,4 @@ unsigned int nearest_exp2_floor(unsigned int);
 #endif
 
 
-#endif /* _MATH_H_ */
+#endif /* SNEAKER_MATH_H_ */

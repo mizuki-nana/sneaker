@@ -21,8 +21,8 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-#ifndef _GENERIC_CACHE_H_
-#define _GENERIC_CACHE_H_
+#ifndef SNEAKER_GENERIC_CACHE_H_
+#define SNEAKER_GENERIC_CACHE_H_
 
 #include <map>
 #include <boost/smart_ptr.hpp>
@@ -213,9 +213,9 @@ sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::_erase(K key
 }
 
 
-} /* namespace cache */
+} /* end namespace cache */
 
-} /* namespace sneaker */
+} /* end namespace sneaker */
 
 
-#endif /* _GENERIC_CACHE_H_ */
+#endif /* SNEAKER_GENERIC_CACHE_H_ */

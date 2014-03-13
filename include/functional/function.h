@@ -21,8 +21,8 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-#ifndef _FUNCTION_H_
-#define _FTUNCION_H_
+#ifndef SNEAKER_FUNCTION_H_
+#define SNEAKER_FUNCTION_H_
 
 #include <stdio.h>
 #include <functional>
@@ -157,10 +157,10 @@ template<class... Args>
 using predicate = typename sneaker::functional::function<bool, Args...>;
 
 
-} /* namespace functional */
+} /* end namespace functional */
 
 
-} /* namespace sneaker */
+} /* end namespace sneaker */
 
 
-#endif /* _FUNCTION_H_ */
+#endif /* SNEAKER_FUNCTION_H_ */

@@ -23,8 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for `generic_cache` in include/cache/generic_cache.h */
 
-#ifndef GENERIC_CACHE_UNITTEST
-#define GENERIC_CACHE_UNITTEST
+#ifndef SNEAKER_GENERIC_CACHE_UNITTEST
+#define SNEAKER_GENERIC_CACHE_UNITTEST
 
 #include <map>
 #include <string>
@@ -200,6 +200,6 @@ TEST_F(GenericCacheTest, TestEraseOnNonExistentKey)
 }
 
 
-#endif /* GENERIC_CACHE_UNITTEST */
+#endif /* SNEAKER_GENERIC_CACHE_UNITTEST */
 
-#undef GENERIC_CACHE_UNITTEST
+#undef SNEAKER_GENERIC_CACHE_UNITTEST

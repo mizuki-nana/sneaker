@@ -21,8 +21,8 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-#ifndef _DAEMON_SERVICE_
-#define _DAEMON_SERVICE_
+#ifndef SNEAKER_DAEMON_SERVICE_
+#define SNEAKER_DAEMON_SERVICE_
 
 #include <pthread.h>
 
@@ -53,9 +53,9 @@ private:
 };
 
 
-} /* namespace threading */
+} /* end namespace threading */
 
-} /* namespace sneaker */
+} /* end namespace sneaker */
 
 
-#endif /* _DAEMON_SERVICE_ */
+#endif /* SNEAKER_DAEMON_SERVICE_ */

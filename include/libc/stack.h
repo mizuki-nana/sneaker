@@ -23,8 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Stack - FILO container */
 
-#ifndef _STACK_H_
-#define _STACK_H_
+#ifndef SNEAKER_STACK_H_
+#define SNEAKER_STACK_H_
 
 #include <stddef.h>
 
@@ -54,4 +54,4 @@ void stack_free(stack_t *stack);
 #endif
 
 
-#endif /* _STACK_H_ */
+#endif /* SNEAKER_STACK_H_ */

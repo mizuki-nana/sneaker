@@ -23,27 +23,27 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Common definitions. */
 
-#ifndef _COMMON_H_
-#define _COMMON_H_
+#ifndef SNEAKER_COMMON_H_
+#define SNEAKER_COMMON_H_
 
 
 /* Singly linked list node. */
-#ifndef _SINGLY_NODE_
+#ifndef _SNEAKER_SINGLY_NODE_
 
-  #define _SINGLY_NODE_
+  #define _SNEAKER_SINGLY_NODE_
 
   typedef struct __sneaker_singly_node_s {
     void *value;
     struct __sneaker_singly_node_s *next;
   } * singly_node_t;
 
-#endif /* _SINGLY_NODE_ */
+#endif /* _SNEAKER_SINGLY_NODE_ */
 
 
 /* Doubly linked list node. */
-#ifndef _DOUBLY_NODE_
+#ifndef _SNEAKER_DOUBLY_NODE_
 
-  #define _DOUBLY_NODE_
+  #define _SNEAKER_DOUBLY_NODE_
 
   typedef struct __sneaker_doubly_node_s {
     void *value;
@@ -51,7 +51,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     struct __sneaker_doubly_node_s *previous;
   } * doubly_node_t;
 
-#endif /* _DOUBLY_NODE_ */
+#endif /* _SNEAKER_DOUBLY_NODE_ */
 
 
-#endif /* _COMMON_H_ */
+#endif /* SNEAKER_COMMON_H_ */
