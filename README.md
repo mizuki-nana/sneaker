@@ -17,6 +17,8 @@ A C/C++ library that contains a vast set of re-usable functions and objects that
 * \\- `stack_t` - _FILO structure_
 * \\- `strbuf_t` - _dynamically managed string buffer_
 * \\- `uuid_t` - _universally unique identifier abstraction_
+* \\- `nearest_exp2_ceil` - _get the least largest base 2 exponential integer closest to input value_
+* \\- `nearest_exp2_floor` - _get the most largest base 2 exponential integer closest to input value_
 * `cache` - _cache management_
 * \\- `generic_cache<K, T, CreateHandler, DestroyHandler>` - _generic in-memory cache_
 * `container` - _high performance containers_
@@ -37,4 +39,8 @@ A C/C++ library that contains a vast set of re-usable functions and objects that
 
 
 ## Version
-version 0.1.0
+version 0.1.5
+
+
+## Supported Platforms
+OS X
