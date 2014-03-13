@@ -21,7 +21,7 @@
 
 # Top level Makefile.
 
-VERSION=v0.1.2
+VERSION=v0.1.3
 
 AR=ar
 ARFLAGS=rvs
@@ -32,7 +32,8 @@ SRC=./src
 TESTS=./tests
 SUBDIRS=$(SRC) $(TESTS)
 
-LIBSNEAKER=libsneaker.a
+LIBSNEAKER=libsneaker
+LIBSNEAKER_A=libsneaker.a
 LIBSNEAKER_GZIP=$(LIBSNEAKER)-$(VERSION).tar.gz
 
 
@@ -43,7 +44,7 @@ build:
 
 .PHONY: all
 all: build
-	find . -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER)
+	find . -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER_A)
 
 
 .PHONY: tests
@@ -54,7 +55,7 @@ tests: build
 .PHONY: clean
 clean:
 	-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir clean;); done
-	rm -rf ./$(LIBSNEAKER)
+	rm -rf ./$(LIBSNEAKER_A)
 
 .PHONY: install
 install: all
