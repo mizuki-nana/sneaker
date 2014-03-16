@@ -39,7 +39,7 @@ A C/C++ library that contains a vast set of re-usable functions and objects that
 
 
 ## Version
-version 0.1.5
+version 0.1.6
 
 
 ## Supported Platforms
