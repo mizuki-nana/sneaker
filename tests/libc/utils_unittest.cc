@@ -345,6 +345,168 @@ TEST_F(IsBitSetUnitTest, TestSetOn32thBit)
 
 
 /*******************************************
+ * Unit tests for:
+ * void set_nth_bit_uint32(uint32_t *val, char bit) 
+ *******************************************/
+class SetNthBitUint32UnitTest : public ::testing::Test {
+public:
+  void test(char, uint32_t);
+};
+
+
+void
+SetNthBitUint32UnitTest::test(char bit, uint32_t expected_value)
+{
+  uint32_t val = 0;
+  set_nth_bit_uint32(&val, bit);
+  EXPECT_EQ(expected_value, val);
+}
+
+
+TEST_F(SetNthBitUint32UnitTest, TestSet1stBit)
+{
+  test(1, 0x0001);
+}
+
+TEST_F(SetNthBitUint32UnitTest, TestSet2ndBit)
+{
+  test(2, 0x0002);
+}
+
+TEST_F(SetNthBitUint32UnitTest, TestSet4thBit)
+{
+  test(4, 0x0008);
+}
+
+TEST_F(SetNthBitUint32UnitTest, TestSet8thBit)
+{
+  test(8, 128);
+}
+
+TEST_F(SetNthBitUint32UnitTest, TestSet16thBit)
+{
+  test(16, 32768);
+}
+
+TEST_F(SetNthBitUint32UnitTest, TestSet32thBit)
+{
+  test(32, (1 << 31));
+}
+
+
+/*******************************************
+ * Unit tests for:
+ * void clear_nth_bit(int *val, char bit) 
+ *******************************************/
+class ClearNthBitUint32UnitTest : public ::testing::Test {
+public:
+  void test(uint32_t, char, uint32_t=0);
+};
+
+
+void
+ClearNthBitUint32UnitTest::test(uint32_t value, char bit, uint32_t expected_value)
+{
+  clear_nth_bit_uint32(&value, bit);
+  EXPECT_EQ(expected_value, value);
+}
+
+
+TEST_F(ClearNthBitUint32UnitTest, TestClear1stBit)
+{
+  test(0x0001, 1);
+}
+
+TEST_F(ClearNthBitUint32UnitTest, TestClear2ndBit)
+{
+  test(0x0002, 2);
+}
+
+TEST_F(ClearNthBitUint32UnitTest, TestClear4thBit)
+{
+  test(0x0008, 4);
+}
+
+TEST_F(ClearNthBitUint32UnitTest, TestClear8thBit)
+{
+  test(128, 8);
+}
+
+TEST_F(ClearNthBitUint32UnitTest, TestClear16thBit)
+{
+  test(32768, 16);
+}
+
+TEST_F(ClearNthBitUint32UnitTest, TestClear32thBit)
+{
+  test((1 << 31), 32);
+}
+
+
+/*******************************************
+ * Unit test for:
+ * void is_bit_set_uint32(uint32_t val, char bit) 
+ *******************************************/
+class IsBitSetUint32UnitTest : public ::testing::Test {};
+
+
+TEST_F(IsBitSetUint32UnitTest, TestBitSetOnZeroValueInteger)
+{
+  EXPECT_FALSE(is_bit_set_uint32(0, 1));
+}
+
+TEST_F(IsBitSetUint32UnitTest, TestSetOn1stBit)
+{
+  EXPECT_TRUE(is_bit_set_uint32(1, 1));
+}
+
+TEST_F(IsBitSetUint32UnitTest, TestSetOn2ndBit)
+{
+  uint32_t val = 2;
+  EXPECT_FALSE(is_bit_set_uint32(val, 1));
+  EXPECT_TRUE(is_bit_set_uint32(val, 2));
+}
+
+TEST_F(IsBitSetUint32UnitTest, TestSetOn4thBit)
+{
+  uint32_t val = 8;
+  EXPECT_FALSE(is_bit_set_uint32(val, 1));
+  EXPECT_FALSE(is_bit_set_uint32(val, 2));
+  EXPECT_TRUE(is_bit_set_uint32(val, 4));
+}
+
+TEST_F(IsBitSetUint32UnitTest, TestSetOn8thBit)
+{
+  uint32_t val = 128;
+  EXPECT_FALSE(is_bit_set_uint32(val, 1));
+  EXPECT_FALSE(is_bit_set_uint32(val, 2));
+  EXPECT_FALSE(is_bit_set_uint32(val, 4));
+  EXPECT_TRUE(is_bit_set_uint32(val, 8));
+}
+
+TEST_F(IsBitSetUint32UnitTest, TestSetOn16thBit)
+{
+  uint32_t val = 32768;
+  EXPECT_FALSE(is_bit_set_uint32(val, 1));
+  EXPECT_FALSE(is_bit_set_uint32(val, 2));
+  EXPECT_FALSE(is_bit_set_uint32(val, 4));
+  EXPECT_FALSE(is_bit_set_uint32(val, 8));
+  EXPECT_TRUE(is_bit_set_uint32(val, 16));
+}
+
+TEST_F(IsBitSetUint32UnitTest, TestSetOn32thBit)
+{ 
+  uint32_t val = 1 << 31;
+  EXPECT_FALSE(is_bit_set_uint32(val, 1));
+  EXPECT_FALSE(is_bit_set_uint32(val, 2));
+  EXPECT_FALSE(is_bit_set_uint32(val, 4));
+  EXPECT_FALSE(is_bit_set_uint32(val, 8));
+  EXPECT_FALSE(is_bit_set_uint32(val, 16));
+  EXPECT_TRUE(is_bit_set_uint32(val, 32));
+}
+
+
+/*******************************************
  * Unit Test for:
  * rand_top(int top)
  *******************************************/

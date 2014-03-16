@@ -49,6 +49,29 @@ is_bit_set(int val, char bit)
   return (v >> (bit-1)) == 1;
 }
 
+void
+set_nth_bit_uint32(uint32_t *val, char bit)
+{
+  uint32_t b = (1 << (bit-1));
+  *val = *val | b;
+}
+
+void
+clear_nth_bit_uint32(uint32_t *val, char bit)
+{
+  uint32_t b = (1 << (bit-1));
+  *val = *val & (~b);
+}
+
+int
+is_bit_set_uint32(uint32_t val, char bit)
+{
+  uint32_t v = val;
+  uint32_t b = (1 << (bit-1));
+  v = v & b;
+  return (v >> (bit-1)) == 1;
+}
+
 int
 inline rand_top(int max)
 {

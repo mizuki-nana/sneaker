@@ -27,6 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define SNEAKER_UTILS_H_
 
 #include <stddef.h>
+#include <stdint.h>
 #include "c_str.h"
 
 #ifdef __cplusplus
@@ -178,6 +179,55 @@ clear_nth_bit(int *val, char bit);
  */
 int
 is_bit_set(int val, char bit);
+
+/*
+ * void
+ * set_nth_bit_uint32(uint32_t *val, char bit)
+ *
+ * Set a specific bit of a given number to 1.
+ *
+ * Parameters:
+ *  uint32_t *val: pointer points to the number to set.
+ *  char bit: the nth bit to set to 1.
+ *
+ * Return:
+ *  None.
+ */
+void
+set_nth_bit_uint32(uint32_t *val, char bit);
+
+/*
+ * void
+ * clear_nth_bit_uint32(uint32_t *val, char bit)
+ *
+ * Clear a specific bit of a given number to 0.
+ *
+ * Parameters:
+ *  uint32_t *val: pointer points to the number to clear.
+ *  char bit: the nth bit to clear to 0.
+ *
+ * Return:
+ *  None.
+ */
+void
+clear_nth_bit_uint32(uint32_t *val, char bit);
+
+/*
+ * int
+ * is_bit_set_uint32(uint32_t val, char bit)
+ *
+ * Checks if a specific bit of a given number is set to 1.
+ *
+ * Parameters:
+ *  uint32_t val: the value to check.
+ *  char bit: the number of bit from the right to check.
+ *
+ * Return:
+ *  An integer value representing whether or not the specific.
+ *  bit of the given is set. Returns 1 if set, 0 otherwise.
+ */
+int
+is_bit_set_uint32(uint32_t val, char bit);
 
 /*
  * int
