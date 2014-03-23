@@ -19,55 +19,23 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# Top level Makefile.
+CXX=c++
+CFLAGS=-Wall -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
 
-VERSION=v0.1.7
+LIBGTEST=/usr/lib/libgtest.a
+TESTING=../../src/testing/testing.a
 
-AR=ar
-ARFLAGS=rvs
-CPFLAGS=-vr
+LIBRARIES=$(LIBGTEST) $(TESTING)
 
-INCLUDE=./include
-SRC=./src
-TESTS=./tests
-SUBDIRS=$(SRC) $(TESTS)
+INPUTS=allocator_unittest
 
-LIBSNEAKER=libsneaker
-LIBSNEAKER_A=libsneaker.a
-LIBSNEAKER_GZIP=$(LIBSNEAKER)-$(VERSION).tar.gz
+OUTPUTS=allocator_unittest.test
 
 
-.PHONY: build
-build:
-	-for dir in $(SRC); do ($(MAKE) -C $$dir all;); done
-
-
-.PHONY: all
-all: build
-	find . -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER_A)
-
-
-.PHONY: tests
-tests: build
-	-for dir in $(TESTS); do ($(MAKE) -C $$dir all;); done
+all:
+	-for f in $(INPUTS); do $(CXX) $(CFLAGS) $(LIBRARIES) $$f.cc -o $$f.test; done
 
 
 .PHONY: clean
 clean:
-	-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir clean;); done
-	rm -rf ./$(LIBSNEAKER_A)
-
-.PHONY: install
-install: all
-	mkdir -p /usr/local/include/sneaker
-	cp -vr include/* /usr/local/include/sneaker
-	cp -vr libsneaker.a /usr/local/lib/
-	tar -zcvf $(LIBSNEAKER_GZIP) $(INCLUDE) $(SRC) $(TESTS) LICENSE Makefile README.md ./*.png
-
-
-.PHONY: uninstall
-uninstall:
-	rm -rf /usr/local/include/sneaker
-	rm -rf /usr/local/lib/libsneaker.a
-	rm -rf ./*.tar.gz
-	rm -rf ./$(LIBSNEAKER)
+	-for f in $(OUTPUTS); do rm -f $$f; done;
