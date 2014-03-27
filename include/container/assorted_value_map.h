@@ -47,8 +47,8 @@ std::cout << "My favorite is Apple: %s (score %d)" << fruits.get<char*, 0>("Appl
     << fruits.get<int, 1>("Apple") << std::endl;
 */
 
-#ifndef SNEAKER_ASSORTED_MULTIMAP_H_
-#define SNEAKER_ASSORTED_MULTIMAP_H_
+#ifndef SNEAKER_ASSORTED_VALUE_MAP_H_
+#define SNEAKER_ASSORTED_VALUE_MAP_H_
 
 #include <map>
 #include <boost/smart_ptr.hpp>
@@ -117,7 +117,7 @@ public:
   reverse_iterator rend();
   const_reverse_iterator rend() const;
 
-  const_iterator cbegin() const noexcept; 
+  const_iterator cbegin() const noexcept;
   const_iterator cend() const noexcept;
 
   const_reverse_iterator crbegin() const noexcept;
@@ -373,4 +373,4 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::find(K key) const
 } /* end namespace sneaker */
 
 
-#endif /* SNEAKER_ASSORTED_MULTIMAP_H_ */
+#endif /* SNEAKER_ASSORTED_VALUE_MAP_H_ */
