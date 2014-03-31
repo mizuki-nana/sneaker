@@ -21,15 +21,12 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for include/container/assorted_value_map.h */
+/* Unit test for `sneaker::container::assorted_value_map` defined in
+ * include/container/assorted_value_map.h */
 
 #include "../../include/testing/testing.h"
-#include "../../include/libc/assert.h"
 #include "../../include/libc/c_str.h"
 #include "../../include/container/assorted_value_map.h"
-
-
-using namespace sneaker::container;
 
 
 class AssortedValueMapUnitTestBase : public ::testing::Test {};
@@ -37,98 +34,80 @@ class AssortedValueMapUnitTestBase : public ::testing::Test {};
 
 class AssortedValueMapWithNoValueTypeUnitTest : public AssortedValueMapUnitTestBase {
 protected:
-  virtual void SetUp() {
-    _map = new sneaker::container::assorted_value_map<int>();
-  }
-
-  virtual void TearDown() {
-    delete _map;
-  }
-
-  sneaker::container::assorted_value_map<int> * _map;
+  sneaker::container::assorted_value_map<int> _map;
 };
 
 
 TEST_F(AssortedValueMapWithNoValueTypeUnitTest, TestInitialization)
 {
-  ASSERT(_map);
-  ASSERT_TRUE(_map->empty());
-  ASSERT_EQ(0, _map->size());
+  ASSERT_TRUE(_map.empty());
+  ASSERT_EQ(0, _map.size());
 }
 
 TEST_F(AssortedValueMapWithNoValueTypeUnitTest, TestPutAndAt)
 {
-  _map->insert(1);
-  _map->insert(2);
-  _map->insert(3);
+  _map.insert(1);
+  _map.insert(2);
+  _map.insert(3);
 
-  ASSERT_FALSE(_map->empty());
-  ASSERT_EQ(3, _map->size());
+  ASSERT_FALSE(_map.empty());
+  ASSERT_EQ(3, _map.size());
 }
 
 
 class AssortedValueMapWithMultiplyValueTypesUnitTest : public AssortedValueMapUnitTestBase {
 protected:
-  virtual void SetUp() {
-    _map = new sneaker::container::assorted_value_map<char, int, long, bool>();
-  }
-
-  virtual void TearDown() {
-    delete _map;
-  }
-
-  sneaker::container::assorted_value_map<char, int, long, bool> * _map;
+  sneaker::container::assorted_value_map<char, int, long, bool> _map;
 };
 
 TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestInitialization)
 {
-  ASSERT(_map);
-  ASSERT_TRUE(_map->empty());
-  ASSERT_EQ(0, _map->size());
+  ASSERT_TRUE(_map.empty());
+  ASSERT_EQ(0, _map.size());
 }
 
 TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndAt)
 {
-  _map->insert('a', 1, 100, true);
-  _map->insert('b', 2, 200, true);
-  _map->insert('c', 3, 300, false);
+  _map.insert('a', 1, 100, true);
+  _map.insert('b', 2, 200, true);
+  _map.insert('c', 3, 300, false);
 
-  ASSERT_FALSE(_map->empty());
-  ASSERT_EQ(3, _map->size());
+  ASSERT_FALSE(_map.empty());
+  ASSERT_EQ(3, _map.size());
 
-  ASSERT_EQ(1, boost::get<0>(_map->at('a')));
-  ASSERT_EQ(2, boost::get<0>(_map->at('b')));
-  ASSERT_EQ(3, boost::get<0>(_map->at('c')));
+  ASSERT_EQ(1, boost::get<0>(_map.at('a')));
+  ASSERT_EQ(2, boost::get<0>(_map.at('b')));
+  ASSERT_EQ(3, boost::get<0>(_map.at('c')));
 
-  ASSERT_EQ(100, boost::get<1>(_map->at('a')));
-  ASSERT_EQ(200, boost::get<1>(_map->at('b')));
-  ASSERT_EQ(300, boost::get<1>(_map->at('c')));
+  ASSERT_EQ(100, boost::get<1>(_map.at('a')));
+  ASSERT_EQ(200, boost::get<1>(_map.at('b')));
+  ASSERT_EQ(300, boost::get<1>(_map.at('c')));
 
-  ASSERT_EQ(true,  boost::get<2>(_map->at('a')));
-  ASSERT_EQ(true,  boost::get<2>(_map->at('b')));
-  ASSERT_EQ(false, boost::get<2>(_map->at('c')));
+  ASSERT_EQ(true,  boost::get<2>(_map.at('a')));
+  ASSERT_EQ(true,  boost::get<2>(_map.at('b')));
+  ASSERT_EQ(false, boost::get<2>(_map.at('c')));
 }
 
 TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndGet)
 {
-  _map->insert('a', 1, 100, true);
-  _map->insert('b', 2, 200, true);
-  _map->insert('c', 3, 300, false);
+  _map.insert('a', 1, 100, true);
+  _map.insert('b', 2, 200, true);
+  _map.insert('c', 3, 300, false);
 
-  ASSERT_FALSE(_map->empty());
-  ASSERT_EQ(3, _map->size());
+  ASSERT_FALSE(_map.empty());
+  ASSERT_EQ(3, _map.size());
 
-  int  a1 = _map->get<int,  0>('a');
-  long a2 = _map->get<long, 1>('a');
-  bool a3 = _map->get<bool, 2>('a');
+  int  a1 = _map.get<int,  0>('a');
+  long a2 = _map.get<long, 1>('a');
+  bool a3 = _map.get<bool, 2>('a');
 
-  int  b1 = _map->get<int,  0>('b');
-  long b2 = _map->get<long, 1>('b');
-  bool b3 = _map->get<bool, 2>('b');
+  int  b1 = _map.get<int,  0>('b');
+  long b2 = _map.get<long, 1>('b');
+  bool b3 = _map.get<bool, 2>('b');
 
-  int  c1 = _map->get<int,  0>('c');
-  long c2 = _map->get<long, 1>('c');
-  bool c3 = _map->get<bool, 2>('c');
+  int  c1 = _map.get<int,  0>('c');
+  long c2 = _map.get<long, 1>('c');
+  bool c3 = _map.get<bool, 2>('c');
 
   ASSERT_EQ(1, a1);
   ASSERT_EQ(100, a2);
@@ -145,24 +124,24 @@ TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndGet)
 
 TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndGetByReference)
 {
-  _map->insert('a', 1, 100, true);
-  _map->insert('b', 2, 200, true);
-  _map->insert('c', 3, 300, false);
+  _map.insert('a', 1, 100, true);
+  _map.insert('b', 2, 200, true);
+  _map.insert('c', 3, 300, false);
 
-  ASSERT_FALSE(_map->empty());
-  ASSERT_EQ(3, _map->size());
+  ASSERT_FALSE(_map.empty());
+  ASSERT_EQ(3, _map.size());
 
-  const int  &a1 = _map->get<int,  0>('a');
-  const long &a2 = _map->get<long, 1>('a');
-  const bool &a3 = _map->get<bool, 2>('a');
+  const int  &a1 = _map.get<int,  0>('a');
+  const long &a2 = _map.get<long, 1>('a');
+  const bool &a3 = _map.get<bool, 2>('a');
 
-  const int  &b1 = _map->get<int,  0>('b');
-  const long &b2 = _map->get<long, 1>('b');
-  const bool &b3 = _map->get<bool, 2>('b');
+  const int  &b1 = _map.get<int,  0>('b');
+  const long &b2 = _map.get<long, 1>('b');
+  const bool &b3 = _map.get<bool, 2>('b');
 
-  const int  &c1 = _map->get<int,  0>('c');
-  const long &c2 = _map->get<long, 1>('c');
-  const bool &c3 = _map->get<bool, 2>('c');
+  const int  &c1 = _map.get<int,  0>('c');
+  const long &c2 = _map.get<long, 1>('c');
+  const bool &c3 = _map.get<bool, 2>('c');
 
   ASSERT_EQ(1, a1);
   ASSERT_EQ(100, a2);
