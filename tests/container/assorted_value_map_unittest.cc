@@ -24,6 +24,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /* Unit test for `sneaker::container::assorted_value_map` defined in
  * include/container/assorted_value_map.h */
 
+#include <functional>
+#include <memory>
 #include "../../include/testing/testing.h"
 #include "../../include/libc/c_str.h"
 #include "../../include/container/assorted_value_map.h"
@@ -160,6 +162,75 @@ TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndGetByReference)
 class AssortedValueMapUnitTest : public AssortedValueMapUnitTestBase {};
 
 
+TEST_F(AssortedValueMapUnitTest, TestCopyConstructor)
+{
+  using assorted_value_map_type = typename sneaker::container::assorted_value_map<int, bool>;
+
+  assorted_value_map_type map1;
+
+  map1.insert(0, false);
+  map1.insert(1, true);
+
+  ASSERT_EQ(2, map1.size());
+
+  bool val1 = map1.get<bool, 0>(0);
+  bool val2 = map1.get<bool, 0>(1);
+
+  ASSERT_EQ(false, val1);
+  ASSERT_EQ(true, val2);
+
+  assorted_value_map_type map2 = map1;
+
+  ASSERT_EQ(2, map2.size());
+
+  val1 = map2.get<bool, 0>(0);
+  val2 = map2.get<bool, 0>(1);
+
+  ASSERT_EQ(false, val1);
+  ASSERT_EQ(true, val2);
+}
+
+TEST_F(AssortedValueMapUnitTest, TestCreate)
+{
+  using assorted_value_map_type = typename sneaker::container::assorted_value_map<int, bool>;
+  using value_type = assorted_value_map_type::value_type;
+
+  assorted_value_map_type map = assorted_value_map_type::create<std::less<int>, std::allocator<value_type>>();
+
+  map.insert(0, false);
+  map.insert(1, true);
+
+  ASSERT_EQ(2, map.size());
+
+  bool val1 = map.get<bool, 0>(0);
+  bool val2 = map.get<bool, 0>(1);
+
+  ASSERT_EQ(false, val1);
+  ASSERT_EQ(true, val2);
+}
+
+TEST_F(AssortedValueMapUnitTest, TestCreateWithArgs)
+{
+  using assorted_value_map_type = typename sneaker::container::assorted_value_map<int, bool>;
+  using value_type = assorted_value_map_type::value_type;
+
+  assorted_value_map_type map = assorted_value_map_type::create<std::less<int>, std::allocator<value_type>>(
+    std::less<int>(),
+    std::allocator<value_type>()
+  );
+
+  map.insert(0, false);
+  map.insert(1, true);
+
+  ASSERT_EQ(2, map.size());
+
+  bool val1 = map.get<bool, 0>(0);
+  bool val2 = map.get<bool, 0>(1);
+
+  ASSERT_EQ(false, val1);
+  ASSERT_EQ(true, val2);
+}
+
 TEST_F(AssortedValueMapUnitTest, TestSwap)
 {
   sneaker::container::assorted_value_map<cc_str, int, bool, cc_str> map1;
@@ -218,7 +289,7 @@ TEST_F(AssortedValueMapUnitTest, TestFind)
   ASSERT_NE(itr, map.end());
   ASSERT_STREQ("Apple", map.find("Apple")->first);
 
-  _map_type::value_type value = map.find("Apple")->second;
+  _map_type::mapped_type value = map.find("Apple")->second;
 
   ASSERT_EQ(100,  value.get<0>());
   ASSERT_EQ(true, value.get<1>());
