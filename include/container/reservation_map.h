@@ -91,9 +91,9 @@ template<class T>
 typename sneaker::container::reservation_map<T>::token_t
 sneaker::container::reservation_map<T>::reserve()
 {
-  hash_t id = uuid_create_and_hash();
+  uint64_t id = uuid_create_and_hash();
 
-  this->_reserve(id);
+  this->_reserve((hash_t)id);
 
   return (token_t)id;
 }

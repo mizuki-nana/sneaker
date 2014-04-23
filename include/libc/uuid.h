@@ -26,23 +26,33 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef SNEAKER_UUID_H_
 #define SNEAKER_UUID_H_
 
+#include <stdint.h>
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "hash.h"
+
+/*
+ * struct __sneaker_uuid_s
+ * A 16-bytes structure
+ */
+struct __sneaker_uuid_s {
+  char data[16];
+};
 
 
-typedef struct __sneaker_uuid_s * uuid_t;
+typedef struct __sneaker_uuid_s uuid128_t;
 
 
-uuid_t uuid_create();
+uuid128_t uuid_create();
 
-int uuid_compare(uuid_t, uuid_t);
+int uuid_compare(const uuid128_t, const uuid128_t);
 
-hash_t uuid_to_hash(const uuid_t);
+uint64_t uuid_to_hash(const uuid128_t);
 
-hash_t uuid_create_and_hash();
+uint64_t uuid_create_and_hash();
 
 
 #ifdef __cplusplus

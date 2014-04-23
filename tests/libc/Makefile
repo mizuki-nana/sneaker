@@ -39,11 +39,10 @@ INPUTS= array_unittest \
 				queue_unittest \
 				strbuf_unittest \
 				strutils_unittest \
-				utils_unittest
+				utils_unittest \
+				uuid_unittest
 
-INPUTS_SPECIAL_1=stack_unittest
-
-INPUTS_SPECIAL_2=uuid_unittest
+INPUTS_SPECIAL=stack_unittest
 
 OUTPUTS= array_unittest.test \
 				bitmap_unittest.test \
@@ -63,13 +62,10 @@ OUTPUTS= array_unittest.test \
 inputs:
 	-for f in $(INPUTS); do $(CXX) $(CFLAGS) $(LIBRARIES) $$f.cc -o $$f.test; done
 
-inputs_special_1:
-	-for f in $(INPUTS_SPECIAL_1); do $(CXX) $(CFLAGS) $(LIBRARIES) -D_STRUCT_SIGALTSTACK -D_STRUCT_UCONTEXT $$f.cc -o $$f.test; done
+inputs_special:
+	-for f in $(INPUTS_SPECIAL); do $(CXX) $(CFLAGS) $(LIBRARIES) -D_STRUCT_SIGALTSTACK -D_STRUCT_UCONTEXT $$f.cc -o $$f.test; done
 
-inputs_special_2:
-	-for f in $(INPUTS_SPECIAL_2); do $(CXX) $(CFLAGS) $(LIBRARIES) -D__DARWIN_C_LEVEL=0 -D_UUID_T $$f.cc -o $$f.test; done
-
-all: inputs inputs_special_1 inputs_special_2
+all: inputs inputs_special
 
 
 .PHONY: clean

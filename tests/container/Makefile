@@ -29,19 +29,15 @@ TESTING=../../src/testing/testing.a
 LIBRARIES=$(LIBGTEST) $(LIBC) $(TESTING)
 	
 
-INPUTS=assorted_value_map_unittest 
-INPUTS_SPECIAL=reservation_map_unittest
+INPUTS=assorted_value_map_unittest reservation_map_unittest
 
 OUTPUTS=assorted_value_map_unittest.test reservation_map_unittest.test
 
 inputs:
 	-for f in $(INPUTS); do $(CXX) $(CFLAGS) $(LIBRARIES) $$f.cc -o $$f.test; done
 
-inputs_special:
-	-for f in $(INPUTS_SPECIAL); do $(CXX) $(CFLAGS) $(LIBRARIES) -D__DARWIN_C_LEVEL=0 -D_UUID_T $$f.cc -o $$f.test; done
 
-
-all: inputs inputs_special
+all: inputs
 
 
 .PHONY: clean
