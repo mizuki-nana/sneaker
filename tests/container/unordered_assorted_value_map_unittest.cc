@@ -21,32 +21,32 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for `sneaker::container::assorted_value_map` defined in
- * include/container/assorted_value_map.h */
+/* Unit test for `sneaker::container::unordered_assorted_value_map` defined in
+ * include/container/unordered_assorted_value_map.h */
 
 #include <functional>
 #include <memory>
 #include "../../include/testing/testing.h"
+#include "../../include/container/unordered_assorted_value_map.h"
 #include "../../include/libc/c_str.h"
-#include "../../include/container/assorted_value_map.h"
 
 
-class AssortedValueMapUnitTestBase : public ::testing::Test {};
+class UnorderedUnorderedAssortedValueMapUnitTestBase : public ::testing::Test {};
 
 
-class AssortedValueMapWithNoValueTypeUnitTest : public AssortedValueMapUnitTestBase {
+class UnorderedAssortedValueMapWithNoValueTypeUnitTest : public UnorderedUnorderedAssortedValueMapUnitTestBase {
 protected:
-  sneaker::container::assorted_value_map<int> _map;
+  sneaker::container::unordered_assorted_value_map<int> _map;
 };
 
 
-TEST_F(AssortedValueMapWithNoValueTypeUnitTest, TestInitialization)
+TEST_F(UnorderedAssortedValueMapWithNoValueTypeUnitTest, TestInitialization)
 {
   ASSERT_TRUE(_map.empty());
   ASSERT_EQ(0, _map.size());
 }
 
-TEST_F(AssortedValueMapWithNoValueTypeUnitTest, TestPutAndAt)
+TEST_F(UnorderedAssortedValueMapWithNoValueTypeUnitTest, TestPutAndAt)
 {
   _map.insert(1);
   _map.insert(2);
@@ -57,18 +57,19 @@ TEST_F(AssortedValueMapWithNoValueTypeUnitTest, TestPutAndAt)
 }
 
 
-class AssortedValueMapWithMultiplyValueTypesUnitTest : public AssortedValueMapUnitTestBase {
+class UnorderedAssortedValueMapWithMultiplyValueTypesUnitTest : public UnorderedUnorderedAssortedValueMapUnitTestBase {
 protected:
-  sneaker::container::assorted_value_map<char, int, long, bool> _map;
+  sneaker::container::unordered_assorted_value_map<char, int, long, bool> _map;
 };
 
-TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestInitialization)
+
+TEST_F(UnorderedAssortedValueMapWithMultiplyValueTypesUnitTest, TestInitialization)
 {
   ASSERT_TRUE(_map.empty());
   ASSERT_EQ(0, _map.size());
 }
 
-TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndAt)
+TEST_F(UnorderedAssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndAt)
 {
   _map.insert('a', 1, 100, true);
   _map.insert('b', 2, 200, true);
@@ -90,7 +91,7 @@ TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndAt)
   ASSERT_EQ(false, boost::get<2>(_map.at('c')));
 }
 
-TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndGet)
+TEST_F(UnorderedAssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndGet)
 {
   _map.insert('a', 1, 100, true);
   _map.insert('b', 2, 200, true);
@@ -124,7 +125,7 @@ TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndGet)
   ASSERT_EQ(false, c3);
 }
 
-TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndGetByReference)
+TEST_F(UnorderedAssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndGetByReference)
 {
   _map.insert('a', 1, 100, true);
   _map.insert('b', 2, 200, true);
@@ -159,14 +160,14 @@ TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndGetByReference)
 }
 
 
-class AssortedValueMapUnitTest : public AssortedValueMapUnitTestBase {};
+class UnorderedAssortedValueMapUnitTest : public UnorderedUnorderedAssortedValueMapUnitTestBase {};
 
 
-TEST_F(AssortedValueMapUnitTest, TestCopyConstructor)
+TEST_F(UnorderedAssortedValueMapUnitTest, TestCopyConstructor)
 {
-  using assorted_value_map_type = typename sneaker::container::assorted_value_map<int, bool>;
+  using unordered_assorted_value_map_type = typename sneaker::container::unordered_assorted_value_map<int, bool>;
 
-  assorted_value_map_type map1;
+  unordered_assorted_value_map_type map1;
 
   map1.insert(0, false);
   map1.insert(1, true);
@@ -179,7 +180,7 @@ TEST_F(AssortedValueMapUnitTest, TestCopyConstructor)
   ASSERT_EQ(false, val1);
   ASSERT_EQ(true, val2);
 
-  assorted_value_map_type map2 = map1;
+  unordered_assorted_value_map_type map2 = map1;
 
   ASSERT_EQ(2, map2.size());
 
@@ -190,12 +191,13 @@ TEST_F(AssortedValueMapUnitTest, TestCopyConstructor)
   ASSERT_EQ(true, val2);
 }
 
-TEST_F(AssortedValueMapUnitTest, TestCreate)
+TEST_F(UnorderedAssortedValueMapUnitTest, TestCreate)
 {
-  using assorted_value_map_type = typename sneaker::container::assorted_value_map<int, bool>;
-  using value_type = assorted_value_map_type::value_type;
+  using unordered_assorted_value_map_type = typename sneaker::container::unordered_assorted_value_map<int, bool>;
+  using value_type = unordered_assorted_value_map_type::value_type;
 
-  assorted_value_map_type map = assorted_value_map_type::create<std::less<int>, std::allocator<value_type>>();
+  unordered_assorted_value_map_type map = unordered_assorted_value_map_type::create<
+    10, std::hash<int>, std::equal_to<int>, std::allocator<value_type>>();
 
   map.insert(0, false);
   map.insert(1, true);
@@ -209,13 +211,16 @@ TEST_F(AssortedValueMapUnitTest, TestCreate)
   ASSERT_EQ(true, val2);
 }
 
-TEST_F(AssortedValueMapUnitTest, TestCreateWithArgs)
+TEST_F(UnorderedAssortedValueMapUnitTest, TestCreateWithArgs)
 {
-  using assorted_value_map_type = typename sneaker::container::assorted_value_map<int, bool>;
-  using value_type = assorted_value_map_type::value_type;
+  using unordered_assorted_value_map_type = typename sneaker::container::unordered_assorted_value_map<int, bool>;
+  using value_type = unordered_assorted_value_map_type::value_type;
 
-  assorted_value_map_type map = assorted_value_map_type::create<std::less<int>, std::allocator<value_type>>(
-    std::less<int>(),
+  unordered_assorted_value_map_type map = unordered_assorted_value_map_type::create<
+    10, std::hash<int>, std::equal_to<int>, std::allocator<value_type>>
+  (
+    std::hash<int>(),
+    std::equal_to<int>(),
     std::allocator<value_type>()
   );
 
@@ -231,10 +236,10 @@ TEST_F(AssortedValueMapUnitTest, TestCreateWithArgs)
   ASSERT_EQ(true, val2);
 }
 
-TEST_F(AssortedValueMapUnitTest, TestSwap)
+TEST_F(UnorderedAssortedValueMapUnitTest, TestSwap)
 {
-  sneaker::container::assorted_value_map<cc_str, int, bool, cc_str> map1;
-  sneaker::container::assorted_value_map<cc_str, int, bool, cc_str> map2;
+  sneaker::container::unordered_assorted_value_map<cc_str, int, bool, cc_str> map1;
+  sneaker::container::unordered_assorted_value_map<cc_str, int, bool, cc_str> map2;
 
   map1.insert("Grape",      60,  false, "Too sour, don't like...");
   map1.insert("Watermalon", 90,  false, "The best in the summer");
@@ -275,9 +280,9 @@ TEST_F(AssortedValueMapUnitTest, TestSwap)
   cc_str map2_b3 = map2.get<cc_str, 2>("Watermalon"); ASSERT_EQ(map2_b3, "The best in the summer");
 }
 
-TEST_F(AssortedValueMapUnitTest, TestFind)
+TEST_F(UnorderedAssortedValueMapUnitTest, TestFind)
 {
-  typedef sneaker::container::assorted_value_map<cc_str, int, bool> _map_type;
+  typedef sneaker::container::unordered_assorted_value_map<cc_str, int, bool> _map_type;
   _map_type map;
 
   _map_type::iterator itr = map.find("Apple");

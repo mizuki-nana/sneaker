@@ -24,16 +24,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef SNEAKER_RESERVATION_MAP_H_
 #define SNEAKER_RESERVATION_MAP_H_
 
-#include <boost/smart_ptr.hpp>
 #include <stdlib.h>
 #include "assorted_value_map.h"
-#include "../libc/assert.h"
 #include "../libc/hash.h"
 #include "../libc/memory.h"
 #include "../libc/uuid.h"
-
-
-typedef hash_t token_t;
 
 
 namespace sneaker {
@@ -45,6 +40,8 @@ namespace container {
 template<class T>
 class reservation_map {
 public:
+  typedef hash_t token_t;
+
   reservation_map();
   ~reservation_map();
 
@@ -67,14 +64,14 @@ public:
 protected:
   void _reserve(token_t);
 
-  boost::scoped_ptr<core_type> _map;
+  core_type _map;
 };
 
 template<class T>
 sneaker::container::reservation_map<T>::reservation_map():
-  _map(new core_type())
+  _map(core_type())
 {
-  ASSERT(_map);
+  // Do nothing here.
 }
 
 template<class T>
@@ -87,73 +84,77 @@ template<class T>
 size_t
 sneaker::container::reservation_map<T>::size()
 {
-  return _map->size();
+  return _map.size();
 }
 
 template<class T>
-token_t
+typename sneaker::container::reservation_map<T>::token_t
 sneaker::container::reservation_map<T>::reserve()
 {
-  hash_t id = uuid_create_and_hash();
+  uint64_t id = uuid_create_and_hash();
 
-  this->_reserve(id);
+  this->_reserve((hash_t)id);
 
   return (token_t)id;
 }
 
 template<class T>
 void
-sneaker::container::reservation_map<T>::_reserve(token_t id)
+sneaker::container::reservation_map<T>::_reserve(
+  sneaker::container::reservation_map<T>::token_t id)
 {
-  _map->insert(id, true, 0);
+  _map.insert(id, true, 0);
 }
 
 template<class T>
 bool
-sneaker::container::reservation_map<T>::member(token_t id) const
+sneaker::container::reservation_map<T>::member(
+  sneaker::container::reservation_map<T>::token_t id) const
 {
-  typename core_type::iterator itr = _map->find(id);
-  if(itr == _map->end()) {
+  typename core_type::const_iterator itr = _map.find(id);
+  if(itr == _map.end()) {
     return false;
   }
-  return _map->template get<bool, 0>(id);
+  return _map.template get<bool, 0>(id);
 }
 
 template<class T>
 bool
-sneaker::container::reservation_map<T>::put(token_t id, T value)
+sneaker::container::reservation_map<T>::put(
+  sneaker::container::reservation_map<T>::token_t id, T value)
 {
   if(!member(id)) {
     return false;
   }
 
-  typename core_type::iterator itr = this->_map->find(id);
+  typename core_type::iterator itr = this->_map.find(id);
 
-  if(itr == this->_map->end()) {
+  if(itr == this->_map.end()) {
     return false;
   } else {
-    this->_map->erase(itr);
+    this->_map.erase(itr);
   }
-  _map->insert(id, true, value);
+  _map.insert(id, true, value);
 
   return true;
 }
 
 template<class T>
 bool
-sneaker::container::reservation_map<T>::get(token_t id, T* ptr)
+sneaker::container::reservation_map<T>::get(
+  sneaker::container::reservation_map<T>::token_t id, T* ptr)
 {
   if(!member(id)) {
     return false;
   }
 
-  typename core_type::iterator itr = this->_map->find(id);
+  typename core_type::iterator itr = this->_map.find(id);
 
-  if(itr == this->_map->end()) {
+  if(itr == this->_map.end()) {
     return false;
   }
 
-  T value = _map->template get<T, 1>(id);
+  T value = _map.template get<T, 1>(id);
 
   *ptr = value;
 
@@ -162,13 +163,14 @@ sneaker::container::reservation_map<T>::get(token_t id, T* ptr)
 
 template<class T>
 bool
-sneaker::container::reservation_map<T>::unreserve(token_t id)
+sneaker::container::reservation_map<T>::unreserve(
+  sneaker::container::reservation_map<T>::token_t id)
 {
   if(!member(id)) {
     return false;
   }
 
-  this->_map->erase(id);
+  this->_map.erase(id);
 
   return true;
 }
@@ -177,7 +179,7 @@ template<class T>
 void
 sneaker::container::reservation_map<T>::clear()
 {
-  this->_map->clear();
+  this->_map.clear();
 }
 
 
