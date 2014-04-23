@@ -52,10 +52,17 @@ tests: build
 	-for dir in $(TESTS); do ($(MAKE) -C $$dir all;); done
 
 
+.PHONY: run
+run: tests
+	-for dir in $(TESTS); do (find $$dir -type f -name "*.test" -exec '{}' \;); done
+
+
 .PHONY: clean
 clean:
 	-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir clean;); done
+	-for dir in $(TESTS); do ($(MAKE) -C $$dir clean;); done
 	rm -rf ./$(LIBSNEAKER_A)
+
 
 .PHONY: install
 install: all
