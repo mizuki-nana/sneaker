@@ -19,14 +19,24 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-SUBDIRS = libc context container cache threading functional
+CC=cc
+CXX=c++
+CFLAGS=-Wall -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
+
+LIBGTEST=/usr/lib/libgtest.a
+TESTING=../../src/testing/testing.a
+
+LIBRARIES=$(LIBGTEST) $(TESTING)
 
 
-.PHONY: all
+INPUTS=context_unittest
+
+OUTPUTS=context_unittest.test
+
 all:
-	-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir all;); done
+	-for f in $(INPUTS); do $(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) $$f.cc -o $$f.test; done
 
 
 .PHONY: clean
 clean:
-	-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir clean;); done
+	-for f in $(OUTPUTS); do rm -f $$f; done;
