@@ -26,14 +26,39 @@ AR=ar
 ARFLAGS=rvs
 
 
-INPUTS = array.c bitmap.c cutils.c dict.c hash.c hashmap.c math.c queue.c stack.c strbuf.c strutils.c utils.c uuid.c
+INPUTS = \
+	bitmap.c \
+	cutils.c \
+	dict.c \
+	hash.c \
+	hashmap.c \
+	math.c \
+	queue.c \
+	stack.c \
+	strbuf.c \
+	strutils.c \
+	utils.c \
+	uuid.c \
+	vector.c \
 
-OBJECTS = array.o bitmap.o cutils.o dict.o hash.o hashmap.o math.o queue.o stack.o strbuf.o strutils.o utils.o uuid.o
+OBJECTS = \
+	bitmap.o \
+	cutils.o \
+	dict.o \
+	hash.o \
+	hashmap.o \
+	math.o \
+	queue.o \
+	stack.o \
+	strbuf.o \
+	strutils.o \
+	utils.o \
+	uuid.o \
+	vector.o
 
 LIBC = libc.a
 
 OUTPUTS = $(OBJECTS) $(LIBC)
-
 
 objects: $(INPUTS)
 	-for f in $(INPUTS); do $(CC) $(CFLAGS) -c $$f; done

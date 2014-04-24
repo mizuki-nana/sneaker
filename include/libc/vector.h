@@ -21,35 +21,34 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Array abstraction */
+/* Dynamic vector abstraction */
 
-#ifndef SNEAKER_ARRAY_H_
-#define SNEAKER_ARRAY_H_
+#ifndef SNEAKER_VECTOR_H_
+#define SNEAKER_VECTOR_H_
 
-#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 
-typedef struct __sneaker_array_s * array_t;
+typedef struct __sneaker_vector_s * vector_t;
 
-array_t array_create();
+vector_t vector_create();
 
-void array_free(array_t *array);
+void vector_free(vector_t *vector);
 
-int array_append(array_t array, void* ptr);
+int vector_append(vector_t vector, void* ptr);
 
-void* array_get(array_t array, int index);
+void* vector_get(vector_t vector, int index);
 
-void* array_remove(array_t array, int index);
+void* vector_remove(vector_t vector, int index);
 
-void* array_set(array_t array, int index, void* ptr);
+void* vector_set(vector_t vector, int index, void* ptr);
 
-int array_size(array_t array);
+int vector_size(vector_t vector);
 
-const void** array_content(array_t array);
+const void** vector_content(vector_t vector);
 
 
 #ifdef __cplusplus
@@ -57,4 +56,4 @@ const void** array_content(array_t array);
 #endif
 
 
-#endif /* SNEAKER_ARRAY_H_ */
+#endif /* SNEAKER_VECTOR_H_ */

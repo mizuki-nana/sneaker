@@ -29,8 +29,7 @@ TESTING=../../src/testing/testing.a
 
 LIBRARIES=$(LIBGTEST) $(LIBC) $(TESTING)
 
-INPUTS= array_unittest \
-				bitmap_unittest \
+INPUTS= bitmap_unittest \
 				cutils_unittest \
 				dict_unittest \
 				hash_unittest \
@@ -40,12 +39,10 @@ INPUTS= array_unittest \
 				strbuf_unittest \
 				strutils_unittest \
 				utils_unittest \
-				uuid_unittest
+				uuid_unittest \
+				vector_unittest
 
-INPUTS_SPECIAL=stack_unittest
-
-OUTPUTS= array_unittest.test \
-				bitmap_unittest.test \
+OUTPUTS=bitmap_unittest.test \
 				cutils_unittest.test \
 				dict_unittest.test \
 				hash_unittest.test \
@@ -56,16 +53,14 @@ OUTPUTS= array_unittest.test \
 				strbuf_unittest.test \
 				strutils_unittest.test \
 				utils_unittest.test \
-				uuid_unittest.test
-
+				uuid_unittest.test \
+				vector_unittest.test
 
 inputs:
 	-for f in $(INPUTS); do $(CXX) $(CFLAGS) $(LIBRARIES) $$f.cc -o $$f.test; done
 
-inputs_special:
-	-for f in $(INPUTS_SPECIAL); do $(CXX) $(CFLAGS) $(LIBRARIES) -D_STRUCT_SIGALTSTACK -D_STRUCT_UCONTEXT $$f.cc -o $$f.test; done
 
-all: inputs inputs_special
+all: inputs
 
 
 .PHONY: clean
