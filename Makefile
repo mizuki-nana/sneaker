@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # The MIT License (MIT)
 
 # Copyright (c) 2014 Yanzheng Li
@@ -39,42 +41,50 @@ LIBSNEAKER_GZIP=$(LIBSNEAKER)-$(VERSION).tar.gz
 
 .PHONY: build
 build:
-	-for dir in $(SRC); do ($(MAKE) -C $$dir all;); done
+	@-for dir in $(SRC); do ($(MAKE) -C $$dir all;); done
 
 
 .PHONY: all
 all: build
-	find . -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER_A)
+	@find . -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER_A)
 
 
 .PHONY: tests
 tests: build
-	-for dir in $(TESTS); do ($(MAKE) -C $$dir all;); done
+	@-for dir in $(TESTS); do ($(MAKE) -C $$dir all;); done
 
 
 .PHONY: run
 run: tests
-	-for dir in $(TESTS); do (find $$dir -type f -name "*.test" -exec '{}' \;); done
+	@echo "\033[32mGoing to run all tests...\033[39m";
+	@-for dir in $(TESTS); do (find $$dir -type f -name "*.test" -exec '{}' \;); done
+	@echo "\033[32mTests run completed...\033[39m";
 
 
 .PHONY: clean
 clean:
-	-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir clean;); done
-	-for dir in $(TESTS); do ($(MAKE) -C $$dir clean;); done
-	rm -rf ./$(LIBSNEAKER_A)
+	@-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir clean;); done
+	@-for dir in $(TESTS); do ($(MAKE) -C $$dir clean;); done
+	@rm -rf ./$(LIBSNEAKER_A)
 
 
 .PHONY: install
-install: all
-	mkdir -p /usr/local/include/sneaker
-	cp -vr include/* /usr/local/include/sneaker
-	cp -vr libsneaker.a /usr/local/lib/
-	tar -zcvf $(LIBSNEAKER_GZIP) $(INCLUDE) $(SRC) $(TESTS) LICENSE Makefile README.md ./*.png
+install:
+	@echo "\033[32mInstalling $(VERSION)...\033[39m";
+	@mkdir -p /usr/local/include/sneaker
+	@cp -vr include/* /usr/local/include/sneaker
+	@cp -vr libsneaker.a /usr/local/lib/
+	@tar -zcvf $(LIBSNEAKER_GZIP) $(INCLUDE) $(SRC) $(TESTS) LICENSE Makefile README.md ./*.png
+	@echo "\033[32mInstall complete...\033[39m";
+	@echo "\033[32mHeader files: \033[35m/usr/local/include/sneaker/\033[39m";
+	@echo "\033[32mStatic lib: \033[35m/usr/local/lib/libsneaker.a\033[39m";
 
 
 .PHONY: uninstall
 uninstall:
-	rm -rf /usr/local/include/sneaker
-	rm -rf /usr/local/lib/libsneaker.a
-	rm -rf ./*.tar.gz
-	rm -rf ./$(LIBSNEAKER)
+	@echo "\033[32mUninstalling current version...\033[39m";
+	@rm -rf /usr/local/include/sneaker
+	@rm -rf /usr/local/lib/libsneaker.a
+	@rm -rf ./*.tar.gz
+	@rm -rf ./$(LIBSNEAKER)
+	@echo "\033[32mUninstalling complete...\033[39m";
