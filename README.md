@@ -12,6 +12,7 @@ Just another C/C++ library...
 * `allocator` - _custom STL container allocator_
 * `cache` - _cache management_
 * `container` - _high performance containers_
+* `context` - _context management_
 * `functional` - _versatile function wrappers that support asynchronous invocations_
 * `threading` - _thread management and daemons_
 
