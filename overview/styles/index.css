@@ -1,0 +1,41 @@
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.label-primary {
+  font-weight: lighter;
+}
+
+div.jumbotron {
+  background: url("../images/bg.jpg") left top repeat;
+}
+
+div.body {
+  font-family: Arial;
+}
+
+h2.section-title {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+h4.row-content {
+  color: #aaa;
+}
+
+div.body-section {
+  padding: 10px;
+}
+
+div.row-content {
+  margin: 20px;
+}
+
+div.row-section {
+  margin-bottom: 25px;
+}
+
+div.footer {
+  margin-top: 100px;
+}

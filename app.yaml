@@ -1,0 +1,33 @@
+application: libsneaker
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /favicon.ico
+  static_files: favicon.ico
+  upload: favicon.ico
+
+- url: /bin
+  static_dir: bin
+
+- url: /styles
+  static_dir: styles
+
+- url: /images
+  static_dir: images
+
+- url: /
+  static_files: index.html
+  upload: index.html
+
+- url: /overview/styles
+  static_dir: overview/styles
+
+- url: /overview/images
+  static_dir: overview/images
+
+- url: /overview/
+  static_files: overview/index.html
+  upload: overview/index.html
