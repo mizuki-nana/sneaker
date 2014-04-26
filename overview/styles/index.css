@@ -3,6 +3,10 @@ body {
   padding-bottom: 20px;
 }
 
+ul.content li {
+  font-size: 18px;
+}
+
 .label-primary {
   font-weight: lighter;
 }
@@ -29,7 +33,12 @@ div.body-section {
 }
 
 div.row-content {
-  margin: 20px;
+  padding: 20px 0px 25px 55px;
+}
+
+div.row-content p {
+  font-size: 16px;
+  line-height: 150%;
 }
 
 div.row-section {
@@ -38,4 +47,8 @@ div.row-section {
 
 div.footer {
   margin-top: 100px;
+}
+
+span.glyphicon {
+  padding-right: 20px;
 }

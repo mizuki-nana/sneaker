@@ -9,25 +9,30 @@ handlers:
   static_files: favicon.ico
   upload: favicon.ico
 
-- url: /bin
-  static_dir: bin
+- url: /styles/(.*\.(css))$
+  static_files: styles/\1
+  upload: styles/.*\.(css)$
 
-- url: /styles
-  static_dir: styles
-
-- url: /images
-  static_dir: images
+- url: /images/(.*\.(gif|png|jpg))$
+  static_files: images/\1
+  upload: images/.*\.(gif|png|jpg)$
 
 - url: /
   static_files: index.html
   upload: index.html
 
-- url: /overview/styles
-  static_dir: overview/styles
+- url: /overview/styles/(.*\.(css))$
+  static_files: overview/styles/\1
+  upload: overview/styles/.*\.(css)$
 
-- url: /overview/images
-  static_dir: overview/images
+- url: /overview/images/(.*\.(gif|png|jpg))$
+  static_files: overview/images/\1
+  upload: overview/images/.*\.(gif|png|jpg)$
 
 - url: /overview/
   static_files: overview/index.html
   upload: overview/index.html
+
+- url: /.*
+  static_files: 404.html
+  upload: 404.html
