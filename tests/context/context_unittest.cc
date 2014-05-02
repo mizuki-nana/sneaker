@@ -78,6 +78,7 @@ TEST_F(scoped_context_unittest, TestExceptionInContext)
 {
   scoped_context_unittest::dummy_context_manager mngr;
 
+
   ASSERT_NO_THROW(
     {
       sneaker::context::scoped_context(
@@ -89,6 +90,7 @@ TEST_F(scoped_context_unittest, TestExceptionInContext)
     }
   );
 }
+
 
 
 class nested_context_unittest : public context_unittest {

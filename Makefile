@@ -32,6 +32,7 @@ CPFLAGS=-vr
 INCLUDE=./include
 SRC=./src
 TESTS=./tests
+DOCUMENTATION=./documentation
 SUBDIRS=$(SRC) $(TESTS)
 
 LIBSNEAKER=libsneaker
@@ -39,8 +40,14 @@ LIBSNEAKER_A=libsneaker.a
 LIBSNEAKER_GZIP=$(LIBSNEAKER)-$(VERSION).tar.gz
 
 
+.PHONY: docs
+docs:
+	@cd ./docs/ && make html
+	@mkdir -p $(DOCUMENTATION) && cp -R docs/_build/* $(DOCUMENTATION)/
+
+
 .PHONY: build
-build:
+build: docs
 	@-for dir in $(SRC); do ($(MAKE) -C $$dir all;); done
 
 
@@ -66,6 +73,7 @@ clean:
 	@-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir clean;); done
 	@-for dir in $(TESTS); do ($(MAKE) -C $$dir clean;); done
 	@rm -rf ./$(LIBSNEAKER_A)
+	@rm -rf $(DOCUMENTATION)
 
 
 .PHONY: install
