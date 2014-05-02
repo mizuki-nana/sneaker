@@ -21,52 +21,20 @@
 
 CC=cc
 CXX=c++
-CFLAGS=-Wall -arch x86_64 -D_STRUCT_SIGALTSTACK -D_STRUCT_UCONTEXT -D_UUID_T
-AR=ar
-ARFLAGS=rvs
+CFLAGS=-Wall -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
+
+LIBGTEST=/usr/lib/libgtest.a
+TESTING=../../src/testing/testing.a
+
+LIBRARIES=$(LIBGTEST) $(TESTING)
 
 
-INPUTS = \
-	bitmap.c \
-	cutils.c \
-	dict.c \
-	hash.c \
-	hashmap.c \
-	math.c \
-	queue.c \
-	stack.c \
-	strbuf.c \
-	strutils.c \
-	utils.c \
-	uuid.c \
-	vector.c \
+INPUTS=context_unittest
 
-OBJECTS = \
-	bitmap.o \
-	cutils.o \
-	dict.o \
-	hash.o \
-	hashmap.o \
-	math.o \
-	queue.o \
-	stack.o \
-	strbuf.o \
-	strutils.o \
-	utils.o \
-	uuid.o \
-	vector.o
+OUTPUTS=context_unittest.test
 
-LIBC = libc.a
-
-OUTPUTS = $(OBJECTS) $(LIBC)
-
-objects: $(INPUTS)
-	-for f in $(INPUTS); do $(CC) $(CFLAGS) -c $$f; done
-
-libc.a: objects
-	$(AR) $(ARFLAGS) $(LIBC) $(OBJECTS)
-
-all: objects libc.a
+all:
+	-for f in $(INPUTS); do $(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) $$f.cc -o $$f.test; done
 
 
 .PHONY: clean

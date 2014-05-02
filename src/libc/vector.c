@@ -23,18 +23,18 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <stddef.h>
 #include <limits.h>
-#include "../../include/libc/array.h"
 #include "../../include/libc/assert.h"
 #include "../../include/libc/memory.h"
 #include "../../include/libc/utils.h"
+#include "../../include/libc/vector.h"
 
 
-#define DEFAULT_ARRAY_INITIAL_CAPACITY 4
+#define DEFAULT_VECTOR_INITIAL_CAPACITY 4
 
-#define ARRAY_MAX_CAPACITY ((int)UINT_MAX/sizeof(void*))
+#define VECTOR_MAX_CAPACITY ((int)UINT_MAX/sizeof(void*))
 
 
-struct __sneaker_array_s {
+struct __sneaker_vector_s {
   void** content;
   size_t size;
   size_t capacity;
@@ -42,161 +42,161 @@ struct __sneaker_array_s {
 
 
 /*
- * Expand the capacity of the array, if the specified
- * capacity is greater than capacity of the array.
+ * Expand the capacity of the vector, if the specified
+ * capacity is greater than capacity of the vector.
  */
 static int
-_array_ensure_capacity(array_t array, size_t capacity)
+_vector_ensure_capacity(vector_t vector, size_t capacity)
 {
-  ASSERT(array);
+  ASSERT(vector);
 
-  int oldCapacity = array->capacity;
+  int oldCapacity = vector->capacity;
 
   if(capacity > oldCapacity) {
     size_t newCapcity = (oldCapacity == 0) ?
-      DEFAULT_ARRAY_INITIAL_CAPACITY : oldCapacity;
+      DEFAULT_VECTOR_INITIAL_CAPACITY : oldCapacity;
 
     while(newCapcity < capacity) {
       size_t newCap = newCapcity << 1;
-      if(newCap < newCapcity || newCap > ARRAY_MAX_CAPACITY) {
-        newCap = ARRAY_MAX_CAPACITY;
+      if(newCap < newCapcity || newCap > VECTOR_MAX_CAPACITY) {
+        newCap = VECTOR_MAX_CAPACITY;
       }
       newCapcity = newCap;
     }
 
     void **newContent = NULL;
-    if(!array->content) {
+    if(!vector->content) {
       newContent = malloc(newCapcity * sizeof(void*));
       if(!newContent) {
         errno = ENOMEM;
         return -1;
       }
     } else {
-      newContent = realloc(array->content, sizeof(void*) * newCapcity);
+      newContent = realloc(vector->content, sizeof(void*) * newCapcity);
       if(!newContent) {
         errno = ENOMEM;
         return -1;
       }
     }
 
-    array->capacity = newCapcity;
-    array->content = newContent;
+    vector->capacity = newCapcity;
+    vector->content = newContent;
   }
 
   return 1;
 }
 
 static
-inline void _array_check_bound(array_t array, int index)
+inline void _vector_check_bound(vector_t vector, int index)
 {
-  ASSERT(array);
-  ASSERT(index >= 0 && index < array->size);
+  ASSERT(vector);
+  ASSERT(index >= 0 && index < vector->size);
 }
 
-array_t array_create()
+vector_t vector_create()
 {
-  array_t array = NULL;
+  vector_t vector = NULL;
 
-  array = MALLOC(struct __sneaker_array_s);
+  vector = MALLOC(struct __sneaker_vector_s);
 
-  if(!array) {
+  if(!vector) {
     errno = ENOMEM;
     return NULL;
   }
 
-  array->content = NULL;
-  array->size = 0;
-  array->capacity = 0;
+  vector->content = NULL;
+  vector->size = 0;
+  vector->capacity = 0;
 
-  _array_ensure_capacity(array, DEFAULT_ARRAY_INITIAL_CAPACITY);
+  _vector_ensure_capacity(vector, DEFAULT_VECTOR_INITIAL_CAPACITY);
 
-  return array;
+  return vector;
 }
 
-void array_free(array_t *array)
+void vector_free(vector_t *vector)
 {
-  array_t _array = *array;
+  vector_t _vector = *vector;
 
-  ASSERT(_array);
-  FREE(_array->content);
-  FREE(_array);
+  ASSERT(_vector);
+  FREE(_vector->content);
+  FREE(_vector);
 
-  *array = _array;
+  *vector = _vector;
 }
 
 int
-array_append(array_t array, void* ptr)
+vector_append(vector_t vector, void* ptr)
 {
-  ASSERT(array);
+  ASSERT(vector);
 
-  size_t size = array->size;
-  int res = _array_ensure_capacity(array, size+1);
+  size_t size = vector->size;
+  int res = _vector_ensure_capacity(vector, size+1);
 
   RETURN_VAL_IF_FALSE(res, 0);
 
-  array->content[size] = ptr;
-  array->size++;
+  vector->content[size] = ptr;
+  vector->size++;
 
   return 1;
 }
 
 void*
-array_get(array_t array, int index)
+vector_get(vector_t vector, int index)
 {
-  ASSERT(array);
+  ASSERT(vector);
 
-  _array_check_bound(array, index);
+  _vector_check_bound(vector, index);
 
-  return array->content[index];
+  return vector->content[index];
 }
 
 void*
-array_remove(array_t array, int index)
+vector_remove(vector_t vector, int index)
 {
-  ASSERT(array);
+  ASSERT(vector);
 
-  _array_check_bound(array, index);
+  _vector_check_bound(vector, index);
 
-  void *ptr = array->content[index];
+  void *ptr = vector->content[index];
 
-  int newSize = array->size - 1;
+  int newSize = vector->size - 1;
 
   if(index != newSize) {
     memmove(
-      array->content+index,
-      array->content+index+1,
+      vector->content+index,
+      vector->content+index+1,
       (sizeof(void*)) * (newSize - index)
     );
   }
 
-  array->size = newSize;
+  vector->size = newSize;
 
   return ptr;
 }
 
 void*
-array_set(array_t array, int index, void* ptr)
+vector_set(vector_t vector, int index, void* ptr)
 {
-  ASSERT(array);
+  ASSERT(vector);
 
-  _array_check_bound(array, index);
+  _vector_check_bound(vector, index);
 
-  void* old = array->content[index];
-  array->content[index] = ptr;
+  void* old = vector->content[index];
+  vector->content[index] = ptr;
 
   return old;
 }
 
 int
-array_size(array_t array)
+vector_size(vector_t vector)
 {
-  ASSERT(array);
-  return array->size;
+  ASSERT(vector);
+  return vector->size;
 }
 
 const void**
-array_content(array_t array)
+vector_content(vector_t vector)
 {
-  ASSERT(array);
-  return (const void**)array->content;
+  ASSERT(vector);
+  return (const void**)vector->content;
 }

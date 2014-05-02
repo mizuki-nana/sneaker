@@ -22,21 +22,64 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
 
-/* Defines version number of the build of libsneaker.a */
+#ifndef SNEAKER_SCOPED_CONTEXT_H_
+#define SNEAKER_SCOPED_CONTEXT_H_
+
+#include <cassert>
+#include <vector>
+#include "context_manager.h"
 
 
-#ifndef _SNEAKER_VERSION_H_
-#define _SNEAKER_VERSION_H_
+namespace sneaker {
 
 
-// SNEAKER_VERSION % 100 is the patch level.
-// SNEAKER_VERSION / 100 % 1000 is the minor version.
-// SNEAKER_VERSION / 100000 is the major version.
-#define SNEAKER_VERSION 001900
+namespace context {
 
 
-// Canonical version of library.
-#define SNEAKER_LIB_VERSION "0.19"
+template<class F, class... Args>
+void scoped_context(sneaker::context::context_manager* mngr, F func, Args... args)
+{
+  assert(mngr);
+
+  mngr->__enter__();
+
+  try {
+    sneaker::context::context_adapter(mngr, func, args...);
+  } catch (...) {}
+
+  mngr->__exit__();
+}
 
 
-#endif /* _SNEAKER_VERSION_H_ */
+template<class F, class... Args>
+void nested_context(std::vector<sneaker::context::context_manager*> mgnrs, F func, Args... args)
+{
+  std::for_each(
+    mgnrs.begin(),
+    mgnrs.end(),
+    [](context_manager *mngr) {
+      mngr->__enter__();
+    }
+  );
+
+  try {
+    sneaker::context::context_adapter(mgnrs, func, args...);
+  } catch (...) {}
+
+  std::for_each(
+    mgnrs.rbegin(),
+    mgnrs.rend(),
+    [](context_manager *mngr) {
+      mngr->__exit__();
+    }
+  );
+}
+
+
+} /* end namespace context */
+
+
+} /* end namespace sneaker */
+
+
+#endif /* SNEAKER_SCOPED_CONTEXT_H_ */

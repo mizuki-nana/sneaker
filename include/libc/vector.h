@@ -21,22 +21,39 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
+/* Dynamic vector abstraction */
 
-/* Defines version number of the build of libsneaker.a */
-
-
-#ifndef _SNEAKER_VERSION_H_
-#define _SNEAKER_VERSION_H_
+#ifndef SNEAKER_VECTOR_H_
+#define SNEAKER_VECTOR_H_
 
 
-// SNEAKER_VERSION % 100 is the patch level.
-// SNEAKER_VERSION / 100 % 1000 is the minor version.
-// SNEAKER_VERSION / 100000 is the major version.
-#define SNEAKER_VERSION 001900
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
-// Canonical version of library.
-#define SNEAKER_LIB_VERSION "0.19"
+typedef struct __sneaker_vector_s * vector_t;
+
+vector_t vector_create();
+
+void vector_free(vector_t *vector);
+
+int vector_append(vector_t vector, void* ptr);
+
+void* vector_get(vector_t vector, int index);
+
+void* vector_remove(vector_t vector, int index);
+
+void* vector_set(vector_t vector, int index, void* ptr);
+
+int vector_size(vector_t vector);
+
+const void** vector_content(vector_t vector);
 
 
-#endif /* _SNEAKER_VERSION_H_ */
+#ifdef __cplusplus
+}
+#endif
+
+
+#endif /* SNEAKER_VECTOR_H_ */

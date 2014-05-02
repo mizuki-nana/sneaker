@@ -21,40 +21,52 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Array abstraction */
 
-#ifndef SNEAKER_ARRAY_H_
-#define SNEAKER_ARRAY_H_
+#ifndef SNEAKER_CONTEXT_MANAGER_H_
+#define SNEAKER_CONTEXT_MANAGER_H_
 
-#include <stddef.h>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include <vector>
 
 
-typedef struct __sneaker_array_s * array_t;
-
-array_t array_create();
-
-void array_free(array_t *array);
-
-int array_append(array_t array, void* ptr);
-
-void* array_get(array_t array, int index);
-
-void* array_remove(array_t array, int index);
-
-void* array_set(array_t array, int index, void* ptr);
-
-int array_size(array_t array);
-
-const void** array_content(array_t array);
+namespace sneaker {
 
 
-#ifdef __cplusplus
-}
-#endif
+namespace context {
 
 
-#endif /* SNEAKER_ARRAY_H_ */
+class context_manager {
+protected:
+  virtual void __enter__()=0;
+  virtual void __exit__()=0;
+
+  template<class F, class... Args>
+  friend void scoped_context(context_manager*, F, Args...);
+
+  template<class F, class... Args>
+  friend void nested_context(std::vector<sneaker::context::context_manager*>, F, Args...);
+};
+
+
+struct context_adapter {
+public:
+  template<class F, class... Args>
+  explicit context_adapter(context_manager* context_manager, F func, Args... args)
+  {
+    func(context_manager, args...);
+  }
+
+  template<class F, class... Args>
+  explicit context_adapter(std::vector<context_manager*>& context_managers, F func, Args... args)
+  {
+    func(context_managers, args...);
+  }
+};
+
+
+} /* end namespace context */
+
+
+} /* end namespace sneaker */
+
+
+#endif /* SNEAKER_CONTEXT_MANAGER_H_ */

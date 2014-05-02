@@ -8,10 +8,11 @@ Just another C/C++ library...
 
 
 ## Content
-* `libc` - _utilities for C_
-* `allocator` - _custom STL container allocator_
-* `cache` - _cache management_
-* `container` - _high performance containers_
+* `libc` - _C utilities_
+* `allocator` - _STL container allocator_
+* `cache` - _in-memory cache management_
+* `container` - _versatile data structures_
+* `context` - _context management_
 * `functional` - _versatile function wrappers that support asynchronous invocations_
 * `threading` - _thread management and daemons_
 
@@ -35,7 +36,7 @@ Uninstall
 
 
 ## Version
-version 0.1.8
+version 0.1.9
 
 
 ## Compilation Environment
@@ -49,6 +50,9 @@ Make:<br/>
 
 Operating System:<br/>
 `OS X 10.9.2 (13C64)`
+
+Documentation:<br/>
+`Sphinx 1.2.2`
 
 
 ## Dependencies

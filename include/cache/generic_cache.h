@@ -24,10 +24,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef SNEAKER_GENERIC_CACHE_H_
 #define SNEAKER_GENERIC_CACHE_H_
 
+#include <algorithm>
 #include <map>
-#include <boost/smart_ptr.hpp>
+
 
 namespace sneaker {
+
 
 namespace cache {
 
@@ -59,7 +61,7 @@ private:
 
   CreateHandler _create_handler;
   DestroyHandler _destroy_handler;
-  boost::scoped_ptr<std::map<K, T>> _map;
+  std::map<K, T> _map;
 };
 
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
@@ -69,7 +71,7 @@ sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::generic_cach
 ):
   _create_handler(create_handler),
   _destroy_handler(destroy_handler),
-  _map(new std::map<K, T>())
+  _map(std::map<K, T>())
 {
   this->_check_invariance();
 }
@@ -80,30 +82,27 @@ sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::_check_invar
 {
   ASSERT(this->_create_handler);
   ASSERT(this->_destroy_handler);
-  ASSERT(this->_map);
 }
 
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
 bool
 sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::empty() const
 {
-  return this->_map->empty();
+  return this->_map.empty();
 }
 
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
 size_t
 sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::size() const
 {
-  return this->_map->size();
+  return this->_map.size();
 }
 
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
 bool
 sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::member(K key) const
 {
-  typename std::map<K, T>::iterator it;
-  it =  this->_map->find(key);
-  return it != this->_map->end();
+  return this->_map.find(key) != this->_map.end();
 }
 
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
@@ -137,7 +136,7 @@ sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::put(K key, b
     if(!forceUpdate) {
       return false;
     } else {
-      _map->erase(key);
+      _map.erase(key);
     }
   }
 
@@ -149,7 +148,7 @@ sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::put(K key, b
     return false;
   }
 
-  _map->insert(std::pair<K, T>(key, ptr));
+  _map.insert(std::pair<K, T>(key, ptr));
 
   return true;
 }
@@ -164,7 +163,7 @@ sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::erase(K key)
     return res;
   }
 
-  this->_map->erase(key);
+  this->_map.erase(key);
 
   return true;
 }
@@ -173,21 +172,23 @@ template<typename K, typename T, typename CreateHandler, typename DestroyHandler
 void
 sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::clear()
 {
-  typename std::map<K, T>::iterator itr;
-  for(itr = _map->begin(); itr != _map->end(); itr++) {
-    K key = (K)itr->first;
-    this->_erase(key);
-  }
+  std::for_each(
+    this->_map.begin(),
+    this->_map.end(),
+    [this](const std::pair<K, T>& pair) {
+      K key = pair.first;
+      this->_erase(key);
+    }
+  );
 
-  this->_map->clear();
+  this->_map.clear();
 }
 
 template<typename K, typename T, typename CreateHandler, typename DestroyHandler>
 T
 sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::_find(K key) const
 {
-  typename std::map<K, T>::iterator itr;
-  itr = _map->find(key);
+  typename std::map<K, T>::const_iterator itr = _map.find(key);
   return (T)(itr->second);
 }
 
@@ -214,6 +215,7 @@ sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>::_erase(K key
 
 
 } /* end namespace cache */
+
 
 } /* end namespace sneaker */
 
