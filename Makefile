@@ -23,7 +23,7 @@
 
 # Top level Makefile.
 
-VERSION=v0.1.8
+VERSION=v0.1.9
 
 AR=ar
 ARFLAGS=rvs
