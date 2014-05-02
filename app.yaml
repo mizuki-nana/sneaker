@@ -33,6 +33,26 @@ handlers:
   static_files: overview/index.html
   upload: overview/index.html
 
+- url: /documentation/_static/(.*\.(gif|png|jpg|css|js))$
+  static_files: documentation/_static/\1
+  upload: documentation/_static/.*\.(gif|png|jpg|css|js)$
+
+- url: /documentation/(.*\.(gif|png|jpg|css|js))$
+  static_files: documentation/\1
+  upload: documentation/.*\.(gif|png|jpg|css|js)$
+
+- url: /documentation/src/(.*\.(html))$
+  static_files: documentation/src/\1
+  upload: documentation/src/.*\.(html)$
+
+- url: /documentation/(.*\.(html))$
+  static_files: documentation/\1
+  upload: documentation/.*\.(html)$
+
+- url: /documentation/
+  static_files: documentation/index.html
+  upload: documentation/index.html
+
 - url: /.*
   static_files: 404.html
   upload: 404.html
