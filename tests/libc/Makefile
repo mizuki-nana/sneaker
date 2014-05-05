@@ -23,6 +23,9 @@ CC=gcc
 CXX=c++
 CFLAGS=-Wall -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
 
+# Extra flags to resolve `stack_t` definition conflict.
+EXTRA_CFLAGS=-D_STRUCT_SIGALTSTACK -D_STRUCT_UCONTEXT
+
 LIBGTEST=/usr/lib/libgtest.a
 LIBC=../../src/libc/libc.a
 TESTING=../../src/testing/testing.a
@@ -36,6 +39,7 @@ INPUTS= bitmap_unittest \
 				hashmap_unittest \
 				math_unittest \
 				queue_unittest \
+				stack_unittest \
 				strbuf_unittest \
 				strutils_unittest \
 				utils_unittest \
@@ -57,7 +61,7 @@ OUTPUTS=bitmap_unittest.test \
 				vector_unittest.test
 
 inputs:
-	-for f in $(INPUTS); do $(CXX) $(CFLAGS) $(LIBRARIES) $$f.cc -o $$f.test; done
+	-for f in $(INPUTS); do $(CXX) $(CFLAGS) $(EXTRA_CFLAGS) $(LIBRARIES) $$f.cc -o $$f.test; done
 
 
 all: inputs

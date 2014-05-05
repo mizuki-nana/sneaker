@@ -22,12 +22,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
 
+#include <assert.h>
 #include <errno.h>
-#include "../../include/libc/assert.h"
+#include <stdlib.h>
 #include "../../include/libc/common.h"
 #include "../../include/libc/memory.h"
-#include "../../include/libc/utils.h"
 #include "../../include/libc/stack.h"
+#include "../../include/libc/utils.h"
 
 
 struct __sneaker_stack_s {
@@ -53,20 +54,20 @@ stack_t stack_create()
 
 size_t stack_size(stack_t stack)
 {
-  ASSERT(stack);
+  assert(stack);
   return stack->size;
 }
 
 void* stack_top(stack_t stack)
 {
-  ASSERT(stack);
+  assert(stack);
   RETURN_VAL_IF_NULL(stack->top, NULL);
   return stack->top->value;
 }
 
 int stack_push(stack_t stack, void *val, size_t size)
 {
-  ASSERT(stack);
+  assert(stack);
 
   RETURN_VAL_IF_NULL(val, 0);
 
@@ -97,13 +98,13 @@ int stack_push(stack_t stack, void *val, size_t size)
 
 void* stack_pop(stack_t stack) 
 {
-  ASSERT(stack);
+  assert(stack);
 
   RETURN_VAL_IF_NULL(stack->top, NULL);
 
   singly_node_t top = stack->top;
 
-  ASSERT(top);
+  assert(top);
   stack->top = top->next;
 
   void* val = top->value;
@@ -117,14 +118,14 @@ void* stack_pop(stack_t stack)
 void stack_free(stack_t *stack)
 {
   stack_t _stack = *stack;
-  ASSERT(_stack);
+  assert(_stack);
 
   while(stack_size(_stack) > 0) {
     stack_pop(_stack);
   }
 
-  ASSERT(_stack->top == NULL);
-  ASSERT(_stack->size == 0);
+  assert(_stack->top == NULL);
+  assert(_stack->size == 0);
 
   FREE(_stack);
 

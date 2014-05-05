@@ -21,7 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for `uuid128_t` defined in include/libc/uuid.h */
+/* Unit test for `uuid128_t` defined in sneaker/libc/uuid.h */
 
 #include <climits>
 #include <set>
@@ -29,16 +29,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/libc/uuid.h"
 
 
-class UUIDUnitTest : public ::testing::Test {};
+class uuid_unittest : public ::testing::Test {};
 
 
-TEST_F(UUIDUnitTest, TestUUIDCompareSameID)
+TEST_F(uuid_unittest, TestUUIDCompareSameID)
 {
   uuid128_t id = uuid_create();
   ASSERT_EQ(0, uuid_compare(id, id));
 }
 
-TEST_F(UUIDUnitTest, TestUUIDCompareDifferentID)
+TEST_F(uuid_unittest, TestUUIDCompareDifferentID)
 {
   uuid128_t uuid1 = uuid_create();
   uuid128_t uuid2 = uuid_create();
@@ -46,20 +46,7 @@ TEST_F(UUIDUnitTest, TestUUIDCompareDifferentID)
   ASSERT_NE(0, uuid_compare(uuid1, uuid2));
 }
 
-TEST_F(UUIDUnitTest, TestHashOnDifferentUUID_1)
-{
-  const uuid128_t uuid1 = uuid_create();
-  const uuid128_t uuid2 = uuid_create();
-
-  ASSERT_NE(0, uuid_compare(uuid1, uuid2));
-
-  uint64_t hash1 = uuid_to_hash(uuid1);
-  uint64_t hash2 = uuid_to_hash(uuid2);
-
-  ASSERT_NE(hash1, hash2);
-}
-
-TEST_F(UUIDUnitTest, TestHashOnDifferentUUID_2)
+TEST_F(uuid_unittest, TestHashOnDifferentUUID)
 {
   int i;
   for(i = 0; i < USHRT_MAX; i++) {
@@ -75,7 +62,7 @@ TEST_F(UUIDUnitTest, TestHashOnDifferentUUID_2)
   }
 }
 
-TEST_F(UUIDUnitTest, TestUUIDCreateAndHash)
+TEST_F(uuid_unittest, TestCreateAndHash)
 {
   int i;
   for(i = 0; i < USHRT_MAX; i++) {
@@ -86,7 +73,7 @@ TEST_F(UUIDUnitTest, TestUUIDCreateAndHash)
   }
 }
 
-TEST_F(UUIDUnitTest, TestUniqueness)
+TEST_F(uuid_unittest, TestUniqueness)
 {
   std::set<uint64_t> hashes;
 

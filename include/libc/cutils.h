@@ -42,7 +42,7 @@ extern "C" {
  * a minus sign (-). With any other base, value is always considered unsigned.
  ******************************************************************************/
 char*
-itoa(int value, char *str, int base);
+itoa(int value, char *str, int base=10);
 
 
 /*******************************************************************************
@@ -65,7 +65,7 @@ itoa(int value, char *str, int base);
  * integral number, or if no such sequence exists because either `str` is empty
  * or it contains only whitespace characters, no conversion is performed.
  *
- * On success, the function returns the converted integral number as an int value.
+ * On success, the function returns the converted integer number.
  * If no valid conversion could be performed, a zero value is returned.
  * If the correct value is out of the range of representable values,
  * `INT_MAX` or `INT_MIN` is returned.

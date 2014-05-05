@@ -21,40 +21,40 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for `vector_t` defined in include/libc/vector.h */
+/* Unit test for `vector_t` defined in sneaker/libc/vector.h */
 
-#include <string.h>
-#include <limits.h>
+#include <cassert>
+#include <climits>
+#include <string>
 #include "../../include/testing/testing.h"
-#include "../../include/libc/assert.h"
 #include "../../include/libc/memory.h"
 #include "../../include/libc/utils.h"
 #include "../../include/libc/vector.h"
 
 
-class VectorUnitTest : public ::testing::Test {
+class vector_unittest : public ::testing::Test {
 protected:
   virtual void SetUp() {
     _vector = vector_create();
-    ASSERT(_vector);
+    assert(_vector);
   }
 
   virtual void TearDown() {
     vector_free(&_vector);
-    ASSERT(_vector == NULL);
+    assert(_vector == NULL);
   }
 
   vector_t _vector;
 };
 
 
-TEST_F(VectorUnitTest, ArrayCreationTest)
+TEST_F(vector_unittest, TestCreation)
 {
-  ASSERT(_vector);
+  assert(_vector);
   ASSERT_EQ(0, vector_size(_vector));
 }
 
-TEST_F(VectorUnitTest, TestAppendAndGet)
+TEST_F(vector_unittest, TestAppendAndGet)
 {
   int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   int i;
@@ -74,7 +74,7 @@ TEST_F(VectorUnitTest, TestAppendAndGet)
   ASSERT_EQ(10, vector_size(_vector));
 }
 
-TEST_F(VectorUnitTest, TestAppendAndRemove)
+TEST_F(vector_unittest, TestAppendAndRemove)
 {
   int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   int i;
@@ -94,7 +94,7 @@ TEST_F(VectorUnitTest, TestAppendAndRemove)
   ASSERT_EQ(0, vector_size(_vector));
 }
 
-TEST_F(VectorUnitTest, TestRemove)
+TEST_F(vector_unittest, TestRemove)
 {
   int odds[] = {1, 3, 5, 7, 9};
   int i;
@@ -140,7 +140,7 @@ TEST_F(VectorUnitTest, TestRemove)
   }
 }
 
-TEST_F(VectorUnitTest, TestRemoveAndSet)
+TEST_F(vector_unittest, TestRemoveAndSet)
 {
   int odds[] = {1,3,5,7,9};
   int evens[] = {2,4,6,8,10};

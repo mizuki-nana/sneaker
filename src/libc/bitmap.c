@@ -21,9 +21,10 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-#include <stddef.h>
+#include <assert.h>
 #include <math.h>
-#include "../../include/libc/assert.h"
+#include <stddef.h>
+#include <stdlib.h>
 #include "../../include/libc/bitmap.h"
 #include "../../include/libc/memory.h"
 #include "../../include/libc/utils.h"
@@ -76,9 +77,9 @@ bitmap_t bitmap_create(size_t width, size_t height)
 
 void bitmap_free(bitmap_t *bitmap)
 {
-  bitmap_t _bitmap = *bitmap;
+  assert(bitmap);
 
-  ASSERT(_bitmap);
+  bitmap_t _bitmap = *bitmap;
 
   int i;
   for(i = 0; i < _bitmap->_height; i++) {
@@ -92,19 +93,19 @@ void bitmap_free(bitmap_t *bitmap)
 
 size_t bitmap_width(bitmap_t bitmap)
 {
-  ASSERT(bitmap);
+  assert(bitmap);
   return bitmap->_width;
 }
 
 size_t bitmap_height(bitmap_t bitmap)
 {
-  ASSERT(bitmap);
+  assert(bitmap);
   return bitmap->_height;
 }
 
 int bitmap_set_bit(bitmap_t bitmap, size_t row, size_t col)
 {
-  ASSERT(bitmap);
+  assert(bitmap);
 
   RETURN_VAL_IF_FALSE(bitmap->_width > col, 0);
   RETURN_VAL_IF_FALSE(bitmap->_height > row, 0);
@@ -120,8 +121,8 @@ int bitmap_set_bit(bitmap_t bitmap, size_t row, size_t col)
    */
   int bit = sizeof(char) - row % sizeof(char);
 
-  ASSERT((bit >= 0));
-  ASSERT((bit <= sizeof(char)));
+  assert((bit >= 0));
+  assert((bit <= sizeof(char)));
 
   set_nth_bit(&val, bit);
 
@@ -132,7 +133,7 @@ int bitmap_set_bit(bitmap_t bitmap, size_t row, size_t col)
 
 int bitmap_clear_bit(bitmap_t bitmap, size_t row, size_t col)
 {
-  ASSERT(bitmap);
+  assert(bitmap);
 
   RETURN_VAL_IF_FALSE(bitmap->_width > col, 0);
   RETURN_VAL_IF_FALSE(bitmap->_height > row, 0);
@@ -144,8 +145,8 @@ int bitmap_clear_bit(bitmap_t bitmap, size_t row, size_t col)
 
   int bit = sizeof(char) - row % sizeof(char);
 
-  ASSERT((bit >= 0));
-  ASSERT((bit <= sizeof(char)));
+  assert((bit >= 0));
+  assert((bit <= sizeof(char)));
 
   clear_nth_bit(&val, bit);
 
@@ -156,7 +157,7 @@ int bitmap_clear_bit(bitmap_t bitmap, size_t row, size_t col)
 
 int bitmap_is_set(bitmap_t bitmap, size_t row, size_t col)
 {
-  ASSERT(bitmap);
+  assert(bitmap);
 
   RETURN_VAL_IF_FALSE(bitmap->_width > col, 0);
   RETURN_VAL_IF_FALSE(bitmap->_height > row, 0);
@@ -168,15 +169,15 @@ int bitmap_is_set(bitmap_t bitmap, size_t row, size_t col)
 
   int bit = sizeof(char) - row % sizeof(char);
 
-  ASSERT((bit >= 0));
-  ASSERT((bit <= sizeof(char)));
+  assert((bit >= 0));
+  assert((bit <= sizeof(char)));
 
   return is_bit_set(val, bit);
 }
 
 void bitmap_clear(bitmap_t bitmap)
 {
-  ASSERT(bitmap);
+  assert(bitmap);
 
   int i;
   for(i = 0; i < bitmap->_height; i++) {

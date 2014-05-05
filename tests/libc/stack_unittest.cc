@@ -21,41 +21,41 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for `stack_t` defined in include/libc/stack.h */
+/* Unit test for `stack_t` defined in sneaker/libc/stack.h */
 
-#include <limits.h>
-#include <string.h>
+#include <cassert>
+#include <climits>
+#include <cstring>
 #include "../../include/testing/testing.h"
-#include "../../include/libc/assert.h"
 #include "../../include/libc/memory.h"
 #include "../../include/libc/stack.h"
 #include "../../include/libc/utils.h"
 
 
-class StackTest : public ::testing::Test {
+class stack_unittest : public ::testing::Test {
 protected:
   virtual void SetUp() {
     _stack = stack_create();
-    ASSERT(_stack);
+    assert(_stack);
   }
 
   virtual void TearDown() {
     stack_free(&_stack);
-    ASSERT(_stack == NULL);
+    assert(_stack == NULL);
   }
 
   stack_t _stack;
 };
 
 
-TEST_F(StackTest, TestStackCreation)
+TEST_F(stack_unittest, TestCreation)
 {
-  ASSERT(_stack);
+  assert(_stack);
   ASSERT_EQ(0, stack_size(_stack));
-  ASSERT(stack_pop(_stack) == NULL);
+  assert(stack_pop(_stack) == NULL);
 }
 
-TEST_F(StackTest, TestStackPushAndPop_1)
+TEST_F(stack_unittest, TestPushAndPop1)
 {
   int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   int i;
@@ -72,12 +72,12 @@ TEST_F(StackTest, TestStackPushAndPop_1)
     ASSERT_EQ(numbers[i], val);
   }
 
-  ASSERT(stack_pop(_stack) == NULL);
+  assert(stack_pop(_stack) == NULL);
 
   ASSERT_EQ(0, stack_size(_stack));
 }
 
-TEST_F(StackTest, TestStackPushAndPop_2)
+TEST_F(stack_unittest, TestPushAndPop2)
 {
   int odds[] = {1, 3, 5, 7, 9};
   int evens[] = {2, 4, 6, 8, 10};
@@ -95,7 +95,7 @@ TEST_F(StackTest, TestStackPushAndPop_2)
     ASSERT_EQ(odds[i], val);
   }
 
-  ASSERT(stack_pop(_stack) == NULL);
+  assert(stack_pop(_stack) == NULL);
   ASSERT_EQ(0, stack_size(_stack));
 
   for(i = 0; i < 5; i++) {
@@ -110,11 +110,11 @@ TEST_F(StackTest, TestStackPushAndPop_2)
     ASSERT_EQ(evens[i], val);
   }
 
-  ASSERT(stack_pop(_stack) == NULL);
+  assert(stack_pop(_stack) == NULL);
   ASSERT_EQ(0, stack_size(_stack));
 }
 
-TEST_F(StackTest, TestStackPushAndPop_3)
+TEST_F(stack_unittest, TestPushAndPop3)
 {
   const char *fruits[26] = {
     "Apple", "Banana", "Coconut", "Dragonfruit", "Elephant apple",
@@ -140,5 +140,5 @@ TEST_F(StackTest, TestStackPushAndPop_3)
   }
 
   ASSERT_EQ(0, stack_size(_stack));
-  ASSERT(stack_pop(_stack) == NULL);
+  assert(stack_pop(_stack) == NULL);
 }

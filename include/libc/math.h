@@ -30,15 +30,13 @@ extern "C" {
 
 
 /*
- * Get the least largest unsigned integer closest to the
- * input value that's an exponential of base 2.
+ * Computes the least largest exponent of base 2 that is closest to the input value.
  */
 unsigned int nearest_exp2_ceil(unsigned int);
 
 
 /*
- * Get the most largest unsigned integer closest to the
- * input value that's an exponential of base 2.
+ * Computes the most largest exponent of base 2 that is closest to the input value.
  */
 unsigned int nearest_exp2_floor(unsigned int);
 

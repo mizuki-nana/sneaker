@@ -21,27 +21,27 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for `strbuf_t` defined in include/libc/strbuf.h */
+/* Unit test for `strbuf_t` defined in sneaker/libc/strbuf.h */
 
-#include <limits.h>
-#include <string.h>
+#include <cassert>
+#include <climits>
+#include <cstring>
 #include "../../include/testing/testing.h"
-#include "../../include/libc/assert.h"
 #include "../../include/libc/c_str.h"
 #include "../../include/libc/memory.h"
 #include "../../include/libc/strbuf.h"
 
 
-class StrbufTest : public ::testing::Test {
+class strbuf_unittest : public ::testing::Test {
 protected:
   virtual void SetUp() {
     _strbuf = strbuf_create();
-    ASSERT(_strbuf);
+    assert(_strbuf);
   }
 
   virtual void TearDown() {
     strbuf_free(&_strbuf);
-    ASSERT(_strbuf == NULL);
+    assert(_strbuf == NULL);
   }
 
   void test_empty();
@@ -52,7 +52,7 @@ protected:
 };
 
 void
-StrbufTest::test_empty()
+strbuf_unittest::test_empty()
 {
   ASSERT_STREQ("", strbuf_cstr(_strbuf));
   ASSERT_EQ(0, strbuf_len(_strbuf));
@@ -60,7 +60,7 @@ StrbufTest::test_empty()
 }
 
 void
-StrbufTest::test_append(const c_str text)
+strbuf_unittest::test_append(const c_str text)
 {
   ASSERT_STREQ("", strbuf_cstr(_strbuf));
 
@@ -72,7 +72,7 @@ StrbufTest::test_append(const c_str text)
 }
 
 void
-StrbufTest::test_append(
+strbuf_unittest::test_append(
   const c_str text1, const c_str text2, const c_str expected_str)
 {
   ASSERT_STREQ("", strbuf_cstr(_strbuf));
@@ -89,19 +89,20 @@ StrbufTest::test_append(
 }
 
 
-TEST_F(StrbufTest, TestStrbufCreation)
+TEST_F(strbuf_unittest, TestCreation)
 {
-  ASSERT(_strbuf);
-  ASSERT(strbuf_cstr(_strbuf));
+  assert(_strbuf);
+  assert(strbuf_cstr(_strbuf));
+  ASSERT_STREQ("", strbuf_cstr(_strbuf));
 }
 
-TEST_F(StrbufTest, TestStrbufAppend_1)
+TEST_F(strbuf_unittest, TestAppend1)
 {
   char text[] = "Testing strbuf";
   this->test_append(text);
 }
 
-TEST_F(StrbufTest, TestStrbufAppend_2)
+TEST_F(strbuf_unittest, TestStrbufAppend2)
 {
   char text1[] = "5 km a day, ";
   char text2[] = "keep the doctor away!";
@@ -113,7 +114,7 @@ TEST_F(StrbufTest, TestStrbufAppend_2)
   );
 }
 
-TEST_F(StrbufTest, TestStrbufAppend_3)
+TEST_F(strbuf_unittest, TestStrbufAppend3)
 {
   char text1[] = "Apple, banana, coconut";
   char text2[] = "Airplane, boat, car";
@@ -127,15 +128,16 @@ TEST_F(StrbufTest, TestStrbufAppend_3)
   this->test_append(text2);
 }
 
-TEST_F(StrbufTest, TestStrbufAppend_4)
+TEST_F(strbuf_unittest, TestStrbufAppend4)
 {
-  char text1[1000];
+  const int length = 1020;
+  char text1[length];
   int i;
 
-  for(i = 0; i < 999; i++) {
+  for(i = 0; i < length-1; i++) {
     text1[i] = (char)(i % 26) + '0';
   }
-  text1[999] = '\0';
+  text1[length-1] = '\0';
 
   this->test_append(text1);
 
@@ -144,7 +146,7 @@ TEST_F(StrbufTest, TestStrbufAppend_4)
   size_t size = strlen(text1) + strlen(text2);
 
   c_str text = (c_str)malloc(size+1);
-  ASSERT(text);
+  assert(text);
   memset(text, 0, size + 1);
   text = strcat(text, text1);
   text = strcat(text, text2);
@@ -155,7 +157,7 @@ TEST_F(StrbufTest, TestStrbufAppend_4)
   ASSERT_EQ(size, strbuf_len(_strbuf));
 }
 
-TEST_F(StrbufTest, TestStrbufAppend_5)
+TEST_F(strbuf_unittest, TestStrbufAppend5)
 {
   char text1[3000];
   int i;
@@ -172,7 +174,7 @@ TEST_F(StrbufTest, TestStrbufAppend_5)
   size_t size = strlen(text1) + strlen(text2);
 
   c_str text = (c_str)malloc(size + 1);
-  ASSERT(text);
+  assert(text);
   memset(text, 0 , size + 1);
   text = strcat(text, text1);
   text = strcat(text, text2);
@@ -183,7 +185,7 @@ TEST_F(StrbufTest, TestStrbufAppend_5)
   ASSERT_EQ(size, strbuf_len(_strbuf));
 }
 
-TEST_F(StrbufTest, TestStrbufEmpty)
+TEST_F(strbuf_unittest, TestEmpty)
 {
   char text[] = "Another test for strbuf";
   strbuf_append(_strbuf, text);

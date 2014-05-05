@@ -21,8 +21,9 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
+#include <assert.h>
+#include <stdlib.h>
 #include <string.h>
-#include "../../include/libc/assert.h"
 #include "../../include/libc/c_str.h"
 #include "../../include/libc/dict.h"
 #include "../../include/libc/hash.h"
@@ -30,17 +31,20 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/libc/memory.h"
 #include "../../include/libc/utils.h"
 
+
 #define DICT_DEFAULT_CAPACITY 16
+
 
 struct __sneaker_dict_s {
   hashmap_t hashmap;
 };
 
+
 static
 inline int _dict_keycmpfunc(void* key1, void* key2)
 {
-  ASSERT(key1);
-  ASSERT(key2);
+  assert(key1);
+  assert(key2);
 
   c_str _key1 = (c_str)key1;
   c_str _key2 = (c_str)key2;
@@ -49,7 +53,7 @@ inline int _dict_keycmpfunc(void* key1, void* key2)
 }
 
 static
-inline hash_t _dict_hashfunc(void* key)
+inline unsigned long int _dict_hashfunc(void* key)
 {
   return linear_horners_rule_str_hash((c_str)key);
 }
@@ -81,7 +85,7 @@ dict_t dict_create()
 
 size_t dict_size(dict_t dict)
 {
-  ASSERT(dict);
+  assert(dict);
   return hashmap_size(dict->hashmap);
 }
 
@@ -89,7 +93,7 @@ void dict_free(dict_t *dict)
 {
   dict_t _dict = *dict;
 
-  ASSERT(_dict);
+  assert(_dict);
 
   hashmap_free(&_dict->hashmap);
 
@@ -100,17 +104,17 @@ void dict_free(dict_t *dict)
 
 void* dict_put(dict_t dict, const char *key, void* val)
 {
-  ASSERT(dict);
-  ASSERT(key);
-  ASSERT(val);
+  assert(dict);
+  assert(key);
+  assert(val);
 
   return hashmap_put(dict->hashmap, (c_str)key, val);
 }
 
 void* dict_get(dict_t dict, const char *key)
 {
-  ASSERT(dict);
-  ASSERT(key);
+  assert(dict);
+  assert(key);
 
   return hashmap_get(dict->hashmap, (c_str)key);
 }

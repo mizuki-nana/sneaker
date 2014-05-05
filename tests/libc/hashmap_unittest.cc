@@ -21,19 +21,20 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for `hashmap_t` defined in include/libc/hashmap.h */
+/* Unit test for `hashmap_t` defined in sneaker/libc/hashmap.h */
 
 
+#include <cassert>
+#include <unordered_map>
 #include "../../include/testing/testing.h"
-#include "../../include/libc/assert.h"
 #include "../../include/libc/c_str.h"
 #include "../../include/libc/hash.h"
 #include "../../include/libc/hashmap.h"
 #include "../../include/libc/utils.h"
 
 
-hash_t simple_hash(c_str s) {
-  hash_t h = 0;
+unsigned long int simple_hash(c_str s) {
+  unsigned long int h = 0;
   int i;
 
   for(i = 0; i < strlen(s); i++) {
@@ -43,7 +44,7 @@ hash_t simple_hash(c_str s) {
   return h;
 }
 
-hash_t hashfunc(void *key) {
+unsigned long int hashfunc(void *key) {
   RETURN_VAL_IF_NULL(key, 0);
   c_str s = (c_str)key;
   return simple_hash(s);
@@ -107,7 +108,7 @@ KeyVal vehicles[] = {
 };
 
 
-class HashmapUnitTest : public ::testing::Test {
+class hashmap_unittest : public ::testing::Test {
 protected:
   virtual void SetUp() {
     _hashmap = hashmap_create(
@@ -124,16 +125,16 @@ protected:
 };
 
 
-TEST_F(HashmapUnitTest, TestHashmapCreationSuccessful)
+TEST_F(hashmap_unittest, TestCreation)
 {
-  ASSERT(_hashmap);
+  assert(_hashmap);
   ASSERT_EQ(hashmap_size(_hashmap), 0);
   ASSERT_EQ(hashmap_bucketcount(_hashmap), 8);
 }
 
-TEST_F(HashmapUnitTest, TestHashmapPutSingleItem)
+TEST_F(hashmap_unittest, TestPutSingleItem)
 {
-  ASSERT(_hashmap);
+  assert(_hashmap);
 
   hashmap_put(_hashmap, fruits[0].key, fruits[0].val);
   hashmap_put(_hashmap, fruits[1].key, fruits[1].val); 
@@ -158,9 +159,9 @@ TEST_F(HashmapUnitTest, TestHashmapPutSingleItem)
   ASSERT_EQ(6, hashmap_capacity(_hashmap));
 }
 
-TEST_F(HashmapUnitTest, TestHashmapPutMultipleValues)
+TEST_F(hashmap_unittest, TestPutMultipleValues)
 {
-  ASSERT(_hashmap);
+  assert(_hashmap);
 
   hashmap_put(_hashmap, fruits[0].key, fruits[0].val);
   hashmap_put(_hashmap, fruits[1].key, fruits[1].val);
@@ -227,9 +228,9 @@ TEST_F(HashmapUnitTest, TestHashmapPutMultipleValues)
   ASSERT_EQ(0, hashmap_size(_hashmap));
 }
 
-TEST_F(HashmapUnitTest, TestHashmapGetWithNonExistentKeys)
+TEST_F(hashmap_unittest, TestGetWithNonExistentKeys)
 {
-  ASSERT(_hashmap);
+  assert(_hashmap);
 
   hashmap_put(_hashmap, fruits[0].key, fruits[0].val);
   hashmap_put(_hashmap, fruits[1].key, fruits[1].val);
@@ -249,9 +250,9 @@ TEST_F(HashmapUnitTest, TestHashmapGetWithNonExistentKeys)
   ASSERT_EQ(3, hashmap_size(_hashmap));
 }
 
-TEST_F(HashmapUnitTest, TestHashmapFree)
+TEST_F(hashmap_unittest, TestFree)
 {
-  ASSERT(_hashmap);
+  assert(_hashmap);
 
   hashmap_put(_hashmap, fruits[0].key, fruits[0].val);
   hashmap_put(_hashmap, fruits[1].key, fruits[1].val);
@@ -267,4 +268,29 @@ TEST_F(HashmapUnitTest, TestHashmapFree)
   hashmap_free(&_hashmap);
 
   ASSERT_EQ(NULL, _hashmap);
+}
+
+TEST_F(hashmap_unittest, TestStress)
+{
+  const int TOP = 500000;
+  std::unordered_map<int, char*> map;
+
+  for(int i = 0; i < TOP; i++) {
+    char buf[10];
+    snprintf(buf, sizeof(buf), "%d", i);
+    char* s = strdup(buf);
+    assert(s);
+
+    hashmap_put(_hashmap, s, s);
+    ASSERT_EQ(i + 1, hashmap_size(_hashmap));
+
+    map[i] = s;
+  }
+
+  for(int i = 0; i < TOP; i++) {
+    char buf[10];
+    snprintf(buf, sizeof(buf), "%d", i);
+
+    ASSERT_STREQ(map[i], (char*)hashmap_get(_hashmap, buf));
+  }
 }
