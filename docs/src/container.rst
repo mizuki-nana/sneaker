@@ -374,6 +374,14 @@ of multiple values of different statically defined types.
 
   An implementation of assorted-values map container based on `std::unordered_map`.
 
+  Header file: `sneaker/container/unordered_assorted_value_map.h`
+
+  .. cpp:type:: core_type
+    :noindex:
+
+    The core mapping type used internally.
+    This type is `std::unordered_map<K, boost::tuple<ValueTypes ...>>`.
+
   .. cpp:type:: key_type
     :noindex:
 
@@ -407,7 +415,7 @@ of multiple values of different statically defined types.
   .. cpp:type:: reference
     :noindex:
 
-    The reference type fot a key-value(s) pair.
+    The reference type for a key-value(s) pair.
 
   .. cpp:type:: const_reference
     :noindex:
@@ -449,6 +457,12 @@ of multiple values of different statically defined types.
 
     Constructor.
 
+  .. cpp:function:: unordered_assorted_value_map(const core_type&)
+    :noindex:
+
+    Constructor that takes a reference of core mapping type. The mapping is
+    copied over.
+
   .. cpp:function:: unordered_assorted_value_map(const unordered_assorted_value_map&)
     :noindex:
 
@@ -457,7 +471,24 @@ of multiple values of different statically defined types.
   .. cpp:function:: ~unordered_assorted_value_map()
     :noindex:
 
-    Destructor. The mapping is destroyed.
+    Destructor. All elements in the mapping are freed.
+
+  .. cpp:function:: static template<size_type N, class Hash, class Pred, class Alloc>
+                    sneaker::container::unordered_assorted_value_map<K, ... ValueTypes> create()
+    :noindex:
+
+    Static factory method that creates an instance with the specified initial
+    capacity `N`, key hash object of type `Hash`, value comparison object of
+    type `Pred` and value allocation object of type `Alloc`.
+
+  .. cpp:function:: static template<size_type N, class Hash, class Pred, class Alloc>
+                    sneaker::container::unordered_assorted_value_map<K, ... ValueTypes> create(const Hash&, const Pred&, const Alloc&)
+    :noindex:
+
+    Static factory method that creates an instance with the specified initial
+    capacity `N`, key hash object of type `Hash`, value comparison object of
+    type `Pred` and value allocation object of type `Alloc`, and a reference of
+    each type respectively except for `N`.
 
   .. cpp:function:: bool empty() const
     :noindex:
@@ -473,13 +504,14 @@ of multiple values of different statically defined types.
   .. cpp:function:: size_type max_size() const
     :noindex:
 
-    Determines the maximum number of key-value(s) pairs that can be in the mapping.
+    Determines the maximum number of key-value(s) pairs that can be in the
+    mapping.
 
   .. cpp:function:: void insert(K, ValueTypes)
     :noindex:
 
-    Inserts a key-value(s) pair into mapping. If the specified key already exists
-    in the mapping, its value(s) will be overwritten.
+    Inserts a key-value(s) pair into mapping. If the specified key already
+    exists in the mapping, its value(s) will be overwritten.
 
   .. cpp:function:: void erase(iterator)
     :noindex:
@@ -491,14 +523,14 @@ of multiple values of different statically defined types.
     :noindex:
 
     Erases a particular key-value(s) pair in the mapping by a key.
-    Returns the number of elements erased. Note if the specified key does not exist
-    in the mapping, then the number of elements returned is `0`.
+    Returns the number of elements erased. Note if the specified key does not
+    exist in the mapping, then the number of elements returned is `0`.
 
   .. cpp:function:: void erase(iterator, iterator)
     :noindex:
 
-    Erases a range of key-value(s) in the mapping in between in the two specified
-    iterators, inclusively.
+    Erases a range of key-value(s) in the mapping in between in the two
+    specified iterators, inclusively.
 
   .. cpp:function:: void swap(assorted_value_map&)
     :noindex:
@@ -515,12 +547,15 @@ of multiple values of different statically defined types.
     :noindex:
 
     Retrieves the value(s) associated with the specified key by reference.
+    Note if the key specified does not exist in the mapping, `std::out_of_range`
+    is raised.
 
   .. cpp:function:: const mapped_type& at(K) const
     :noindex:
 
     Retrieves the value(s) associated with the specified key by constant
-    reference.
+    reference. Note if the key specified does not exist in the mapping,
+    `std::out_of_range` is raised.
 
   .. cpp:function:: template<class A, size_t Index>
                     A get(K)
@@ -529,16 +564,26 @@ of multiple values of different statically defined types.
     Retrieves a particular value among the assortment of values associated
     with the specified key. Type `A` is the type of the value, and `Index` is
     a zero-based index that specifies the position of the value to be retrieved,
-    among the list of values.
+    among the list of values. Note if the key specified does not exist in the
+    mapping, `std::out_of_range` is raised.
 
   .. cpp:function:: template<class A, size_t Index>
                     const A& get(K) const
     :noindex:
 
-    Retrieves a particular value by reference among the assortment of values
-    associated with the specified key. Type `A` is the type of the value,
+    Retrieves a particular value by constant reference among the assortment of
+    values associated with the specified key. Type `A` is the type of the value,
     and `Index` is a zero-based index that specifies the position of the value
-    to be retrieved, among the list of values.
+    to be retrieved, among the list of values. Note if the key specified does
+    not exist in the mapping, `std::out_of_range` is raised.
+
+  .. cpp:function:: mapped_type& operator[](const K&)
+    :noindex:
+
+    Retrieves the value(s) associated with the specified key by reference.
+    Note if the key does not match the key of any element in the container,
+    the function inserts a new element with that key and returns a reference to
+    its mapped value
 
   .. cpp:function:: iterator begin()
     :noindex:
@@ -574,7 +619,7 @@ of multiple values of different statically defined types.
     Attempts to find the value(s) associated in the specified key. Returns an
     instance of constant forward iterator that points to the key-value(s) pair.
     If the key does not exist in the mapping, then the iterator returned points
-    to `end()`.
+    to `cend()`.
 
   .. cpp:function:: float load_factor() const noexcept
     :noindex:

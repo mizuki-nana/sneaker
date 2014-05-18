@@ -45,6 +45,8 @@ size_t count = fruits.size();
 std::cout << "There are %d fruits here." << count << std::endl;
 std::cout << "My favorite is Apple: %s (score %d)" << fruits.get<char*, 0>("Apple") \
     << fruits.get<int, 1>("Apple") << std::endl;
+std::cout << "The reason, you ask?" << std:endl;
+std::cout << "It's because: %s." << fruits.get<char*, 2>("Apple") << std::endl;
 */
 
 #ifndef SNEAKER_UNORDERED_ASSORTED_VALUE_MAP_H_
@@ -60,14 +62,10 @@ namespace sneaker {
 namespace container {
 
 
-namespace tuple_nms = boost;
-
-
 template<class K, class... ValueTypes>
 class unordered_assorted_value_map {
 public:
-  using _value_type = typename tuple_nms::tuple<ValueTypes... >;
-  using core_type = typename std::unordered_map<K, _value_type>;
+  using core_type = typename std::unordered_map<K, boost::tuple<ValueTypes... >>;
 
   using key_type              = typename core_type::key_type;
   using mapped_type           = typename core_type::mapped_type;
@@ -101,7 +99,7 @@ public:
 
   template<size_type N, class Hash, class Pred, class Alloc>
   static
-  sneaker::container::unordered_assorted_value_map<K, ValueTypes...> create(Hash hasher, Pred key_eq, Alloc allocator) {
+  sneaker::container::unordered_assorted_value_map<K, ValueTypes...> create(const Hash& hasher, const Pred& key_eq, const Alloc& allocator) {
     return sneaker::container::unordered_assorted_value_map<K, ValueTypes...>(
       core_type(N, hasher, key_eq, allocator)
     );
