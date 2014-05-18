@@ -2,10 +2,10 @@
 6. Functional Abstractions
 **************************
 
-
 These functional abstractions improve the incompatibilites and
 interoperabilities between function pointers, functors and lambdas.
 
+Header file: `sneaker/functional/function.h`
 
 .. cpp:class:: sneaker::functional::function<R, ... Args>
 ---------------------------------------------------------
@@ -19,6 +19,11 @@ also supports asynchronous invocation.
     The underlying type of the function pointers, functors and lambas that it's
     compatible with by signature.
 
+  .. cpp:function:: return_value
+    :noindex:
+
+    The return type of this function.
+
   .. cpp:function:: function(implicit_type)
     :noindex:
 
@@ -28,7 +33,7 @@ also supports asynchronous invocation.
     conversion from compatible types are possible.
 
   .. cpp:function:: template<class Functor>
-                    function<Functor>
+                    function(Functor)
     :noindex:
 
     Constructor that takes a compatible function pointer, functor or lambda,
@@ -50,8 +55,8 @@ also supports asynchronous invocation.
   .. cpp:function:: operator implicit_type()
     :noindex:
 
-    Conversion operator that converts this instance to any compatible function
-    types.
+    Conversion operator that converts this instance to the underlying compatible
+    function type.
 
   .. cpp:function:: void invoke_async(... Args)
     :noindex:
@@ -62,19 +67,21 @@ also supports asynchronous invocation.
 .. cpp:class:: sneaker::functional::call
 ----------------------------------------
 
-A deriving type of `sneaker::functional::function` that takes no arguments and
-has no return type.
+A variant of `sneaker::functional::function` that is compatible with functions,
+functors and lambdas whose signatures take no arguments and has no return type.
 
 
 .. cpp:class:: sneaker::functional::action< ...Args>
 ---------------------------------------------------------
 
-A deriving type of `sneaker::functional::function` that takes a list of
-statically defined argument types but has no return type.
+A variant of `sneaker::functional::function` that is compatible with functions,
+functors and lambdas whose signatures take a list of statically typed arguments
+but has no return type.
 
 
 .. cpp:class:: sneaker::functional::predicate< ...Args>
 ------------------------------------------------------------
 
-A deriving type of `sneaker::functional::function` that takes a list of
-statically defined argument types and has return type of `bool`.
+A variant of `sneaker::functional::function` that is compatible with functions,
+functors and lambdas whose signatures take a list of statically typed arguments,
+and has a return type of `bool`.
