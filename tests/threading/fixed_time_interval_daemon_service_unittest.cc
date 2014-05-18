@@ -37,10 +37,11 @@ void DummyHandler()
   printf("Dummy handler for daemon service running in the background thread...\n");
 }
 
-class FixedTimeIntervalDaemonServiceUnitTest : public ::testing::Test {};
+
+class fixed_time_interval_daemon_service_unittest : public ::testing::Test {};
 
 
-TEST_F(FixedTimeIntervalDaemonServiceUnitTest, TestRunDaemonAsynchronously)
+TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonAsynchronously)
 {
   fixed_time_interval_daemon_service daemon_service(2, DummyHandler);
   daemon_service.start();
@@ -52,7 +53,7 @@ TEST_F(FixedTimeIntervalDaemonServiceUnitTest, TestRunDaemonAsynchronously)
   return;
 }
 
-TEST_F(FixedTimeIntervalDaemonServiceUnitTest, TestRunDaemonSynchronously)
+TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonSynchronously)
 {
   fixed_time_interval_daemon_service daemon_service(2, DummyHandler, true, 5);
   daemon_service.start();

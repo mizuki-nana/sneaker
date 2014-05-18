@@ -21,11 +21,11 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
+#include <cassert>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include "../../include/threading/fixed_time_interval_daemon_service.h"
-#include "../../include/libc/assert.h"
 
 
 sneaker::threading::fixed_time_interval_daemon_service::fixed_time_interval_daemon_service(
@@ -40,8 +40,8 @@ sneaker::threading::fixed_time_interval_daemon_service::fixed_time_interval_daem
   _max_iterations(max_iterations),
   _iteration_count(0)
 {
-  ASSERT(_interval);
-  ASSERT(_external_handler);
+  assert(_interval >= 0);
+  assert(_external_handler);
 }
 
 sneaker::threading::fixed_time_interval_daemon_service::~fixed_time_interval_daemon_service()
