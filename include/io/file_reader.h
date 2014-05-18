@@ -26,8 +26,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef SNEAKER_FILE_READER_H_
 #define SNEAKER_FILE_READER_H_
 
-#include <boost/smart_ptr.hpp>
-#include "../libc/c_str.h"
+#include <string>
 
 
 namespace sneaker {
@@ -39,14 +38,14 @@ namespace io {
 class file_reader {
 public:
   file_reader();
-  file_reader(const c_str);
+  file_reader(const char*);
 
-  const c_str file_path() const;
-  void set_path(const c_str);
+  const char* file_path() const;
+  void set_path(const char*);
 
-  bool read_file(c_str*) const;
+  bool read_file(char**) const;
 protected:
-  boost::scoped_ptr<char> _path;
+  std::string _path;
 };
 
 
