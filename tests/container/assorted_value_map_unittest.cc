@@ -21,32 +21,32 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for `sneaker::container::assorted_value_map` defined in
- * include/container/assorted_value_map.h */
+/* Unit test for `sneaker::container::assorted_value_map<K, ValueTypes ...>`
+ * defined in sneaker/container/assorted_value_map.h
+ */
 
 #include <functional>
 #include <memory>
 #include "../../include/testing/testing.h"
-#include "../../include/libc/c_str.h"
 #include "../../include/container/assorted_value_map.h"
 
 
-class AssortedValueMapUnitTestBase : public ::testing::Test {};
+class assorted_value_map_unittest_base : public ::testing::Test {};
 
 
-class AssortedValueMapWithNoValueTypeUnitTest : public AssortedValueMapUnitTestBase {
+class assorted_value_map_with_no_value_type_unittest : public assorted_value_map_unittest_base {
 protected:
   sneaker::container::assorted_value_map<int> _map;
 };
 
 
-TEST_F(AssortedValueMapWithNoValueTypeUnitTest, TestInitialization)
+TEST_F(assorted_value_map_with_no_value_type_unittest, TestInitialization)
 {
   ASSERT_TRUE(_map.empty());
   ASSERT_EQ(0, _map.size());
 }
 
-TEST_F(AssortedValueMapWithNoValueTypeUnitTest, TestPutAndAt)
+TEST_F(assorted_value_map_with_no_value_type_unittest, TestPutAndAt)
 {
   _map.insert(1);
   _map.insert(2);
@@ -57,18 +57,18 @@ TEST_F(AssortedValueMapWithNoValueTypeUnitTest, TestPutAndAt)
 }
 
 
-class AssortedValueMapWithMultiplyValueTypesUnitTest : public AssortedValueMapUnitTestBase {
+class assorted_value_map_with_multiple_value_types_unittest : public assorted_value_map_unittest_base {
 protected:
   sneaker::container::assorted_value_map<char, int, long, bool> _map;
 };
 
-TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestInitialization)
+TEST_F(assorted_value_map_with_multiple_value_types_unittest, TestInitialization)
 {
   ASSERT_TRUE(_map.empty());
   ASSERT_EQ(0, _map.size());
 }
 
-TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndAt)
+TEST_F(assorted_value_map_with_multiple_value_types_unittest, TestPutAndAt)
 {
   _map.insert('a', 1, 100, true);
   _map.insert('b', 2, 200, true);
@@ -90,7 +90,7 @@ TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndAt)
   ASSERT_EQ(false, boost::get<2>(_map.at('c')));
 }
 
-TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndGet)
+TEST_F(assorted_value_map_with_multiple_value_types_unittest, TestPutAndGet)
 {
   _map.insert('a', 1, 100, true);
   _map.insert('b', 2, 200, true);
@@ -124,7 +124,7 @@ TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndGet)
   ASSERT_EQ(false, c3);
 }
 
-TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndGetByReference)
+TEST_F(assorted_value_map_with_multiple_value_types_unittest, TestPutAndGetByReference)
 {
   _map.insert('a', 1, 100, true);
   _map.insert('b', 2, 200, true);
@@ -158,11 +158,23 @@ TEST_F(AssortedValueMapWithMultiplyValueTypesUnitTest, TestPutAndGetByReference)
   ASSERT_EQ(false, c3);
 }
 
+TEST_F(assorted_value_map_with_multiple_value_types_unittest, TestAccessByInvalidKeyFails)
+{
+  ASSERT_EQ(0, _map.size());
 
-class AssortedValueMapUnitTest : public AssortedValueMapUnitTestBase {};
+  ASSERT_THROW(
+    {
+      _map.at('X');
+    },
+    std::out_of_range
+  );
+}
 
 
-TEST_F(AssortedValueMapUnitTest, TestCopyConstructor)
+class assorted_value_map_unittest : public assorted_value_map_unittest_base {};
+
+
+TEST_F(assorted_value_map_unittest, TestCopyConstructor)
 {
   using assorted_value_map_type = typename sneaker::container::assorted_value_map<int, bool>;
 
@@ -190,7 +202,7 @@ TEST_F(AssortedValueMapUnitTest, TestCopyConstructor)
   ASSERT_EQ(true, val2);
 }
 
-TEST_F(AssortedValueMapUnitTest, TestCreate)
+TEST_F(assorted_value_map_unittest, TestCreate)
 {
   using assorted_value_map_type = typename sneaker::container::assorted_value_map<int, bool>;
   using value_type = assorted_value_map_type::value_type;
@@ -209,7 +221,7 @@ TEST_F(AssortedValueMapUnitTest, TestCreate)
   ASSERT_EQ(true, val2);
 }
 
-TEST_F(AssortedValueMapUnitTest, TestCreateWithArgs)
+TEST_F(assorted_value_map_unittest, TestCreateWithArgs)
 {
   using assorted_value_map_type = typename sneaker::container::assorted_value_map<int, bool>;
   using value_type = assorted_value_map_type::value_type;
@@ -231,10 +243,10 @@ TEST_F(AssortedValueMapUnitTest, TestCreateWithArgs)
   ASSERT_EQ(true, val2);
 }
 
-TEST_F(AssortedValueMapUnitTest, TestSwap)
+TEST_F(assorted_value_map_unittest, TestSwap)
 {
-  sneaker::container::assorted_value_map<cc_str, int, bool, cc_str> map1;
-  sneaker::container::assorted_value_map<cc_str, int, bool, cc_str> map2;
+  sneaker::container::assorted_value_map<const char*, int, bool, const char*> map1;
+  sneaker::container::assorted_value_map<const char*, int, bool, const char*> map2;
 
   map1.insert("Grape",      60,  false, "Too sour, don't like...");
   map1.insert("Watermalon", 90,  false, "The best in the summer");
@@ -253,31 +265,31 @@ TEST_F(AssortedValueMapUnitTest, TestSwap)
   ASSERT_EQ(2, map2.size());
 
   // check map1
-  int    map1_a1 = map1.get<int,    0>("Apple");      ASSERT_EQ(map1_a1, 100);
-  bool   map1_a2 = map1.get<bool,   1>("Apple");      ASSERT_EQ(map1_a2, false);
-  cc_str map1_a3 = map1.get<cc_str, 2>("Apple");      ASSERT_EQ(map1_a3, "best thing ever :-)");
+  int         map1_a1 = map1.get<int,    0>("Apple");      ASSERT_EQ(map1_a1, 100);
+  bool        map1_a2 = map1.get<bool,   1>("Apple");      ASSERT_EQ(map1_a2, false);
+  const char* map1_a3 = map1.get<const char*, 2>("Apple");      ASSERT_EQ(map1_a3, "best thing ever :-)");
 
-  int    map1_b1 = map1.get<int,    0>("Orange");     ASSERT_EQ(map1_b1, 80);
-  bool   map1_b2 = map1.get<bool,   1>("Orange");     ASSERT_EQ(map1_b2, true);
-  cc_str map1_b3 = map1.get<cc_str, 2>("Orange");     ASSERT_EQ(map1_b3, "I'm lovin' it <3");
+  int         map1_b1 = map1.get<int,    0>("Orange");     ASSERT_EQ(map1_b1, 80);
+  bool        map1_b2 = map1.get<bool,   1>("Orange");     ASSERT_EQ(map1_b2, true);
+  const char* map1_b3 = map1.get<const char*, 2>("Orange");     ASSERT_EQ(map1_b3, "I'm lovin' it <3");
 
-  int    map1_c1 = map1.get<int,    0>("Bananna");    ASSERT_EQ(map1_c1, 90);
-  bool   map1_c2 = map1.get<bool,   1>("Bananna");    ASSERT_EQ(map1_c2, false);
-  cc_str map1_c3 = map1.get<cc_str, 2>("Bananna");    ASSERT_EQ(map1_c3, "get ALL the Potassium!!!");
+  int         map1_c1 = map1.get<int,    0>("Bananna");    ASSERT_EQ(map1_c1, 90);
+  bool        map1_c2 = map1.get<bool,   1>("Bananna");    ASSERT_EQ(map1_c2, false);
+  const char* map1_c3 = map1.get<const char*, 2>("Bananna");    ASSERT_EQ(map1_c3, "get ALL the Potassium!!!");
 
   // check map2
-  int    map2_a1 = map2.get<int,    0>("Grape");      ASSERT_EQ(map2_a1, 60);
-  bool   map2_a2 = map2.get<bool,   1>("Grape");      ASSERT_EQ(map2_a2, false);
-  cc_str map2_a3 = map2.get<cc_str, 2>("Grape");      ASSERT_EQ(map2_a3, "Too sour, don't like...");
+  int         map2_a1 = map2.get<int,    0>("Grape");      ASSERT_EQ(map2_a1, 60);
+  bool        map2_a2 = map2.get<bool,   1>("Grape");      ASSERT_EQ(map2_a2, false);
+  const char* map2_a3 = map2.get<const char*, 2>("Grape");      ASSERT_EQ(map2_a3, "Too sour, don't like...");
 
-  int    map2_b1 = map2.get<int,    0>("Watermalon"); ASSERT_EQ(map2_b1, 90);
-  bool   map2_b2 = map2.get<bool,   1>("Watermalon"); ASSERT_EQ(map2_b2, false);
-  cc_str map2_b3 = map2.get<cc_str, 2>("Watermalon"); ASSERT_EQ(map2_b3, "The best in the summer");
+  int         map2_b1 = map2.get<int,    0>("Watermalon"); ASSERT_EQ(map2_b1, 90);
+  bool        map2_b2 = map2.get<bool,   1>("Watermalon"); ASSERT_EQ(map2_b2, false);
+  const char* map2_b3 = map2.get<const char*, 2>("Watermalon"); ASSERT_EQ(map2_b3, "The best in the summer");
 }
 
-TEST_F(AssortedValueMapUnitTest, TestFind)
+TEST_F(assorted_value_map_unittest, TestFind)
 {
-  typedef sneaker::container::assorted_value_map<cc_str, int, bool> _map_type;
+  typedef sneaker::container::assorted_value_map<const char*, int, bool> _map_type;
   _map_type map;
 
   _map_type::iterator itr = map.find("Apple");
