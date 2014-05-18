@@ -47,22 +47,6 @@ protected:
 };
 
 
-struct context_adapter {
-public:
-  template<class F, class... Args>
-  explicit context_adapter(context_manager* context_manager, F func, Args... args)
-  {
-    func(context_manager, args...);
-  }
-
-  template<class F, class... Args>
-  explicit context_adapter(std::vector<context_manager*>& context_managers, F func, Args... args)
-  {
-    func(context_managers, args...);
-  }
-};
-
-
 } /* end namespace context */
 
 

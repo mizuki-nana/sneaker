@@ -37,14 +37,15 @@ namespace context {
 
 
 template<class F, class... Args>
-void scoped_context(sneaker::context::context_manager* mngr, F func, Args... args)
+void scoped_context(
+  sneaker::context::context_manager* mngr, F func, Args... args)
 {
   assert(mngr);
 
   mngr->__enter__();
 
   try {
-    sneaker::context::context_adapter(mngr, func, args...);
+    func(mngr, args...);
   } catch (...) {}
 
   mngr->__exit__();
@@ -52,23 +53,24 @@ void scoped_context(sneaker::context::context_manager* mngr, F func, Args... arg
 
 
 template<class F, class... Args>
-void nested_context(std::vector<sneaker::context::context_manager*> mgnrs, F func, Args... args)
+void nested_context(
+  std::vector<sneaker::context::context_manager*> mngrs, F func, Args... args)
 {
   std::for_each(
-    mgnrs.begin(),
-    mgnrs.end(),
+    mngrs.begin(),
+    mngrs.end(),
     [](context_manager *mngr) {
       mngr->__enter__();
     }
   );
 
   try {
-    sneaker::context::context_adapter(mgnrs, func, args...);
+    func(mngrs, args...);
   } catch (...) {}
 
   std::for_each(
-    mgnrs.rbegin(),
-    mgnrs.rend(),
+    mngrs.rbegin(),
+    mngrs.rend(),
     [](context_manager *mngr) {
       mngr->__exit__();
     }
