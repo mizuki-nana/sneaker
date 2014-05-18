@@ -21,86 +21,90 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for `generic_cache` in include/cache/generic_cache.h */
+/* Unit test for `generic_cache` in sneaker/cache/generic_cache.h */
 
 #ifndef SNEAKER_GENERIC_CACHE_UNITTEST
 #define SNEAKER_GENERIC_CACHE_UNITTEST
 
+#include <cassert>
 #include <map>
 #include <string>
 #include "../../include/testing/testing.h"
-#include "../../include/libc/assert.h"
-#include "../../include/libc/c_str.h"
 #include "../../include/cache/generic_cache.h"
 
 
-std::map<c_str, c_str> truth_map;
+namespace generic_cache_unittest_fixture {
+  std::map<char*, char*> truth_map;
 
-typedef c_str K;
-typedef c_str T;
+  typedef char* K;
+  typedef char* T;
 
-bool CreateHandler(K key, T* value)
-{
-  c_str value_ = strdup(key);
-  *value = value_;
+  bool CreateHandler(K key, T* value)
+  {
+    char* value_ = strdup(key);
+    *value = value_;
 
-  truth_map.insert(std::pair<c_str, c_str>(key, *value));
+    truth_map.insert(std::pair<char*, char*>(key, *value));
 
-  return true;
-}
+    return true;
+  }
 
-bool DestroyHandler(K key, T* value)
-{
-  truth_map.erase(key);
+  bool DestroyHandler(K key, T* value)
+  {
+    truth_map.erase(key);
 
-  return true;
-}
+    return true;
+  }
+} /* end namespace generic_cache_unittest_fixture */
 
-class GenericCacheTest : public ::testing::Test {
+
+class generic_cache_unittest : public ::testing::Test {
 protected:
+  typedef generic_cache_unittest_fixture::K K;
+  typedef generic_cache_unittest_fixture::T T;
+
   virtual void SetUp() {
     _cache = new sneaker::cache::generic_cache<K, T, bool(*)(K, T*), bool(*)(K, T*)>(
-      CreateHandler,
-      DestroyHandler
+      generic_cache_unittest_fixture::CreateHandler,
+      generic_cache_unittest_fixture::DestroyHandler
     );
   }
 
   virtual void TearDown() {
-    _cache->clear();
     delete _cache;
-    truth_map.clear();
+    generic_cache_unittest_fixture::truth_map.clear();
   }
 
-  void check_item_created(c_str item) {
+  void check_item_created(char* item) {
     _check_item_in_truth_table(item, true);
   }
 
-  void check_item_destroyed(c_str item) {
+  void check_item_destroyed(char* item) {
     _check_item_in_truth_table(item, false);
   }
 
-  void _check_item_in_truth_table(c_str item, bool in) {
-    typename std::map<c_str, c_str>::iterator itr;
-    itr = truth_map.find(item);
-    ASSERT_EQ(itr != truth_map.end(), in);
+  void _check_item_in_truth_table(char* item, bool in) {
+    typename std::map<char*, char*>::iterator itr;
+    itr = generic_cache_unittest_fixture::truth_map.find(item);
+    ASSERT_EQ(itr != generic_cache_unittest_fixture::truth_map.end(), in);
   }
 
   sneaker::cache::generic_cache<K, T, bool(*)(K, T*), bool(*)(K, T*)> * _cache;
 };
 
 
-TEST_F(GenericCacheTest, TestInitialization)
+TEST_F(generic_cache_unittest, TestInitialization)
 {
-  ASSERT(_cache);
-  ASSERT(_cache->empty());
-  ASSERT(_cache->size() == 0);
+  assert(_cache);
+  assert(_cache->empty());
+  assert(_cache->size() == 0);
 }
 
-TEST_F(GenericCacheTest, TestInsertAndFindOneItem)
+TEST_F(generic_cache_unittest, TestInsertAndFindOneItem)
 {
   bool res;
 
-  c_str item = const_cast<c_str>("abc");
+  char* item = const_cast<char*>("abc");
 
   res = _cache->put(item);
   ASSERT_EQ(true, res);
@@ -109,20 +113,20 @@ TEST_F(GenericCacheTest, TestInsertAndFindOneItem)
 
   ASSERT_EQ(true, _cache->member(item));
 
-  c_str item_ = NULL;
+  char* item_ = NULL;
   res = _cache->get(item, &item_);
   ASSERT_EQ(true, res);
-  ASSERT(item_);
+  assert(item_);
   ASSERT_STREQ(item, item_);
 }
 
-TEST_F(GenericCacheTest, TestInsertAndFindMultipleItems)
+TEST_F(generic_cache_unittest, TestPutAndFindMultipleItems)
 {
   bool res;
 
-  c_str item1 = const_cast<c_str>("Today is a good day!");
-  c_str item2 = const_cast<c_str>("An apple a day, keep the doctor away.");
-  c_str item3 = const_cast<c_str>("Better be crippled in body, than be corrputed in mind.");
+  char* item1 = const_cast<char*>("Today is a good day!");
+  char* item2 = const_cast<char*>("An apple a day, keep the doctor away.");
+  char* item3 = const_cast<char*>("Better be crippled in body, than be corrputed in mind.");
 
   res = _cache->put(item1); ASSERT_EQ(true, res);
   res = _cache->put(item2); ASSERT_EQ(true, res);
@@ -130,13 +134,13 @@ TEST_F(GenericCacheTest, TestInsertAndFindMultipleItems)
 
   ASSERT_EQ(3, _cache->size());
 
-  c_str item1_ = NULL;
-  c_str item2_ = NULL;
-  c_str item3_ = NULL;
+  char* item1_ = NULL;
+  char* item2_ = NULL;
+  char* item3_ = NULL;
 
-  res = _cache->get(item1, &item1_); ASSERT_EQ(true, res); ASSERT(item1_);
-  res = _cache->get(item2, &item2_); ASSERT_EQ(true, res); ASSERT(item2_);
-  res = _cache->get(item3, &item3_); ASSERT_EQ(true, res); ASSERT(item3_);
+  res = _cache->get(item1, &item1_); ASSERT_EQ(true, res); assert(item1_);
+  res = _cache->get(item2, &item2_); ASSERT_EQ(true, res); assert(item2_);
+  res = _cache->get(item3, &item3_); ASSERT_EQ(true, res); assert(item3_);
 
   ASSERT_STREQ(item1, item1_);
   ASSERT_STREQ(item2, item2_);
@@ -155,11 +159,11 @@ TEST_F(GenericCacheTest, TestInsertAndFindMultipleItems)
   res = _cache->member(item3); ASSERT_EQ(false, res);
 }
 
-TEST_F(GenericCacheTest, TestInsertWithTheSameKey)
+TEST_F(generic_cache_unittest, TestPutWithTheSameKey)
 {
   bool res;
 
-  c_str item = const_cast<c_str>("xyz");
+  char* item = const_cast<char*>("xyz");
 
   res = _cache->put(item);
   ASSERT_EQ(true, res);
@@ -177,13 +181,41 @@ TEST_F(GenericCacheTest, TestInsertWithTheSameKey)
   this->check_item_destroyed(item);
 }
 
-TEST_F(GenericCacheTest, TestEraseOnNonExistentKey)
+TEST_F(generic_cache_unittest, TestPutWithUpdate)
 {
   bool res;
 
-  c_str non_existent_key_1 = const_cast<c_str>("some key 1");
-  c_str non_existent_key_2 = const_cast<c_str>("some key 2");
-  c_str non_existent_key_3 = const_cast<c_str>("some key 3");
+  char* item = const_cast<char*>("abc");
+
+  res = _cache->put(item);
+  ASSERT_EQ(true, res);
+  ASSERT_EQ(1, _cache->size());
+  this->check_item_created(item);
+
+  char* item_old = nullptr;
+
+  _cache->get(item, &item_old);
+
+  res = _cache->put(item, true);
+  ASSERT_EQ(true, res);
+  ASSERT_EQ(1, _cache->size());
+  this->check_item_created(item);
+
+  char* item_new = nullptr;
+
+  _cache->get(item, &item_new);
+
+  /* The two values should not be equal because it's forced to be updated. */
+  ASSERT_NE(item_old, item_new);
+}
+
+TEST_F(generic_cache_unittest, TestEraseOnNonExistentKey)
+{
+  bool res;
+
+  char* non_existent_key_1 = const_cast<char*>("some key 1");
+  char* non_existent_key_2 = const_cast<char*>("some key 2");
+  char* non_existent_key_3 = const_cast<char*>("some key 3");
 
   ASSERT_EQ(0, _cache->size());
 
