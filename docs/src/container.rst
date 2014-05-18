@@ -11,17 +11,23 @@ Storage containers of objects that serve a broad range of purposes.
 Container types that store objects on a reservation-based system. Users must
 reserve spots before objects are requested to be stored in these containers.
 
+Header file: `sneaker/container/reservation_map.h`
 
 .. cpp:class:: sneaker::allocator::reservation_map<T>
 -----------------------------------------------------
 
-  A key-value based reservation container where the key(also known as a token)
-  is an integer type.
+  Note: The internal implementation is based on `std::map<token_t, T>`, hence
+  elements of type `T` must have their comparators defined for comparison.
 
   .. cpp:type:: token_t
     :noindex:
 
     The token type used by the reservation container.
+
+  .. cpp:type:: generator_type
+    :noindex:
+
+    The type that is used to generate reservation tokens internally.
 
   .. cpp:function:: reservation_map()
     :noindex:
@@ -33,7 +39,7 @@ reserve spots before objects are requested to be stored in these containers.
 
     Destructor.
 
-  .. cpp:function:: size_t size()
+  .. cpp:function:: size_t size() const
     :noindex:
 
     Gets the number of elements that are currently reserved.
@@ -56,16 +62,14 @@ reserve spots before objects are requested to be stored in these containers.
     :noindex:
 
     Attempts to store an object into the container by using a token. The storage
-    fails if the token specified is invalid, meaning the user has not previously
-    reserved spot for the object yet. Returns `true` if the storage is successful,
-    `false` otherwise.
+    fails if the token specified is invalid. Returns `true` if the storage is
+    successful, `false` otherwise.
 
   .. cpp:function:: bool get(token_t, T*)
     :noindex:
 
     Attempts to retrieve an object from the container by using a token.
-    The retrieval fails if the token specified is invalid, meaning the user has
-    not previously reserved spot for the object yet. Returns `true` if the
+    The retrieval fails if the token specified is invalid. Returns `true` if the
     retrieval is successful, `false` otherwise.
 
   .. cpp:function:: bool unreserve(token_t)
@@ -75,6 +79,12 @@ reserve spots before objects are requested to be stored in these containers.
     The un-reservation fails if no previously reservation has been made by the
     token specified. Returns `true` if the un-reservation is successful, `false`
     otherwise.
+
+  .. cpp:function:: void clear()
+    :noindex:
+
+    Removes all the reserved elements. After invoked, all tokens previously
+    obtained are no longer valid.
 
 
 4.2 Assorted-values Map Containers

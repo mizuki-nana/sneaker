@@ -23,10 +23,9 @@ CXX=c++
 CFLAGS=-Wall -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
 
 LIBGTEST=/usr/lib/libgtest.a
-LIBC=../../src/libc/libc.a
 TESTING=../../src/testing/testing.a
 
-LIBRARIES=$(LIBGTEST) $(LIBC) $(TESTING)
+LIBRARIES=$(LIBGTEST) $(TESTING)
 
 INPUTS=\
 	assorted_value_map_unittest \
