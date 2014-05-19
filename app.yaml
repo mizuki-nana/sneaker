@@ -21,18 +21,6 @@ handlers:
   static_files: index.html
   upload: index.html
 
-- url: /overview/styles/(.*\.(css))$
-  static_files: overview/styles/\1
-  upload: overview/styles/.*\.(css)$
-
-- url: /overview/images/(.*\.(gif|png|jpg))$
-  static_files: overview/images/\1
-  upload: overview/images/.*\.(gif|png|jpg)$
-
-- url: /overview/
-  static_files: overview/index.html
-  upload: overview/index.html
-
 - url: /documentation/_static/(.*\.(gif|png|jpg|css|js))$
   static_files: documentation/_static/\1
   upload: documentation/_static/.*\.(gif|png|jpg|css|js)$
