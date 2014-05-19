@@ -27,6 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/libc/memory.h"
 #include "../../include/libc/strutils.h"
 
+
 char* strtoupper(char *s)
 {
   RETURN_VAL_IF_NULL(s, NULL);
@@ -54,6 +55,16 @@ char* strtolower(char *s)
   return s;
 }
 
+char* strtrim(char *s)
+{
+  RETURN_VAL_IF_NULL(s, NULL);
+
+  size_t l = strlen(s);
+  while(l > 1 && isspace(s[l-1])) s[--l] = '\0';
+  while(*s && isspace(*s)) *s = '\0', ++s;
+  return s;
+}
+
 char* strcpy_hard(char *dst, const char *src)
 {
   RETURN_VAL_IF_NULL(src, dst);
@@ -74,18 +85,21 @@ char* strcpy_hard(char *dst, const char *src)
   return dst;
 }
 
-char* strtrim(char *s)
+char* strncpy_safe(char *dst, const char *src, size_t size)
 {
-  RETURN_VAL_IF_NULL(s, NULL);
+  RETURN_VAL_IF_NULL(dst, NULL);
+  RETURN_VAL_IF_NULL(src, NULL);
 
-  size_t l = strlen(s);
-  while(l > 1 && isspace(s[l-1])) s[--l] = '\0';
-  while(*s && isspace(*s)) *s = '\0', ++s;
-  return s;
+  size_t outlen = MIN(strlen(src), size);
+
+  return strncpy(dst, src, outlen);
 }
 
 size_t strlcpy2(char *dst, const char *src, size_t size)
 {
+  RETURN_VAL_IF_NULL(dst, 0);
+  RETURN_VAL_IF_NULL(src, 0);
+
   char *d = dst;
   const char *s = src;
   size_t n = size;
@@ -106,14 +120,4 @@ size_t strlcpy2(char *dst, const char *src, size_t size)
   }
 
   return s - src - 1;
-}
-
-char* strncpy_safe(char *dst, const char *src, size_t size)
-{
-  RETURN_VAL_IF_NULL(dst, NULL);
-  RETURN_VAL_IF_NULL(src, NULL);
-
-  size_t outlen = MIN(strlen(src), size);
-
-  return strncpy(dst, src, outlen);
 }

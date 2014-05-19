@@ -21,8 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for `sneaker::functional::function` defined in
- * include/functional/function.h */
+/* Unit tests for definitions defined in sneaker/functional/function.h */
 
 #include <stdio.h>
 #include <functional>
@@ -33,40 +32,40 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 using namespace sneaker::functional;
 
 
-class FunctionUnitTestBase : public ::testing::Test {};
+class function_unittest_base : public ::testing::Test {};
 
 
-class FunctionAsCallUnitTest : public FunctionUnitTestBase {
+class function_as_call_unittest : public function_unittest_base {
 public:
   static int expected_result;
   static int actual_result;
 
   static void func() {
-    FunctionAsCallUnitTest::actual_result = FunctionAsCallUnitTest::expected_result;
+    function_as_call_unittest::actual_result = function_as_call_unittest::expected_result;
   }
 
   void test_call() {
     ASSERT_EQ(
-      FunctionAsCallUnitTest::expected_result,
-      FunctionAsCallUnitTest::actual_result
+      function_as_call_unittest::expected_result,
+      function_as_call_unittest::actual_result
     );
   }
 
 protected:
   virtual void TearDown() {
-    FunctionAsCallUnitTest::actual_result = 0;
+    function_as_call_unittest::actual_result = 0;
   }
 };
 
-int FunctionAsCallUnitTest::expected_result = 25257758;
-int FunctionAsCallUnitTest::actual_result = 0;
+int function_as_call_unittest::expected_result = 25257758;
+int function_as_call_unittest::actual_result = 0;
 
 
-TEST_F(FunctionAsCallUnitTest, TestInitializationFromLambdaAndCall)
+TEST_F(function_as_call_unittest, TestInitializationFromLambdaAndCall)
 {
   function<void> func(
     []() -> void {
-      return FunctionAsCallUnitTest::func();
+      return function_as_call_unittest::func();
     }
   );
 
@@ -75,10 +74,10 @@ TEST_F(FunctionAsCallUnitTest, TestInitializationFromLambdaAndCall)
   test_call();
 }
 
-TEST_F(FunctionAsCallUnitTest, TestInitializationFromLambdaAndCall2)
+TEST_F(function_as_call_unittest, TestInitializationFromLambdaAndCall2)
 {
   function<void> func = []() -> void {
-    return FunctionAsCallUnitTest::func();
+    return function_as_call_unittest::func();
   };
 
   func();
@@ -86,20 +85,20 @@ TEST_F(FunctionAsCallUnitTest, TestInitializationFromLambdaAndCall2)
   test_call();
 }
 
-TEST_F(FunctionAsCallUnitTest, TestInitializationFromStaticFunctionAndCall)
+TEST_F(function_as_call_unittest, TestInitializationFromStaticFunctionAndCall)
 {
-  function<void> func = FunctionAsCallUnitTest::func;
+  function<void> func = function_as_call_unittest::func;
 
   func();
 
   test_call();
 }
 
-TEST_F(FunctionAsCallUnitTest, TestExplicitConversionFromLambdaToStdFunction)
+TEST_F(function_as_call_unittest, TestExplicitConversionFromLambdaToStdFunction)
 {
   function<void> func(
     []() -> void {
-      return FunctionAsCallUnitTest::func();
+      return function_as_call_unittest::func();
     }
   );
 
@@ -110,9 +109,9 @@ TEST_F(FunctionAsCallUnitTest, TestExplicitConversionFromLambdaToStdFunction)
   test_call();
 }
 
-TEST_F(FunctionAsCallUnitTest, TestExplicitConvertionFromStaticFunctionToStdFunction)
+TEST_F(function_as_call_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction)
 {
-  function<void> func = FunctionAsCallUnitTest::func;
+  function<void> func = function_as_call_unittest::func;
 
   std::function<void()> f = func;
 
@@ -121,9 +120,9 @@ TEST_F(FunctionAsCallUnitTest, TestExplicitConvertionFromStaticFunctionToStdFunc
   test_call();
 }
 
-TEST_F(FunctionAsCallUnitTest, TestConversionFromStaticFunctionToFunctionPointer)
+TEST_F(function_as_call_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 {
-  function<void> func = FunctionAsCallUnitTest::func;
+  function<void> func = function_as_call_unittest::func;
 
   void(*f)(void) = func;
 
@@ -132,11 +131,11 @@ TEST_F(FunctionAsCallUnitTest, TestConversionFromStaticFunctionToFunctionPointer
   test_call();
 }
 
-TEST_F(FunctionAsCallUnitTest, TestConversionFromLambdaToFunctionPointer)
+TEST_F(function_as_call_unittest, TestConversionFromLambdaToFunctionPointer)
 {
   function<void> func(
     []() -> void {
-      return FunctionAsCallUnitTest::func();
+      return function_as_call_unittest::func();
     }
   );
 
@@ -147,9 +146,9 @@ TEST_F(FunctionAsCallUnitTest, TestConversionFromLambdaToFunctionPointer)
   test_call();
 }
 
-TEST_F(FunctionAsCallUnitTest, TestCopyConstructor)
+TEST_F(function_as_call_unittest, TestCopyConstructor)
 {
-  function<void> func = FunctionAsCallUnitTest::func;
+  function<void> func = function_as_call_unittest::func;
 
   function<void> copied = func;
 
@@ -158,9 +157,9 @@ TEST_F(FunctionAsCallUnitTest, TestCopyConstructor)
   test_call();
 }
 
-TEST_F(FunctionAsCallUnitTest, TestInvokeAsync)
+TEST_F(function_as_call_unittest, TestInvokeAsync)
 {
-  function<void> func = FunctionAsCallUnitTest::func;
+  function<void> func = function_as_call_unittest::func;
 
   func.invoke_async();
 
@@ -170,7 +169,7 @@ TEST_F(FunctionAsCallUnitTest, TestInvokeAsync)
 }
 
 
-class FunctionAsActionUnitTest : public FunctionUnitTestBase {
+class function_as_action_unittest : public function_unittest_base {
 public:
   static void func(const char* name, const int num, char*dst) {
     sprintf(dst, "My name is %s and my favorite number is %d.", name, num);
@@ -199,11 +198,11 @@ protected:
 };
 
 
-TEST_F(FunctionAsActionUnitTest, TestInitializationFromLambdaAndCall)
+TEST_F(function_as_action_unittest, TestInitializationFromLambdaAndCall)
 {
   function<void, const char*, const int, char*> func(
     [](const char* name, const int num, char*dst) -> void {
-      return FunctionAsActionUnitTest::func(name, num, dst);
+      return function_as_action_unittest::func(name, num, dst);
     }
   );
 
@@ -212,12 +211,12 @@ TEST_F(FunctionAsActionUnitTest, TestInitializationFromLambdaAndCall)
   test_call(dst);
 }
 
-TEST_F(FunctionAsActionUnitTest, TestInitializationFromLambdaAndCall2)
+TEST_F(function_as_action_unittest, TestInitializationFromLambdaAndCall2)
 {
   function<void, const char*, const int, char*> func = 
     [](const char* name, const int num, char*dst) -> void
   {
-    return FunctionAsActionUnitTest::func(name, num, dst);
+    return function_as_action_unittest::func(name, num, dst);
   };
 
   func(name, num, dst);
@@ -225,20 +224,20 @@ TEST_F(FunctionAsActionUnitTest, TestInitializationFromLambdaAndCall2)
   test_call(dst);
 }
 
-TEST_F(FunctionAsActionUnitTest, TestInitializationFromStaticFunctionAndCall)
+TEST_F(function_as_action_unittest, TestInitializationFromStaticFunctionAndCall)
 {
-  function<void, const char*, const int, char*> func = FunctionAsActionUnitTest::func;
+  function<void, const char*, const int, char*> func = function_as_action_unittest::func;
 
   func(name, num, dst);
 
   test_call(dst);
 }
 
-TEST_F(FunctionAsActionUnitTest, TestExplicitConversionFromLambdaToStdFunction)
+TEST_F(function_as_action_unittest, TestExplicitConversionFromLambdaToStdFunction)
 {
   function<void, const char*, const int, char*> func(
     [](const char* name, const int num, char* dst) -> void {
-      return FunctionAsActionUnitTest::func(name, num, dst);
+      return function_as_action_unittest::func(name, num, dst);
     }
   );
 
@@ -249,9 +248,9 @@ TEST_F(FunctionAsActionUnitTest, TestExplicitConversionFromLambdaToStdFunction)
   test_call(dst);
 }
 
-TEST_F(FunctionAsActionUnitTest, TestExplicitConvertionFromStaticFunctionToStdFunction)
+TEST_F(function_as_action_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction)
 {
-  function<void, const char*, const int, char*> func = FunctionAsActionUnitTest::func;
+  function<void, const char*, const int, char*> func = function_as_action_unittest::func;
 
   std::function<void(const char*, const int, char*)> f = func;
 
@@ -260,9 +259,9 @@ TEST_F(FunctionAsActionUnitTest, TestExplicitConvertionFromStaticFunctionToStdFu
   test_call(dst);
 }
 
-TEST_F(FunctionAsActionUnitTest, TestConversionFromStaticFunctionToFunctionPointer)
+TEST_F(function_as_action_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 {
-  function<void, const char*, const int, char*> func = FunctionAsActionUnitTest::func;
+  function<void, const char*, const int, char*> func = function_as_action_unittest::func;
 
   void(*f)(const char*, const int, char*) = func;
 
@@ -271,11 +270,11 @@ TEST_F(FunctionAsActionUnitTest, TestConversionFromStaticFunctionToFunctionPoint
   test_call(dst);
 }
 
-TEST_F(FunctionAsActionUnitTest, TestConversionFromLambdaToFunctionPointer)
+TEST_F(function_as_action_unittest, TestConversionFromLambdaToFunctionPointer)
 {
   function<void, const char*, const int, char*> func(
     [](const char* name, const int num, char* dst) -> void {
-      return FunctionAsActionUnitTest::func(name, num, dst);
+      return function_as_action_unittest::func(name, num, dst);
     }
   );
 
@@ -286,9 +285,9 @@ TEST_F(FunctionAsActionUnitTest, TestConversionFromLambdaToFunctionPointer)
   test_call(dst);
 }
 
-TEST_F(FunctionAsActionUnitTest, TestCopyConstructor)
+TEST_F(function_as_action_unittest, TestCopyConstructor)
 {
-  function<void, const char*, const int, char*> func = FunctionAsActionUnitTest::func;
+  function<void, const char*, const int, char*> func = function_as_action_unittest::func;
 
   function<void, const char*, const int, char*> copied = func;
 
@@ -297,9 +296,9 @@ TEST_F(FunctionAsActionUnitTest, TestCopyConstructor)
   test_call(dst);
 }
 
-TEST_F(FunctionAsActionUnitTest, TestInvokeAsync)
+TEST_F(function_as_action_unittest, TestInvokeAsync)
 {
-  function<void, const char*, const int, char*> func = FunctionAsActionUnitTest::func;
+  function<void, const char*, const int, char*> func = function_as_action_unittest::func;
 
   func.invoke_async(name, num, dst);
 
@@ -309,7 +308,7 @@ TEST_F(FunctionAsActionUnitTest, TestInvokeAsync)
 }
 
 
-class FunctionAsFunctionUnitTest : public FunctionUnitTestBase {
+class function_as_function_unittest : public function_unittest_base {
 public:
   static int func(const int a, const int b) {
     return a + b;
@@ -326,11 +325,11 @@ protected:
 };
 
 
-TEST_F(FunctionAsFunctionUnitTest, TestInitializationFromLambdaAndCall)
+TEST_F(function_as_function_unittest, TestInitializationFromLambdaAndCall)
 {
   function<int, const int, const int> func(
     [](const int a, const int b) -> int {
-      return FunctionAsFunctionUnitTest::func(a, b);
+      return function_as_function_unittest::func(a, b);
     }
   );
 
@@ -339,12 +338,12 @@ TEST_F(FunctionAsFunctionUnitTest, TestInitializationFromLambdaAndCall)
   test_call(actual_result);
 }
 
-TEST_F(FunctionAsFunctionUnitTest, TestInitializationFromLambdaAndCall2)
+TEST_F(function_as_function_unittest, TestInitializationFromLambdaAndCall2)
 {
   function<int, const int, const int> func =
     [](const int a, const int b) -> int
   {
-    return FunctionAsFunctionUnitTest::func(a, b);
+    return function_as_function_unittest::func(a, b);
   };
 
   int actual_result = func(a, b);
@@ -352,20 +351,20 @@ TEST_F(FunctionAsFunctionUnitTest, TestInitializationFromLambdaAndCall2)
   test_call(actual_result);
 }
 
-TEST_F(FunctionAsFunctionUnitTest, TestInitializationFromStaticFunctionAndCall)
+TEST_F(function_as_function_unittest, TestInitializationFromStaticFunctionAndCall)
 {
-  function<int, const int, const int> func = FunctionAsFunctionUnitTest::func;
+  function<int, const int, const int> func = function_as_function_unittest::func;
 
   int actual_result = func(a, b);
 
   test_call(actual_result);
 }
 
-TEST_F(FunctionAsFunctionUnitTest, TestExplicitConversionFromLambdaToStdFunction)
+TEST_F(function_as_function_unittest, TestExplicitConversionFromLambdaToStdFunction)
 {
   function<int, const int, const int> func(
     [](const int a, const int b) -> int {
-      return FunctionAsFunctionUnitTest::func(a, b);
+      return function_as_function_unittest::func(a, b);
     }
   );
 
@@ -376,9 +375,9 @@ TEST_F(FunctionAsFunctionUnitTest, TestExplicitConversionFromLambdaToStdFunction
   test_call(actual_result);
 }
 
-TEST_F(FunctionAsFunctionUnitTest, TestExplicitConvertionFromStaticFunctionToStdFunction)
+TEST_F(function_as_function_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction)
 {
-  function<int, const int, const int> func = FunctionAsFunctionUnitTest::func;
+  function<int, const int, const int> func = function_as_function_unittest::func;
 
   std::function<int(const int, const int)> f = func;
 
@@ -387,9 +386,9 @@ TEST_F(FunctionAsFunctionUnitTest, TestExplicitConvertionFromStaticFunctionToStd
   test_call(actual_result);
 }
 
-TEST_F(FunctionAsFunctionUnitTest, TestConversionFromStaticFunctionToFunctionPointer)
+TEST_F(function_as_function_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 {
-  function<int, const int, const int> func = FunctionAsFunctionUnitTest::func;
+  function<int, const int, const int> func = function_as_function_unittest::func;
 
   int(*f)(const int, const int) = func;
 
@@ -398,11 +397,11 @@ TEST_F(FunctionAsFunctionUnitTest, TestConversionFromStaticFunctionToFunctionPoi
   test_call(actual_result);
 }
 
-TEST_F(FunctionAsFunctionUnitTest, TestConversionFromLambdaToFunctionPointer)
+TEST_F(function_as_function_unittest, TestConversionFromLambdaToFunctionPointer)
 {
   function<int, const int, const int> func(
     [](const int a, const int b) -> int {
-      return FunctionAsFunctionUnitTest::func(a, b);
+      return function_as_function_unittest::func(a, b);
     }
   );
 
@@ -413,9 +412,9 @@ TEST_F(FunctionAsFunctionUnitTest, TestConversionFromLambdaToFunctionPointer)
   test_call(actual_result);
 }
 
-TEST_F(FunctionAsFunctionUnitTest, TestCopyConstructor)
+TEST_F(function_as_function_unittest, TestCopyConstructor)
 {
-  function<int, const int, const int> func = FunctionAsFunctionUnitTest::func;
+  function<int, const int, const int> func = function_as_function_unittest::func;
 
   function<int, const int, const int> copied = func;
 
@@ -425,7 +424,7 @@ TEST_F(FunctionAsFunctionUnitTest, TestCopyConstructor)
 }
 
 
-class FunctionAsPredicateUnitTest : public FunctionUnitTestBase {
+class function_as_predicate_unittest : public function_unittest_base {
 public:
   static bool func(int a, int b) {
     return a >= b;
@@ -442,11 +441,11 @@ protected:
 };
 
 
-TEST_F(FunctionAsPredicateUnitTest, TestInitializationFromLambdaAndCall)
+TEST_F(function_as_predicate_unittest, TestInitializationFromLambdaAndCall)
 {
   function<bool, int, int> func(
     [](int a, int b) -> bool {
-      return FunctionAsPredicateUnitTest::func(a, b);
+      return function_as_predicate_unittest::func(a, b);
     }
   );
 
@@ -455,12 +454,12 @@ TEST_F(FunctionAsPredicateUnitTest, TestInitializationFromLambdaAndCall)
   test_call(actual_result);
 }
 
-TEST_F(FunctionAsPredicateUnitTest, TestInitializationFromLambdaAndCall2)
+TEST_F(function_as_predicate_unittest, TestInitializationFromLambdaAndCall2)
 {
   function<bool, int, int> func =
     [](int a, int b) -> bool
   {
-    return FunctionAsPredicateUnitTest::func(a, b);
+    return function_as_predicate_unittest::func(a, b);
   };
 
   int actual_result = func(a, b);
@@ -468,20 +467,20 @@ TEST_F(FunctionAsPredicateUnitTest, TestInitializationFromLambdaAndCall2)
   test_call(actual_result);
 }
 
-TEST_F(FunctionAsPredicateUnitTest, TestInitializationFromStaticFunctionAndCall)
+TEST_F(function_as_predicate_unittest, TestInitializationFromStaticFunctionAndCall)
 {
-  function<bool, int, int> func = FunctionAsPredicateUnitTest::func;
+  function<bool, int, int> func = function_as_predicate_unittest::func;
 
   int actual_result = func(a, b);
 
   test_call(actual_result);
 }
 
-TEST_F(FunctionAsPredicateUnitTest, TestExplicitConversionFromLambdaToStdFunction)
+TEST_F(function_as_predicate_unittest, TestExplicitConversionFromLambdaToStdFunction)
 {
   function<bool, int, int> func(
     [](int a, int b) -> bool {
-      return FunctionAsPredicateUnitTest::func(a, b);
+      return function_as_predicate_unittest::func(a, b);
     }
   );
 
@@ -492,9 +491,9 @@ TEST_F(FunctionAsPredicateUnitTest, TestExplicitConversionFromLambdaToStdFunctio
   test_call(actual_result);
 }
 
-TEST_F(FunctionAsPredicateUnitTest, TestExplicitConvertionFromStaticFunctionToStdFunction)
+TEST_F(function_as_predicate_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction)
 {
-  function<bool, int, int> func = FunctionAsPredicateUnitTest::func;
+  function<bool, int, int> func = function_as_predicate_unittest::func;
 
   std::function<bool(int, int)> f = func;
 
@@ -503,9 +502,9 @@ TEST_F(FunctionAsPredicateUnitTest, TestExplicitConvertionFromStaticFunctionToSt
   test_call(actual_result);
 }
 
-TEST_F(FunctionAsPredicateUnitTest, TestConversionFromStaticFunctionToFunctionPointer)
+TEST_F(function_as_predicate_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 {
-  function<bool, int, int> func = FunctionAsPredicateUnitTest::func;
+  function<bool, int, int> func = function_as_predicate_unittest::func;
 
   bool(*f)(int, int) = func;
 
@@ -514,11 +513,11 @@ TEST_F(FunctionAsPredicateUnitTest, TestConversionFromStaticFunctionToFunctionPo
   test_call(actual_result);
 }
 
-TEST_F(FunctionAsPredicateUnitTest, TestConversionFromLambdaToFunctionPointer)
+TEST_F(function_as_predicate_unittest, TestConversionFromLambdaToFunctionPointer)
 {
   function<bool, int, int> func(
     [](int a, int b) -> bool {
-      return FunctionAsPredicateUnitTest::func(a, b);
+      return function_as_predicate_unittest::func(a, b);
     }
   );
 
@@ -529,9 +528,9 @@ TEST_F(FunctionAsPredicateUnitTest, TestConversionFromLambdaToFunctionPointer)
   test_call(actual_result);  
 }
 
-TEST_F(FunctionAsPredicateUnitTest, TestCopyConstructor)
+TEST_F(function_as_predicate_unittest, TestCopyConstructor)
 {
-  function<bool, int, int> func = FunctionAsPredicateUnitTest::func;
+  function<bool, int, int> func = function_as_predicate_unittest::func;
 
   function<bool, int, int> copied = func;
 
@@ -544,14 +543,14 @@ TEST_F(FunctionAsPredicateUnitTest, TestCopyConstructor)
 /****************** END OF `sneaker::functional::function` ********************/
 
 
-class CallUnitTest : public FunctionAsCallUnitTest {};
+class call_unittest : public function_as_call_unittest {};
 
 
-TEST_F(CallUnitTest, TestInitializationFromLambdaAndCall)
+TEST_F(call_unittest, TestInitializationFromLambdaAndCall)
 {
   call func(
     []() -> void {
-      return CallUnitTest::func();
+      return call_unittest::func();
     }
   );
 
@@ -560,10 +559,10 @@ TEST_F(CallUnitTest, TestInitializationFromLambdaAndCall)
   test_call();
 }
 
-TEST_F(CallUnitTest, TestInitializationFromLambdaAndCall2)
+TEST_F(call_unittest, TestInitializationFromLambdaAndCall2)
 {
   call func = []() -> void {
-    return CallUnitTest::func();
+    return call_unittest::func();
   };
 
   func();
@@ -571,20 +570,20 @@ TEST_F(CallUnitTest, TestInitializationFromLambdaAndCall2)
   test_call();
 }
 
-TEST_F(CallUnitTest, TestInitializationFromStaticFunctionAndCall)
+TEST_F(call_unittest, TestInitializationFromStaticFunctionAndCall)
 {
-  call func = CallUnitTest::func;
+  call func = call_unittest::func;
 
   func();
 
   test_call();
 }
 
-TEST_F(CallUnitTest, TestExplicitConversionFromLambdaToStdFunction)
+TEST_F(call_unittest, TestExplicitConversionFromLambdaToStdFunction)
 {
   call func(
     []() -> void {
-      return CallUnitTest::func();
+      return call_unittest::func();
     }
   );
 
@@ -595,9 +594,9 @@ TEST_F(CallUnitTest, TestExplicitConversionFromLambdaToStdFunction)
   test_call();
 }
 
-TEST_F(CallUnitTest, TestExplicitConvertionFromStaticFunctionToStdFunction)
+TEST_F(call_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction)
 {
-  call func = CallUnitTest::func;
+  call func = call_unittest::func;
 
   std::function<void()> f = func;
 
@@ -606,9 +605,9 @@ TEST_F(CallUnitTest, TestExplicitConvertionFromStaticFunctionToStdFunction)
   test_call();
 }
 
-TEST_F(CallUnitTest, TestConversionFromStaticFunctionToFunctionPointer)
+TEST_F(call_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 {
-  call func = CallUnitTest::func;
+  call func = call_unittest::func;
 
   void(*f)(void) = func;
 
@@ -617,11 +616,11 @@ TEST_F(CallUnitTest, TestConversionFromStaticFunctionToFunctionPointer)
   test_call();
 }
 
-TEST_F(CallUnitTest, TestConversionFromLambdaToFunctionPointer)
+TEST_F(call_unittest, TestConversionFromLambdaToFunctionPointer)
 {
   call func(
     []() -> void {
-      return FunctionAsCallUnitTest::func();
+      return function_as_call_unittest::func();
     }
   );
 
@@ -632,9 +631,9 @@ TEST_F(CallUnitTest, TestConversionFromLambdaToFunctionPointer)
   test_call();
 }
 
-TEST_F(CallUnitTest, TestCopyConstructor)
+TEST_F(call_unittest, TestCopyConstructor)
 {
-  call func = CallUnitTest::func;
+  call func = call_unittest::func;
 
   call copied = func;
 
@@ -643,9 +642,9 @@ TEST_F(CallUnitTest, TestCopyConstructor)
   test_call();
 }
 
-TEST_F(CallUnitTest, TestInvokeAsync)
+TEST_F(call_unittest, TestInvokeAsync)
 {
-  call func = CallUnitTest::func;
+  call func = call_unittest::func;
 
   func.invoke_async();
 
@@ -658,14 +657,14 @@ TEST_F(CallUnitTest, TestInvokeAsync)
 /****************** END OF `sneaker::functional::call` ************************/
 
 
-class ActionUnitTest : public FunctionAsActionUnitTest {};
+class action_unittest : public function_as_action_unittest {};
 
 
-TEST_F(ActionUnitTest, TestInitializationFromLambdaAndCall)
+TEST_F(action_unittest, TestInitializationFromLambdaAndCall)
 {
   action<const char*, const int, char*> func(
     [](const char* name, const int num, char*dst) -> void {
-      return ActionUnitTest::func(name, num, dst);
+      return action_unittest::func(name, num, dst);
     }
   );
 
@@ -674,12 +673,12 @@ TEST_F(ActionUnitTest, TestInitializationFromLambdaAndCall)
   test_call(dst);
 }
 
-TEST_F(ActionUnitTest, TestInitializationFromLambdaAndCall2)
+TEST_F(action_unittest, TestInitializationFromLambdaAndCall2)
 {
   action<const char*, const int, char*> func = 
     [](const char* name, const int num, char*dst) -> void
   {
-    return ActionUnitTest::func(name, num, dst);
+    return action_unittest::func(name, num, dst);
   };
 
   func(name, num, dst);
@@ -687,20 +686,20 @@ TEST_F(ActionUnitTest, TestInitializationFromLambdaAndCall2)
   test_call(dst);
 }
 
-TEST_F(ActionUnitTest, TestInitializationFromStaticFunctionAndCall)
+TEST_F(action_unittest, TestInitializationFromStaticFunctionAndCall)
 {
-  action<const char*, const int, char*> func = ActionUnitTest::func;
+  action<const char*, const int, char*> func = action_unittest::func;
 
   func(name, num, dst);
 
   test_call(dst);
 }
 
-TEST_F(ActionUnitTest, TestExplicitConversionFromLambdaToStdFunction)
+TEST_F(action_unittest, TestExplicitConversionFromLambdaToStdFunction)
 {
   action<const char*, const int, char*> func(
     [](const char* name, const int num, char* dst) -> void {
-      return ActionUnitTest::func(name, num, dst);
+      return action_unittest::func(name, num, dst);
     }
   );
 
@@ -711,9 +710,9 @@ TEST_F(ActionUnitTest, TestExplicitConversionFromLambdaToStdFunction)
   test_call(dst);
 }
 
-TEST_F(ActionUnitTest, TestExplicitConvertionFromStaticFunctionToStdFunction)
+TEST_F(action_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction)
 {
-  action<const char*, const int, char*> func = ActionUnitTest::func;
+  action<const char*, const int, char*> func = action_unittest::func;
 
   std::function<void(const char*, const int, char*)> f = func;
 
@@ -722,9 +721,9 @@ TEST_F(ActionUnitTest, TestExplicitConvertionFromStaticFunctionToStdFunction)
   test_call(dst);
 }
 
-TEST_F(ActionUnitTest, TestConversionFromStaticFunctionToFunctionPointer)
+TEST_F(action_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 {
-  action<const char*, const int, char*> func = ActionUnitTest::func;
+  action<const char*, const int, char*> func = action_unittest::func;
 
   void(*f)(const char*, const int, char*) = func;
 
@@ -733,11 +732,11 @@ TEST_F(ActionUnitTest, TestConversionFromStaticFunctionToFunctionPointer)
   test_call(dst);
 }
 
-TEST_F(ActionUnitTest, TestConversionFromLambdaToFunctionPointer)
+TEST_F(action_unittest, TestConversionFromLambdaToFunctionPointer)
 {
   action<const char*, const int, char*> func(
     [](const char* name, const int num, char* dst) -> void {
-      return ActionUnitTest::func(name, num, dst);
+      return action_unittest::func(name, num, dst);
     }
   );
 
@@ -748,9 +747,9 @@ TEST_F(ActionUnitTest, TestConversionFromLambdaToFunctionPointer)
   test_call(dst);
 }
 
-TEST_F(ActionUnitTest, TestCopyConstructor)
+TEST_F(action_unittest, TestCopyConstructor)
 {
-  action<const char*, const int, char*> func = ActionUnitTest::func;
+  action<const char*, const int, char*> func = action_unittest::func;
 
   action<const char*, const int, char*> copied = func;
 
@@ -759,9 +758,9 @@ TEST_F(ActionUnitTest, TestCopyConstructor)
   test_call(dst);
 }
 
-TEST_F(ActionUnitTest, TestInvokeAsync)
+TEST_F(action_unittest, TestInvokeAsync)
 {
-  action<const char*, const int, char*> func = ActionUnitTest::func;
+  action<const char*, const int, char*> func = action_unittest::func;
 
   func.invoke_async(name, num, dst);
 
@@ -774,14 +773,14 @@ TEST_F(ActionUnitTest, TestInvokeAsync)
 /****************** END OF `sneaker::functional::action` **********************/
 
 
-class PredicateUnitTest : public FunctionAsPredicateUnitTest {};
+class predicate_unittest : public function_as_predicate_unittest {};
 
 
-TEST_F(PredicateUnitTest, TestInitializationFromLambdaAndCall)
+TEST_F(predicate_unittest, TestInitializationFromLambdaAndCall)
 {
   predicate<int, int> func(
     [](int a, int b) -> bool {
-      return PredicateUnitTest::func(a, b);
+      return predicate_unittest::func(a, b);
     }
   );
 
@@ -790,12 +789,12 @@ TEST_F(PredicateUnitTest, TestInitializationFromLambdaAndCall)
   test_call(actual_result);
 }
 
-TEST_F(PredicateUnitTest, TestInitializationFromLambdaAndCall2)
+TEST_F(predicate_unittest, TestInitializationFromLambdaAndCall2)
 {
   predicate<int, int> func =
     [](int a, int b) -> bool
   {
-    return PredicateUnitTest::func(a, b);
+    return predicate_unittest::func(a, b);
   };
 
   int actual_result = func(a, b);
@@ -803,20 +802,20 @@ TEST_F(PredicateUnitTest, TestInitializationFromLambdaAndCall2)
   test_call(actual_result);
 }
 
-TEST_F(PredicateUnitTest, TestInitializationFromStaticFunctionAndCall)
+TEST_F(predicate_unittest, TestInitializationFromStaticFunctionAndCall)
 {
-  predicate<int, int> func = PredicateUnitTest::func;
+  predicate<int, int> func = predicate_unittest::func;
 
   int actual_result = func(a, b);
 
   test_call(actual_result);
 }
 
-TEST_F(PredicateUnitTest, TestExplicitConversionFromLambdaToStdFunction)
+TEST_F(predicate_unittest, TestExplicitConversionFromLambdaToStdFunction)
 {
   predicate<int, int> func(
     [](int a, int b) -> bool {
-      return PredicateUnitTest::func(a, b);
+      return predicate_unittest::func(a, b);
     }
   );
 
@@ -827,9 +826,9 @@ TEST_F(PredicateUnitTest, TestExplicitConversionFromLambdaToStdFunction)
   test_call(actual_result);
 }
 
-TEST_F(PredicateUnitTest, TestExplicitConvertionFromStaticFunctionToStdFunction)
+TEST_F(predicate_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction)
 {
-  predicate<int, int> func = PredicateUnitTest::func;
+  predicate<int, int> func = predicate_unittest::func;
 
   std::function<bool(int, int)> f = func;
 
@@ -838,9 +837,9 @@ TEST_F(PredicateUnitTest, TestExplicitConvertionFromStaticFunctionToStdFunction)
   test_call(actual_result);
 }
 
-TEST_F(PredicateUnitTest, TestConversionFromStaticFunctionToFunctionPointer)
+TEST_F(predicate_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 {
-  predicate<int, int> func = PredicateUnitTest::func;
+  predicate<int, int> func = predicate_unittest::func;
 
   bool(*f)(int, int) = func;
 
@@ -849,11 +848,11 @@ TEST_F(PredicateUnitTest, TestConversionFromStaticFunctionToFunctionPointer)
   test_call(actual_result);
 }
 
-TEST_F(PredicateUnitTest, TestConversionFromLambdaToFunctionPointer)
+TEST_F(predicate_unittest, TestConversionFromLambdaToFunctionPointer)
 {
   predicate<int, int> func(
     [](int a, int b) -> bool {
-      return PredicateUnitTest::func(a, b);
+      return predicate_unittest::func(a, b);
     }
   );
 
@@ -864,9 +863,9 @@ TEST_F(PredicateUnitTest, TestConversionFromLambdaToFunctionPointer)
   test_call(actual_result);  
 }
 
-TEST_F(PredicateUnitTest, TestCopyConstructor)
+TEST_F(predicate_unittest, TestCopyConstructor)
 {
-  predicate<int, int> func = PredicateUnitTest::func;
+  predicate<int, int> func = predicate_unittest::func;
 
   predicate<int, int> copied = func;
 

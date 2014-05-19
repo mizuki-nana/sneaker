@@ -7,12 +7,16 @@ Components that faciliates I/O operations.
 .. cpp:class:: sneaker::io::file_reader
 ---------------------------------------
 
-  Class that facilitates reading from files.
+  Class that facilitates reads from files. Use this class only if the read
+  is very trivial and errors can be ignored. Other circumstances please use
+  components in the Standard Template Library.
+
+  Header file: `sneaker/io/file_reader.h`
 
   .. cpp:class:: file_reader()
     :noindex:
 
-    Constructor.
+    Default constructor.
 
   .. cpp:class:: file_reader(const char*)
     :noindex:

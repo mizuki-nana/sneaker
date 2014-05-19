@@ -106,7 +106,7 @@ sneaker::allocator::allocator<T, Policy, Traits>::allocator(allocator<U, P, T2> 
 }
 
 
-// Determines if memory from another allocator can be deallocated from this one.
+/* Equality operators. */
 template<typename T, typename P, typename Tr>
 inline bool operator==(allocator<T, P, Tr> const& lhs, allocator<T, P, Tr> const& rhs)
 {

@@ -21,8 +21,9 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
+#include <assert.h>
 #include <errno.h>
-#include "../../include/libc/assert.h"
+#include <stdlib.h>
 #include "../../include/libc/common.h"
 #include "../../include/libc/memory.h"
 #include "../../include/libc/queue.h"
@@ -54,27 +55,27 @@ queue_t queue_create()
 
 size_t queue_size(queue_t queue)
 {
-  ASSERT(queue);
+  assert(queue);
   return queue->size;
 }
 
 void* queue_front(queue_t queue)
 {
-  ASSERT(queue);
+  assert(queue);
   RETURN_VAL_IF_NULL(queue->head, NULL);
   return queue->head->value;
 }
 
 void* queue_back(queue_t queue)
 {
-  ASSERT(queue);
+  assert(queue);
   RETURN_VAL_IF_NULL(queue->tail, NULL);
   return queue->tail->value;
 }
 
 int queue_push(queue_t queue, void *val, size_t size)
 {
-  ASSERT(queue);
+  assert(queue);
 
   RETURN_VAL_IF_NULL(val, 0);
 
@@ -109,11 +110,11 @@ int queue_push(queue_t queue, void *val, size_t size)
 
 void* queue_pop(queue_t queue)
 {
-  ASSERT(queue);
+  assert(queue);
 
   RETURN_VAL_IF_EQ(queue->size, 0, NULL);
 
-  ASSERT(queue->head);
+  assert(queue->head);
 
   void *val = queue->head->value;
 
@@ -125,7 +126,7 @@ void* queue_pop(queue_t queue)
 
   if(queue->size == 0) {
     queue->tail = NULL;
-    ASSERT(queue->head == NULL);
+    assert(queue->head == NULL);
   }
 
   return val;
@@ -134,15 +135,15 @@ void* queue_pop(queue_t queue)
 void queue_free(queue_t *queue)
 {
   queue_t _queue = *queue;
-  ASSERT(_queue);
+  assert(_queue);
 
   while(queue_size(_queue) > 0) {
     queue_pop(_queue);
   }
 
-  ASSERT(_queue->head == NULL);
-  ASSERT(_queue->tail == NULL);
-  ASSERT(_queue->size == 0);
+  assert(_queue->head == NULL);
+  assert(_queue->tail == NULL);
+  assert(_queue->size == 0);
 
   FREE(_queue);
 

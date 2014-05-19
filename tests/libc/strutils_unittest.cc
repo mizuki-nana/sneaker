@@ -21,56 +21,56 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for functions defined in include/libc/strutils.h */
+/* Unit test for functions defined in sneaker/libc/strutils.h */
 
-#include <string.h>
+#include <cstring>
 #include "../../include/testing/testing.h"
 #include "../../include/libc/strutils.h"
 
 
-/***************************************
+/*******************************************************************************
  * Unit test for:
  * char* strtoupper(char*)
- ***************************************/
-class StrToUpperUnitTest : public ::testing::Test {};
+ ******************************************************************************/
+class strtoupper_unittest : public ::testing::Test {};
 
 
-TEST_F(StrToUpperUnitTest, TestNullInput)
+TEST_F(strtoupper_unittest, TestNullInput)
 {
   ASSERT_EQ(NULL, strtoupper(NULL));
 }
 
-TEST_F(StrToUpperUnitTest, TestValidSingleWord)
+TEST_F(strtoupper_unittest, TestValidSingleWord)
 {
   char s[] = "test";
   ASSERT_STREQ("TEST", strtoupper(s));
 }
 
-TEST_F(StrToUpperUnitTest, TestMixedSingleWord)
+TEST_F(strtoupper_unittest, TestMixedSingleWord)
 {
   char s[] = "TeSt";
   ASSERT_STREQ("TEST", strtoupper(s));
 }
 
-TEST_F(StrToUpperUnitTest, TestValidSentence)
+TEST_F(strtoupper_unittest, TestValidSentence)
 {
   char s[] = "this is a test";
   ASSERT_STREQ("THIS IS A TEST", strtoupper(s));
 }
 
-TEST_F(StrToUpperUnitTest, TestSentenceWithMixedCases)
+TEST_F(strtoupper_unittest, TestSentenceWithMixedCases)
 {
   char s[] = "tHis IS a TesT";
   ASSERT_STREQ("THIS IS A TEST", strtoupper(s));
 }
 
-TEST_F(StrToUpperUnitTest, TestSentenceWithNumbers)
+TEST_F(strtoupper_unittest, TestSentenceWithNumbers)
 {
   char s[] = "five = 5";
   ASSERT_STREQ("FIVE = 5", strtoupper(s));
 }
 
-TEST_F(StrToUpperUnitTest, TestSentenceWithSpecialCharacters)
+TEST_F(strtoupper_unittest, TestSentenceWithSpecialCharacters)
 {
   char s[] = "This quarter's revenue is 100% off the chart, more $$ coming in!!!";
   ASSERT_STREQ(
@@ -80,49 +80,49 @@ TEST_F(StrToUpperUnitTest, TestSentenceWithSpecialCharacters)
 }
 
 
-/***************************************
+/*******************************************************************************
  * Unit test for:
  * char* strtolower(char*)
- ***************************************/
-class StrToLowerUnitTest : public ::testing::Test {};
+ ******************************************************************************/
+class strtolower_unittest : public ::testing::Test {};
 
 
-TEST_F(StrToLowerUnitTest, TestNULLInput)
+TEST_F(strtolower_unittest, TestNULLInput)
 {
  ASSERT_EQ(NULL, strtolower(NULL));
 }
 
-TEST_F(StrToLowerUnitTest, TestValidSingleWord)
+TEST_F(strtolower_unittest, TestValidSingleWord)
 {
   char s[] = "TEST"; 
   ASSERT_STREQ("test", strtolower(s));
 }
 
-TEST_F(StrToLowerUnitTest, TestSingleWordWithMixedCases)
+TEST_F(strtolower_unittest, TestSingleWordWithMixedCases)
 {
   char s[] = "TeSt";
   ASSERT_STREQ("test", strtolower(s));
 }
 
-TEST_F(StrToLowerUnitTest, TestValidSentence)
+TEST_F(strtolower_unittest, TestValidSentence)
 {
   char s[] = "THIS IS A TEST";
   ASSERT_STREQ("this is a test", strtolower(s));
 }
 
-TEST_F(StrToLowerUnitTest, TestSentenceWithMixedCases)
+TEST_F(strtolower_unittest, TestSentenceWithMixedCases)
 {
   char s[] = "tHis IS a TesT";
   ASSERT_STREQ("this is a test", strtolower(s));
 }
 
-TEST_F(StrToLowerUnitTest, TestMixedSentenceNumbers)
+TEST_F(strtolower_unittest, TestMixedSentenceNumbers)
 {
   char s[] = "FIVE = 5";
   ASSERT_STREQ("five = 5", strtolower(s));
 }
 
-TEST_F(StrToLowerUnitTest, TestSentenceWithSpecialCharacters)
+TEST_F(strtolower_unittest, TestSentenceWithSpecialCharacters)
 {
   char s[] = "THIS QUARTER'S REVENUE IS 100% OFF THE CHART, MORE $$ COMING IN!!!";
   ASSERT_STREQ(
@@ -132,19 +132,19 @@ TEST_F(StrToLowerUnitTest, TestSentenceWithSpecialCharacters)
 }
 
 
-/***************************************
+/*******************************************************************************
  * Unit test for:
  * char* strcpy_hard(char* dst, char *src)
- ***************************************/
-class StrcpyHardUnitTest : public ::testing::Test {};
+ ******************************************************************************/
+class strcpy_hard_unittest : public ::testing::Test {};
 
 
-TEST_F(StrcpyHardUnitTest, TestNullInputSrc)
+TEST_F(strcpy_hard_unittest, TestNullInputSrc)
 {
   ASSERT_EQ(NULL, strcpy_hard(NULL, NULL));
 }
 
-TEST_F(StrcpyHardUnitTest, TestNullDstAndValidSrc)
+TEST_F(strcpy_hard_unittest, TestNullDstAndValidSrc)
 {
   char src[] = "this is a test";
   char *dst = NULL;
@@ -157,7 +157,7 @@ TEST_F(StrcpyHardUnitTest, TestNullDstAndValidSrc)
   free(dst);
 }
 
-TEST_F(StrcpyHardUnitTest, TestValidDstAndValidSrc)
+TEST_F(strcpy_hard_unittest, TestValidDstAndValidSrc)
 {
   char src[] = "this is another test";
   char *dst = (char*)malloc(20);
@@ -172,20 +172,20 @@ TEST_F(StrcpyHardUnitTest, TestValidDstAndValidSrc)
 }
 
 
-/***************************************
+/*******************************************************************************
  * Unit test for:
  * char* strtrim(char *s)
- ***************************************/
-class StrTrimUnitTest : public ::testing::Test {};
+ ******************************************************************************/
+class strtrim_unittest : public ::testing::Test {};
 
 
-TEST_F(StrTrimUnitTest, TestNullInputTest)
+TEST_F(strtrim_unittest, TestNullInputTest)
 {
   char *s = NULL;
   ASSERT_EQ(NULL, strtrim(s));
 }
 
-TEST_F(StrTrimUnitTest, TestInputWithNoOuterWhitespaces)
+TEST_F(strtrim_unittest, TestInputWithNoOuterWhitespaces)
 {
   char s[] = "this is a test";
   char *d = strtrim(s);
@@ -194,7 +194,7 @@ TEST_F(StrTrimUnitTest, TestInputWithNoOuterWhitespaces)
   ASSERT_EQ(strlen(s), strlen(d));
 }
 
-TEST_F(StrTrimUnitTest, TestInputWithLeadingWhitespaces)
+TEST_F(strtrim_unittest, TestInputWithLeadingWhitespaces)
 {
   char s[] = "  this is a test";
   char *d = strtrim(s);
@@ -203,7 +203,7 @@ TEST_F(StrTrimUnitTest, TestInputWithLeadingWhitespaces)
   ASSERT_EQ(strlen("this is a test"), strlen(d));
 }
 
-TEST_F(StrTrimUnitTest, TestInputWithTrailingWhitespaces)
+TEST_F(strtrim_unittest, TestInputWithTrailingWhitespaces)
 {
   char s[] = "this is a test   ";
   char *d = strtrim(s);
@@ -212,7 +212,7 @@ TEST_F(StrTrimUnitTest, TestInputWithTrailingWhitespaces)
   ASSERT_EQ(strlen("this is a test"), strlen(d));
 }
 
-TEST_F(StrTrimUnitTest, TestInputWithBothLeadingAndTrailingWhitespacesTest)
+TEST_F(strtrim_unittest, TestInputWithBothLeadingAndTrailingWhitespacesTest)
 {
   char s[] = "   this is a test   ";
   char *d = strtrim(s);
@@ -222,14 +222,14 @@ TEST_F(StrTrimUnitTest, TestInputWithBothLeadingAndTrailingWhitespacesTest)
 }
 
 
-/********************************************************
+/*******************************************************************************
  * Unit test for:
  * char* strncpy_safe(char *dst, char *src, size_t size)
- ********************************************************/
-class StrncpySafeUnitTest : public ::testing::Test {};
+ ******************************************************************************/
+class strncpy_safe_unittest : public ::testing::Test {};
 
 
-TEST_F(StrncpySafeUnitTest, TestNullDstInputTest)
+TEST_F(strncpy_safe_unittest, TestNullDstInputTest)
 {
   char *dst = NULL;
   char *src = (char*)malloc(10);
@@ -238,7 +238,7 @@ TEST_F(StrncpySafeUnitTest, TestNullDstInputTest)
   free(src);
 }
 
-TEST_F(StrncpySafeUnitTest, TestNullSrcInput)
+TEST_F(strncpy_safe_unittest, TestNullSrcInput)
 {
   char *dst = (char*)malloc(10);
   char *src = NULL;
@@ -247,7 +247,7 @@ TEST_F(StrncpySafeUnitTest, TestNullSrcInput)
   free(dst);
 }
 
-TEST_F(StrncpySafeUnitTest, TestNullDstAndSrcInput)
+TEST_F(strncpy_safe_unittest, TestNullDstAndSrcInput)
 {
   char *dst = NULL;
   const char *src = NULL;
@@ -255,7 +255,7 @@ TEST_F(StrncpySafeUnitTest, TestNullDstAndSrcInput)
   ASSERT_EQ(NULL, strncpy_safe(dst, src, 10));
 }
 
-TEST_F(StrncpySafeUnitTest, TestEqualSizeDstAndSrcTest)
+TEST_F(strncpy_safe_unittest, TestEqualSizeDstAndSrcTest)
 {
   char *dst = (char*)malloc(10);
   const char src[] = "123456789";
@@ -265,7 +265,7 @@ TEST_F(StrncpySafeUnitTest, TestEqualSizeDstAndSrcTest)
   ASSERT_EQ(strlen(dst), strlen(src));
 }
 
-TEST_F(StrncpySafeUnitTest, TestSmallerSizeDstThanSrc)
+TEST_F(strncpy_safe_unittest, TestSmallerSizeDstThanSrc)
 {
   char *dst = (char*)malloc(5);
   const char src[] = "123456789";
@@ -275,7 +275,7 @@ TEST_F(StrncpySafeUnitTest, TestSmallerSizeDstThanSrc)
   ASSERT_EQ(strlen("1234"), strlen(dst));
 }
 
-TEST_F(StrncpySafeUnitTest, TestLargerSizeDstThanSrcTest)
+TEST_F(strncpy_safe_unittest, TestLargerSizeDstThanSrcTest)
 {
   char *dst = (char*)malloc(20);
   const char src[] = "123456789";
@@ -283,4 +283,42 @@ TEST_F(StrncpySafeUnitTest, TestLargerSizeDstThanSrcTest)
 
   ASSERT_STREQ(src, dst);
   ASSERT_EQ(strlen(src), strlen(dst));
+}
+
+
+/*******************************************************************************
+ * Unit test for:
+ * size_t strlcpy2(char *dst, const char *src, size_t size)
+ ******************************************************************************/
+class strlcpy2_unittest : public ::testing::Test {};
+
+
+TEST_F(strlcpy2_unittest, TestNullDstAndSrc)
+{
+  size_t copied = strlcpy2(NULL, NULL, 10);
+  ASSERT_EQ(0, copied);
+}
+
+TEST_F(strlcpy2_unittest, TestSrcLargerThanDst)
+{
+  char dst[5];
+  char src[] = "Hello World!";
+
+  size_t copied = strlcpy2(dst, src, 5);
+  size_t expectec_copied = strlen(src);
+
+  ASSERT_EQ(expectec_copied, copied);
+  ASSERT_STREQ("Hell", dst);
+}
+
+TEST_F(strlcpy2_unittest, TestSrcLessThanDst)
+{
+  char dst[20];
+  char src[] = "Hello World!";
+
+  size_t copied = strlcpy2(dst, src, 20);
+  size_t expectec_copied = strlen(src);
+
+  ASSERT_EQ(expectec_copied, copied);
+  ASSERT_STREQ(src, dst);
 }

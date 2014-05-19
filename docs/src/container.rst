@@ -11,17 +11,23 @@ Storage containers of objects that serve a broad range of purposes.
 Container types that store objects on a reservation-based system. Users must
 reserve spots before objects are requested to be stored in these containers.
 
-
 .. cpp:class:: sneaker::allocator::reservation_map<T>
 -----------------------------------------------------
 
-  A key-value based reservation container where the key(also known as a token)
-  is an integer type.
+  Header file: `sneaker/container/reservation_map.h`
+
+  Note: The internal implementation is based on `std::map<token_t, T>`, hence
+  elements of type `T` must have their comparators defined for comparison.
 
   .. cpp:type:: token_t
     :noindex:
 
     The token type used by the reservation container.
+
+  .. cpp:type:: generator_type
+    :noindex:
+
+    The type that is used to generate reservation tokens internally.
 
   .. cpp:function:: reservation_map()
     :noindex:
@@ -33,7 +39,7 @@ reserve spots before objects are requested to be stored in these containers.
 
     Destructor.
 
-  .. cpp:function:: size_t size()
+  .. cpp:function:: size_t size() const
     :noindex:
 
     Gets the number of elements that are currently reserved.
@@ -56,16 +62,14 @@ reserve spots before objects are requested to be stored in these containers.
     :noindex:
 
     Attempts to store an object into the container by using a token. The storage
-    fails if the token specified is invalid, meaning the user has not previously
-    reserved spot for the object yet. Returns `true` if the storage is successful,
-    `false` otherwise.
+    fails if the token specified is invalid. Returns `true` if the storage is
+    successful, `false` otherwise.
 
   .. cpp:function:: bool get(token_t, T*)
     :noindex:
 
     Attempts to retrieve an object from the container by using a token.
-    The retrieval fails if the token specified is invalid, meaning the user has
-    not previously reserved spot for the object yet. Returns `true` if the
+    The retrieval fails if the token specified is invalid. Returns `true` if the
     retrieval is successful, `false` otherwise.
 
   .. cpp:function:: bool unreserve(token_t)
@@ -75,6 +79,12 @@ reserve spots before objects are requested to be stored in these containers.
     The un-reservation fails if no previously reservation has been made by the
     token specified. Returns `true` if the un-reservation is successful, `false`
     otherwise.
+
+  .. cpp:function:: void clear()
+    :noindex:
+
+    Removes all the reserved elements. After invoked, all tokens previously
+    obtained are no longer valid.
 
 
 4.2 Assorted-values Map Containers
@@ -88,6 +98,14 @@ of multiple values of different statically defined types.
 ------------------------------------------------------------------------
 
   An implementation of assorted-values map container based on `std::map`.
+
+  Header file: `sneaker/container/assorted_value_map.h`
+
+  .. cpp:type:: core_type
+    :noindex:
+
+    The core mapping type used internally.
+    This type is `std::map<K, boost::tuple<ValueTypes ...>>`.
 
   .. cpp:type:: key_type
     :noindex:
@@ -104,45 +122,102 @@ of multiple values of different statically defined types.
 
     The type of the key-value(s) pairs in the mapping.
 
-  .. cpp:type:: size_type
+  .. cpp:type:: key_compare
     :noindex:
 
-    The type that indicates the number of elements in the mapping.
+    Key comparison type.
+
+  .. cpp:type:: value_compare
+    :noindex:
+
+    Value comparison type.
+
+  .. cpp:type:: reference
+    :noindex:
+
+    Reference type of the values in the mapping.
+
+  .. cpp:type:: const_reference
+    :noindex:
+
+    Constant reference type of the values in the mapping.
+
+  .. cpp:type:: pointer
+    :noindex:
+
+    Pointer type of the values in the mapping.
+
+  .. cpp:type:: const_pointer
+    :noindex:
+
+    Constant pointer type of the values in the mapping.
 
   .. cpp:type:: iterator
     :noindex:
 
-    The type of forward iterator of the mapping.
+    Forward iterator type.
 
   .. cpp:type:: const_iterator
     :noindex:
 
-    The type of constant forward iterator of the mapping.
+    Constant forward iterator type.
 
   .. cpp:type:: reverse_iterator
     :noindex:
 
-    The type of reverse iterator of the mapping.
+    Reverse iterator type.
 
   .. cpp:type:: const_reverse_type
     :noindex:
 
-    The type of constant reverse iterator of the mapping.
+    Constant reverse iterator type.
+
+  .. cpp:type:: difference_type
+    :noindex:
+
+    The type that indicates the difference of number of elements between two
+    iterators of the mapping.
+
+  .. cpp:type:: size_type
+    :noindex:
+
+    The type that indicates the number of elements in the mapping.
 
   .. cpp:function:: explicit assorted_value_map()
     :noindex:
 
     Constructor.
 
-  .. cpp:function:: ~assorted_value_map()
-    :noindex:
-
-    Destructor.
-
-  .. cpp:function:: assorted_value_map(const assorted_value_map&)
+  .. cpp:function:: explicit assorted_value_map(const assorted_value_map&)
     :noindex:
 
     Copy constructor. The mapping is copied over.
+
+  .. cpp:function:: explicit assorted_value_map(const core_type&)
+    :noindex:
+
+    Constructor that takes a reference of core mapping type.
+    The mapping is copied over.
+
+  .. cpp:function:: ~assorted_value_map()
+    :noindex:
+
+    Destructor. All elements in the mapping are freed.
+
+  .. cpp:function:: static template<class Compare, class Alloc>
+                    sneaker::container::assorted_value_map<K, ... ValueTypes> create()
+    :noindex:
+
+    Static factory method that creates an instance with the specified `Compare`
+    key comparator type, and `Alloc` value allocation type.
+
+  .. cpp:function:: static template<class Compare, class Alloc>
+                    sneaker::container::assorted_value_map<K, ... ValueTypes> create(const Compare&, const Alloc&)
+    :noindex:
+
+    Static factory method that creates an instance with the specified `Compare`
+    key comparator type and `Alloc` value allocation type, and a reference of
+    each type respectively.
 
   .. cpp:function:: bool empty() const
     :noindex:
@@ -158,13 +233,14 @@ of multiple values of different statically defined types.
   .. cpp:function:: size_type max_size() const
     :noindex:
 
-    Determines the maximum number of key-value(s) pairs that can be in the mapping.
+    Determines the maximum number of key-value(s) pairs that can be in the
+    mapping.
 
   .. cpp:function:: void insert(K, ValueTypes)
     :noindex:
 
-    Inserts a key-value(s) pair into mapping. If the specified key already exists
-    in the mapping, its value(s) will be overwritten.
+    Inserts a key-value(s) pair into mapping. If the specified key already
+    exists in the mapping, its value(s) will be overwritten.
 
   .. cpp:function:: void erase(iterator)
     :noindex:
@@ -176,8 +252,8 @@ of multiple values of different statically defined types.
     :noindex:
 
     Erases a particular key-value(s) pair in the mapping by a key.
-    Returns the number of elements erased. Note if the specified key does not exist
-    in the mapping, then the number of elements returned is `0`.
+    Returns the number of elements erased. Note if the specified key does not
+    exist in the mapping, then the number of elements returned is `0`.
 
   .. cpp:function:: void erase(iterator, iterator)
     :noindex:
@@ -196,16 +272,43 @@ of multiple values of different statically defined types.
 
     Clears the content in the mapping.
 
-  .. cpp:funciton:: mapped_type& at(K)
+  .. cpp:function:: mapped_type& at(K)
     :noindex:
 
-    Retrieves the value(s) associated with the specified key by reference.
+    Retrieves the value(s) associated with the specified key by reference. Note
+    if the key specified doees not exist in the mapping, `std::out_of_range` is
+    raised.
 
   .. cpp:function:: const mapped_type& at(K) const
     :noindex:
 
     Retrieves the value(s) associated with the specified key by constant
-    reference.
+    reference. Note if the key specified doees not exist in the mapping,
+    `std::out_of_range` is raised.
+
+  .. cpp:function:: template<class A, size_t Index>
+                    A& get(K)
+    :noindex:
+
+    Gets the `Index` th element associated with the specified key in the
+    container by reference. Note if the key specified doees not exist in the
+    mapping, `std::out_of_range` is raised.
+
+  .. cpp:function:: template<class A, size_t Index>
+                    const A& get(K) const
+    :noindex:
+
+    Gets the `Index` th element associated with the specified key in the
+    container by reference. Note if the key specified doees not exist in the
+    mapping, `std::out_of_range` is raised.
+
+  .. cpp:function:: mapped_type& operator[](const K&)
+    :noindex:
+
+    Retrieves the value(s) associated with the specified key by reference.
+    Note if the key does not match the key of any element in the container,
+    the function inserts a new element with that key and returns a reference to
+    its mapped value
 
   .. cpp:function:: iterator begin()
     :noindex:
@@ -263,13 +366,21 @@ of multiple values of different statically defined types.
     Attempts to find the value(s) associated in the specified key. Returns an
     instance of constant forward iterator that points to the key-value(s) pair.
     If the key does not exist in the mapping, then the iterator returned points
-    to `end()`.
+    to `cend()`.
 
 
 .. cpp:class:: sneaker::allocator::unordered_assorted_value_map<K, ... ValueTypes>
 ----------------------------------------------------------------------------------
 
   An implementation of assorted-values map container based on `std::unordered_map`.
+
+  Header file: `sneaker/container/unordered_assorted_value_map.h`
+
+  .. cpp:type:: core_type
+    :noindex:
+
+    The core mapping type used internally.
+    This type is `std::unordered_map<K, boost::tuple<ValueTypes ...>>`.
 
   .. cpp:type:: key_type
     :noindex:
@@ -304,7 +415,7 @@ of multiple values of different statically defined types.
   .. cpp:type:: reference
     :noindex:
 
-    The reference type fot a key-value(s) pair.
+    The reference type for a key-value(s) pair.
 
   .. cpp:type:: const_reference
     :noindex:
@@ -346,6 +457,12 @@ of multiple values of different statically defined types.
 
     Constructor.
 
+  .. cpp:function:: unordered_assorted_value_map(const core_type&)
+    :noindex:
+
+    Constructor that takes a reference of core mapping type. The mapping is
+    copied over.
+
   .. cpp:function:: unordered_assorted_value_map(const unordered_assorted_value_map&)
     :noindex:
 
@@ -354,7 +471,24 @@ of multiple values of different statically defined types.
   .. cpp:function:: ~unordered_assorted_value_map()
     :noindex:
 
-    Destructor. The mapping is destroyed.
+    Destructor. All elements in the mapping are freed.
+
+  .. cpp:function:: static template<size_type N, class Hash, class Pred, class Alloc>
+                    sneaker::container::unordered_assorted_value_map<K, ... ValueTypes> create()
+    :noindex:
+
+    Static factory method that creates an instance with the specified initial
+    capacity `N`, key hash object of type `Hash`, value comparison object of
+    type `Pred` and value allocation object of type `Alloc`.
+
+  .. cpp:function:: static template<size_type N, class Hash, class Pred, class Alloc>
+                    sneaker::container::unordered_assorted_value_map<K, ... ValueTypes> create(const Hash&, const Pred&, const Alloc&)
+    :noindex:
+
+    Static factory method that creates an instance with the specified initial
+    capacity `N`, key hash object of type `Hash`, value comparison object of
+    type `Pred` and value allocation object of type `Alloc`, and a reference of
+    each type respectively except for `N`.
 
   .. cpp:function:: bool empty() const
     :noindex:
@@ -370,13 +504,14 @@ of multiple values of different statically defined types.
   .. cpp:function:: size_type max_size() const
     :noindex:
 
-    Determines the maximum number of key-value(s) pairs that can be in the mapping.
+    Determines the maximum number of key-value(s) pairs that can be in the
+    mapping.
 
   .. cpp:function:: void insert(K, ValueTypes)
     :noindex:
 
-    Inserts a key-value(s) pair into mapping. If the specified key already exists
-    in the mapping, its value(s) will be overwritten.
+    Inserts a key-value(s) pair into mapping. If the specified key already
+    exists in the mapping, its value(s) will be overwritten.
 
   .. cpp:function:: void erase(iterator)
     :noindex:
@@ -388,14 +523,14 @@ of multiple values of different statically defined types.
     :noindex:
 
     Erases a particular key-value(s) pair in the mapping by a key.
-    Returns the number of elements erased. Note if the specified key does not exist
-    in the mapping, then the number of elements returned is `0`.
+    Returns the number of elements erased. Note if the specified key does not
+    exist in the mapping, then the number of elements returned is `0`.
 
   .. cpp:function:: void erase(iterator, iterator)
     :noindex:
 
-    Erases a range of key-value(s) in the mapping in between in the two specified
-    iterators, inclusively.
+    Erases a range of key-value(s) in the mapping in between in the two
+    specified iterators, inclusively.
 
   .. cpp:function:: void swap(assorted_value_map&)
     :noindex:
@@ -412,12 +547,15 @@ of multiple values of different statically defined types.
     :noindex:
 
     Retrieves the value(s) associated with the specified key by reference.
+    Note if the key specified does not exist in the mapping, `std::out_of_range`
+    is raised.
 
   .. cpp:function:: const mapped_type& at(K) const
     :noindex:
 
     Retrieves the value(s) associated with the specified key by constant
-    reference.
+    reference. Note if the key specified does not exist in the mapping,
+    `std::out_of_range` is raised.
 
   .. cpp:function:: template<class A, size_t Index>
                     A get(K)
@@ -426,16 +564,26 @@ of multiple values of different statically defined types.
     Retrieves a particular value among the assortment of values associated
     with the specified key. Type `A` is the type of the value, and `Index` is
     a zero-based index that specifies the position of the value to be retrieved,
-    among the list of values.
+    among the list of values. Note if the key specified does not exist in the
+    mapping, `std::out_of_range` is raised.
 
   .. cpp:function:: template<class A, size_t Index>
                     const A& get(K) const
     :noindex:
 
-    Retrieves a particular value by reference among the assortment of values
-    associated with the specified key. Type `A` is the type of the value,
+    Retrieves a particular value by constant reference among the assortment of
+    values associated with the specified key. Type `A` is the type of the value,
     and `Index` is a zero-based index that specifies the position of the value
-    to be retrieved, among the list of values.
+    to be retrieved, among the list of values. Note if the key specified does
+    not exist in the mapping, `std::out_of_range` is raised.
+
+  .. cpp:function:: mapped_type& operator[](const K&)
+    :noindex:
+
+    Retrieves the value(s) associated with the specified key by reference.
+    Note if the key does not match the key of any element in the container,
+    the function inserts a new element with that key and returns a reference to
+    its mapped value
 
   .. cpp:function:: iterator begin()
     :noindex:
@@ -471,7 +619,7 @@ of multiple values of different statically defined types.
     Attempts to find the value(s) associated in the specified key. Returns an
     instance of constant forward iterator that points to the key-value(s) pair.
     If the key does not exist in the mapping, then the iterator returned points
-    to `end()`.
+    to `cend()`.
 
   .. cpp:function:: float load_factor() const noexcept
     :noindex:

@@ -21,8 +21,9 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
+#include <assert.h>
+#include <stdlib.h>
 #include <stddef.h>
-#include "../../include/libc/assert.h"
 #include "../../include/libc/c_str.h"
 #include "../../include/libc/memory.h"
 #include "../../include/libc/strbuf.h"
@@ -75,7 +76,7 @@ void _strbuf_allocate_more(strbuf_t *strbuf, size_t len)
 {
   strbuf_t _strbuf = *strbuf;
 
-  ASSERT(_strbuf);
+  assert(_strbuf);
 
   size_t new_capacity = _strbuf->capacity + len;
   c_str c_str = NULL;
@@ -108,7 +109,7 @@ strbuf_t strbuf_create()
 
   _strbuf_init(&strbuf, _strbuf_alloc_size);
 
-  ASSERT(strbuf->c_str);
+  assert(strbuf->c_str);
 
   return strbuf;
 }
@@ -118,7 +119,7 @@ strbuf_free(strbuf_t *strbuf)
 {
   strbuf_t _strbuf = *strbuf;
 
-  ASSERT(_strbuf);
+  assert(_strbuf);
 
   FREE(_strbuf->c_str);
   _strbuf->size = 0;
@@ -132,7 +133,7 @@ strbuf_free(strbuf_t *strbuf)
 void
 strbuf_empty(strbuf_t strbuf)
 {
-  ASSERT(strbuf);
+  assert(strbuf);
 
   FREE(strbuf->c_str);
   strbuf->size = 0;
@@ -144,29 +145,29 @@ strbuf_empty(strbuf_t strbuf)
 size_t
 strbuf_len(strbuf_t strbuf)
 {
-  ASSERT(strbuf);
+  assert(strbuf);
   return strbuf->size;
 }
 
 const c_str
 strbuf_cstr(strbuf_t strbuf)
 {
-  ASSERT(strbuf);
+  assert(strbuf);
   return (const c_str)strbuf->c_str;
 }
 
 size_t
 strbuf_capacity(strbuf_t strbuf)
 {
-  ASSERT(strbuf);
+  assert(strbuf);
   return strbuf->capacity;
 }
 
 int
 strbuf_append(strbuf_t strbuf, const c_str in_str)
 {
-  ASSERT(strbuf);
-  ASSERT(in_str);
+  assert(strbuf);
+  assert(in_str);
 
   size_t len = strlen(in_str);
   size_t needed = len + 1;

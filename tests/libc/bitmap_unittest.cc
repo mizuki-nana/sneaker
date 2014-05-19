@@ -21,50 +21,50 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for `bitmap_t` defined in include/libc/bitmap.h */
+/* Unit test for `bitmap_t` defined in sneaker/libc/bitmap.h */
 
-#include <stddef.h>
+#include <cassert>
+#include <cstddef>
 #include "../../include/testing/testing.h"
-#include "../../include/libc/assert.h"
 #include "../../include/libc/bitmap.h"
 #include "../../include/libc/c_str.h"
 #include "../../include/libc/memory.h"
 
 
-class BitmapUnitTest : public ::testing::Test {};
+class bitmap_unittest : public ::testing::Test {};
 
 
-TEST_F(BitmapUnitTest, TestBitmapCreationFailsWithInvalidDimensions)
+TEST_F(bitmap_unittest, TestCreationFailsWithInvalidDimensions)
 {
   bitmap_t bitmap = NULL;
 
   bitmap = bitmap_create(0, 10);
-  ASSERT(bitmap == NULL);
+  assert(bitmap == NULL);
 
   bitmap = bitmap_create(1, 0);
-  ASSERT(bitmap == NULL);
+  assert(bitmap == NULL);
 
   bitmap = bitmap_create(0, 0);
-  ASSERT(bitmap == NULL);
+  assert(bitmap == NULL);
 }
 
-TEST_F(BitmapUnitTest, TestBitmapCreationSuccessful)
+TEST_F(bitmap_unittest, TestCreationSuccessful)
 {
   bitmap_t bitmap = NULL;
   size_t width = 1;
   size_t height = 1;
 
   bitmap = bitmap_create(width, height);
-  ASSERT(bitmap);
+  assert(bitmap);
 
   ASSERT_EQ(width, bitmap_width(bitmap));
   ASSERT_EQ(height, bitmap_height(bitmap));
 
   bitmap_free(&bitmap);
-  ASSERT(bitmap == NULL);
+  assert(bitmap == NULL);
 }
 
-TEST_F(BitmapUnitTest, TestSetBitFailsWithWrongBit_1)
+TEST_F(bitmap_unittest, TestSetBitFailsWithWrongBit1)
 {
   bitmap_t bitmap = NULL;
   size_t width = 1;
@@ -72,7 +72,7 @@ TEST_F(BitmapUnitTest, TestSetBitFailsWithWrongBit_1)
   int res;
 
   bitmap = bitmap_create(width, height);
-  ASSERT(bitmap);
+  assert(bitmap);
 
   ASSERT_EQ(width, bitmap_width(bitmap));
   ASSERT_EQ(height, bitmap_height(bitmap));
@@ -81,10 +81,10 @@ TEST_F(BitmapUnitTest, TestSetBitFailsWithWrongBit_1)
   ASSERT_EQ(0, res);
 
   bitmap_free(&bitmap);
-  ASSERT(bitmap == NULL);
+  assert(bitmap == NULL);
 }
 
-TEST_F(BitmapUnitTest, TestSetBitFailsWithWrongBit_2)
+TEST_F(bitmap_unittest, TestSetBitFailsWithWrongBit2)
 {
   bitmap_t bitmap = NULL;
   size_t width = 1;
@@ -92,7 +92,7 @@ TEST_F(BitmapUnitTest, TestSetBitFailsWithWrongBit_2)
   int res;
 
   bitmap = bitmap_create(width, height);
-  ASSERT(bitmap);
+  assert(bitmap);
 
   ASSERT_EQ(width, bitmap_width(bitmap));
   ASSERT_EQ(height, bitmap_height(bitmap));
@@ -101,10 +101,10 @@ TEST_F(BitmapUnitTest, TestSetBitFailsWithWrongBit_2)
   ASSERT_EQ(0, res);
 
   bitmap_free(&bitmap);
-  ASSERT(bitmap == NULL);
+  assert(bitmap == NULL);
 }
 
-TEST_F(BitmapUnitTest, TestSetBitSuccessful)
+TEST_F(bitmap_unittest, TestSetBitSuccessful)
 {
   bitmap_t bitmap = NULL;
   size_t width = 1;
@@ -112,7 +112,7 @@ TEST_F(BitmapUnitTest, TestSetBitSuccessful)
   int res;
 
   bitmap = bitmap_create(width, height);
-  ASSERT(bitmap);
+  assert(bitmap);
 
   ASSERT_EQ(width, bitmap_width(bitmap));
   ASSERT_EQ(height, bitmap_height(bitmap));
@@ -124,17 +124,17 @@ TEST_F(BitmapUnitTest, TestSetBitSuccessful)
   ASSERT_EQ(1, res);
 
   bitmap_free(&bitmap);
-  ASSERT(bitmap == NULL);
+  assert(bitmap == NULL);
 }
 
-TEST_F(BitmapUnitTest, TestBitmapSetAndClearBit_1)
+TEST_F(bitmap_unittest, TestBitmapSetAndClearBit1)
 {
   bitmap_t bitmap = NULL;
   size_t width = 2;
   size_t height = 2;
 
   bitmap = bitmap_create(width, height);
-  ASSERT(bitmap);
+  assert(bitmap);
 
   ASSERT_EQ(width, bitmap_width(bitmap));
   ASSERT_EQ(height, bitmap_height(bitmap));
@@ -159,17 +159,17 @@ TEST_F(BitmapUnitTest, TestBitmapSetAndClearBit_1)
   ASSERT_EQ(1, bitmap_is_set(bitmap, 1, 1));
 
   bitmap_free(&bitmap);
-  ASSERT(bitmap == NULL);
+  assert(bitmap == NULL);
 }
 
-TEST_F(BitmapUnitTest, TestBitmapSetAndClearBit_2)
+TEST_F(bitmap_unittest, TestBitmapSetAndClearBit2)
 {
   bitmap_t bitmap = NULL;
   size_t width = 8;
   size_t height = 8;
 
   bitmap = bitmap_create(width, height);
-  ASSERT(bitmap);
+  assert(bitmap);
 
   ASSERT_EQ(width, bitmap_width(bitmap));
   ASSERT_EQ(height, bitmap_height(bitmap));
@@ -224,17 +224,17 @@ TEST_F(BitmapUnitTest, TestBitmapSetAndClearBit_2)
   ASSERT_EQ(0, bitmap_is_set(bitmap, 8, 8));
 
   bitmap_free(&bitmap);
-  ASSERT(bitmap == NULL);
+  assert(bitmap == NULL);
 }
 
-TEST_F(BitmapUnitTest, TestBitmapSetAndClearBit_3)
+TEST_F(bitmap_unittest, TestBitmapSetAndClearBit3)
 {
   bitmap_t bitmap = NULL;
   size_t width = 16;
   size_t height = 16;
 
   bitmap = bitmap_create(width, height);
-  ASSERT(bitmap);
+  assert(bitmap);
 
   ASSERT_EQ(width, bitmap_width(bitmap));
   ASSERT_EQ(height, bitmap_height(bitmap));
@@ -319,5 +319,5 @@ TEST_F(BitmapUnitTest, TestBitmapSetAndClearBit_3)
   ASSERT_EQ(0, bitmap_is_set(bitmap, 16, 16));
 
   bitmap_free(&bitmap);
-  ASSERT(bitmap == NULL);
+  assert(bitmap == NULL);
 }

@@ -2,8 +2,7 @@
 2. STL Allocator
 ****************
 
-Components that make up the structure of memory allocation and deallocation for
-STL containers.
+Components responsible for memory allocation and deallocation for STL containers.
 
 
 2.1 Allocation Policy
@@ -11,12 +10,13 @@ STL containers.
 
 Abstraction that encapsulates the logic to allocate and deallocate memory.
 
+Header file: `sneaker/allocator/alloc_policy.h`
 
 .. cpp:class:: sneaker::allocator::standard_alloc_policy<T>
 -----------------------------------------------------------
 
-  A default implementation of allocation policy by allocating and deallocating
-  memory directly from the operating system.
+  A default implementation of allocation policy using dynamic memory allocation
+  and deallocation from the operating system.
 
   .. cpp:type:: value_type
     :noindex:
@@ -62,7 +62,7 @@ Abstraction that encapsulates the logic to allocate and deallocate memory.
   .. cpp:type:: rebind<U>
     :noindex:
 
-    Rebinds to the equivalent allocator type to allocate elements of type `U`.
+    Equivalent allocator type to allocate elements of type `U`.
 
   .. cpp:function:: explicit standard_alloc_policy()
     :noindex:
@@ -111,20 +111,53 @@ Abstraction that encapsulates the logic to allocate and deallocate memory.
 
     Get the maximum amount of memory that can be allocated, in number of bytes.
 
+  .. cpp:function:: template<typename T, typename T2>
+                    bool operator==(standard_alloc_policy<T> const&, standard_alloc_policy<T2> const&)
+    :noindex:
+
+    Equality comparison between two instances of `standard_alloc_policy` with
+    potentially different encapsulating type. Returns `true` by default.
+
+  .. cpp:function:: template<typename T, typename T2>
+                    bool operator!=(standard_alloc_policy<T> const&, standard_alloc_policy<T2> const&)
+    :noindex:
+
+    Inequality comparison between two instances of `standard_alloc_policy` with
+    potentially different encapsulating type. Returns `false` by default.
+
+  .. cpp:function:: template<typename T, typename other_allocator>
+                    bool operator==(standard_alloc_policy<T> const&, other_allocator const&)
+    :noindex:
+
+    Equality comparison between two an instances of `standard_alloc_policy` and
+    a different type. Returns `false` by default.
+
+  .. cpp:function:: template<typename T, typename other_allocator>
+                    bool operator!=(standard_alloc_policy<T> const&, other_allocator const&)
+    :noindex:
+
+    Inequality comparison between two an instances of `standard_alloc_policy`
+    and a different type. Returns `true` by default.
+
 
 2.2 Object Traits
 =================
 
-Abstraction that control the construction and destruction of the
-encapsulating type.
+Abstraction that control the construction and destruction of the encapsulating type.
 
+Header file: `sneaker/allocator/object_traits.h`
 
 .. cpp:class:: sneaker::allocator::object_traits<T>
 ---------------------------------------------------
 
   A default implementation of object traits, where the construction and
   destruction of the underlying type is carried over by calling the type's
-  constructor and destruction respectively.
+  constructor and destructor respectively.
+
+  .. cpp:type:: rebind<U>
+    :noindex:
+
+    Equivalent object traits type of encapsulating type `U`.
 
   .. cpp:function:: explicit object_traits()
     :noindex:
@@ -158,8 +191,8 @@ encapsulating type.
     :noindex:
 
     Instantiates an instance of the encapsulating type through copy semantics
-    by using the specified allocated memory and an instance of the encapsulating type
-    to be passed to the copy constructor of the instance to be created.
+    by using the specified allocated memory and an instance of the encapsulating
+    type to be passed to the copy constructor of the instance to be created.
 
   .. cpp:function:: template<class U, class... Args>
                     void construct(U*, Args&&...)
@@ -184,6 +217,7 @@ encapsulating type.
 Abstraction that's responsible for allocating and deallocating memory used by
 STL containers.
 
+Header file: `sneaker/allocator/allocator.h`
 
 .. cpp:class:: sneaker::allocator::allocator<T, Policy, Traits>
 ---------------------------------------------------------------
@@ -263,16 +297,18 @@ STL containers.
     :noindex:
 
     Equality operator that evaluates equality between two instances of
-    `allocator` that have the same encapsulating type, and are based on the same
-    allocation policy and object traits.
+    `allocator` that have the same encapsulating type, and are based
+    on the same allocation policy and object traits types. Equality is evaluated
+    based on the equality between the allocation policy types.
 
   .. cpp:function:: template<typename T, typename P, typename Tr, typename T2, typename P2, typename Tr2>
                     bool operator==(allocator<T, P, Tr> const&, allocator<T2, P2, Tr2> const&)
     :noindex:
 
     Equality operator that evaluates equality between two instances of
-    `allocator` that have different encapsulating types, and are based on different
-    allocation policy and object traits.
+    `allocator` that have different encapsulating types, and are based on
+    different allocation policy and object traits. Equality is evaluated based
+    on the equality between the allocation policy types.
 
   .. cpp:function:: template<typename T, typename P, typename Tr, typename other_allocator>
                     bool operator==(allocator<T, P, Tr> const&, other_allocator const&)
@@ -280,7 +316,9 @@ STL containers.
 
     Equality operator that evaluates equality between two instances of
     `allocator` that have potentially the same encapsulating types, and are
-    based on the same allocation policy and object traits.
+    based on the same allocation policy and object traits. Equality is evaluated
+    based on the equality between the allocation type of the first argument and
+    the second argument.
 
   .. cpp:function:: template<typename T, typename P, typename Tr>
                     bool operator!=(allocator<T, P, Tr> const&, allocator<T, P, Tr> const&)
@@ -288,7 +326,8 @@ STL containers.
 
     Inequality operator that evaluates inequality between two instances of
     `allocator` that have the same encapsulating type, and are based on the same
-    allocation policy and object traits.
+    allocation policy and object traits. Inequality is evaluated based on the
+    inequality between the allocation policy types.
 
   .. cpp:function:: template<typename T, typename P, typename Tr, typename T2, typename P2, typename Tr2>
                     bool operator!=(allocator<T, P, Tr> const&, allocator<T2, P2, Tr2> const&)
@@ -296,7 +335,8 @@ STL containers.
 
     Inequality operator that evaluates inequality between two instances of
     `allocator` that have different encapsulating types, and are based on different
-    allocation policy and object traits.
+    allocation policy and object traits. Inequality is evaluated based on the
+    inequality between the allocation policy types.
 
   .. cpp:function:: template<typename T, typename P, typename Tr, typename other_allocator>
                     bool operator!=(allocator<T, P, Tr> const&, other_allocator const&)
@@ -304,4 +344,6 @@ STL containers.
 
     Inequality operator that evaluates inequality between two instances of
     `allocator` that have potentially different encapsulating types, and are
-    based on different allocation policy and object traits.
+    based on different allocation policy and object traits. Inequality is
+    evaluated based on the equality between the allocation type of the first
+    argument and the second argument.

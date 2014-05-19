@@ -37,14 +37,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define GOLDEN_PRIME 1237
 
 
-/*
- * Use Horner's rule to hash string.
- * O(n) runtime for short string.
- */
-static
-hash_t _linear_horners_rule_str_hash(const char * str, size_t len)
+unsigned long int linear_horners_rule_str_hash(const char * str)
 {
-  hash_t h = 0;
+  RETURN_VAL_IF_NULL(str, 0);
+
+  size_t len = strlen(str);
+
+  unsigned long int h = 0;
 
   int i;
   for(i = 0; i < len; i++) {
@@ -54,42 +53,7 @@ hash_t _linear_horners_rule_str_hash(const char * str, size_t len)
   return h;
 }
 
-/*
- * Use Horner's rule to hash string.
- * O(ln(n)) runtime for long string.
- */
-static
-hash_t _log_horners_rule_str_hash(const char * str, size_t len)
-{
-  hash_t h = 0;
-
-  int i;
-  for(i = 1; i <= len; i *= 2) {
-    h = GOLDEN_PRIME * h + str[i - 1];
-  }
-
-  return h;
-}
-
-hash_t linear_horners_rule_str_hash(const char * str)
-{
-  RETURN_VAL_IF_NULL(str, 0);
-
-  size_t len = strlen(str);
-
-  return _linear_horners_rule_str_hash(str, len);
-}
-
-hash_t log_horners_rule_str_hash(const char * str)
-{
-  RETURN_VAL_IF_NULL(str, 0);
-
-  size_t len = strlen(str);
-
-  return _log_horners_rule_str_hash(str, len);
-}
-
-hash_t hash32shift(unsigned int key)
+unsigned long int hash32shift(unsigned int key)
 {
   key = (key << 15) - key - 1;
   key = key ^ (key >> 12);
@@ -98,10 +62,10 @@ hash_t hash32shift(unsigned int key)
   key = (key + (key << 3)) + (key << 11);
   key = key ^ (key >> 16);
 
-  return (hash_t)key;
+  return (unsigned long int)key;
 }
 
-hash_t hash64shift(unsigned long key)
+unsigned long int hash64shift(unsigned long key)
 {
   key = (key << 21) - key - 1;
   key = key ^ (key >> 24);
@@ -111,14 +75,14 @@ hash_t hash64shift(unsigned long key)
   key = key ^ (key >> 28);
   key = key + (key << 31);
 
-  return (hash_t)key;
+  return (unsigned long int)key;
 }
 
-hash_t hash_str_jenkins_one_at_a_time(const char * str)
+unsigned long int hash_str_jenkins_one_at_a_time(const char * str)
 {
   RETURN_VAL_IF_NULL(str, 0);
 
-  hash_t hash=0;
+  unsigned long int hash=0;
 
   int i;
   for(i = 0; i < strlen(str); i++) {
@@ -134,7 +98,7 @@ hash_t hash_str_jenkins_one_at_a_time(const char * str)
   return hash;
 }
 
-hash_t hash_robert_jenkin(unsigned int k)
+unsigned long int hash_robert_jenkin(unsigned int k)
 {
   k = (k + 0x7ed55d16) + (k << 12);
   k = (k ^ 0xc761c23c) ^ (k >> 19);
@@ -143,5 +107,5 @@ hash_t hash_robert_jenkin(unsigned int k)
   k = (k + 0xfd7046c5) + (k << 3);
   k = (k ^ 0xb55a4f09) ^ (k >> 16);
 
-  return (hash_t)k;
+  return (unsigned long int)k;
 }

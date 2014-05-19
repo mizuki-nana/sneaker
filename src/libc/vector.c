@@ -21,9 +21,10 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-#include <stddef.h>
+#include <assert.h>
 #include <limits.h>
-#include "../../include/libc/assert.h"
+#include <stddef.h>
+#include <stdlib.h>
 #include "../../include/libc/memory.h"
 #include "../../include/libc/utils.h"
 #include "../../include/libc/vector.h"
@@ -48,7 +49,7 @@ struct __sneaker_vector_s {
 static int
 _vector_ensure_capacity(vector_t vector, size_t capacity)
 {
-  ASSERT(vector);
+  assert(vector);
 
   int oldCapacity = vector->capacity;
 
@@ -89,8 +90,8 @@ _vector_ensure_capacity(vector_t vector, size_t capacity)
 static
 inline void _vector_check_bound(vector_t vector, int index)
 {
-  ASSERT(vector);
-  ASSERT(index >= 0 && index < vector->size);
+  assert(vector);
+  assert(index >= 0 && index < vector->size);
 }
 
 vector_t vector_create()
@@ -117,7 +118,7 @@ void vector_free(vector_t *vector)
 {
   vector_t _vector = *vector;
 
-  ASSERT(_vector);
+  assert(_vector);
   FREE(_vector->content);
   FREE(_vector);
 
@@ -127,7 +128,7 @@ void vector_free(vector_t *vector)
 int
 vector_append(vector_t vector, void* ptr)
 {
-  ASSERT(vector);
+  assert(vector);
 
   size_t size = vector->size;
   int res = _vector_ensure_capacity(vector, size+1);
@@ -143,7 +144,7 @@ vector_append(vector_t vector, void* ptr)
 void*
 vector_get(vector_t vector, int index)
 {
-  ASSERT(vector);
+  assert(vector);
 
   _vector_check_bound(vector, index);
 
@@ -153,7 +154,7 @@ vector_get(vector_t vector, int index)
 void*
 vector_remove(vector_t vector, int index)
 {
-  ASSERT(vector);
+  assert(vector);
 
   _vector_check_bound(vector, index);
 
@@ -177,7 +178,7 @@ vector_remove(vector_t vector, int index)
 void*
 vector_set(vector_t vector, int index, void* ptr)
 {
-  ASSERT(vector);
+  assert(vector);
 
   _vector_check_bound(vector, index);
 
@@ -190,13 +191,13 @@ vector_set(vector_t vector, int index, void* ptr)
 int
 vector_size(vector_t vector)
 {
-  ASSERT(vector);
+  assert(vector);
   return vector->size;
 }
 
 const void**
 vector_content(vector_t vector)
 {
-  ASSERT(vector);
+  assert(vector);
   return (const void**)vector->content;
 }

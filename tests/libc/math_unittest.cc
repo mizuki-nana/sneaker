@@ -21,14 +21,18 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for functions defined in include/libc/math.h */
+/* Unit test for functions defined in sneaker/libc/math.h */
 
 
 #include "../../include/testing/testing.h"
 #include "../../include/libc/math.h"
 
 
-class NearestExp2CeilUnitTest : public ::testing::Test {
+/*******************************************************************************
+ * Unit test for:
+ * unsigned int nearest_exp2_ceil(unsigned int)
+ ******************************************************************************/
+class nearest_exp2_ceil_unittest : public ::testing::Test {
 public:
   void test(int input_value, int expected_value) {
     ASSERT_EQ(expected_value, nearest_exp2_ceil(input_value));
@@ -36,48 +40,28 @@ public:
 };
 
 
-TEST_F(NearestExp2CeilUnitTest, TestOnZero)
+TEST_F(nearest_exp2_ceil_unittest, TestOnValue)
 {
   test(0, 0);
-}
-
-TEST_F(NearestExp2CeilUnitTest, TestOnOne)
-{
   test(1, 1);
-}
-
-TEST_F(NearestExp2CeilUnitTest, TestOnTwo)
-{
   test(2, 2);
-}
-
-TEST_F(NearestExp2CeilUnitTest, TestOnThree)
-{
   test(3, 4);
-}
-
-TEST_F(NearestExp2CeilUnitTest, TestOn250)
-{
   test(250, 256);
-}
-
-TEST_F(NearestExp2CeilUnitTest, TestOn1023)
-{
   test(1023, 1024);
-}
-
-TEST_F(NearestExp2CeilUnitTest, TestOn1024)
-{
   test(1024, 1024);
 }
 
-TEST_F(NearestExp2CeilUnitTest, TestOn2ToThePowerOf20)
+TEST_F(nearest_exp2_ceil_unittest, TestOn2ToThePowerOf20)
 {
   test(1024 * 1024 - 1000, 1024 * 1024);
 }
 
 
-class NearestExp2FloorUnitTest : public ::testing::Test {
+/*******************************************************************************
+ * Unit test for:
+ * unsigned int nearest_exp2_floor(unsigned int)
+ ******************************************************************************/
+class nearest_exp2_floor_unittest : public ::testing::Test {
 public:
   void test(int input_value, int expected_value) {
     ASSERT_EQ(expected_value, nearest_exp2_floor(input_value));
@@ -85,42 +69,18 @@ public:
 };
 
 
-TEST_F(NearestExp2FloorUnitTest, TestOnZero)
+TEST_F(nearest_exp2_floor_unittest, TestOnValue)
 {
   test(0, 0);
-}
-
-TEST_F(NearestExp2FloorUnitTest, TestOnOne)
-{
   test(1, 1);
-}
-
-TEST_F(NearestExp2FloorUnitTest, TestOnTwo)
-{
   test(2, 2);
-}
-
-TEST_F(NearestExp2FloorUnitTest, TestOnThree)
-{
   test(3, 2);
-}
-
-TEST_F(NearestExp2FloorUnitTest, TestOn255)
-{
   test(255, 128);
-}
-
-TEST_F(NearestExp2FloorUnitTest, TestOn1023)
-{
   test(1023, 512);
-}
-
-TEST_F(NearestExp2FloorUnitTest, TestOn1024)
-{
   test(1024, 1024);
 }
 
-TEST_F(NearestExp2FloorUnitTest, TestOn2ToThePowerOf20)
+TEST_F(nearest_exp2_floor_unittest, TestOn2ToThePowerOf20)
 {
   test(1024 * 1024 + 1000, 1024 * 1024);
 }

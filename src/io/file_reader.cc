@@ -21,55 +21,56 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
+#include <cassert>
 #include <fstream>
 #include <sstream>
 #include "../../include/io/file_reader.h"
-#include "../../include/libc/assert.h"
-#include "../../include/libc/c_str.h"
 
 
 sneaker::io::file_reader::file_reader()
-  :_path(NULL)
 {
   // Do nothing here.
 }
 
 sneaker::io::file_reader::file_reader(
-  const c_str path
-) : _path((c_str)strdup(path))
+  const char* path
+) : _path(path)
 {
-  ASSERT(this->file_path());
+  assert(this->file_path());
 }
 
-const c_str
+const char*
 sneaker::io::file_reader::file_path() const
 {
-  return this->_path.get();
+  return this->_path.c_str();
 }
 
 void
-sneaker::io::file_reader::set_path(const c_str path)
+sneaker::io::file_reader::set_path(const char* path)
 {
-  ASSERT(path);
-  this->_path.reset(path);
+  assert(path);
+  this->_path = path;
 }
 
 bool
-sneaker::io::file_reader::read_file(c_str* p) const
+sneaker::io::file_reader::read_file(char** p) const
 {
   if(!this->file_path()) {
     return  false;
   }
 
   std::ifstream file(this->file_path());
-  std::stringstream buffer;
 
+  if(file.fail()) {
+    return false;
+  }
+
+  std::stringstream buffer;
   buffer << file.rdbuf();
   file.close();
 
   std::string str = buffer.str();
-  c_str s = (c_str)str.c_str();
-  *p = strdup(s);
+  *p = (char*)str.c_str();
 
   return true;  
 }

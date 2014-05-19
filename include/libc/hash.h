@@ -21,7 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Hash fucntion. */
+/* General hash fucntions. */
 
 #ifndef SNEAKER_HASH_H_
 #define SNEAKER_HASH_H_
@@ -32,20 +32,15 @@ extern "C" {
 #endif
 
 
-typedef unsigned long long hash_t;
+unsigned long int linear_horners_rule_str_hash(const char*);
 
+unsigned long int hash32shift(unsigned int);
 
-hash_t linear_horners_rule_str_hash(const char * str);
+unsigned long int hash64shift(unsigned long);
 
-hash_t log_horners_rule_str_hash(const char * str);
+unsigned long int hash_str_jenkins_one_at_a_time(const char*);
 
-hash_t hash32shift(unsigned int);
-
-hash_t hash64shift(unsigned long);
-
-hash_t hash_str_jenkins_one_at_a_time(const char * str);
-
-hash_t hash_robert_jenkin(unsigned int); 
+unsigned long int hash_robert_jenkin(unsigned int); 
 
 
 #ifdef __cplusplus

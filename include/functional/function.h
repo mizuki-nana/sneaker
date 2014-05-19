@@ -24,10 +24,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef SNEAKER_FUNCTION_H_
 #define SNEAKER_FUNCTION_H_
 
-#include <stdio.h>
+#include <cassert>
 #include <functional>
 #include <pthread.h>
-#include "../libc/assert.h"
 
 
 namespace sneaker {
@@ -43,6 +42,7 @@ public:
   typedef R(*_F)(Args...);
 
   using implicit_type = typename function::_F;
+  typedef R return_type;
 
   function(_F func);
 
@@ -53,7 +53,7 @@ public:
 
   R operator() (Args... args) const;
 
-  operator _F();
+  operator implicit_type();
 
   void invoke_async(Args... args);
 
@@ -72,13 +72,14 @@ template<class R, class... Args>
 sneaker::functional::function<R, Args...>::function(_F func):
   _func(func)
 {
-  ASSERT(_func);
+  assert(_func);
 }
 
 template<class R, class... Args>
 template<class Functor>
 sneaker::functional::function<R, Args...>::function(Functor func)
 {
+  assert(func);
   _func = func;
 }
 
@@ -86,7 +87,7 @@ template<class R, class... Args>
 const _MyType<R, Args...>&
 sneaker::functional::function<R, Args...>::operator=(_F func)
 {
-  ASSERT(func);
+  assert(func);
   _func = func;
   return *this;
 }
@@ -99,7 +100,7 @@ sneaker::functional::function<R, Args...>::operator() (Args... args) const
 }
 
 template<class R, class... Args>
-sneaker::functional::function<R, Args...>::operator _F()
+sneaker::functional::function<R, Args...>::operator implicit_type()
 {
   return _func;
 }

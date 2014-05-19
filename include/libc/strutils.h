@@ -33,40 +33,17 @@ extern "C" {
 #endif
 
 
-/*
- * Converts a string to upper case.
- */
 char* strtoupper(char *s);
 
-/*
- * Converts a string to lower case.
- */
 char* strtolower(char *s);
 
-/*
- * Copies the source to the destination.
- * If the destination length is shorter than the source
- * length, then the destination is re-allocated.
- */
-char* strcpy_hard(char *dst, const char *src);
-
-/*
- * Trims whitespaces on the given null-terminated string.
- * The original string is modified and returned.
- */
 char* strtrim(char *s);
 
-/*
- * Copy 'src' to 'dst' of length 'size'.  At most size-1 characters
- * will be copied.  Always NULL terminates (unless size == 0).
- * Returns strlen(src); if retval >= size, truncation occurred.
- */
-size_t strlcpy2(char *dst, const char *src, size_t size);
+char* strcpy_hard(char *dst, const char *src);
 
-/*
- * A strcpy which ensures NULL terminated string and never overruns the output.
- */
 char* strncpy_safe(char *dst, const char *src, size_t size);
+
+size_t strlcpy2(char *dst, const char *src, size_t size);
 
 
 #ifdef __cplusplus

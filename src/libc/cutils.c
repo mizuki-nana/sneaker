@@ -21,11 +21,11 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-#include <stdlib.h>
-#include <string.h>
+#include <assert.h>
 #include <ctype.h>
 #include <limits.h>
-#include "../../include/libc/assert.h"
+#include <stdlib.h>
+#include <string.h>
 #include "../../include/libc/memory.h"
 #include "../../include/libc/utils.h"
 
@@ -93,7 +93,7 @@ itoa(int value, char *str, int base)
   char *_str = (char*)malloc(len);
   memset(_str, 0, len);
 
-  ASSERT(_str);
+  assert(_str);
 
   int i = len - 2;
 

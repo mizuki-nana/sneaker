@@ -5,17 +5,31 @@
 Components that manage caching of in-memory objects.
 
 
+3.1 Generic Cache
+=================
+
+A generic key-value based in-memory cache, where the creation and destruction of
+elements in the cache are controlled by custom handler types.
+
+Header file: `sneaker/cache/generic_cache.h`
+
 .. cpp:class:: sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>
 ---------------------------------------------------------------------------------
 
-  A generic and simple key-value based in-memory cache, where the creation and
-  destruction of elements in the cache are controlled by custom handler types.
-
-  .. cpp:function:: generic_cache(CreateHandler, DestroyHandler);
+  .. cpp:function:: explicit generic_cache(CreateHandler, DestroyHandler)
     :noindex:
 
-    Constructor. Takes an instance of `CreationHandler` and an instance of
-    `DestroyHandler`.
+    Constructor. Takes an instance of `CreationHandler`
+    (signature `bool(*)(K, T*)`) and an instance of `DestroyHandler`
+    (signature `bool(*)(K, T*)`). The creation handler is invoked every time an
+    element is created or updated, and the destroy handler is invoked when an
+    element is erased from the cache.
+
+  .. cpp:function:: ~generic_cache()
+    :noindex:
+
+    Destructor. Upon invoked, all the values in the cache are destroyed by the
+    destroy handler.
 
   .. cpp:function:: bool empty() const
     :noindex:
@@ -40,18 +54,19 @@ Components that manage caching of in-memory objects.
 
     Retrieves the element associated with the specified key in the cache.
     The first argument is the key, and the second argument is a pointer that is
-    set to point to the value is found. If the key-value pair does not exist,
+    set to point to the value if found. If the key-value pair does not exist,
     it is automaticaly created. Returns `true` if the value is found, `false`
     otherwise.
 
   .. cpp:function:: bool put(K, bool=false)
     :noindex:
 
-    Constructs the element with the specified key and store it in the cache.
+    Constructs the element with the specified key and stores it in the cache.
     The first argument specifies the key, and the second argument is a boolean
-    indicating whether to force update if the key-value pair already exists.
-    If set to force update, then the existing key-value pair is destroyed and
-    re-created. Returns a boolean indicating whether an update has occured.
+    value indicating whether to force update if the key-value pair already
+    exists. If set to force update, then the existing key-value pair is
+    destroyed and re-created. Returns a boolean indicating whether an update has
+    occured.
 
   .. cpp:function: bool erase(K)
     :noindex:

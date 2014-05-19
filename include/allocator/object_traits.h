@@ -82,7 +82,7 @@ T* sneaker::allocator::object_traits<T>::address(T& r)
 }
 
 template<typename T>
-T const* sneaker::allocator::object_traits<T>::address(T const&r)
+T const* sneaker::allocator::object_traits<T>::address(T const& r)
 {
   return &r;
 }

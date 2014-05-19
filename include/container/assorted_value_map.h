@@ -23,14 +23,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /*
 `sneaker::container::assorted_value_map<K, ValueTypes...>` is an associative
-container class where each set of multiple(zero or more) assorted
-statically-typed values are associated to a single statically-typed key.
+container class where each set of multiple(zero or more) statically-typed
+assorted values are associated to a single statically-typed key.
 
 The types of the keys and values are defined through templating. The type
 of the key must be specified, followed by the assorted types of the values.
 
-Since this is an associative container, its interfaces and usage are very much
-the same as the ones of `std::map`.
+Since this is an associative container, its interfaces and usage are based on
+the ones of `std::map`.
 
 Example:
 
@@ -45,6 +45,8 @@ size_t count = fruits.size();
 std::cout << "There are %d fruits here." << count << std::endl;
 std::cout << "My favorite is Apple: %s (score %d)" << fruits.get<char*, 0>("Apple") \
     << fruits.get<int, 1>("Apple") << std::endl;
+std::cout << "The reason, you ask?" << std:endl;
+std::cout << "It's because: %s." << fruits.get<char*, 2>("Apple") << std::endl;
 */
 
 #ifndef SNEAKER_ASSORTED_VALUE_MAP_H_
@@ -60,26 +62,30 @@ namespace sneaker {
 namespace container {
 
 
-namespace tuple_nms = boost;
-
-
 template<class K, class... ValueTypes>
 class assorted_value_map {
 public:
-  using _value_type = typename tuple_nms::tuple<ValueTypes... >;
-  using core_type = typename std::map<K, _value_type>;
+  using core_type = typename std::map<K, boost::tuple<ValueTypes... >>;
 
   using key_type                = typename core_type::key_type;
   using mapped_type             = typename core_type::mapped_type;
   using value_type              = typename core_type::value_type;
-  using size_type               = typename core_type::size_type;
+  using key_compare             = typename core_type::key_compare;
+  using value_compare           = typename core_type::value_compare;
+  using allocator_type          = typename core_type::allocator_type;
+  using reference               = typename core_type::reference;
+  using const_reference         = typename core_type::const_reference;
+  using pointer                 = typename core_type::pointer;
+  using const_pointer           = typename core_type::const_pointer;
   using iterator                = typename core_type::iterator;
   using const_iterator          = typename core_type::const_iterator;
   using reverse_iterator        = typename core_type::reverse_iterator;
   using const_reverse_iterator  = typename core_type::const_reverse_iterator;
+  using difference_type         = typename core_type::difference_type;
+  using size_type               = typename core_type::size_type;
 
   explicit assorted_value_map();
-  explicit assorted_value_map(core_type);
+  explicit assorted_value_map(const core_type&);
   assorted_value_map(const sneaker::container::assorted_value_map<K, ValueTypes...>&);
   ~assorted_value_map();
 
@@ -93,7 +99,7 @@ public:
 
   template<class Compare, class Alloc>
   static
-  sneaker::container::assorted_value_map<K, ValueTypes...> create(Compare comparer, Alloc allocator) {
+  sneaker::container::assorted_value_map<K, ValueTypes...> create(const Compare& comparer, const Alloc& allocator) {
     return sneaker::container::assorted_value_map<K, ValueTypes...>(
       core_type(comparer, allocator)
     );
@@ -124,8 +130,7 @@ public:
   template<class A, size_t Index>
   const A& get(K) const;
 
-        mapped_type& operator[](K);
-  const mapped_type& operator[](K) const;
+  mapped_type& operator[](const K&);
 
   iterator begin();
   const_iterator begin() const;
@@ -165,7 +170,7 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::assorted_value_map():
 }
 
 template<class K, class... ValueTypes>
-sneaker::container::assorted_value_map<K, ValueTypes...>::assorted_value_map(core_type core):
+sneaker::container::assorted_value_map<K, ValueTypes...>::assorted_value_map(const core_type& core):
   _core(core)
 {
   // Do nothing here.
@@ -286,16 +291,9 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::get(K key) const
 
 template<class K, class... ValueTypes>
 typename _MyType<K, ValueTypes...>::mapped_type&
-sneaker::container::assorted_value_map<K, ValueTypes...>::operator[](K key)
+sneaker::container::assorted_value_map<K, ValueTypes...>::operator[](const K& key)
 {
-  return at(key);
-}
-
-template<class K, class... ValueTypes>
-const typename _MyType<K, ValueTypes...>::mapped_type&
-sneaker::container::assorted_value_map<K, ValueTypes...>::operator[](K key) const
-{
-  return at(key);
+  return _core[key];
 }
 
 template<class K, class... ValueTypes>

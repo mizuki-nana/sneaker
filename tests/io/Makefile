@@ -19,54 +19,22 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-CC=gcc
+CC=cc
 CXX=c++
-CFLAGS=-Wall -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
-
-# Extra flags to resolve `stack_t` definition conflict.
-EXTRA_CFLAGS=-D_STRUCT_SIGALTSTACK -D_STRUCT_UCONTEXT
+CFLAGS=-Wall -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
 
 LIBGTEST=/usr/lib/libgtest.a
-LIBC=../../src/libc/libc.a
 TESTING=../../src/testing/testing.a
+IO=../../src/io/file_reader.o
 
-LIBRARIES=$(LIBGTEST) $(LIBC) $(TESTING)
+LIBRARIES=$(LIBGTEST) $(TESTING) $(IO)
 
-INPUTS= bitmap_unittest \
-				cutils_unittest \
-				dict_unittest \
-				hash_unittest \
-				hashmap_unittest \
-				math_unittest \
-				queue_unittest \
-				stack_unittest \
-				strbuf_unittest \
-				strutils_unittest \
-				utils_unittest \
-				uuid_unittest \
-				vector_unittest
+INPUTS=file_reader_unittest
 
-OUTPUTS=bitmap_unittest.test \
-				cutils_unittest.test \
-				dict_unittest.test \
-				hash_unittest.test \
-				hashmap_unittest.test \
-				math_unittest.test \
-				queue_unittest.test \
-				stack_unittest.test \
-				strbuf_unittest.test \
-				strutils_unittest.test \
-				utils_unittest.test \
-				uuid_unittest.test \
-				vector_unittest.test
-
-inputs:
-	-for f in $(INPUTS); do $(CXX) $(CFLAGS) $(EXTRA_CFLAGS) $(LIBRARIES) $$f.cc -o $$f.test; done
-
-
-all: inputs
+all:
+	-for f in $(INPUTS); do $(CXX) $(CFLAGS) $(LIBRARIES) $$f.cc -o $$f.test; done
 
 
 .PHONY: clean
 clean:
-	-for f in $(OUTPUTS); do rm -f $$f; done;
+	-for f in $(INPUTS); do rm -f $$f.test; done;

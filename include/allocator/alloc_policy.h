@@ -116,7 +116,7 @@ sneaker::allocator::standard_alloc_policy<T>::max_size() const
 }
 
 
-// Determines if memory from another allocator can be deallocated from this one.
+/* Equality operators. */
 template<typename T, typename T2>
 inline bool operator==(
   standard_alloc_policy<T> const&, standard_alloc_policy<T2> const&)
@@ -124,11 +124,25 @@ inline bool operator==(
   return true;
 }
 
+template<typename T, typename T2>
+inline bool operator!=(
+  standard_alloc_policy<T> const& lhs, standard_alloc_policy<T2> const& rhs)
+{
+  return !(operator==(lhs, rhs));
+}
+
 template<typename T, typename other_allocator>
 inline bool operator==(
   standard_alloc_policy<T> const&, other_allocator const&)
 {
   return false;
+}
+
+template<typename T, typename other_allocator>
+inline bool operator!=(
+  standard_alloc_policy<T> const& lhs, other_allocator const& rhs)
+{
+  return !(operator==(lhs, rhs));
 }
 
 

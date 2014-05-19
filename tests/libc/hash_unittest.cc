@@ -21,22 +21,21 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit tests for functions in include/libc/hash.h */
+/* Unit tests for functions in sneaker/libc/hash.h */
 
-
+#include <unordered_set>
 #include "../../include/testing/testing.h"
-#include "../../include/libc/assert.h"
 #include "../../include/libc/hash.h"
 
 
-/********************************************
+/*******************************************************************************
  * Unit test for:
  * hash_t linear_horners_rule_str_hash(const char * str)
- ********************************************/
-class LinearHornersRuleStrHashUnitTest : public ::testing::Test {};
+ ******************************************************************************/
+class linear_horners_rule_str_hash_unittest : public ::testing::Test {};
 
 
-TEST_F(LinearHornersRuleStrHashUnitTest, TestHashNullString)
+TEST_F(linear_horners_rule_str_hash_unittest, TestHashNullString)
 {
   ASSERT_EQ(
     linear_horners_rule_str_hash(NULL),
@@ -44,7 +43,7 @@ TEST_F(LinearHornersRuleStrHashUnitTest, TestHashNullString)
   );
 }
 
-TEST_F(LinearHornersRuleStrHashUnitTest, TestHashOneCharacterString)
+TEST_F(linear_horners_rule_str_hash_unittest, TestHashOneCharacterString)
 {
   ASSERT_EQ(
     linear_horners_rule_str_hash("c"),
@@ -52,7 +51,7 @@ TEST_F(LinearHornersRuleStrHashUnitTest, TestHashOneCharacterString)
   );
 }
 
-TEST_F(LinearHornersRuleStrHashUnitTest, TestHashSameString_1)
+TEST_F(linear_horners_rule_str_hash_unittest, TestHashSameString_1)
 {
   ASSERT_EQ(
     linear_horners_rule_str_hash("hash string"),
@@ -60,7 +59,7 @@ TEST_F(LinearHornersRuleStrHashUnitTest, TestHashSameString_1)
   );
 }
 
-TEST_F(LinearHornersRuleStrHashUnitTest, TestHashSameString_2)
+TEST_F(linear_horners_rule_str_hash_unittest, TestHashSameString_2)
 {
   char str1[] = "HEX is a multi-paradigm programming language that supports "
     "both static and dynamic types, and was designed with the core principles "
@@ -84,65 +83,29 @@ TEST_F(LinearHornersRuleStrHashUnitTest, TestHashSameString_2)
   );
 }
 
-
-/********************************************
- * Unit test for:
- * hash_t log_horners_rule_str_hash(const char * str)
- ********************************************/
-class LogHornersRuleStrHashUnitTest : public ::testing::Test {};
-
-
-TEST_F(LogHornersRuleStrHashUnitTest, TestHashNullString)
+TEST_F(linear_horners_rule_str_hash_unittest, TestStress)
 {
-  ASSERT_EQ(log_horners_rule_str_hash(NULL), log_horners_rule_str_hash(NULL));
-}
+  const int TOP = 100000;
+  std::unordered_set<int> set(TOP);
 
-TEST_F(LogHornersRuleStrHashUnitTest, TestHashOneCharacterString)
-{
-  ASSERT_EQ(log_horners_rule_str_hash("c"), log_horners_rule_str_hash("c"));
-}
-
-TEST_F(LogHornersRuleStrHashUnitTest, TestHashSameString_1)
-{
-  ASSERT_EQ(
-    log_horners_rule_str_hash("hash string"),
-    log_horners_rule_str_hash("hash string")
-  );
-}
-
-TEST_F(LogHornersRuleStrHashUnitTest, TestHashSameString_2)
-{
-  char str1[] = "HEX is a multi-paradigm programming language that supports "
-    "both static and dynamic types, and was designed with the core principles "
-    "of simplicity, readability, versatility and scalability to allow "
-    "developers to create a diversity of types of computer programs with "
-    "modern language features, succinct syntax and semantics that are built "
-    "into the core of the language construct.";
-
-  char str2[] = "HEX syntax and semantics resembles a lot of the modern "
-    "programming languages that you've probably heard or even used. "
-    "For example, HEX has a indented syntax very much like Python. "
-    "It supports objected-oriented programming with class and struct "
-    "definitions very much like C++ and Java. It utilizes basic control "
-    "statements such as if, for, and while just like pretty much every other "
-    "languages out there. However, HEX does have its own syntax and semantics "
-    "for aspects of the language that might not seen familiar to you.";
-
-  ASSERT_NE(
-    log_horners_rule_str_hash(str1),
-    log_horners_rule_str_hash(str2)
-  );
+  for(int i = 0; i < TOP; i++) {
+    char buf[10];
+    snprintf(buf, sizeof(buf), "%d", i);
+    unsigned long int hash = linear_horners_rule_str_hash(buf);
+    ASSERT_EQ(set.end(), set.find(hash));
+    set.insert(hash);
+  }
 }
 
 
-/********************************************
+/*******************************************************************************
  * Unit test for:
  * hash_t hash32shift(unsigned int)
- ********************************************/
-class Hash32ShiftUnitTest : public ::testing::Test {};
+ ******************************************************************************/
+class hash32shift_unittest : public ::testing::Test {};
 
 
-TEST_F(Hash32ShiftUnitTest, TestHashOnSameKey)
+TEST_F(hash32shift_unittest, TestHashOnSameKey)
 {
   unsigned int key = 6688;
   ASSERT_EQ(
@@ -151,7 +114,7 @@ TEST_F(Hash32ShiftUnitTest, TestHashOnSameKey)
   );
 }
 
-TEST_F(Hash32ShiftUnitTest, TestHashOnDifferentKey)
+TEST_F(hash32shift_unittest, TestHashOnDifferentKey)
 {
   int i;
   for(i = 0; i < 499; i++) {
@@ -165,15 +128,27 @@ TEST_F(Hash32ShiftUnitTest, TestHashOnDifferentKey)
   }
 }
 
+TEST_F(hash32shift_unittest, TestStress)
+{
+  const int TOP = 500000;
+  std::unordered_set<int> set(TOP);
 
-/********************************************
+  for(int i = 0; i < TOP; i++) {
+    unsigned long int hash = hash32shift(i);
+    ASSERT_EQ(set.end(), set.find(hash));
+    set.insert(hash);
+  }
+}
+
+
+/*******************************************************************************
  * Unit test for:
  * hash_t hash64shift(unsigned int)
- ********************************************/
-class Hash64ShiftUnitTest : public ::testing::Test {};
+ ******************************************************************************/
+class hash64shift_unittest : public ::testing::Test {};
 
 
-TEST_F(Hash64ShiftUnitTest, TestHashOnSameKey)
+TEST_F(hash64shift_unittest, TestHashOnSameKey)
 {
   unsigned long key = 66888888;
   ASSERT_EQ(
@@ -182,7 +157,7 @@ TEST_F(Hash64ShiftUnitTest, TestHashOnSameKey)
   );
 }
 
-TEST_F(Hash64ShiftUnitTest, TestHashOnDifferentKey)
+TEST_F(hash64shift_unittest, TestHashOnDifferentKey)
 {
   int i;
   for(i = 0; i < 9999; i++) {
@@ -196,15 +171,27 @@ TEST_F(Hash64ShiftUnitTest, TestHashOnDifferentKey)
   }
 }
 
+TEST_F(hash64shift_unittest, TestStress)
+{
+  const unsigned long TOP = 500000;
+  std::unordered_set<unsigned long> set(TOP);
 
-/**********************************************************
- * Test for:
+  for(unsigned long i = 0; i < TOP; i++) {
+    unsigned long int hash = hash64shift(i);
+    ASSERT_EQ(set.end(), set.find(hash));
+    set.insert(hash);
+  }
+}
+
+
+/*******************************************************************************
+ * Unit Test for:
  * hash_t hash_str_jenkins_one_at_a_time(const char * str)
- **********************************************************/
-class HashStrJenkinsOneAtATimeUnitTest : public ::testing::Test {};
+ ******************************************************************************/
+class hash_str_jenkins_one_at_a_time_unittest : public ::testing::Test {};
 
 
-TEST_F(HashStrJenkinsOneAtATimeUnitTest, TestHashNullString)
+TEST_F(hash_str_jenkins_one_at_a_time_unittest, TestHashNullString)
 {
   ASSERT_EQ(
     hash_str_jenkins_one_at_a_time(NULL),
@@ -212,7 +199,7 @@ TEST_F(HashStrJenkinsOneAtATimeUnitTest, TestHashNullString)
   );
 }
 
-TEST_F(HashStrJenkinsOneAtATimeUnitTest, TestHashSameString)
+TEST_F(hash_str_jenkins_one_at_a_time_unittest, TestHashSameString)
 {
   const char str[] = "this is a test string!!!";
 
@@ -222,7 +209,7 @@ TEST_F(HashStrJenkinsOneAtATimeUnitTest, TestHashSameString)
   );
 }
 
-TEST_F(HashStrJenkinsOneAtATimeUnitTest, TestHashDifferentString_1)
+TEST_F(hash_str_jenkins_one_at_a_time_unittest, TestHashDifferentString_1)
 {
   ASSERT_NE(
     hash_str_jenkins_one_at_a_time("test"),
@@ -230,7 +217,7 @@ TEST_F(HashStrJenkinsOneAtATimeUnitTest, TestHashDifferentString_1)
   );
 }
 
-TEST_F(HashStrJenkinsOneAtATimeUnitTest, TestHashDifferentString_2)
+TEST_F(hash_str_jenkins_one_at_a_time_unittest, TestHashDifferentString_2)
 {
   ASSERT_NE(
     hash_str_jenkins_one_at_a_time(" "),
@@ -238,15 +225,29 @@ TEST_F(HashStrJenkinsOneAtATimeUnitTest, TestHashDifferentString_2)
   );
 }
 
+TEST_F(hash_str_jenkins_one_at_a_time_unittest, TestStress)
+{
+  const unsigned long TOP = 500000;
+  std::unordered_set<unsigned long> set(TOP);
 
-/**********************************************************
+  for(unsigned long i = 0; i < TOP; i++) {
+    char buf[10];
+    snprintf(buf, sizeof(buf), "%lu", i);
+    unsigned long int hash = hash_str_jenkins_one_at_a_time(buf);
+    ASSERT_EQ(set.end(), set.find(hash));
+    set.insert(hash);
+  }
+}
+
+
+/*******************************************************************************
  * Unit test for:
  * hash_t hash_robert_jenkin(unsigned int)
- **********************************************************/
-class HashRobertJenkinUnitTest : public ::testing::Test {};
+ ******************************************************************************/
+class hash_robert_jenkin_unittest : public ::testing::Test {};
 
 
-TEST_F(HashRobertJenkinUnitTest, TestHashSameNumberTest_1)
+TEST_F(hash_robert_jenkin_unittest, TestHashSameNumberTest_1)
 {
   ASSERT_EQ(
     hash_robert_jenkin(0),
@@ -254,7 +255,7 @@ TEST_F(HashRobertJenkinUnitTest, TestHashSameNumberTest_1)
   );
 }
 
-TEST_F(HashRobertJenkinUnitTest, TestHashSameNumberTest_2)
+TEST_F(hash_robert_jenkin_unittest, TestHashSameNumberTest_2)
 {
   ASSERT_EQ(
     hash_robert_jenkin(9999),
@@ -262,7 +263,7 @@ TEST_F(HashRobertJenkinUnitTest, TestHashSameNumberTest_2)
   );
 }
 
-TEST_F(HashRobertJenkinUnitTest, TestHashDifferentNumberTest)
+TEST_F(hash_robert_jenkin_unittest, TestHashDifferentNumberTest)
 {
   int i;
   for(i = 0; i < 499; i++) {
@@ -270,5 +271,17 @@ TEST_F(HashRobertJenkinUnitTest, TestHashDifferentNumberTest)
       hash_robert_jenkin(i),
       hash_robert_jenkin(i*i+1)
     );
+  }
+}
+
+TEST_F(hash_robert_jenkin_unittest, TestStress)
+{
+  const unsigned long TOP = 500000;
+  std::unordered_set<unsigned long> set(TOP);
+
+  for(unsigned long i = 0; i < TOP; i++) {
+    unsigned long int hash = hash_robert_jenkin(i);
+    ASSERT_EQ(set.end(), set.find(hash));
+    set.insert(hash);
   }
 }

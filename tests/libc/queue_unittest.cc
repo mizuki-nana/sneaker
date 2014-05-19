@@ -21,41 +21,41 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for `queue_t` defined in include/libc/queue.h */
+/* Unit test for `queue_t` defined in sneaker/libc/queue.h */
 
-#include <limits.h>
-#include <string.h>
+#include <cassert>
+#include <climits>
+#include <cstring>
 #include "../../include/testing/testing.h"
-#include "../../include/libc/assert.h"
 #include "../../include/libc/memory.h"
 #include "../../include/libc/queue.h"
 #include "../../include/libc/utils.h"
 
 
-class QueueTest : public ::testing::Test {
+class queue_unittest : public ::testing::Test {
 protected:
   virtual void SetUp() {
     _queue = queue_create();
-    ASSERT(_queue);
+    assert(_queue);
   }
 
   virtual void TearDown() {
     queue_free(&_queue);
-    ASSERT(_queue == NULL);
+    assert(_queue == NULL);
   }
 
   queue_t _queue;
 };
 
 
-TEST_F(QueueTest, TestQueueCreation)
+TEST_F(queue_unittest, TestCreation)
 {
-  ASSERT(_queue);
+  assert(_queue);
   ASSERT_EQ(0, queue_size(_queue));
-  ASSERT(queue_pop(_queue) == NULL);
+  assert(queue_pop(_queue) == NULL);
 }
 
-TEST_F(QueueTest, TestQueuePushAndPop_1)
+TEST_F(queue_unittest, TestPushAndPop1)
 {
   int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   int i;
@@ -71,12 +71,12 @@ TEST_F(QueueTest, TestQueuePushAndPop_1)
     ASSERT_EQ(numbers[i], val);
   }
 
-  ASSERT(queue_pop(_queue) == NULL);
+  assert(queue_pop(_queue) == NULL);
 
   ASSERT_EQ(0, queue_size(_queue));
 }
 
-TEST_F(QueueTest, TestQueuePushAndPop_2)
+TEST_F(queue_unittest, TestPushAndPop2)
 {
   int odds[] = {1, 3, 5, 7, 9};
   int evens[] = {2, 4, 6, 8, 10};
@@ -94,7 +94,7 @@ TEST_F(QueueTest, TestQueuePushAndPop_2)
     ASSERT_EQ(odds[i], val);
   }
 
-  ASSERT(queue_pop(_queue) == NULL);
+  assert(queue_pop(_queue) == NULL);
   ASSERT_EQ(0, queue_size(_queue));
 
   for(i = 0; i < 5; i++) {
@@ -109,11 +109,11 @@ TEST_F(QueueTest, TestQueuePushAndPop_2)
     ASSERT_EQ(evens[i], val);
   }
 
-  ASSERT(queue_pop(_queue) == NULL);
+  assert(queue_pop(_queue) == NULL);
   ASSERT_EQ(0, queue_size(_queue));
 }
 
-TEST_F(QueueTest, TestQueuePushAndPop_3)
+TEST_F(queue_unittest, TestPushAndPop3)
 {
   const char *fruits[26] = {
     "Apple", "Banana", "Coconut", "Dragonfruit", "Elephant apple",
@@ -139,5 +139,5 @@ TEST_F(QueueTest, TestQueuePushAndPop_3)
   }
 
   ASSERT_EQ(0, queue_size(_queue));
-  ASSERT(queue_pop(_queue) == NULL);
+  assert(queue_pop(_queue) == NULL);
 }

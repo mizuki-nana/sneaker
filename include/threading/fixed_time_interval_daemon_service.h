@@ -29,10 +29,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <boost/system/error_code.hpp>
 #include "daemon_service.h"
 
+
 typedef void(*ExternalHandler)(void);
 
 
 namespace sneaker {
+
 
 namespace threading {
 
@@ -68,6 +70,7 @@ private:
 
 
 } /* end namespace threading */
+
 
 } /* end namespace sneaker */
 
