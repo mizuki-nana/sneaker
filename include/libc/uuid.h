@@ -50,9 +50,9 @@ uuid128_t uuid_create();
 
 int uuid_compare(const uuid128_t, const uuid128_t);
 
-uint64_t uuid_to_hash(const uuid128_t);
+__uint128_t uuid_to_hash(const uuid128_t);
 
-uint64_t uuid_create_and_hash();
+__uint128_t uuid_create_and_hash();
 
 
 #ifdef __cplusplus

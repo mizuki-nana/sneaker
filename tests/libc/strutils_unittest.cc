@@ -258,6 +258,7 @@ TEST_F(strncpy_safe_unittest, TestNullDstAndSrcInput)
 TEST_F(strncpy_safe_unittest, TestEqualSizeDstAndSrcTest)
 {
   char *dst = (char*)malloc(10);
+  memset(dst, 0, 10);
   const char src[] = "123456789";
   dst = strncpy_safe(dst, src, strlen(src));
 
@@ -268,6 +269,7 @@ TEST_F(strncpy_safe_unittest, TestEqualSizeDstAndSrcTest)
 TEST_F(strncpy_safe_unittest, TestSmallerSizeDstThanSrc)
 {
   char *dst = (char*)malloc(5);
+  memset(dst, 0, 5);
   const char src[] = "123456789";
   dst = strncpy_safe(dst, src, 4);
 
@@ -278,6 +280,7 @@ TEST_F(strncpy_safe_unittest, TestSmallerSizeDstThanSrc)
 TEST_F(strncpy_safe_unittest, TestLargerSizeDstThanSrcTest)
 {
   char *dst = (char*)malloc(20);
+  memset(dst, 0, 20);
   const char src[] = "123456789";
   dst = strncpy_safe(dst, src, 19);
 

@@ -21,7 +21,8 @@
 
 CC=cc
 CXX=c++
-CFLAGS=-Wall -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0 -lboost_system-mt
+CFLAGS=-Wall -std=c++11
+LFLAGS=-lgtest -lpthread -lboost_system
 
 LIBGTEST=/usr/lib/libgtest.a
 TESTING=../../src/testing/testing.a
@@ -36,7 +37,7 @@ OUTPUTS=daemon_service_unittest.test fixed_time_interval_daemon_service_unittest
 
 
 all:
-	-for f in $(INPUTS); do $(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) $$f.cc -o $$f.test; done
+	-for f in $(INPUTS); do $(CXX) $(CFLAGS) $(LIBRARIES) $(OBJECTS) $$f.cc $(LFLAGS) -o $$f.test; done
 
 
 .PHONY: clean

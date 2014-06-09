@@ -20,7 +20,7 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 CXX=c++
-CFLAGS=-Wall -std=c++11 -arch x86_64
+CFLAGS=-Wall -std=c++11
 
 INPUTS = daemon_service.cc fixed_time_interval_daemon_service.cc
 

@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
 /* Unit test for `uuid128_t` defined in sneaker/libc/uuid.h */
-
+#include <stdio.h>
 #include <climits>
 #include <set>
 #include "../../include/testing/testing.h"
@@ -75,16 +75,16 @@ TEST_F(uuid_unittest, TestCreateAndHash)
 
 TEST_F(uuid_unittest, TestUniqueness)
 {
-  std::set<uint64_t> hashes;
+  std::set<__uint128_t> hashes;
 
-  int i;
-  for(i = 0; i < 50000; i++) {
-    uint64_t hash = uuid_create_and_hash();
+  int limit = 100000;
 
-    if(!hashes.empty()) {
-      ASSERT_TRUE(hashes.end() == hashes.find(hash));
-    }
+  ASSERT_LT(limit, hashes.max_size());
 
+  for(int i = 0; i < limit; i++) {
+    __uint128_t hash = uuid_create_and_hash();
     hashes.insert(hash);
   }
+
+  ASSERT_EQ(limit, hashes.size());
 }

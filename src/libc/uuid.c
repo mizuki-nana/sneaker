@@ -21,6 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
+#include <assert.h>
 #include <limits.h>
 #include <string.h>
 #include <time.h>
@@ -36,20 +37,30 @@ uuid128_t uuid_create()
   time_t t;
   uint64_t ll;
 
-  unsigned long  u1 = 0; /* 4 bytes */
-  unsigned long  u2 = 0; /* 4 bytes */
-  unsigned int   u3 = 0; /* 4 bytes */
-  unsigned short u4 = 0; /* 2 bytes */
-  unsigned short u5 = 0; /* 2 bytes */
+  unsigned int   u1 = 0;
+  unsigned int   u2 = 0;
+  unsigned int   u3 = 0;
+  unsigned short u4 = 0;
+  unsigned short u5 = 0;
 
-  char offsets[] = {0, sizeof(u1), sizeof(u2), sizeof(u3), sizeof(u4)};
+  int size = sizeof(u1) + sizeof(u2) + sizeof(u3) + sizeof(u4) + sizeof(u5);
+
+  assert(size == 16);
+
+  char offsets[] = {
+    0,
+    sizeof(u1),
+    sizeof(u2),
+    sizeof(u3),
+    sizeof(u4)
+  };
 
   t = time(NULL);
   ll = (uint64_t)t;
 
   u1 = (ll & 0xFFFF0000) >> 16;
   u2 = ll & 0xFFFF;
-  u3 = hash64shift(ll);
+  u3 = rand_top(UINT_MAX);
   u4 = (unsigned short)rand_top(USHRT_MAX);
   u5 = (unsigned short)rand_top(USHRT_MAX);
 
@@ -64,24 +75,18 @@ uuid128_t uuid_create()
 
 int uuid_compare(uuid128_t uuid1, uuid128_t uuid2)
 {
-  return memcmp(uuid1.data, uuid2.data, 16);
+  return memcmp(uuid1.data, uuid2.data, sizeof(uuid1.data));
 }
 
-uint64_t uuid_to_hash(const uuid128_t uuid)
+__uint128_t uuid_to_hash(const uuid128_t uuid)
 {
-  const unsigned int GOLDEN_PRIME = 37;
-  uint64_t upper = 0;
-  uint64_t lower = 0;
-
-  memcpy(&upper, uuid.data, 8);
-  memcpy(&lower, uuid.data+8, 8);
-
-  return hash64shift(upper) * GOLDEN_PRIME + hash64shift(lower);
+  __uint128_t hash = 0;
+  memcpy(&hash, uuid.data, sizeof(hash));
+  return hash;
 }
 
-uint64_t uuid_create_and_hash()
+__uint128_t uuid_create_and_hash()
 {
   uuid128_t uuid = uuid_create();
-
-  return uuid_to_hash((const uuid128_t)uuid);
+  return uuid_to_hash(uuid);
 }

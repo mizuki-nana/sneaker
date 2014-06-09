@@ -20,7 +20,8 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 CXX=c++
-CFLAGS=-Wall -std=c++11 -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
+CFLAGS=-Wall -std=c++11 -DGTEST_HAS_TR1_TUPLE=0
+LFLAGS=-lgtest -lpthread
 
 LIBGTEST=/usr/lib/libgtest.a
 TESTING=../../src/testing/testing.a
@@ -33,7 +34,7 @@ OUTPUTS=allocator_unittest.test
 
 
 all:
-	-for f in $(INPUTS); do $(CXX) $(CFLAGS) $(LIBRARIES) $$f.cc -o $$f.test; done
+	-for f in $(INPUTS); do $(CXX) $(CFLAGS) $(LIBRARIES) $$f.cc $(LFLAGS) -o $$f.test; done
 
 
 .PHONY: clean

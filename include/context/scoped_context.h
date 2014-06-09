@@ -25,6 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef SNEAKER_SCOPED_CONTEXT_H_
 #define SNEAKER_SCOPED_CONTEXT_H_
 
+#include <algorithm>
 #include <cassert>
 #include <vector>
 #include "context_manager.h"
