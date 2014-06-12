@@ -49,6 +49,7 @@ docs:
 .PHONY: build
 build: docs
 	@-for dir in $(SRC); do ($(MAKE) -C $$dir all;); done
+	@-for dir in $(TESTS); do ($(MAKE) -C $$dir all;); done
 
 
 .PHONY: all
@@ -56,13 +57,8 @@ all: build
 	@find . -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER_A)
 
 
-.PHONY: tests
-tests: build
-	@-for dir in $(TESTS); do ($(MAKE) -C $$dir all;); done
-
-
-.PHONY: run
-run: tests
+.PHONY: test
+test: build
 	@echo "\033[32mGoing to run all tests...\033[39m";
 	@-for dir in $(TESTS); do (find $$dir -type f -name "*.test" -exec '{}' \;); done
 	@echo "\033[32mTests run completed...\033[39m";

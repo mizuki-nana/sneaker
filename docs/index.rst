@@ -33,11 +33,9 @@ Get Started
 
 1 Build binary
    `make all`
-2 Build tests
-   `make tests`
-3 Run all tests
-   `make run`
-4 Install
+2 Run all tests
+   `make test`
+3 Install
    `make install`
 
 

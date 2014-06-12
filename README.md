@@ -23,7 +23,7 @@ Build binary
 <br/>`make all`
 
 Run all tests
-<br/>`make run`
+<br/>`make test`
 
 Clean all builds
 <br/>`make clean`
