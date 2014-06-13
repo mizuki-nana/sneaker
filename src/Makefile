@@ -19,14 +19,61 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-SUBDIRS = testing libc container cache io threading
+# SUBDIRS = testing libc container cache io threading
 
+
+#.PHONY: all
+#all:
+#	-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir all;); done
+
+
+#.PHONY: clean
+#clean:
+#	-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir clean;); done
+
+CC=cc
+CXX=c++
+CFLAGS=-Wall
+CXXFLAGS=-Wall -std=c++11
+AR=ar
+ARFLAGS=rvs
+
+LIBC=./libc/
+IO=./io/
+TESTING=./testing/
+THREADING=./threading/
+
+SUBDIRS=$(LIBC) $(IO) $(TESTING) $(THREADING)
+
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S), Linux)
+	CFLAGS += -D LINUX
+	CXXFLAGS += -D LINUX
+endif
+ifeq ($(UNAME_S), Darwin)
+	CXXFLAGS += -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
+	CFLAGS += -arch x86_64 -D_STRUCT_SIGALTSTACK -D_STRUCT_UCONTEXT -D_UUID_T
+endif
+
+.PHONY: libc
+libc:
+	-cd $(LIBC) && for f in ./*.c; do ($(CC) $(CFLAGS) -c $$f); done
+
+.PHONY: io
+io:
+	-cd $(IO) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) -c $$f); done
+
+.PHONY: testing
+testing:
+	-cd $(TESTING) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) -c $$f); done
+
+.PHONY: threading
+threading:
+	-cd $(THREADING) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) -c $$f); done
 
 .PHONY: all
-all:
-	-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir all;); done
-
+all: libc io testing threading
 
 .PHONY: clean
 clean:
-	-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir clean;); done
+	-for dir in $(SUBDIRS); do (rm -rf $$dir*.o $$dir*.a); done

@@ -46,19 +46,15 @@ docs:
 	@mkdir -p $(DOCUMENTATION) && cp -R docs/_build/* $(DOCUMENTATION)/
 
 
-.PHONY: build
-build: docs
+.PHONY: all
+all: docs
 	@-for dir in $(SRC); do ($(MAKE) -C $$dir all;); done
+	@find . -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER_A)
 	@-for dir in $(TESTS); do ($(MAKE) -C $$dir all;); done
 
 
-.PHONY: all
-all: build
-	@find . -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER_A)
-
-
 .PHONY: test
-test: build
+test: all
 	@echo "\033[32mGoing to run all tests...\033[39m";
 	@-for dir in $(TESTS); do (find $$dir -type f -name "*.test" -exec '{}' \;); done
 	@echo "\033[32mTests run completed...\033[39m";
@@ -75,9 +71,9 @@ clean:
 .PHONY: install
 install:
 	@echo "\033[32mInstalling $(VERSION)...\033[39m";
-	@mkdir -p /usr/local/include/sneaker
-	@cp -vr include/* /usr/local/include/sneaker
-	@cp -vr libsneaker.a /usr/local/lib/
+	@sudo mkdir -p /usr/local/include/sneaker
+	@sudo cp -vr include/* /usr/local/include/sneaker
+	@sudo cp -vr $(LIBSNEAKER_A) /usr/local/lib/
 	@tar -zcvf $(LIBSNEAKER_GZIP) $(INCLUDE) $(SRC) $(TESTS) LICENSE Makefile README.md ./*.png
 	@echo "\033[32mInstall complete...\033[39m";
 	@echo "\033[32mHeader files: \033[35m/usr/local/include/sneaker/\033[39m";
@@ -87,8 +83,8 @@ install:
 .PHONY: uninstall
 uninstall:
 	@echo "\033[32mUninstalling current version...\033[39m";
-	@rm -rf /usr/local/include/sneaker
-	@rm -rf /usr/local/lib/libsneaker.a
+	@sudo rm -rf /usr/local/include/sneaker
+	@sudo rm -rf /usr/local/lib/libsneaker.a
 	@rm -rf ./*.tar.gz
 	@rm -rf ./$(LIBSNEAKER)
-	@echo "\033[32mUninstalling complete...\033[39m";
+	@echo "\033[32mUninstalling complete.\033[39m";
