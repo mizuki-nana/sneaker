@@ -19,14 +19,75 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-SUBDIRS = libc context container cache threading functional
 
+CXX=c++
+CXXFLAGS=-Wall -std=c++11
+
+LIBGTEST=/usr/lib/libgtest.a
+
+LIBSNEAKER_A=../../libsneaker.a
+LIBRARIES=$(LIBGTEST)
+
+LFLAGS=$(LIBSNEAKER_A) -lgtest -lpthread -lboost_system
+
+LIBC=./libc/
+IO=./io/
+ALLOCATOR=./allocator/
+CACHE=./cache/
+CONTAINER=./container/
+CONTEXT=./context/
+FUNCTIONAL=./functional/
+THREADING=./threading/
+
+SUBDIRS=$(LIBC) $(IO) $(ALLOCATOR) $(CACHE) $(CONTAINER) $(CONTEXT) $(FUNCTIONAL) $(THREADING)
+
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S), Linux)
+	CXXFLAGS += -D LINUX
+endif
+ifeq ($(UNAME_S), Darwin)
+	CXXFLAGS += -D OSX -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
+endif
+
+ifeq ($(UNAME_S), Linux)
+	LIBCFLAGS += -D_SIGNAL_H=0
+endif
+
+.PHONY: libc
+libc:
+	-cd $(LIBC) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(LIBCFLAGS) $(LIBRARIES) $$f $(LFLAGS) -o $$f.test); done
+
+.PHONY: io
+io:
+	-cd $(IO) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(LIBRARIES) $$f $(LFLAGS) -o $$f.test); done
+
+.PHONY:
+allocator:
+	-cd $(ALLOCATOR) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(LIBRARIES) $$f $(LFLAGS) -o $$f.test); done
+
+.PHONY: cache
+cache:
+	-cd $(CACHE) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(LIBRARIES) $$f $(LFLAGS) -o $$f.test); done
+
+.PHONY: container
+container:
+	-cd $(CONTAINER) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(LIBRARIES) $$f $(LFLAGS) -o $$f.test); done
+
+.PHONY: context
+context:
+	-cd $(CONTEXT) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(LIBRARIES) $$f $(LFLAGS) -o $$f.test); done
+
+.PHONY: functional
+functional:
+	-cd $(FUNCTIONAL) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(LIBRARIES) $$f $(LFLAGS) -o $$f.test); done
+
+.PHONY: threading
+threading:
+	-cd $(THREADING) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(LIBRARIES) $$f $(LFLAGS) -o $$f.test); done
 
 .PHONY: all
-all:
-	-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir all;); done
-
+all: libc io allocator cache container context functional threading
 
 .PHONY: clean
 clean:
-	-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir clean;); done
+	-for dir in $(SUBDIRS); do (rm -rf $$dir*.test); done
