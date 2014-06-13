@@ -45,13 +45,14 @@ docs:
 	@cd ./docs/ && make html
 	@mkdir -p $(DOCUMENTATION) && cp -R docs/_build/* $(DOCUMENTATION)/
 
+.PHONY: src
+src:
+	@-for dir in $(SRC); do ($(MAKE) -C $$dir all;); done
+	@find . -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER_A)		
 
 .PHONY: all
-all: docs
-	@-for dir in $(SRC); do ($(MAKE) -C $$dir all;); done
-	@find . -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER_A)
+all: src
 	@-for dir in $(TESTS); do ($(MAKE) -C $$dir all;); done
-
 
 .PHONY: test
 test: all
@@ -69,7 +70,7 @@ clean:
 
 
 .PHONY: install
-install:
+install: docs
 	@echo "\033[32mInstalling $(VERSION)...\033[39m";
 	@sudo mkdir -p /usr/local/include/sneaker
 	@sudo cp -vr include/* /usr/local/include/sneaker

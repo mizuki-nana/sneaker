@@ -1,0 +1,12 @@
+language: cpp
+compiler:
+  - clang
+script:
+  - make src
+branches:
+  only:
+    - master
+    - dev
+os:
+  - linux
+  - osx
