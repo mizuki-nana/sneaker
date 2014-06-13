@@ -689,7 +689,7 @@ Header file: `sneaker/libc/utils.h`
 1.14 Universally Unique Identifier
 ==================================
 
-A 128 bits implementation of UUID.
+A 128-bits implementation of UUID.
 
 Header file: `sneaker/libc/uuid.h`
 
@@ -708,13 +708,13 @@ Header file: `sneaker/libc/uuid.h`
     the first argument is considered greater than the second, `0` if they are
     equivalent, and `-1` if the first is less than the second.
 
-  .. c:function:: uint64_t uuid_to_hash(const uuid128_t)
+  .. c:function:: __uint128_t uuid_to_hash(const uuid128_t)
     :noindex:
 
-    Hashes the `uuid128_t` instance provided as the arugment to an 64-bit
+    Hashes the `uuid128_t` instance provided as the arugment to an 128-bit
     unsigned integer.
 
-  .. c:function:: uint64_t uuid_create_and_hash()
+  .. c:function:: __uint128_t uuid_create_and_hash()
     :noindex:
 
     Creates an instance of `uuid128_t` and returns its equivalent hash.
