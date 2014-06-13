@@ -28,7 +28,7 @@ LIBGTEST=/usr/lib/libgtest.a
 LIBSNEAKER_A=../../libsneaker.a
 LIBRARIES=$(LIBGTEST)
 
-LFLAGS=$(LIBSNEAKER_A) -lgtest -lpthread -lboost_system
+LFLAGS=$(LIBSNEAKER_A) -lgtest -lpthread
 
 LIBC=./libc/
 IO=./io/
@@ -44,13 +44,18 @@ SUBDIRS=$(LIBC) $(IO) $(ALLOCATOR) $(CACHE) $(CONTAINER) $(CONTEXT) $(FUNCTIONAL
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Linux)
 	CXXFLAGS += -D LINUX
+	LFLAGS += -lboost_system
 endif
 ifeq ($(UNAME_S), Darwin)
-	CXXFLAGS += -D OSX -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
+	CXXFLAGS += -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
+	LFLAGS += -lboost_system-mt
 endif
 
 ifeq ($(UNAME_S), Linux)
 	LIBCFLAGS += -D_SIGNAL_H=0
+endif
+ifeq ($(UNAME_S), Darwin)
+	LIBCFLAGS += -arch x86_64 -D_STRUCT_SIGALTSTACK -D_STRUCT_UCONTEXT
 endif
 
 .PHONY: libc

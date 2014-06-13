@@ -51,12 +51,8 @@ ifeq ($(UNAME_S), Linux)
 	CXXFLAGS += -D LINUX
 endif
 ifeq ($(UNAME_S), Darwin)
-	CFLAGS += _D OSX
-	CXXFLAGS += -D OSX -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
-endif
-
-ifeq ($(UNAME_S), Darwin)
-	CFLAGS += -D_STRUCT_SIGALTSTACK -D_STRUCT_UCONTEXT -D_UUID_T
+	CXXFLAGS += -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
+	CFLAGS += -arch x86_64 -D_STRUCT_SIGALTSTACK -D_STRUCT_UCONTEXT -D_UUID_T
 endif
 
 .PHONY: libc
@@ -73,7 +69,7 @@ testing:
 
 .PHONY: threading
 threading:
-	-cd $(THREADING) && for f in ./*.cc; do ($(CXX) $(CFLAGS) -c $$f); done
+	-cd $(THREADING) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) -c $$f); done
 
 .PHONY: all
 all: libc io testing threading
