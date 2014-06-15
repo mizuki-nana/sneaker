@@ -59,23 +59,25 @@ Compilation Environment
 -----------------------
 
 OS X
-* Operating System
-   `OS X 10.9.2 (13C64)`
-* Compiler
-   `Apple LLVM version 5.1 (clang-503.0.38) (based on LLVM 3.4svn) Target: x86_64-apple-darwin13.1.0 Thread model: posix`
-* Build tool
-   `GNU Make 3.81 built for i386-apple-darwin11.3.0`
-* Sphinx 
-   `Sphinx 1.2.2`
+
+* Operating System:
+  `OS X 10.9.2 (13C64)`
+* Compiler:
+  `Apple LLVM version 5.1 (clang-503.0.38) (based on LLVM 3.4svn) Target: x86_64-apple-darwin13.1.0 Thread model: posix`
+* Build tool:
+  `GNU Make 3.81 built for i386-apple-darwin11.3.0`
+* Sphinx:
+  `Sphinx 1.2.2`
 
 Debian
-* Operating System
+
+* Operating System:
   `Linux 3.8.0-29-generic #42~precise1-Ubuntu x86_64 GNU/Linux (Ubuntu 12.04.4 LTS)`
-* Compiler
+* Compiler:
   `Ubuntu clang version 3.2-1~exp9ubuntu1~precise1 (tags/RELEASE_32/final) (based on LLVM 3.2) Target: x86_64-pc-linux-gnu Thread model: posix`
-* Build tool
+* Build tool:
   `GNU Make 3.81 This program built for x86_64-pc-linux-gnu`
-* Sphinx 
+* Sphinx:
   `Sphinx v1.1.3`
 
 
