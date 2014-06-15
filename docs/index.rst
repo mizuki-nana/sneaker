@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-sneaker v0.2.0 documentation
+sneaker v0.2.1 documentation
 ============================
 
 Overview
