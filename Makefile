@@ -32,6 +32,7 @@ CPFLAGS=-vr
 INCLUDE=./include
 SRC=./src
 TESTS=./tests
+DOCS=./docs
 DOCUMENTATION=./documentation
 SUBDIRS=$(SRC) $(TESTS)
 
@@ -42,17 +43,20 @@ LIBSNEAKER_GZIP=$(LIBSNEAKER)-$(VERSION).tar.gz
 
 .PHONY: docs
 docs:
-	@cd ./docs/ && make html
+	@$(MAKE) -C $(DOCS) html
 	@mkdir -p $(DOCUMENTATION) && cp -R docs/_build/* $(DOCUMENTATION)/
+
 
 .PHONY: src
 src:
-	@-for dir in $(SRC); do ($(MAKE) -C $$dir all;); done
+	@$(MAKE) -C $(SRC) all
 	@find . -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER_A)		
+
 
 .PHONY: all
 all: src
-	@-for dir in $(TESTS); do ($(MAKE) -C $$dir all;); done
+	@$(MAKE) -C $(TESTS) all
+
 
 .PHONY: test
 test: all
