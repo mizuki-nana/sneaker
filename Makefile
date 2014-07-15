@@ -40,6 +40,9 @@ LIBSNEAKER=libsneaker
 LIBSNEAKER_A=libsneaker.a
 LIBSNEAKER_GZIP=$(LIBSNEAKER)-$(VERSION).tar.gz
 
+### Environment variables ###
+export GTEST_COLOR=true
+
 
 .PHONY: docs
 docs:

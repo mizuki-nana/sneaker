@@ -33,13 +33,14 @@ LFLAGS=$(LIBSNEAKER_A) -lgtest -lpthread
 LIBC=./libc/
 IO=./io/
 ALLOCATOR=./allocator/
+ATOMIC=./atomic/
 CACHE=./cache/
 CONTAINER=./container/
 CONTEXT=./context/
 FUNCTIONAL=./functional/
 THREADING=./threading/
 
-SUBDIRS=$(LIBC) $(IO) $(ALLOCATOR) $(CACHE) $(CONTAINER) $(CONTEXT) $(FUNCTIONAL) $(THREADING)
+SUBDIRS=$(LIBC) $(IO) $(ALLOCATOR) $(ATOMIC) $(CACHE) $(CONTAINER) $(CONTEXT) $(FUNCTIONAL) $(THREADING)
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Linux)
@@ -66,9 +67,13 @@ libc:
 io:
 	-cd $(IO) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(LIBRARIES) $$f $(LFLAGS) -o $$f.test); done
 
-.PHONY:
+.PHONY: allocator
 allocator:
 	-cd $(ALLOCATOR) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(LIBRARIES) $$f $(LFLAGS) -o $$f.test); done
+
+.PHONY: atomic
+atomic:
+	-cd $(ATOMIC) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(LIBRARIES) $$f $(LFLAGS) -o $$f.test); done
 
 .PHONY: cache
 cache:
@@ -91,7 +96,7 @@ threading:
 	-cd $(THREADING) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(LIBRARIES) $$f $(LFLAGS) -o $$f.test); done
 
 .PHONY: all
-all: libc io allocator cache container context functional threading
+all: libc io allocator atomic cache container context functional threading
 
 .PHONY: clean
 clean:
