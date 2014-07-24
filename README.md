@@ -11,6 +11,7 @@ Just another C/C++ library...
 ## Content
 * `libc` - _C utilities_
 * `allocator` - _STL container allocator_
+* `atomic` - _utilities for atomic types_
 * `cache` - _in-memory cache management_
 * `container` - _versatile data structures_
 * `context` - _context management_
@@ -37,7 +38,7 @@ Uninstall
 
 
 ## Version
-version 0.2.1
+version 0.2.2
 
 
 ## Compilation Environment
