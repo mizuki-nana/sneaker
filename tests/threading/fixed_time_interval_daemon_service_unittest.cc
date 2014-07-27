@@ -32,7 +32,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 using namespace sneaker::threading;
 
 
-void DummyHandler()
+void DummyHandler(void*)
 {
   printf("Dummy handler for daemon service running in the background thread...\n");
 }

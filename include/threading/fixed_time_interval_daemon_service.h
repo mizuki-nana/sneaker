@@ -30,7 +30,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "daemon_service.h"
 
 
-typedef void(*ExternalHandler)(void);
+typedef void(*ExternalHandler)(void*);
 
 
 namespace sneaker {
@@ -41,7 +41,7 @@ namespace threading {
 
 class fixed_time_interval_daemon_service : public sneaker::threading::daemon_service {
 public:
-  fixed_time_interval_daemon_service(size_t, ExternalHandler, bool=false, size_t=UINT_MAX);
+  fixed_time_interval_daemon_service(size_t, ExternalHandler, bool=false, ssize_t=UINT_MAX);
   ~fixed_time_interval_daemon_service();
 
   size_t interval() const;
@@ -64,7 +64,7 @@ protected:
 private:
   ExternalHandler _external_handler;
   size_t _interval;
-  size_t _max_iterations;
+  ssize_t _max_iterations;
   size_t _iteration_count;
 };
 

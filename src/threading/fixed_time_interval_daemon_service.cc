@@ -32,7 +32,7 @@ sneaker::threading::fixed_time_interval_daemon_service::fixed_time_interval_daem
   size_t interval,
   ExternalHandler external_handler,
   bool wait_for_termination,
-  size_t max_iterations
+  ssize_t max_iterations
 ):
   sneaker::threading::daemon_service(wait_for_termination),
   _external_handler(external_handler),
@@ -71,7 +71,7 @@ sneaker::threading::fixed_time_interval_daemon_service::handle()
 void
 sneaker::threading::fixed_time_interval_daemon_service::invoke_external_handler()
 {
-  this->_external_handler();
+  this->_external_handler(this);
   this->increment_iteration_count();
 }
 
@@ -84,7 +84,7 @@ sneaker::threading::fixed_time_interval_daemon_service::increment_iteration_coun
 bool
 sneaker::threading::fixed_time_interval_daemon_service::can_continue()
 {
-  return this->_iteration_count < this->_max_iterations;
+  return this->_iteration_count < this->_max_iterations || this->_max_iterations == -1;
 }
 
 void
