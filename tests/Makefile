@@ -48,6 +48,7 @@ ifeq ($(UNAME_S), Linux)
 	LFLAGS += -lboost_system
 endif
 ifeq ($(UNAME_S), Darwin)
+	CXXFLAGS += -D DARWIN
 	CXXFLAGS += -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
 	LFLAGS += -lboost_system-mt
 endif

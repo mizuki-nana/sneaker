@@ -1,11 +1,11 @@
 *****************************
-3. In-memory Cache Management
+4. In-memory Cache Management
 *****************************
 
 Components that manage caching of in-memory objects.
 
 
-3.1 Generic Cache
+4.1 Generic Cache
 =================
 
 A generic key-value based in-memory cache, where the creation and destruction of

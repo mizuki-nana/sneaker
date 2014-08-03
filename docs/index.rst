@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-sneaker v0.2.1 documentation
+sneaker v0.2.2 documentation
 ============================
 
 Overview
@@ -47,6 +47,7 @@ Content
 
    src/libc
    src/allocator
+   src/atomic
    src/cache
    src/container
    src/context

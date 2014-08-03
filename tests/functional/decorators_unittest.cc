@@ -1,4 +1,31 @@
+/*******************************************************************************
+The MIT License (MIT)
+
+Copyright (c) 2014 Yanzheng Li
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*******************************************************************************/
+
+/* Unit tests for definitions defined in sneaker/functional/decorators.h */
+
 #include <stdexcept>
+#include <string>
+#include <boost/format.hpp>
 #include "../../include/testing/testing.h"
 #include "../../include/functional/decorators.h"
 
@@ -9,6 +36,9 @@ using namespace sneaker::functional;
 class decorators_unittest : public ::testing::Test {};
 
 
+/*
+ * This test currently does not work when compiled by Ubuntu clang version 3.2-1
+ */
 class retry_decorator_unittest : public decorators_unittest {
 public:
   virtual void SetUp() {
@@ -22,14 +52,87 @@ int retry_decorator_unittest::counter = 0;
 
 TEST_F(retry_decorator_unittest, TestRetrySuccessful)
 {
+#ifdef DARWIN
+  const int MAX_RETRY = 5;
+
   retry<void> wrapper = []() -> void {
-    if(retry_decorator_unittest::counter == 4) {
-      throw std::runtime_error("");
-    }
     ++retry_decorator_unittest::counter;
+
+    if(retry_decorator_unittest::counter < MAX_RETRY) {
+      throw std::runtime_error(
+        str(boost::format("Counter has reached %d") % retry_decorator_unittest::counter)
+      );
+    }
   };
 
-  wrapper.operator()<std::runtime_error, 5>();
+  wrapper.operator()<std::runtime_error, MAX_RETRY>();
 
-  //ASSERT_EQ(4, counter);
+  ASSERT_EQ(MAX_RETRY, retry_decorator_unittest::counter);
+#endif
+}
+
+TEST_F(retry_decorator_unittest, TestExceptionOnOverRetryLimit)
+{
+#ifdef DARWIN
+  const int MAX_RETRY = 5;
+
+  retry<void> wrapper = []() -> void {
+    ++retry_decorator_unittest::counter;
+
+    if(retry_decorator_unittest::counter < MAX_RETRY) {
+      throw std::runtime_error(
+        str(boost::format("Counter has reached %d") % retry_decorator_unittest::counter)
+      );
+    }
+  };
+
+  const int RETRY_LIMIT = 3; // (MAX_RETRY - 2)
+
+  // TODO: use `ASSERT_THROW`.
+  {
+    bool thrown = false;
+    try {
+      wrapper.operator()<std::runtime_error, RETRY_LIMIT>();
+    } catch(...) {
+      thrown = true;
+    }
+    ASSERT_TRUE(thrown);
+  }
+
+  ASSERT_EQ(RETRY_LIMIT + 1, retry_decorator_unittest::counter);
+#endif
+}
+
+TEST_F(retry_decorator_unittest, TestDecoratorChaining)
+{
+#ifdef DARWIN
+  retry<std::string> inner = []() -> std::string {
+    return "hello world";
+  };
+
+  retry<std::string> wrapper = inner;
+
+  std::string expected_result = "hello world";
+  std::string actual_result = wrapper.operator()<std::runtime_error, 0>();
+
+  ASSERT_EQ(expected_result, actual_result);
+#endif
+}
+
+TEST_F(retry_decorator_unittest, TestDecoratorChaining2)
+{
+#ifdef DARWIN
+  retry<std::string> wrapper(
+    retry<std::string>(
+      []() -> std::string {
+        return "hello world";
+      }
+    )
+  );
+
+  std::string expected_result = "hello world";
+  std::string actual_result = wrapper.operator()<std::runtime_error, 0>();
+
+  ASSERT_EQ(expected_result, actual_result);
+#endif
 }

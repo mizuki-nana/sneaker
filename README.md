@@ -45,7 +45,7 @@ version 0.2.2
 
 ### OS X
 Operating System:<br/>
-`OS X 10.9.2 (13C64)`
+`OS X 10.9.4 (13E28)`
 
 Compiler:<br/>
 `Apple LLVM version 5.1 (clang-503.0.38) (based on LLVM 3.4svn)

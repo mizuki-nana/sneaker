@@ -1,5 +1,5 @@
 ********************************
-8. Thread Management and Daemons
+9. Thread Management and Daemons
 ********************************
 
 Components that faciliate thread management and deamons.
