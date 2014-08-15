@@ -41,7 +41,7 @@ namespace threading {
 
 class fixed_time_interval_daemon_service : public sneaker::threading::daemon_service {
 public:
-  fixed_time_interval_daemon_service(size_t, ExternalHandler, bool=false, ssize_t=UINT_MAX);
+  fixed_time_interval_daemon_service(uint32_t, ExternalHandler, bool=false, int32_t=UINT_MAX);
   ~fixed_time_interval_daemon_service();
 
   size_t interval() const;
@@ -63,9 +63,10 @@ protected:
 
 private:
   ExternalHandler _external_handler;
-  size_t _interval;
-  ssize_t _max_iterations;
-  size_t _iteration_count;
+  uint32_t _interval;
+  int32_t _max_iterations;
+  uint32_t _iteration_count;
+  bool _destroyed = false;
 };
 
 

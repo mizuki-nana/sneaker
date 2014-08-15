@@ -24,7 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /* Unit test for `sneaker::threading::fixed_time_interval_daemon_service`
  * defined in include/threading/fixed_time_interval_daemon_service.h */
 
-#include <stdio.h>
+#include <iostream>
 #include "../../include/testing/testing.h"
 #include "../../include/threading/fixed_time_interval_daemon_service.h"
 
@@ -32,33 +32,39 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 using namespace sneaker::threading;
 
 
-void DummyHandler(void*)
-{
-  printf("Dummy handler for daemon service running in the background thread...\n");
-}
-
-
-class fixed_time_interval_daemon_service_unittest : public ::testing::Test {};
+class fixed_time_interval_daemon_service_unittest : public ::testing::Test {
+public:
+  static void DummyHandler(void*) {
+    std::cout << '.';
+  }
+};
 
 
 TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonAsynchronously)
 {
-  fixed_time_interval_daemon_service daemon_service(2, DummyHandler);
+  /* Tests that a daemon which runs on a background thread indefinitely,
+   * and pokes the foreground threading at an interval of 20 milli-seconds.
+   *
+   * When the foreground thread finishes, a.k.a when the daemon goes out of
+   * scope and gets destroyed, the background thread should terminate.
+   */
+  fixed_time_interval_daemon_service daemon_service(
+    20, fixed_time_interval_daemon_service_unittest::DummyHandler);
+
   daemon_service.start();
-
-  sleep(10);
-
-  printf("10 seconds has passed...\n");
-
-  return;
 }
 
 TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonSynchronously)
 {
-  fixed_time_interval_daemon_service daemon_service(2, DummyHandler, true, 5);
+  /* Tests that a daemon which runs on a background thread, and pokes the
+   * foreground thread 5 times at an interval of 20 milli-seconds.
+   *
+   * The foreground has to wait for the background thread to terminate before
+   * it can proceed.
+   */
+  fixed_time_interval_daemon_service daemon_service(
+    20, fixed_time_interval_daemon_service_unittest::DummyHandler, true, 5);
+
   daemon_service.start();
-
-  printf("Dummy handler should ran 5 times...\n");
-
-  return;
+  std::cout << '\n';
 }

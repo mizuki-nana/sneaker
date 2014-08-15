@@ -29,10 +29,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 sneaker::threading::fixed_time_interval_daemon_service::fixed_time_interval_daemon_service(
-  size_t interval,
+  uint32_t interval,
   ExternalHandler external_handler,
   bool wait_for_termination,
-  ssize_t max_iterations
+  int32_t max_iterations
 ):
   sneaker::threading::daemon_service(wait_for_termination),
   _external_handler(external_handler),
@@ -46,7 +46,7 @@ sneaker::threading::fixed_time_interval_daemon_service::fixed_time_interval_daem
 
 sneaker::threading::fixed_time_interval_daemon_service::~fixed_time_interval_daemon_service()
 {
-  // Do nothing here.
+  _destroyed = true;
 }
 
 size_t
@@ -59,7 +59,7 @@ void
 sneaker::threading::fixed_time_interval_daemon_service::handle()
 {
   boost::asio::io_service io;
-  boost::asio::deadline_timer t(io, boost::posix_time::seconds(_interval));
+  boost::asio::deadline_timer t(io, boost::posix_time::milliseconds(_interval));
 
   t.async_wait(
     boost::bind(tick_handler, boost::asio::placeholders::error, &t, this)
@@ -84,7 +84,7 @@ sneaker::threading::fixed_time_interval_daemon_service::increment_iteration_coun
 bool
 sneaker::threading::fixed_time_interval_daemon_service::can_continue()
 {
-  return this->_iteration_count < this->_max_iterations || this->_max_iterations == -1;
+  return !this->_destroyed && ( this->_iteration_count < this->_max_iterations || this->_max_iterations == -1 );
 }
 
 void
@@ -99,7 +99,7 @@ sneaker::threading::fixed_time_interval_daemon_service::tick_handler(
   }
 
   t->expires_at(
-    t->expires_at() + boost::posix_time::seconds(daemon_service->interval())
+    t->expires_at() + boost::posix_time::milliseconds(daemon_service->interval())
   );
 
   t->async_wait(
