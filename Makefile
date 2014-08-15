@@ -53,16 +53,17 @@ docs:
 .PHONY: src
 src:
 	@$(MAKE) -C $(SRC) all
-	@find . -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER_A)		
 
 
 .PHONY: all
 all: src
-	@$(MAKE) -C $(TESTS) all
+	@find . -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER_A)
+	@echo "\033[35mGenerated $(LIBSNEAKER_A)"
 
 
 .PHONY: test
-test: all
+test:
+	@$(MAKE) -C $(TESTS) all
 	@echo "\033[32mGoing to run all tests...\033[39m";
 	@-for dir in $(TESTS); do (find $$dir -type f -name "*.test" -exec '{}' \;); done
 	@echo "\033[32mTests run completed...\033[39m";
