@@ -5,11 +5,28 @@ sneaker
 
 [![Build Status](https://api.travis-ci.org/yanzhengli/sneaker.png)](https://travis-ci.org/yanzhengli/sneaker)
 
-Just another C/C++ library...
+
+Sneaker is a collection of modern and versatile C++ components that are useful
+in many application development scenarios.
+
+Components are designed as independent entities that each has its own
+responsibility in answering one or more of the six aspects of all software
+systems, namely the “what”, “when”, “where”, “who”, “why” and “how”.
+
+The elegance and succinctness of the code intrinsically demonstrates the “how”,
+and the separation of functionalities among components and the interactions
+between them focus on the “who”, “when” and “where”. Finally, good documentation
+and comments reflects the “what” and “why” to users.
+
+In addition, the design of many components are heavily inspired from features
+and models from other high level programming languages that are either absent or
+not first-class citizens in the C++ world, such as the use of scoped context
+management and function decorators, which are all prevalent features in Python.
 
 
 ## Content
 * `libc` - _C utilities_
+* `algorithm` - _a collection of advanced algorithms_
 * `allocator` - _STL container allocator_
 * `atomic` - _utilities for atomic types_
 * `cache` - _in-memory cache management_
@@ -38,7 +55,11 @@ Uninstall
 
 
 ## Version
-version 0.2.2
+`version 0.2.2`
+
+
+## Documentation
+[Link](http://www.libsneaker.org/documentation/)
 
 
 ## Compilation Environment
@@ -78,7 +99,7 @@ Sphinx:<br/>
 
 ## Dependencies
 boost:<br/>
-`Version 1.53`
+`Version 1.55`
 
 googletest:<br/>
 `Version 1.6.0`
