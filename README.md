@@ -39,19 +39,13 @@ management and function decorators, which are all prevalent features in Python.
 ## Get started
 
 Build binary
-<br/>`make all`
+<br/>`make`
 
 Run all tests
 <br/>`make test`
 
-Clean all builds
-<br/>`make clean`
-
 Install
 <br/>`make install`
-
-Uninstall
-<br/>`make uninstall`
 
 
 ## Version

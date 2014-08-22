@@ -32,7 +32,7 @@ Get Started
 -----------
 
 1 Build binary
-   `make all`
+   `make`
 2 Run all tests
    `make test`
 3 Install

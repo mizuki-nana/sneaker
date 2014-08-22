@@ -44,21 +44,15 @@ LIBSNEAKER_GZIP=$(LIBSNEAKER)-$(VERSION).tar.gz
 export GTEST_COLOR=true
 
 
-.PHONY: docs
-docs:
-	@$(MAKE) -C $(DOCS) html
-	@mkdir -p $(DOCUMENTATION) && cp -R docs/_build/* $(DOCUMENTATION)/
+.PHONY: all
+all: src
+	@find . -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER_A)
+	@echo "\033[35mGenerated $(LIBSNEAKER_A)"
 
 
 .PHONY: src
 src:
 	@$(MAKE) -C $(SRC) all
-
-
-.PHONY: all
-all: src
-	@find . -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER_A)
-	@echo "\033[35mGenerated $(LIBSNEAKER_A)"
 
 
 .PHONY: test
@@ -67,6 +61,12 @@ test:
 	@echo "\033[32mGoing to run all tests...\033[39m";
 	@-for dir in $(TESTS); do (find $$dir -type f -name "*.test" -exec '{}' \;); done
 	@echo "\033[32mTests run completed...\033[39m";
+
+
+.PHONY: docs
+docs:
+	@$(MAKE) -C $(DOCS) html
+	@mkdir -p $(DOCUMENTATION) && cp -R docs/_build/* $(DOCUMENTATION)/
 
 
 .PHONY: clean
