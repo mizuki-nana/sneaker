@@ -1,12 +1,97 @@
+/*******************************************************************************
+The MIT License (MIT)
+
+Copyright (c) 2014 Yanzheng Li
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*******************************************************************************/
+
+/*
+ * Interfaces for JSON serialization and deserialization.
+ *
+ * This module provides a set of interfaces for interacting with raw JSON data,
+ * and converting that data into data objects, and vice versa.
+ *
+ * The top level function `sneaker::json::parse()` takes a JSON blob in string
+ * format and returns the parsed JSON object, which is an instance of
+ * `sneaker::json::JSON`.
+ *
+ * Internally, instances of `sneaker::json::JSON` depends on several internal
+ * types to encapsulate JSON data of various formats. For example,
+ * `std::vector` is used to capture JSON arrays and `std::map` is used to
+ * encapsulate JSON objects, and so on.
+ *
+ * This module is largely based on some of the concepts and implementations
+ * borrowed from the open source project "json11" from Dropbox, with minor
+ * changes and fixes. Please refer to
+ *
+ *  https://github.com/dropbox/json11
+ *
+ * for more information.
+ *
+ * Here is an example of parsing a JSON blob into its corresponding data object.
+ *
+ *  #include <cassert>
+ *  #include <iostream>
+ *  #include <string>
+ *  #include <sneaker/json/json.h>
+ *
+ *  using namespace sneaker::json;
+ *
+ *  const std::string str = "{"
+ *    "\"k1\": \"v1\","
+ *    "\"k2\": -42,"
+ *    "\"k3\": [\"a\", 123, true, false, null]"
+ *  "}";
+ *
+ *  auto json = sneaker::json::parse(str);
+ *
+ *  assert(std::string("\"v1\"") == json["k1"].dump());
+ *  assert(std::string("-42") == json["k2"].dump());
+ *  assert(std::string("[\"a\", 123, true, false, null]") == json["k3"].dump());
+ *
+ *  assert(std::string("v1") == json["k1"].string_value());
+ *  assert(-42 == json["k2"].number_value());
+ *  assert(std::string("a") == json["k3"][0].string_value());
+ *  assert(123 == json["k3"][1].number_value());
+ *  assert(true == json["k3"][2].bool_value());
+ *  assert(false == json["k3"][3].bool_value());
+ *
+ *
+ * Conversely, here is an example of serializing a JSON data object:
+ *
+ *  JSON json = JSON::object {
+ *    { "key1", "value1" },
+ *    { "key2", 123.456 },
+ *    { "key3", false },
+ *    { "key4", JSON::array { 1, "a", true, nullptr } },
+ *  };
+ *
+ *  std::cout << json.dump() << std::endl;
+ * */
 #ifndef SNEAKER_JSON_H_
 #define SNEAKER_JSON_H_
 
 
-#include <initializer_list>
 #include <map>
 #include <memory>
+#include <stdexcept>
 #include <string>
-#include <utility>
 #include <vector>
 
 
@@ -20,51 +105,65 @@ namespace json {
 class json_value;
 
 
-class json_type {
+class invalid_json_error : public std::invalid_argument {
+public:
+  explicit invalid_json_error(const std::string& what_arg):
+    std::invalid_argument(what_arg) {}
+  explicit invalid_json_error(const char* what_arg):
+    std::invalid_argument(what_arg) {}
+};
+
+
+class JSON {
 public:
   enum Type {
-    NUL, NUMBER, BOOL, STRING, ARRAY, OBJECT
+    NUL,
+    NUMBER,
+    BOOL,
+    STRING,
+    ARRAY,
+    OBJECT
   };
 
-  using string_type = typename std::string;
-  using array_type = typename std::vector<json_type>;
-  using object_type = typename std::map<std::string, json_type>;
-  using null_type = typename std::nullptr_t;
+  using string = typename std::string;
+  using array = typename std::vector<JSON>;
+  using object = typename std::map<std::string, JSON>;
+  using null = typename std::nullptr_t;
 
-  json_type() noexcept;
-  json_type(null_type) noexcept;
-  json_type(double) noexcept;
-  json_type(int) noexcept;
-  json_type(bool) noexcept;
-  json_type(const string_type&) noexcept;
-  json_type(string_type&&) noexcept;
-  json_type(const char *) noexcept;
-  json_type(const array_type&) noexcept;
-  json_type(array_type&&) noexcept;
-  json_type(const object_type&) noexcept;
-  json_type(object_type&&) noexcept;
+  JSON() noexcept;
+  JSON(null) noexcept;
+  JSON(double) noexcept;
+  JSON(int) noexcept;
+  JSON(bool) noexcept;
+  JSON(const string&) noexcept;
+  JSON(string&&) noexcept;
+  JSON(const char *) noexcept;
+  JSON(const array&) noexcept;
+  JSON(array&&) noexcept;
+  JSON(const object&) noexcept;
+  JSON(object&&) noexcept;
 
-  // Implicit constructor: anything with a to_json() function.
-  template <class T, class = decltype(&T::to_json)>
-  json_type(const T & t) : json_type(t.to_json()) {}
+  /* Implicit constructor: anything with a to_json() function. */
+  template<class T, class = decltype(&T::to_json)>
+  JSON(const T& t) : JSON(t.to_json()) {}
 
-  // Implicit constructor: map-like objects (std::map, std::unordered_map, etc)
-  template <class M, typename std::enable_if<
-    std::is_constructible<std::string, typename M::key_type>::value && std::is_constructible<json_type, typename M::mapped_type>::value, int>::type = 0
+  /* Implicit constructor: map-like objects (std::map, std::unordered_map, etc). */
+  template<class M, typename std::enable_if<
+    std::is_constructible<std::string, typename M::key_type>::value &&
+    std::is_constructible<JSON, typename M::mapped_type>::value, int>::type = 0
   >
-  json_type(const M & m) : json_type(object_type(m.begin(), m.end())) {}
+  JSON(const M& m) : JSON(object(m.begin(), m.end())) {}
 
-  // Implicit constructor: vector-like objects (std::list, std::vector, std::set, etc)
-  template <class V, typename std::enable_if<
-    std::is_constructible<json_type, typename V::value_type>::value, int>::type = 0
+  /* Implicit constructor: vector-like objects (std::list, std::vector, std::set, etc). */
+  template<class V, typename std::enable_if<
+    std::is_constructible<JSON, typename V::value_type>::value, int>::type = 0
   >
-  json_type(const V & v) : json_type(array_type(v.begin(), v.end())) {}
+  JSON(const V& v) : JSON(array(v.begin(), v.end())) {}
 
-  // This prevents Json(some_pointer) from accidentally producing a bool. Use
-  // Json(bool(some_pointer)) if that behavior is desired.
-  json_type(void *) = delete;
+  /* This prevents JSON(some_pointer) from accidentally producing a bool.
+   * Use JSON(bool(some_pointer)) if that behavior is desired. */
+  JSON(void*) = delete;
 
-  // Accessors
   Type type() const;
 
   bool is_null()   const { return type() == NUL; }
@@ -77,293 +176,29 @@ public:
   double number_value() const;
   int int_value() const;
   bool bool_value() const;
-  const string_type& string_value() const;
-  const array_type& array_items() const;
-  const object_type& object_items() const;
-  const json_type & operator[](size_t i) const;
-  const json_type & operator[](const std::string& key) const;
+  const string& string_value() const;
+  const array& array_items() const;
+  const object& object_items() const;
+  const JSON& operator[](size_t i) const;
+  const JSON& operator[](const std::string& key) const;
 
-  bool operator==(const json_type& other) const;
-  bool operator<(const json_type& other) const;
-
-  bool operator!=(const json_type& rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator<=(const json_type& rhs) const {
-    return !(rhs < *this);
-  }
-
-  bool operator>(const json_type& rhs) const {
-    return (rhs < *this);
-  }
-
-  bool operator>=(const json_type& rhs) const {
-    return !(*this < rhs);
-  }
-
-  std::string dump() const {
-    std::string out;
-    dump(out);
-    return out;
-  }
+  bool operator==(const JSON& other) const;
+  bool operator<(const JSON& other) const;
+  bool operator!=(const JSON& rhs) const;
+  bool operator<=(const JSON& rhs) const;
+  bool operator>(const JSON& rhs) const;
+  bool operator>=(const JSON& rhs) const;
 
   void dump(std::string& out) const;
 
-  json_type parse(const std::string& in, std::string& err);
-
-  std::vector<json_type> parse_multi(const std::string& in, std::string& err);
+  std::string dump() const;
 
 private:
   std::shared_ptr<json_value> _ptr;
 };
 
 
-class json_value {
-public:
-  friend class json_type;
-  friend class json_int;
-  friend class json_double;
-
-  virtual ~json_value() {}
-
-  virtual json_type::Type type() const = 0;
-
-  virtual bool equals(const json_value*) const = 0;
-  virtual bool less(const json_value*) const = 0;
-  virtual void dump(std::string&) const = 0;
-
-  virtual double number_value() const;
-  virtual int int_value() const;
-  virtual bool bool_value() const;
-  virtual const json_type::string_type& string_value() const;
-  virtual const json_type::array_type& array_items() const;
-  virtual const json_type::object_type& object_items() const;
-  virtual const json_type& operator[](size_t) const;
-  virtual const json_type& operator[](const std::string&) const;
-};
-
-
-template<json_type::Type tag, typename T>
-class json_value_core {
-protected:
-  json_value_core(const T& value) : _value(value) {}
-  json_value_core(T&& value) : _value(std::move(value)) {}
-
-  T value() const {
-    return _value;
-  }
-
-  json_type::Type type() const {
-    return tag;
-  }
-
-  virtual bool equals(const json_value* other) const {
-    return value() == reinterpret_cast<const json_value_core<tag, T>*>(other)->value();
-  }
-
-  virtual bool less(const json_value* other) const {
-    return value() < reinterpret_cast<const json_value_core<tag, T>*>(other)->value();
-  }
-
-  void dump(std::string& out) const {
-    //sneaker::json::dump(_value, out);
-  }
-
-  const T _value;
-};
-
-
-class json_double final : public json_value_core<json_type::Type::NUMBER, double> {
-public:
-  json_double(double value) : json_value_core(value) {}
-
-  double number_value() const {
-    return value();
-  }
-
-  int int_value() const {
-    return value();
-  }
-
-  virtual bool equals(const json_value& other) const {
-    return value() == other.number_value();
-  }
-
-  virtual bool less(const json_value& other) const {
-    return value() < other.number_value();
-  }
-
-  void dump(std::string& out) const {
-    char buf[32];
-    snprintf(buf, sizeof buf, "%.17g", value());
-    out += buf;
-  }
-};
-
-
-class json_int final : public json_value_core<json_type::Type::NUMBER, int> {
-public:
-  json_int(double value) : json_value_core(value) {}
-
-  double number_value() const {
-    return value();
-  }
-
-  int int_value() const {
-    return value();
-  }
-
-  virtual bool equals(const json_value& other) const {
-    return value() == other.number_value();
-  }
-
-  virtual bool less(const json_value& other) const {
-    return value() < other.number_value();
-  }
-
-  void dump(std::string &out) const {
-    char buf[32];
-    snprintf(buf, sizeof buf, "%d", value());
-    out += buf;
-  }
-};
-
-
-class json_boolean final : public json_value_core<json_type::Type::BOOL, bool> {
-public:
-  json_boolean(bool value) : json_value_core(value) {}
-
-  bool bool_value() const {
-    return value();
-  }
-
-  void dump(std::string& out) {
-    out += value() ? "true" : "false";
-  }
-};
-
-
-class json_string final : public json_value_core<json_type::Type::STRING, std::string> {
-public:
-  json_string(const std::string& value) : json_value_core(value) {}
-  json_string(std::string&& value) : json_value_core(std::move(value)) {}
-
-  const std::string string_value() const {
-    return value();
-  }
-
-  void dump(std::string& out) {
-    out += '"';
-
-    for(auto i = 0; i < value().length(); i++) {
-      const char ch = value()[i];
-
-      if(ch == '\\') {
-        out += "\\\\";
-      } else if(ch == '"') {
-        out += "\\\"";
-      } else if(ch == '\b') {
-        out += "\\b";
-      } else if(ch == '\f') {
-        out += "\\f";
-      } else if(ch == '\n') {
-        out += "\\n";
-      } else if(ch == '\r') {
-        out += "\\r";
-      } else if(ch == '\t') {
-        out += "\\t";
-      } else if((uint8_t)ch <= 0x1f) {
-        char buf[8];
-        snprintf(buf, sizeof buf, "\\u%04x", ch);
-        out += buf;
-      } else if((uint8_t)ch == 0xe2 && (uint8_t)value()[i+1] == 0x80 && (uint8_t)value()[i+2] == 0xa8) {
-        out += "\\u2028";
-        i += 2;
-      } else if((uint8_t)ch == 0xe2 && (uint8_t)value()[i+1] == 0x80 && (uint8_t)value()[i+2] == 0xa9) {
-        out += "\\u2029";
-        i += 2;
-      } else {
-        out += ch;
-      }
-    } /* end `for (auto i = 0; i < value().length(); i++)` */
-
-    out += '"';
-  }
-};
-
-
-class json_array final : public json_value_core<json_type::Type::ARRAY, json_type::array_type> {
-public:
-  json_array(const json_type::array_type& value) : json_value_core(value) {}
-  json_array(const json_type::array_type&& value) : json_value_core(std::move(value)) {}
-
-  const json_type::array_type array_items() const {
-    value();
-  }
-
-  const json_type& operator[](size_t i) const;
-
-  void dump(std::string& out) {
-    bool first = true;
-    out += "[";
-    for(auto &value_ : value()) {
-      if (!first) {
-        out += ", ";
-      }
-
-      value_.dump(out);
-
-      first = false;
-    }
-    out += "]";
-  }
-};
-
-
-class json_object final : public json_value_core<json_type::Type::OBJECT, json_type::object_type> {
-public:
-  json_object(const json_type::object_type &value) : json_value_core(value) {}
-  json_object(json_type::object_type &&value) : json_value_core(std::move(value)) {}
-
-  const json_type::object_type object_items() const {
-    return value();
-  }
-
-  const json_type& operator[](const std::string& key) const;
-
-  void dump(std::string& out) {
-    bool first = true;
-
-    out += "{";
-
-    for(const std::pair<std::string, json_type> &kv : value()) {
-      if(!first) {
-        out += ", ";
-      }
-
-      //kv.first.dump(out);
-
-      out += ": ";
-
-      kv.second.dump(out);
-
-      first = false;
-    }
-
-    out += "}";
-  }
-};
-
-
-class json_null final : public json_value_core<json_type::Type::NUL, json_type::null_type> {
-public:
-  json_null() : json_value_core(nullptr) {}
-
-  void dump(std::string& out) {
-    out += "null";
-  }
-};
+JSON parse(const std::string& in) throw(invalid_json_error);
 
 
 } /* end namespace json */

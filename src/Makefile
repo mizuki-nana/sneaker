@@ -35,6 +35,7 @@ CC=cc
 CXX=c++
 CFLAGS=-Wall
 CXXFLAGS=-Wall -std=c++11
+CXXFLAGS_EXTRA=-Wno-overloaded-virtual
 AR=ar
 ARFLAGS=rvs
 
@@ -66,7 +67,7 @@ io:
 
 .PHONY: json
 json:
-	-cd $(JSON) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) -c $$f); done
+	-cd $(JSON) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(CXXFLAGS_EXTRA) -c $$f); done
 
 .PHONY: testing
 testing:

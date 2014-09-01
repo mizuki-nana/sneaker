@@ -22,6 +22,7 @@
 
 CXX=c++
 CXXFLAGS=-Wall -std=c++11
+CXXFLAGS_EXTRA=-Wno-overloaded-virtual
 
 LIBGTEST=/usr/lib/libgtest.a
 
@@ -100,7 +101,7 @@ functional:
 
 .PHONY: json
 json:
-	-cd $(JSON) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(LIBRARIES) $$f $(LFLAGS) -o $$f.test); done
+	-cd $(JSON) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(CXXFLAGS_EXTRA) $(LIBRARIES) $$f $(LFLAGS) -o $$f.test); done
 
 .PHONY: threading
 threading:
