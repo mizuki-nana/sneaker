@@ -11,7 +11,7 @@ Storage containers of objects that serve a broad range of purposes.
 Container types that store objects on a reservation-based system. Users must
 reserve spots before objects are requested to be stored in these containers.
 
-.. cpp:class:: sneaker::allocator::reservation_map<T>
+.. cpp:class:: sneaker::container::reservation_map<T>
 -----------------------------------------------------
 
   Header file: `sneaker/container/reservation_map.h`
@@ -94,7 +94,7 @@ Key-value(s) based map containers where each key can be mapped to an assortment
 of multiple values of different statically defined types.
 
 
-.. cpp:class:: sneaker::allocator::assorted_value_map<K, ... ValueTypes>
+.. cpp:class:: sneaker::container::assorted_value_map<K, ... ValueTypes>
 ------------------------------------------------------------------------
 
   An implementation of assorted-values map container based on `std::map`.
@@ -369,7 +369,7 @@ of multiple values of different statically defined types.
     to `cend()`.
 
 
-.. cpp:class:: sneaker::allocator::unordered_assorted_value_map<K, ... ValueTypes>
+.. cpp:class:: sneaker::container::unordered_assorted_value_map<K, ... ValueTypes>
 ----------------------------------------------------------------------------------
 
   An implementation of assorted-values map container based on `std::unordered_map`.

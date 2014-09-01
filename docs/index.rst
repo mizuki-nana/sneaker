@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-sneaker v0.2.2 documentation
+sneaker v0.2.3 documentation
 ============================
 
 Overview
@@ -25,7 +25,7 @@ to users.
 In addition, the design of many components are heavily inspired from features
 and models from other high level programming languages that are either absent or
 not first-class citizens in the C++ world, such as the use of scoped context
-management, which is a prevalent feature in Python.
+management and function decorators, which are all prevalent features in Python.
 
 
 Get Started
@@ -54,6 +54,7 @@ Content
    src/functional
    src/io
    src/threading
+   src/algorithm
 
 
 Compilation Environment
@@ -62,7 +63,7 @@ Compilation Environment
 OS X
 
 * Operating System:
-  `OS X 10.9.2 (13C64)`
+  `OS X 10.9.4 (13E28)`
 * Compiler:
   `Apple LLVM version 5.1 (clang-503.0.38) (based on LLVM 3.4svn) Target: x86_64-apple-darwin13.1.0 Thread model: posix`
 * Build tool:
@@ -86,7 +87,7 @@ Dependencies
 ------------
 
 * boost
-   `Version 1.53`
+   `Version 1.55`
 * googletest
    `Version 1.6.0`
 
