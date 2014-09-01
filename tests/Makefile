@@ -39,9 +39,10 @@ CACHE=./cache/
 CONTAINER=./container/
 CONTEXT=./context/
 FUNCTIONAL=./functional/
+JSON=./json/
 THREADING=./threading/
 
-SUBDIRS=$(LIBC) $(IO) $(ALGORITHM) $(ALLOCATOR) $(ATOMIC) $(CACHE) $(CONTAINER) $(CONTEXT) $(FUNCTIONAL) $(THREADING)
+SUBDIRS=$(LIBC) $(IO) $(ALGORITHM) $(ALLOCATOR) $(ATOMIC) $(CACHE) $(CONTAINER) $(CONTEXT) $(FUNCTIONAL) $(JSON) $(THREADING)
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Linux)
@@ -96,6 +97,10 @@ context:
 .PHONY: functional
 functional:
 	-cd $(FUNCTIONAL) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(LIBRARIES) $$f $(LFLAGS) -o $$f.test); done
+
+.PHONY: json
+json:
+	-cd $(JSON) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(LIBRARIES) $$f $(LFLAGS) -o $$f.test); done
 
 .PHONY: threading
 threading:

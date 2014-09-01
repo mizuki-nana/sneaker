@@ -40,6 +40,7 @@ ARFLAGS=rvs
 
 LIBC=./libc/
 IO=./io/
+JSON=./json/
 TESTING=./testing/
 THREADING=./threading/
 
@@ -63,6 +64,10 @@ libc:
 io:
 	-cd $(IO) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) -c $$f); done
 
+.PHONY: json
+json:
+	-cd $(JSON) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) -c $$f); done
+
 .PHONY: testing
 testing:
 	-cd $(TESTING) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) -c $$f); done
@@ -72,7 +77,7 @@ threading:
 	-cd $(THREADING) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) -c $$f); done
 
 .PHONY: all
-all: libc io testing threading
+all: libc io json testing threading
 
 .PHONY: clean
 clean:
