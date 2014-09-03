@@ -1,12 +1,12 @@
-****************
-2. STL Allocator
-****************
+*************
+STL Allocator
+*************
 
 Components responsible for memory allocation and deallocation for STL containers.
 
 
-2.1 Allocation Policy
-=====================
+Allocation Policy
+=================
 
 Abstraction that encapsulates the logic to allocate and deallocate memory.
 
@@ -140,8 +140,8 @@ Header file: `sneaker/allocator/alloc_policy.h`
     and a different type. Returns `true` by default.
 
 
-2.2 Object Traits
-=================
+Object Traits
+=============
 
 Abstraction that control the construction and destruction of the encapsulating type.
 
@@ -211,8 +211,8 @@ Header file: `sneaker/allocator/object_traits.h`
     instance of the encapsulating type.
 
 
-2.3 Allocator
-=============
+Allocator
+=========
 
 Abstraction that's responsible for allocating and deallocating memory used by
 STL containers.

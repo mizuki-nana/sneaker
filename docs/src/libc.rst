@@ -1,13 +1,13 @@
-**************
-1. C Utilities
-**************
+***********
+C Utilities
+***********
 
 
 Types, functions and data structures in C.
 
 
-1.1 Array
-=========
+Array
+=====
 
 Array abstraction that can dynamically increase and shrink capacity.
 
@@ -71,8 +71,8 @@ Header file: `sneaker/libc/vector.h`
     `vector_t` specified.
 
 
-1.2 Bitmap
-==========
+Bitmap
+======
 
 Two-dimensional bitmap abstraction.
 
@@ -142,8 +142,8 @@ Header file: `sneaker/libc/bitmap.h`
     Sets every bit in the `bitmap_t` specified to `0`.
 
 
-1.3 C-String Types
-==================
+C-String Types
+==============
 
 Short-hand notations for C-String types.
 
@@ -161,7 +161,7 @@ Header file: `sneaker/libc/cstr.h`
   typedef of `const char*`
 
 
-1.4 Standard Library Functions
+Standard Library Functions
 ==============================
 
 Standard functions in C that might not be available in some compilers.
@@ -193,8 +193,8 @@ Header file: `sneaker/libc/cutils.h`
   numerical digits as possible, and interprets them as a numerical value.
 
 
-1.5 Dictionary
-==============
+Dictionary
+==========
 
 A dictionary implementation with C-string typed keys, based on the
 :c:func:`hashmap_t` implementation.
@@ -236,8 +236,8 @@ Header file: `sneaker/libc/dict.h`
     otherwise.
 
 
-1.6 Hashing
-===========
+Hashing
+=======
 
 Hashing algorithms.
 
@@ -271,8 +271,8 @@ Header file: `sneaker/libc/hash.h`
   "Robert Jenkin" algorithm.
 
 
-1.7 Hash Map
-============
+Hash Map
+========
 
 A hash map implementation that offers near constant-time lookups and inserts.
 
@@ -390,8 +390,8 @@ Header file: `sneaker/libc/hashmap.h`
     Returns `1` if they are considered equal, `0` otherwise.
 
 
-1.8 Math
-========
+Math
+====
 
 General functions for mathematical computations.
 
@@ -410,8 +410,8 @@ Header file: `sneaker/libc/math.h`
 
 
 
-1.9 Queue
-=========
+Queue
+=====
 
 A FIFO storage container.
 
@@ -463,8 +463,8 @@ Header file: `sneaker/libc/queue.h`
     Frees memory from the pointer of an instance of `queue_t` specified.
 
 
-1.10 Stack
-==========
+Stack
+=====
 
 A FILO storage container.
 
@@ -510,8 +510,8 @@ Header file: `sneaker/libc/stack.h`
     Frees memory from the pointer of an instance of `stack_t` specified.
 
 
-1.11 String Buffer
-==================
+String Buffer
+=============
 
 A C-string buffer abstraction that can dynamically change capacity.
 
@@ -560,8 +560,8 @@ Header file: `sneaker/libc/strbuf.h`
     if the append is successful, `0` otherwise.
 
 
-1.12 String Manipulation
-========================
+String Manipulation
+===================
 
 String manipulation functions.
 
@@ -606,8 +606,8 @@ Header file: `sneaker/libc/strutils.h`
   string.
 
 
-1.13 General Utilities
-======================
+General Utilities
+=================
 
 General utility functions.
 
@@ -686,8 +686,8 @@ Header file: `sneaker/libc/utils.h`
   Generates a string of Lorem Ipsum of arbitrary length.
 
 
-1.14 Universally Unique Identifier
-==================================
+Universally Unique Identifier
+=============================
 
 A 128-bits implementation of UUID.
 

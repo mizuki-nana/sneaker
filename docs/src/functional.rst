@@ -1,13 +1,13 @@
-**************************
-7. Functional Abstractions
-**************************
+***********************
+Functional Abstractions
+***********************
 
 These functional abstractions improve the incompatibilites and
 interoperabilities between function pointers, functors and lambdas.
 
 
-7.1 Function abstractions
-=========================
+Function abstractions
+=====================
 
 Function abstractions that offer interoperabilities between
 function pointers, functors and lambdas, as well as asynchronous
@@ -95,8 +95,8 @@ functors and lambdas whose signatures take a list of statically typed arguments,
 and has a return type of `bool`.
 
 
-7.2 Decorators
-==============
+Decorators
+==========
 
 Function abstractions that facilitate the use of the decorator pattern. These decorators
 provide a higher level of operations on top of the encapsulating functions without having

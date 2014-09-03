@@ -1,6 +1,6 @@
-*********************
-6. Context Management
-*********************
+******************
+Context Management
+******************
 
 Components that faciliate automatic context management.
 

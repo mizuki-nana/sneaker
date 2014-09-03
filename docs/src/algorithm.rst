@@ -1,13 +1,13 @@
-**************
-10. Algorithms
-**************
+**********
+Algorithms
+**********
 
 Implementations of advanced algorithms that are handy for solving
 frequently encountered problems.
 
 
-10.1 Tarjan's Strongly Connected Graph Algorithm
-================================================
+Tarjan's Strongly Connected Graph Algorithm
+===========================================
 
 Abstraction that implements Tarjan's Strongly Connected Graph Algorithm.
 

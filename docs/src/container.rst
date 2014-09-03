@@ -1,12 +1,12 @@
-*************
-5. Containers
-*************
+**********
+Containers
+**********
 
 Storage containers of objects that serve a broad range of purposes.
 
 
-5.1 Reservation-based Containers
-================================
+Reservation-based Containers
+============================
 
 Container types that store objects on a reservation-based system. Users must
 reserve spots before objects are requested to be stored in these containers.
@@ -87,8 +87,8 @@ reserve spots before objects are requested to be stored in these containers.
     obtained are no longer valid.
 
 
-5.2 Assorted-values Map Containers
-==================================
+Assorted-values Map Containers
+==============================
 
 Key-value(s) based map containers where each key can be mapped to an assortment
 of multiple values of different statically defined types.

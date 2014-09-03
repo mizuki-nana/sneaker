@@ -1,6 +1,6 @@
-******
-8. I/O
-******
+***
+I/O
+***
 
 Components that faciliates I/O operations.
 

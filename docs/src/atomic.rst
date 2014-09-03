@@ -1,12 +1,12 @@
-***************
-3. Atomic Types
-***************
+************
+Atomic Types
+************
 
 Atomic types and helpers.
 
 
-3.1 Atomic Incrementor
-======================
+Atomic Incrementor
+==================
 
 An abstraction that encapsulates the logic to handle
 atomic incremental operations.
