@@ -108,7 +108,7 @@ threading:
 	-cd $(THREADING) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) $(LIBRARIES) $$f $(LFLAGS) -o $$f.test); done
 
 .PHONY: all
-all: libc io algorithm allocator atomic cache container context functional threading
+all: libc io algorithm allocator atomic cache container context functional json threading
 
 .PHONY: clean
 clean:

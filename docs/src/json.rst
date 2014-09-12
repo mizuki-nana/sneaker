@@ -1,8 +1,16 @@
-**************************************
-JSON Serialization and Deserialization
-**************************************
+****
+JSON
+****
 
-Interfaces for JSON serialization and deserialization.
+Interfaces for manipulating, validating and conversating data in JSON format.
+
+
+
+JSON Serialization and Deserialization
+======================================
+
+JSON data object abstraction, and interfaces for JSON serialization and
+deserialization.
 
 This module provides a set of interfaces for interacting with raw JSON data,
 and converting that data into data objects, and vice versa.
@@ -63,11 +71,6 @@ Here is an example of parsing a JSON blob into its corresponding data object.
 
   std::cout << json.dump() << std::endl;
 
-
-JSON
-====
-
-JSON data object abstraction.
 
 Header file: `sneaker/json/json.h`
 
@@ -307,3 +310,100 @@ Header file: `sneaker/json/json.h`
     :noindex:
 
     Serializes the JSON data object and returns the result string.
+
+
+JSON Schema Validation
+======================
+
+
+Interface for validating JSON blobs using JSON schemas.
+
+
+The validation mechanisms are implemented based on the JSON Schema Validation
+specification. More information can be found at:
+
+  http://json-schema.org/documentation.html
+
+The current implementation does not support all the features mentioned in
+the spec, although quite exhaustive. More features will be supported in
+future versions.
+
+Example:
+
+.. code-block:: cpp
+
+  #include <string>
+  #include <sneaker/json/json.h>
+  #include <sneaker/json/json_schema.h>
+
+  using namespace sneaker::json;
+
+  const std::string json_str = "{"
+    "\"name\": \"Tomiko Van\","
+    "\"age\": 28,"
+    "\"interests\": ["
+      "music",
+      "swimming,"
+      "reading"
+    "],"
+    "\"married\": false,"
+    "\"languages\": {"
+      "\"Japanese\": \"fluent\","
+      "\"Chinese\": \"beginner\","
+      "\"English\": \"fluent\""
+    "}"
+  "}";
+
+  const std::string schema_str = "{"
+    "\"type\": \"object\","
+    "\"properties\": {"
+      "\"name\": {"
+        "\"type\": \"string\","
+        "\"maxLength\": 50"
+      "},"
+      "\"age\": {"
+        "\"type\": \"number\","
+        "\"minimum\": 0,"
+        "\"maximum\": 120"
+      "},"
+      "\"married\": {"
+        "\"type\": \"boolean\""
+      "},"
+      "\"interests\": {"
+        "\"type\": \"array\","
+        "\"uniqueItems\": ["
+          "\"music\","
+          "\"dancing\","
+          "\"swimming\","
+          "\"reading\""
+        "]"
+      "},"
+      "\"languages\": {"
+        "\"type\": \"object\""
+      "}"
+    "}"
+  "}";
+
+  JSON json = sneaker::json::parse(json_str);
+  JSON schema = sneaker::json::parse(schema_str);
+
+  sneaker::json::json_schema::validate(json, schema);
+
+
+.. cpp:class:: sneaker::json::json_validation_error
+---------------------------------------------------
+
+  Error thrown when parsing an JSON schema validation fails.
+
+
+.. cpp:function:: sneaker::json::json_schema::validate(const JSON&, const JSON&) throw(json_validation_error)
+-------------------------------------------------------------------------------------------------------------
+
+  Interface for validating a JSON blob with a specified JSON schema. The first
+  argument is the JSON blob to be validated, and the second argument is the
+  JSON schema. The JSON schema passed in must be valid, as no validation
+  is performed on the schema object itself, and an invalid schema will cause
+  undefined behaviors during validation.
+
+  If validation is successful, nothing happens. Otherwise an instance of
+  `json_validation_error` is thrown.

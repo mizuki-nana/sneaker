@@ -33,7 +33,7 @@ management and function decorators, which are all prevalent features in Python.
 * `container` - _versatile data structures_
 * `context` - _context management_
 * `functional` - _versatile function wrappers that support asynchronous invocations_
-* `json` - _JSON serialization and deserialization_
+* `json` - _JSON serialization, deserialization and validation_
 * `threading` - _thread management and daemons_
 
 
@@ -50,7 +50,7 @@ Install
 
 
 ## Version
-`version 0.2.4`
+`version 0.2.5`
 
 
 ## Documentation
