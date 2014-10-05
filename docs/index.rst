@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-sneaker v0.2.4 documentation
+sneaker v0.2.6 documentation
 ============================
 
 Overview
@@ -64,20 +64,20 @@ Compilation Environment
 OS X
 
 * Operating System:
-  `OS X 10.9.4 (13E28)`
+  `OS X 10.9.5 (13F34)`
 * Compiler:
-  `Apple LLVM version 5.1 (clang-503.0.38) (based on LLVM 3.4svn) Target: x86_64-apple-darwin13.1.0 Thread model: posix`
+  `Apple LLVM version 5.1 (clang-503.0.40) (based on LLVM 3.4svn) Target: x86_64-apple-darwin13.4.0 Thread model: posix`
 * Build tool:
-  `GNU Make 3.81 built for i386-apple-darwin11.3.0`
+  `GNU Make 3.81 built for i386-apple-darwin13.4.0`
 * Sphinx:
   `Sphinx 1.2.2`
 
 Debian
 
 * Operating System:
-  `Linux 3.8.0-29-generic #42~precise1-Ubuntu x86_64 GNU/Linux (Ubuntu 12.04.4 LTS)`
+  `Linux 3.8.0-29-generic #42~precise1-Ubuntu SMP x86_64 GNU/Linux (Ubuntu 14.04.1 LTS)`
 * Compiler:
-  `Ubuntu clang version 3.2-1~exp9ubuntu1~precise1 (tags/RELEASE_32/final) (based on LLVM 3.2) Target: x86_64-pc-linux-gnu Thread model: posix`
+  `Ubuntu clang version 3.4-1ubuntu3 (tags/RELEASE_34/final) (based on LLVM 3.4) Target: x86_64-pc-linux-gnu Thread model: posix`
 * Build tool:
   `GNU Make 3.81 This program built for x86_64-pc-linux-gnu`
 * Sphinx:

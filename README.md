@@ -50,7 +50,7 @@ Install
 
 
 ## Version
-`version 0.2.5`
+`version 0.2.6`
 
 
 ## Documentation
@@ -80,7 +80,7 @@ Operating System:<br/>
 `Linux 3.8.0-29-generic #42~precise1-Ubuntu SMP x86_64 GNU/Linux (Ubuntu 14.04.1 LTS)`
 
 Compiler:<br/>
-`Ubuntu clang version 3.2-1~exp9ubuntu1~precise1 (tags/RELEASE_32/final) (based on LLVM 3.2)
+`Ubuntu clang version 3.4-1ubuntu3 (tags/RELEASE_34/final) (based on LLVM 3.4)
 Target: x86_64-pc-linux-gnu
 Thread model: posix`
 
