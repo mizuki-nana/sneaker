@@ -1102,6 +1102,126 @@ TEST_F(json_schema_object_type_unittest, TestMissingRequired)
   this->validate_and_check_result(data, schema, "");
 }
 
+TEST_F(json_schema_object_type_unittest, TestPropertyDependencies)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"name\": \"Tomiko Van\","
+      "\"age\": 24"
+    "}"
+  );
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"object\","
+      "\"properties\": {"
+        "\"name\": {"
+          "\"type\": \"string\""
+        "},"
+        "\"age\": {"
+          "\"type\": \"integer\""
+        "}"
+      "},"
+      "\"dependencies\": {"
+        "\"age\": ["
+          "\"name\""
+        "]"
+      "}"
+    "}"
+  );
+
+  this->validate_and_check_result(data, schema);
+}
+
+TEST_F(json_schema_object_type_unittest, TestMissingPropertyDependencies)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"age\": 24"
+    "}"
+  );
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"object\","
+      "\"properties\": {"
+        "\"age\": {"
+          "\"type\": \"integer\""
+        "}"
+      "},"
+      "\"dependencies\": {"
+        "\"age\": ["
+          "\"name\""
+        "]"
+      "}"
+    "}"
+  );
+
+  this->validate_and_check_result(data, schema, "");
+}
+
+TEST_F(json_schema_object_type_unittest, TestSchemaDependencies)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"name\": \"Tomiko Van\","
+      "\"age\": 24"
+    "}"
+  );
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"object\","
+      "\"properties\": {"
+        "\"age\": {"
+          "\"type\": \"integer\""
+        "}"
+      "},"
+      "\"dependencies\": {"
+        "\"age\": {"
+          "\"type\": \"object\","
+          "\"properties\": {"
+            "\"name\": {"
+              "\"type\": \"string\""
+            "}"
+          "}"
+        "}"
+      "}"
+    "}"
+  );
+
+  this->validate_and_check_result(data, schema);
+}
+
+TEST_F(json_schema_object_type_unittest, TestInvalidSchemaDependencies)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"name\": [\"Tomiko Van\"],"
+      "\"age\": 24"
+    "}"
+  );
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"object\","
+      "\"properties\": {"
+        "\"age\": {"
+          "\"type\": \"integer\""
+        "}"
+      "},"
+      "\"dependencies\": {"
+        "\"age\": {"
+          "\"type\": \"object\","
+          "\"properties\": {"
+            "\"name\": {"
+              "\"type\": \"string\""
+            "}"
+          "}"
+        "}"
+      "}"
+    "}"
+  );
+
+  this->validate_and_check_result(data, schema, "");
+}
+
 
 class json_schema_keyword_unittest : public json_schema_unittest {
 protected:
@@ -1306,6 +1426,49 @@ TEST_F(json_schema_not_keyword_unittest, TestValidationFailed)
       "\"items\": ["
         "{"
           "\"not\": { \"type\": \"string\" }"
+        "}"
+      "]"
+    "}"
+  );
+
+  this->validate_and_check_result(json_schema_keyword_unittest::data, schema, "");
+}
+
+class json_schema_enum_keyword_unittest : public json_schema_keyword_unittest {};
+
+
+TEST_F(json_schema_enum_keyword_unittest, TestValidationSuccessful)
+{
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"array\","
+      "\"items\": ["
+        "{"
+          "\"type\": \"string\","
+          "\"enum\": ["
+            "\"Sup world\","
+            "\"Hello world\""
+          "]"
+        "}"
+      "]"
+    "}"
+  );
+
+  this->validate_and_check_result(json_schema_keyword_unittest::data, schema);
+}
+
+TEST_F(json_schema_enum_keyword_unittest, TestValidationFailed)
+{
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"array\","
+      "\"items\": ["
+        "{"
+          "\"type\": \"string\","
+          "\"enum\": ["
+            "\"Sup world\","
+            "\"world hello\""
+          "]"
         "}"
       "]"
     "}"

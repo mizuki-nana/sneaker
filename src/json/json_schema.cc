@@ -20,6 +20,7 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
+
 #include <cassert>
 #include <cmath>
 #include <regex>
@@ -172,6 +173,58 @@ const json_validator_meta::map_type json_validator_meta::type_to_validator_map {
 };
 
 
+class json_schema_keyword_validator {
+public:
+  virtual void validate(const JSON&, const JSON::object&) const = 0;
+};
+
+class json_schema_allOf_keyword_validator : public json_schema_keyword_validator {
+public:
+  virtual void validate(const JSON&, const JSON::object&) const throw(json_validation_error);
+};
+
+class json_schema_anyOf_keyword_validator : public json_schema_keyword_validator {
+public:
+  virtual void validate(const JSON&, const JSON::object&) const throw(json_validation_error);
+};
+
+class json_schema_oneOf_keyword_validator : public json_schema_keyword_validator {
+public:
+  virtual void validate(const JSON&, const JSON::object&) const throw(json_validation_error);
+};
+
+class json_schema_not_keyword_validator : public json_schema_keyword_validator {
+public:
+  virtual void validate(const JSON&, const JSON::object&) const throw(json_validation_error);
+};
+
+class json_schema_enum_keyword_validator : public json_schema_keyword_validator {
+public:
+  virtual void validate(const JSON&, const JSON::object&) const throw(json_validation_error);
+};
+
+
+struct json_schema_keyword_validator_wrapper {
+  const json_schema_keyword_validator* validator;
+};
+
+
+class json_schema_keyword_validator_meta {
+public:
+  using map_type = std::unordered_map<std::string, json_schema_keyword_validator_wrapper>;
+
+  static const map_type keyword_to_validator_map;
+};
+
+const json_schema_keyword_validator_meta::map_type json_schema_keyword_validator_meta::keyword_to_validator_map {
+  {"allOf", {.validator=new json_schema_allOf_keyword_validator()}},
+  {"anyOf", {.validator=new json_schema_anyOf_keyword_validator()}},
+  {"oneOf", {.validator=new json_schema_oneOf_keyword_validator()}},
+  {"not", {.validator=new json_schema_not_keyword_validator()}},
+  {"enum", {.validator=new json_schema_enum_keyword_validator()}},
+};
+
+
 } /* end namespace json */
 
 
@@ -199,14 +252,15 @@ sneaker::json::json_schema::validate(const JSON& data, const JSON& schema)
 {
   const JSON::object& schema_object = schema.object_items();
 
-  if(schema_object.find("allOf") != schema_object.end()) {
-    sneaker::json::json_schema::validate_allOf(data, schema_object);
-  } else if(schema_object.find("anyOf") != schema_object.end()) {
-    sneaker::json::json_schema::validate_anyOf(data, schema_object);
-  } else if(schema_object.find("oneOf") != schema_object.end()) {
-    sneaker::json::json_schema::validate_oneOf(data, schema_object);
-  } else if(schema_object.find("not") != schema_object.end()) {
-    sneaker::json::json_schema::validate_not(data, schema_object);
+  auto keyword_to_validator_map = json_schema_keyword_validator_meta::keyword_to_validator_map;
+  for(auto itr = keyword_to_validator_map.begin(); itr != keyword_to_validator_map.end(); itr++) {
+    std::string keyword = itr->first;
+    auto validator_wrapper = itr->second;
+
+    if(schema_object.find(keyword) != schema_object.end()) {
+      auto validator = validator_wrapper.validator;
+      validator->validate(data, schema_object);
+    }
   }
 
   if(schema_object.find("type") == schema_object.end()) {
@@ -221,8 +275,8 @@ sneaker::json::json_schema::validate(const JSON& data, const JSON& schema)
 }
 
 void
-sneaker::json::json_schema::validate_allOf(
-  const JSON& data, const JSON::object& schema_object) throw(json_validation_error)
+sneaker::json::json_schema_allOf_keyword_validator::validate(
+  const JSON& data, const JSON::object& schema_object) const throw(json_validation_error)
 {
   const JSON::array& schemas = schema_object.at("allOf").array_items(); 
 
@@ -248,8 +302,8 @@ sneaker::json::json_schema::validate_allOf(
 }
 
 void
-sneaker::json::json_schema::validate_anyOf(
-  const JSON& data, const JSON::object& schema_object) throw(json_validation_error)
+sneaker::json::json_schema_anyOf_keyword_validator::validate(
+  const JSON& data, const JSON::object& schema_object) const throw(json_validation_error)
 {
   const JSON::array& schemas = schema_object.at("anyOf").array_items(); 
 
@@ -278,8 +332,8 @@ sneaker::json::json_schema::validate_anyOf(
 }
 
 void
-sneaker::json::json_schema::validate_oneOf(
-  const JSON& data, const JSON::object& schema_object) throw(json_validation_error)
+sneaker::json::json_schema_oneOf_keyword_validator::validate(
+  const JSON& data, const JSON::object& schema_object) const throw(json_validation_error)
 {
   const JSON::array& schemas = schema_object.at("oneOf").array_items(); 
 
@@ -299,7 +353,7 @@ sneaker::json::json_schema::validate_oneOf(
     throw json_validation_error(
       str(
         format(
-          "Object %s is valid under less or more than one sub-schemas"
+          "Object %s is invalid under less or more than one sub-schemas"
         ) % data.dump()
       )
     );
@@ -307,8 +361,8 @@ sneaker::json::json_schema::validate_oneOf(
 } 
 
 void
-sneaker::json::json_schema::validate_not(
-  const JSON& data, const JSON::object& schema_object) throw(json_validation_error)
+sneaker::json::json_schema_not_keyword_validator::validate(
+  const JSON& data, const JSON::object& schema_object) const throw(json_validation_error)
 {
   const JSON::object& schema = schema_object.at("not").object_items(); 
 
@@ -332,14 +386,33 @@ sneaker::json::json_schema::validate_not(
 } 
 
 void
-sneaker::json::json_schema::validate_enum(
-  const JSON& data, const JSON::object& schema_object) throw(json_validation_error)
+sneaker::json::json_schema_enum_keyword_validator::validate(
+  const JSON& data, const JSON::object& schema_object) const throw(json_validation_error)
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor76
-   *
-   * TODO|SNEAKER-56: to be implemented.
    */
+  const JSON::array& enum_array = schema_object.at("enum").array_items();
+
+  bool valid = false;
+  for(auto itr = enum_array.begin(); itr != enum_array.end(); itr++) {
+    const JSON& enum_value = static_cast<const JSON>(*itr);
+
+    if(data == enum_value) {
+      valid = true;
+      break;
+    }
+  }
+
+  if(!valid) {
+    throw json_validation_error(
+      str(
+        format(
+          "Object %s is invalid under the defined enum values"
+        ) % data.dump()
+      )
+    );
+  }
 }
 
 void
@@ -349,7 +422,7 @@ sneaker::json::json_schema::validate_definitions(
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor94
    *
-   * TODO|SNEAKER-56: to be implemented.
+   * This is not supported currently. 
    */
 }
 
@@ -991,7 +1064,46 @@ sneaker::json::json_object_type_validator::validate_dependencies(
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor70
    */
-  // TODO|SNEAKER-56: to be implemented...
+  if(schema_object.find("dependencies") == schema_object.end()) {
+    return;
+  }
+
+  const JSON::object& dependencies = schema_object.at("dependencies").object_items();
+
+  for(auto itr = dependencies.begin(); itr != dependencies.end(); ++itr) {
+    const JSON::string& dependency_name = static_cast<const JSON::string>(itr->first);
+    const JSON& dependency = static_cast<const JSON>(itr->second);
+
+    if(object_value.find(dependency_name) == object_value.end()) {
+      continue;
+    }
+
+    if(dependency.is_object()) {
+      // Schema dependency
+      const JSON::object& dependency_object = dependency.object_items();
+      sneaker::json::json_schema::validate(object_value, dependency_object);
+    } else if(dependency.is_array()) {
+      // Property dependency
+      const JSON::array& dependency_array = dependency.array_items();
+
+      for(auto itr = dependency_array.begin(); itr != dependency_array.end(); ++itr) {
+        const JSON& dependency_item = static_cast<const JSON>(*itr);
+
+        const JSON::string& dependency_field = dependency_item.string_value();
+
+        // Validation
+        if(object_value.find(dependency_field) == object_value.end()) {
+          throw json_validation_error(
+            str(
+              format(
+                "Expected property %s cannot be found in object %s"
+              ) % dependency_field % JSON(object_value).dump()
+            )
+          );
+        }
+      }
+    }
+  }
 }
 
 /************************* json_string_type_validator *************************/
