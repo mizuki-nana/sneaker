@@ -84,7 +84,9 @@ sneaker::threading::fixed_time_interval_daemon_service::increment_iteration_coun
 bool
 sneaker::threading::fixed_time_interval_daemon_service::can_continue()
 {
-  return !this->_destroyed && ( this->_iteration_count < this->_max_iterations || this->_max_iterations == -1 );
+  return !this->_destroyed && (
+    static_cast<int32_t>(this->_iteration_count) < this->_max_iterations || this->_max_iterations == -1
+  );
 }
 
 void

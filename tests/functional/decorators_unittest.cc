@@ -36,9 +36,6 @@ using namespace sneaker::functional;
 class decorators_unittest : public ::testing::Test {};
 
 
-/*
- * This test currently does not work when compiled by Ubuntu clang version 3.2-1
- */
 class retry_decorator_unittest : public decorators_unittest {
 public:
   virtual void SetUp() {
@@ -52,7 +49,6 @@ int retry_decorator_unittest::counter = 0;
 
 TEST_F(retry_decorator_unittest, TestRetrySuccessful)
 {
-#ifdef DARWIN
   const int MAX_RETRY = 5;
 
   retry<void> wrapper = []() -> void {
@@ -68,12 +64,10 @@ TEST_F(retry_decorator_unittest, TestRetrySuccessful)
   wrapper.operator()<std::runtime_error, MAX_RETRY>();
 
   ASSERT_EQ(MAX_RETRY, retry_decorator_unittest::counter);
-#endif
 }
 
 TEST_F(retry_decorator_unittest, TestExceptionOnOverRetryLimit)
 {
-#ifdef DARWIN
   const int MAX_RETRY = 5;
 
   retry<void> wrapper = []() -> void {
@@ -88,24 +82,21 @@ TEST_F(retry_decorator_unittest, TestExceptionOnOverRetryLimit)
 
   const int RETRY_LIMIT = 3; // (MAX_RETRY - 2)
 
-  // TODO: use `ASSERT_THROW`.
   {
     bool thrown = false;
     try {
       wrapper.operator()<std::runtime_error, RETRY_LIMIT>();
-    } catch(...) {
+    } catch (std::runtime_error) {
       thrown = true;
     }
     ASSERT_TRUE(thrown);
   }
 
   ASSERT_EQ(RETRY_LIMIT + 1, retry_decorator_unittest::counter);
-#endif
 }
 
 TEST_F(retry_decorator_unittest, TestDecoratorChaining)
 {
-#ifdef DARWIN
   retry<std::string> inner = []() -> std::string {
     return "hello world";
   };
@@ -116,12 +107,10 @@ TEST_F(retry_decorator_unittest, TestDecoratorChaining)
   std::string actual_result = wrapper.operator()<std::runtime_error, 0>();
 
   ASSERT_EQ(expected_result, actual_result);
-#endif
 }
 
 TEST_F(retry_decorator_unittest, TestDecoratorChaining2)
 {
-#ifdef DARWIN
   retry<std::string> wrapper(
     retry<std::string>(
       []() -> std::string {
@@ -134,5 +123,4 @@ TEST_F(retry_decorator_unittest, TestDecoratorChaining2)
   std::string actual_result = wrapper.operator()<std::runtime_error, 0>();
 
   ASSERT_EQ(expected_result, actual_result);
-#endif
 }

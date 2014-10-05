@@ -280,14 +280,14 @@ sneaker::json::json_schema_allOf_keyword_validator::validate(
 {
   const JSON::array& schemas = schema_object.at("allOf").array_items(); 
 
-  int valid_count = 0;
+  JSON::array::size_type valid_count = 0;
   for(auto itr = schemas.begin(); itr != schemas.end(); itr++) {
     const JSON& schema = static_cast<const JSON>(*itr);
 
     try {
       sneaker::json::json_schema::validate(data, schema);
       valid_count++;
-    } catch (...) { // TODO: catch json_validation_error
+    } catch (const sneaker::json::json_validation_error&) {
       // Do nothing here.
     }
   }
@@ -315,7 +315,7 @@ sneaker::json::json_schema_anyOf_keyword_validator::validate(
       sneaker::json::json_schema::validate(data, schema);
       valid = true;
       break;
-    } catch (...) { // TODO: catch json_validation_error
+    } catch (sneaker::json::json_validation_error&) {
       // Do nothing here. 
     }
   }
@@ -344,7 +344,7 @@ sneaker::json::json_schema_oneOf_keyword_validator::validate(
     try {
       sneaker::json::json_schema::validate(data, schema);
       valid_count++;
-    } catch (...) { // TODO: catch json_validation_error
+    } catch (sneaker::json::json_validation_error&) {
       // Do nothing here.
     }
   }
@@ -370,7 +370,7 @@ sneaker::json::json_schema_not_keyword_validator::validate(
   try {
     sneaker::json::json_schema::validate(data, schema);
     valid = true;
-  } catch (...) { // TODO: catch json_validation_error
+  } catch (sneaker::json::json_validation_error&) {
     // Do nothing here.
   }
 
@@ -511,7 +511,7 @@ sneaker::json::json_array_type_validator::validate_additionalItems_and_items(
     }
   }
 
-  for(int i = 0; i < json_array.size(); ++i) {
+  for(JSON::array::size_type i = 0; i < json_array.size(); ++i) {
     if(i >= items.size()) {
       break;
     }
@@ -536,7 +536,7 @@ sneaker::json::json_array_type_validator::validate_maxItems(
 
   int max_items = schema_object.at("maxItems").int_value();
 
-  if(json_array.size() > max_items) {
+  if(json_array.size() > static_cast<JSON::array::size_type>(max_items)) {
     throw json_validation_error(
       str(
         format(
@@ -560,7 +560,7 @@ sneaker::json::json_array_type_validator::validate_minItems(
 
   int min_items = schema_object.at("minItems").int_value();
 
-  if(json_array.size() < min_items) {
+  if(json_array.size() < static_cast<JSON::array::size_type>(min_items)) {
     throw json_validation_error(
       str(
         format(
@@ -885,7 +885,7 @@ sneaker::json::json_object_type_validator::validate_maxProperties(
 
   int max_properties = schema_object.at("maxProperties").int_value();
 
-  if(object_value.size() > max_properties) {
+  if(object_value.size() > static_cast<JSON::object::size_type>(max_properties)) {
     throw json_validation_error(
       str(
         format(
@@ -909,7 +909,7 @@ sneaker::json::json_object_type_validator::validate_minProperties(
 
   int min_properties = schema_object.at("minProperties").int_value();
 
-  if(object_value.size() < min_properties) {
+  if(object_value.size() < static_cast<JSON::object::size_type>(min_properties)) {
     throw json_validation_error(
       str(
         format(
@@ -970,7 +970,9 @@ sneaker::json::json_object_type_validator::validate_properties(
 
   if(schema_object.find("additionalProperties") != schema_object.end()) {
     hasAdditionalProperties = true;  
-  } else if(schema_object.find("patternProperties") != schema_object.end()) {
+  }
+
+  if(schema_object.find("patternProperties") != schema_object.end()) {
     hasPatternProperties = true;
   }
 
@@ -1000,7 +1002,7 @@ sneaker::json::json_object_type_validator::validate_properties(
 
       sneaker::json::json_schema::validate(child, property_schema);
     }
-  } else {
+  } else if(hasPatternProperties) {
     const JSON::object& pattern_properties = schema_object.at(
       "patternProperties"
     ).object_items();
@@ -1138,7 +1140,7 @@ sneaker::json::json_string_type_validator::validate_maxLength(
 
   int max_length = schema_object.at("maxLength").int_value();
 
-  if(string_value.size() > max_length) {
+  if(string_value.size() > static_cast<JSON::string::size_type>(max_length)) {
     throw json_validation_error(
       str(
         format(
@@ -1162,7 +1164,7 @@ sneaker::json::json_string_type_validator::validate_minLength(
 
   int min_length = schema_object.at("minLength").int_value();
 
-  if(string_value.size() < min_length) {
+  if(string_value.size() < static_cast<JSON::array::size_type>(min_length)) {
     throw json_validation_error(
       str(
         format(

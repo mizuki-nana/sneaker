@@ -125,10 +125,10 @@ public:
     OBJECT
   };
 
-  using string = typename std::string;
-  using array = typename std::vector<JSON>;
-  using object = typename std::map<std::string, JSON>;
-  using null = typename std::nullptr_t;
+  typedef std::string string;
+  typedef std::vector<JSON> array;
+  typedef std::map<JSON::string, JSON> object;
+  typedef std::nullptr_t null;
 
   JSON() noexcept;
   JSON(null) noexcept;

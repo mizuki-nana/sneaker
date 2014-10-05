@@ -81,8 +81,9 @@ TEST_F(atomic_incrementor_unittest, TestIncrementUntilOverflow)
     ASSERT_TRUE(i+1 == incrementor);
   }
 
-  ASSERT_ANY_THROW(
-    { ++incrementor; }
+  ASSERT_THROW(
+    { ++incrementor; },
+    std::underflow_error
   );
 }
 
@@ -95,8 +96,9 @@ TEST_F(atomic_incrementor_unittest, TestIncrementUntilUnderflow)
     ASSERT_TRUE(i+1 == incrementor);
   }
 
-  ASSERT_ANY_THROW(
-    { ++incrementor; }
+  ASSERT_THROW(
+    { ++incrementor; },
+    std::underflow_error
   );
 }
 

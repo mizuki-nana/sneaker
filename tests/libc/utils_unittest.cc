@@ -228,7 +228,7 @@ TEST_F(set_nth_bit_unittest, TestSet16thBit)
 
 TEST_F(set_nth_bit_unittest, TestSet32thBit)
 {
-  test(32, -(1 << 31));
+  test(32, (1 << 31));
 }
 
 
@@ -277,7 +277,7 @@ TEST_F(clear_nth_bit_unittest, TestClear16thBit)
 
 TEST_F(clear_nth_bit_unittest, TestClear32thBit)
 {
-  test(-(1 << 31), 32);
+  test((1 << 31), 32);
 }
 
 
@@ -334,7 +334,7 @@ TEST_F(is_bit_set_unittest, TestSetOn16thBit)
 
 TEST_F(is_bit_set_unittest, TestSetOn32thBit)
 { 
-  int val = -(1 << 31);
+  int val = (1 << 31);
   EXPECT_FALSE(is_bit_set(val, 1));
   EXPECT_FALSE(is_bit_set(val, 2));
   EXPECT_FALSE(is_bit_set(val, 4));

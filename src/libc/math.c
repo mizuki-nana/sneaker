@@ -35,7 +35,7 @@ unsigned int
 nearest_exp2_floor(unsigned int num)
 {
   double log_2 = log2(num);
-  double log_2_int = (double)((int)log2);
+  double log_2_int = (double)((int)log_2);
 
   if(log_2 - log_2_int == 0.0) {
     return num;

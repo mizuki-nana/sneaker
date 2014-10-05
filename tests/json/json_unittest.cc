@@ -129,14 +129,11 @@ class json_parse_failure_unittest : public json_parse_unittest {
 protected:
   void parse_and_assert_error(const std::string& invalid_json, const std::string& expected_err) {
     // High level parsing through `sneaker::json::parse()`.
-    ASSERT_ANY_THROW(
-      sneaker::json::parse(invalid_json);
+    ASSERT_THROW(
+      { sneaker::json::parse(invalid_json); },
+      sneaker::json::invalid_json_error
     );
 
-    // Because `sneaker::json::parse()` throws an exception on
-    // invalid JSON, and the fact that we cannot use `ASSERT_THROW` due to
-    // SNEAKER-53, the workaround to check the specific error message on
-    // different JSON blobs is to use `sneaker::json::json_parser`.
     std::string err;
     sneaker::json::json_parser parser { invalid_json, 0, err, false };
 

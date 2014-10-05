@@ -172,7 +172,7 @@ public:
   static void dump(const std::string& value, std::string& out) {
     out += '"';
 
-    for(auto i = 0; i < value.length(); i++) {
+    for(std::string::size_type i = 0; i < value.length(); i++) {
       const char ch = value[i];
 
       if(ch == '\\') {

@@ -162,25 +162,12 @@ TEST_F(assorted_value_map_with_multiple_value_types_unittest, TestAccessByInvali
 {
   ASSERT_EQ(0, _map.size());
 
-  /* The use of `ASSERT_THROW` or explicit catching
-   * `std::out_of_range` somehow causes Clang 3.2 to crash in Ubuntu 12.04.
-   * The workaround is just to test if the call will raise any exceptions.*/
-#ifdef __APPLE__
   ASSERT_THROW(
     {
       _map.at('X');
     },
     std::out_of_range
   );
-#else
-  bool thrown = false;
-  try {
-    _map.at('X');
-  } catch (...) {
-    thrown = true;
-  }
-  ASSERT_TRUE(thrown);
-#endif
 }
 
 

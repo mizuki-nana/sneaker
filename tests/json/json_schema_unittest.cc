@@ -42,10 +42,17 @@ protected:
   void validate_and_check_result(
     const JSON& data, const JSON& schema, const char* err=NULL
   ) {
-    // TODO: once SNEAKER-53 is resolved, we can actually assert that `err`
-    // is the expected error message.
     if(err) {
-      ASSERT_ANY_THROW(sneaker::json::json_schema::validate(data, schema));
+      bool thrown = false;
+
+      try {
+        sneaker::json::json_schema::validate(data, schema);
+      } catch (const sneaker::json::json_validation_error& e) {
+        ASSERT_STREQ(err, e.what());
+        thrown = true;
+      }
+
+      ASSERT_TRUE(thrown);
     } else {
       ASSERT_NO_THROW(sneaker::json::json_schema::validate(data, schema));
     }
@@ -157,7 +164,11 @@ TEST_F(json_schema_integer_type_unittest, TestViolatingMultipleOf)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, "");
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Integer value 10 is not a multiple of 4"
+  );
 }
 
 TEST_F(json_schema_integer_type_unittest, TestMaximum)
@@ -193,7 +204,11 @@ TEST_F(json_schema_integer_type_unittest, TestViolatingMaximum)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, "");
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Integer value 10 exceeds the maximum value of 9"
+  );
 }
 
 TEST_F(json_schema_integer_type_unittest, TestViolatingExclusiveMaximum)
@@ -212,7 +227,11 @@ TEST_F(json_schema_integer_type_unittest, TestViolatingExclusiveMaximum)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, "");
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Integer value 10 exceeds or equals to the maximum value of 10"
+  );
 }
 
 TEST_F(json_schema_integer_type_unittest, TestMinimum)
@@ -248,7 +267,11 @@ TEST_F(json_schema_integer_type_unittest, TestViolatingMinimum)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, "");
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Integer value 10 is less than the minimum value of 11"
+  );
 }
 
 TEST_F(json_schema_integer_type_unittest, TestViolatingExclusiveMinimum)
@@ -267,7 +290,11 @@ TEST_F(json_schema_integer_type_unittest, TestViolatingExclusiveMinimum)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, "");
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Integer value 10 is less or equal to the minimum value of 10"
+  );
 }
 
 
@@ -324,7 +351,11 @@ TEST_F(json_schema_string_type_unittest, TestViolatingMaxLength)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, "");
+  this->validate_and_check_result(
+    data,
+    schema,
+    "String Hello world exceeds maximum length of 10"
+  );
 }
 
 TEST_F(json_schema_string_type_unittest, TestMinLength)
@@ -360,7 +391,11 @@ TEST_F(json_schema_string_type_unittest, TestViolatingMinLength)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, "");
+  this->validate_and_check_result(
+    data,
+    schema,
+    "String Hello world does not meet the minimum length limit of 12"
+  );
 }
 
 TEST_F(json_schema_string_type_unittest, TestPattern)
@@ -396,7 +431,11 @@ TEST_F(json_schema_string_type_unittest, TestViolatingPatternMatching)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, "");
+  this->validate_and_check_result(
+    data,
+    schema, 
+    "String Hello world does not match to regular expression (sub)(.*)"
+  );
 }
 
 
@@ -446,7 +485,11 @@ TEST_F(json_schema_array_type_unittest, TestValidationFailed)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, ""); 
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid type for \"Hello world\""
+  ); 
 }
 
 TEST_F(json_schema_array_type_unittest, TestValidationWithItemsBeingSchemaObject)
@@ -498,7 +541,11 @@ TEST_F(json_schema_array_type_unittest, TestValidationFailedWithItemsBeingSchema
     "}"
   );
 
-  this->validate_and_check_result(data, schema, ""); 
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid type for \"Hello world\""
+  ); 
 }
 
 TEST_F(json_schema_array_type_unittest, TestAdditionalItems)
@@ -546,7 +593,11 @@ TEST_F(json_schema_array_type_unittest, TesViolatingAdditionalItems)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, ""); 
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Array [1, \"Hello world\", {}, false] contains extra items (3 items allowed)"
+  ); 
 }
 
 TEST_F(json_schema_array_type_unittest, TestMaxItems)
@@ -594,7 +645,11 @@ TEST_F(json_schema_array_type_unittest, TestViolatingMaxItems)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, ""); 
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Array [1, \"Hello world\", {}] exceeds the maximum number of items (2)"
+  ); 
 }
 
 TEST_F(json_schema_array_type_unittest, TestMinItems)
@@ -642,7 +697,11 @@ TEST_F(json_schema_array_type_unittest, TestViolatingMinItems)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, ""); 
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Array [1, \"Hello world\", {}] does not meet the minimum number of items (4)"
+  ); 
 }
 
 TEST_F(json_schema_array_type_unittest, TestUniqueItems)
@@ -690,7 +749,11 @@ TEST_F(json_schema_array_type_unittest, TestViolatingUniqueItems)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, ""); 
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Array [{}, {}, {}] does not have unique items"
+  ); 
 }
 
 
@@ -835,7 +898,11 @@ TEST_F(json_schema_object_type_unittest, TestValidationFailedWithInvalidField)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, "");
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid type for \"true\""
+  );
 }
 
 TEST_F(json_schema_object_type_unittest, TestValidationFailedWithExtraProperty)
@@ -876,7 +943,12 @@ TEST_F(json_schema_object_type_unittest, TestValidationFailedWithExtraProperty)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, "");
+  this->validate_and_check_result(
+    data,
+    schema,
+    "There are 1 properties cannot be validated in object {\"age\": 24, \"favorite color\": \"red\", \"favorite food\": \"sushi\", "
+    "\"favorite number\": 8, \"my favorite\": true, \"name\": \"Tomiko Van\"}"
+  );
 }
 
 TEST_F(json_schema_object_type_unittest, TestValidationFailedWithInvalidRegexMatchedField)
@@ -916,7 +988,11 @@ TEST_F(json_schema_object_type_unittest, TestValidationFailedWithInvalidRegexMat
     "}"
   );
 
-  this->validate_and_check_result(data, schema, "");
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid type for \"eight\""
+  );
 }
 
 TEST_F(json_schema_object_type_unittest, TestMaxProperties)
@@ -976,7 +1052,11 @@ TEST_F(json_schema_object_type_unittest, TestViolatingMaxProperties)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, "");
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Object {\"age\": 24, \"my favorite\": true, \"name\": \"Tomiko Van\"} exceeds the maximum properties number of 2"
+  );
 }
 
 TEST_F(json_schema_object_type_unittest, TestMinProperties)
@@ -1036,7 +1116,11 @@ TEST_F(json_schema_object_type_unittest, TestViolatingMinProperties)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, "");
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Object {\"age\": 24, \"my favorite\": true, \"name\": \"Tomiko Van\"} does not meet the minimum properties number of 4"
+  );
 }
 
 TEST_F(json_schema_object_type_unittest, TestRequired)
@@ -1099,7 +1183,11 @@ TEST_F(json_schema_object_type_unittest, TestMissingRequired)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, "");
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Object {\"age\": 24, \"name\": \"Tomiko Van\"} does not have unique property my favorite"
+  );
 }
 
 TEST_F(json_schema_object_type_unittest, TestPropertyDependencies)
@@ -1155,7 +1243,11 @@ TEST_F(json_schema_object_type_unittest, TestMissingPropertyDependencies)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, "");
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Expected property name cannot be found in object {\"age\": 24}"
+  );
 }
 
 TEST_F(json_schema_object_type_unittest, TestSchemaDependencies)
@@ -1219,7 +1311,11 @@ TEST_F(json_schema_object_type_unittest, TestInvalidSchemaDependencies)
     "}"
   );
 
-  this->validate_and_check_result(data, schema, "");
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid type for [\"Tomiko Van\"]"
+  );
 }
 
 
@@ -1271,7 +1367,11 @@ TEST_F(json_schema_allOf_keyword_unittest, TestValidationFailed)
     "}"
   );
 
-  this->validate_and_check_result(json_schema_keyword_unittest::data, schema, "");
+  this->validate_and_check_result(
+    json_schema_keyword_unittest::data,
+    schema,
+    "Object \"Hello world\" is not valid under all the sub-schemas"
+  );
 }
 
 
@@ -1315,7 +1415,11 @@ TEST_F(json_schema_anyOf_keyword_unittest, TestValidationFailed)
     "}"
   );
 
-  this->validate_and_check_result(json_schema_keyword_unittest::data, schema, "");
+  this->validate_and_check_result(
+    json_schema_keyword_unittest::data,
+    schema,
+    "Object \"Hello world\" is not valid under any sub-schemas"
+  );
 }
 
 
@@ -1355,7 +1459,11 @@ TEST_F(json_schema_oneOf_keyword_unittest, TestValiationFailedWithNoSubschemas)
     "}"
   );
 
-  this->validate_and_check_result(json_schema_keyword_unittest::data, schema, "");
+  this->validate_and_check_result(
+    json_schema_keyword_unittest::data,
+    schema,
+    "Object \"Hello world\" is invalid under less or more than one sub-schemas"
+  );
 }
 
 TEST_F(json_schema_oneOf_keyword_unittest, TestValiationFailedWithNoMatchingSchemas)
@@ -1375,7 +1483,11 @@ TEST_F(json_schema_oneOf_keyword_unittest, TestValiationFailedWithNoMatchingSche
     "}"
   );
 
-  this->validate_and_check_result(json_schema_keyword_unittest::data, schema, "");
+  this->validate_and_check_result(
+    json_schema_keyword_unittest::data,
+    schema,
+    "Object \"Hello world\" is invalid under less or more than one sub-schemas"
+  );
 }
 
 TEST_F(json_schema_oneOf_keyword_unittest, TestValiationFailedWithAllMatchingSchemas)
@@ -1395,7 +1507,11 @@ TEST_F(json_schema_oneOf_keyword_unittest, TestValiationFailedWithAllMatchingSch
     "}"
   );
 
-  this->validate_and_check_result(json_schema_keyword_unittest::data, schema, "");
+  this->validate_and_check_result(
+    json_schema_keyword_unittest::data,
+    schema,
+    "Object \"Hello world\" is invalid under less or more than one sub-schemas"
+  );
 }
 
 
@@ -1431,7 +1547,11 @@ TEST_F(json_schema_not_keyword_unittest, TestValidationFailed)
     "}"
   );
 
-  this->validate_and_check_result(json_schema_keyword_unittest::data, schema, "");
+  this->validate_and_check_result(
+    json_schema_keyword_unittest::data,
+    schema,
+    "Object \"Hello world\" is valid under sub-schema {\"type\": \"string\"}, but it's not supposed to be"
+  );
 }
 
 class json_schema_enum_keyword_unittest : public json_schema_keyword_unittest {};
@@ -1474,5 +1594,9 @@ TEST_F(json_schema_enum_keyword_unittest, TestValidationFailed)
     "}"
   );
 
-  this->validate_and_check_result(json_schema_keyword_unittest::data, schema, "");
+  this->validate_and_check_result(
+    json_schema_keyword_unittest::data,
+    schema,
+    "Object \"Hello world\" is invalid under the defined enum values"
+  );
 }

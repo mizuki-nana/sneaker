@@ -35,9 +35,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 unsigned long int simple_hash(c_str s) {
   unsigned long int h = 0;
-  int i;
 
-  for(i = 0; i < strlen(s); i++) {
+  for(size_t i = 0; i < strlen(s); i++) {
     h = 127 * h + s[i];
   }
 
