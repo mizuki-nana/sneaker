@@ -37,7 +37,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * http://json-schema.org/latest/json-schema-validation.html. In the current
  * version, the following sections in the spec are not supported:
  *
- * 5.5.7 Validation keywords for any instance type - definitions
  * 6. Metadata keywords
  * 7. Semantic validation with "format"
  *
@@ -130,13 +129,14 @@ public:
 class json_schema {
 public:
   static void validate(const JSON&, const JSON&) throw(json_validation_error);
+
 private:
-  static void validate_allOf(const JSON&, const JSON::object&) throw(json_validation_error);
-  static void validate_anyOf(const JSON&, const JSON::object&) throw(json_validation_error);
-  static void validate_oneOf(const JSON&, const JSON::object&) throw(json_validation_error);
-  static void validate_not(const JSON&, const JSON::object&) throw(json_validation_error);
-  static void validate_enum(const JSON&, const JSON::object&) throw(json_validation_error);
-  static void validate_definitions(const JSON&, const JSON::object&) throw(json_validation_error);
+  static void validate_allOf(const JSON&, const JSON::object&, const JSON::object&) throw(json_validation_error);
+  static void validate_anyOf(const JSON&, const JSON::object&, const JSON::object&) throw(json_validation_error);
+  static void validate_oneOf(const JSON&, const JSON::object&, const JSON::object&) throw(json_validation_error);
+  static void validate_not(const JSON&, const JSON::object&, const JSON::object&) throw(json_validation_error);
+  static void validate_enum(const JSON&, const JSON::object&, const JSON::object&) throw(json_validation_error);
+  static void validate_definitions(const JSON&, const JSON::object&, const JSON::object&) throw(json_validation_error);
 };
 
 

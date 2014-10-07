@@ -394,7 +394,7 @@ TEST_F(json_schema_string_type_unittest, TestViolatingMinLength)
   this->validate_and_check_result(
     data,
     schema,
-    "String Hello world does not meet the minimum length limit of 12"
+    "String \"Hello world\" does not meet the minimum length limit of 12"
   );
 }
 
@@ -434,7 +434,7 @@ TEST_F(json_schema_string_type_unittest, TestViolatingPatternMatching)
   this->validate_and_check_result(
     data,
     schema, 
-    "String Hello world does not match to regular expression (sub)(.*)"
+    "String \"Hello world\" does not match to regular expression (sub)(.*)"
   );
 }
 
@@ -494,23 +494,12 @@ TEST_F(json_schema_array_type_unittest, TestValidationFailed)
 
 TEST_F(json_schema_array_type_unittest, TestValidationWithItemsBeingSchemaObject)
 {
-  JSON data = sneaker::json::parse("[1, \"Hello world\", {}]");
+  JSON data = sneaker::json::parse("[1, 2, 3]");
   JSON schema = sneaker::json::parse(
     "{"
       "\"type\": \"array\","
       "\"items\": {"
-        "\"type\": \"array\","
-        "\"items\": ["
-          "{"
-            "\"type\": \"integer\""
-          "},"
-          "{"
-            "\"type\": \"string\""
-          "},"
-          "{"
-            "\"type\": \"object\""
-          "}"
-        "]"
+          "\"type\": \"integer\""
       "}"
     "}"
   );
@@ -520,26 +509,16 @@ TEST_F(json_schema_array_type_unittest, TestValidationWithItemsBeingSchemaObject
 
 TEST_F(json_schema_array_type_unittest, TestValidationFailedWithItemsBeingSchemaObject)
 {
-  JSON data = sneaker::json::parse("[1, \"Hello world\", {}]");
+  JSON data = sneaker::json::parse("[1, 2, \"Hello world\"]");
   JSON schema = sneaker::json::parse(
     "{"
       "\"type\": \"array\","
       "\"items\": {"
-        "\"type\": \"array\","
-        "\"items\": ["
-          "{"
-            "\"type\": \"integer\""
-          "},"
-          "{"
-            "\"type\": \"number\""
-          "},"
-          "{"
-            "\"type\": \"object\""
-          "}"
-        "]"
+          "\"type\": \"integer\""
       "}"
     "}"
   );
+
 
   this->validate_and_check_result(
     data,
@@ -946,7 +925,8 @@ TEST_F(json_schema_object_type_unittest, TestValidationFailedWithExtraProperty)
   this->validate_and_check_result(
     data,
     schema,
-    "There are 1 properties cannot be validated in object {\"age\": 24, \"favorite color\": \"red\", \"favorite food\": \"sushi\", "
+    "There are 1 properties cannot be validated in object "
+    "{\"age\": 24, \"favorite color\": \"red\", \"favorite food\": \"sushi\", "
     "\"favorite number\": 8, \"my favorite\": true, \"name\": \"Tomiko Van\"}"
   );
 }
@@ -1055,7 +1035,8 @@ TEST_F(json_schema_object_type_unittest, TestViolatingMaxProperties)
   this->validate_and_check_result(
     data,
     schema,
-    "Object {\"age\": 24, \"my favorite\": true, \"name\": \"Tomiko Van\"} exceeds the maximum properties number of 2"
+    "Object {\"age\": 24, \"my favorite\": true, \"name\": \"Tomiko Van\"} "
+    "exceeds the maximum properties number of 2"
   );
 }
 
@@ -1119,7 +1100,8 @@ TEST_F(json_schema_object_type_unittest, TestViolatingMinProperties)
   this->validate_and_check_result(
     data,
     schema,
-    "Object {\"age\": 24, \"my favorite\": true, \"name\": \"Tomiko Van\"} does not meet the minimum properties number of 4"
+    "Object {\"age\": 24, \"my favorite\": true, \"name\": \"Tomiko Van\"} "
+    "does not meet the minimum properties number of 4"
   );
 }
 
@@ -1186,7 +1168,8 @@ TEST_F(json_schema_object_type_unittest, TestMissingRequired)
   this->validate_and_check_result(
     data,
     schema,
-    "Object {\"age\": 24, \"name\": \"Tomiko Van\"} does not have unique property my favorite"
+    "Object {\"age\": 24, \"name\": \"Tomiko Van\"} "
+    "does not have unique property \"my favorite\""
   );
 }
 
@@ -1550,7 +1533,8 @@ TEST_F(json_schema_not_keyword_unittest, TestValidationFailed)
   this->validate_and_check_result(
     json_schema_keyword_unittest::data,
     schema,
-    "Object \"Hello world\" is valid under sub-schema {\"type\": \"string\"}, but it's not supposed to be"
+    "Object \"Hello world\" is valid under sub-schema {\"type\": \"string\"}, "
+    "but it's not supposed to be"
   );
 }
 
@@ -1599,4 +1583,178 @@ TEST_F(json_schema_enum_keyword_unittest, TestValidationFailed)
     schema,
     "Object \"Hello world\" is invalid under the defined enum values"
   );
+}
+
+
+class json_schema_ref_unittest : public json_schema_unittest {
+protected:
+  static const JSON schema;
+};
+
+const JSON json_schema_ref_unittest::schema = sneaker::json::parse(
+  "{"
+    "\"type\": \"array\","
+    "\"items\": {"
+      "\"$ref\": \"#/definitions/positiveInteger\""
+    "},"
+    "\"definitions\": {"
+      "\"positiveInteger\": {"
+        "\"type\": \"integer\","
+        "\"minimum\": 0,"
+        "\"exclusiveMinimum\": true"
+      "}"
+    "}"
+  "}"
+);
+
+
+TEST_F(json_schema_ref_unittest, TestValidationSuccessful)
+{
+  JSON data = sneaker::json::parse(
+    "[1, 2, 3]"
+  );
+
+  this->validate_and_check_result(data, json_schema_ref_unittest::schema);
+}
+
+TEST_F(json_schema_ref_unittest, TestValidationFailedExpectedly)
+{
+  JSON data = sneaker::json::parse(
+    "[1, 2, \"A\"]"
+  );
+
+  this->validate_and_check_result(
+    data,
+    json_schema_ref_unittest::schema,
+    "Invalid type for \"A\""
+  );
+}
+
+TEST_F(json_schema_ref_unittest, TestValidationFailsWithInvalidRefPath)
+{
+  JSON data = sneaker::json::parse(
+    "[1, 2, 3]"
+  );
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"array\","
+      "\"items\": {"
+        "\"$ref\": \"#/definitions/helloWorld/positiveInteger\""
+      "},"
+      "\"definitions\": {"
+        "\"positiveInteger\": {"
+          "\"type\": \"integer\","
+          "\"minimum\": 0,"
+          "\"exclusiveMinimum\": true"
+        "}"
+      "}"
+    "}"
+  );
+
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid $ref path"
+  );
+}
+
+TEST_F(json_schema_ref_unittest, TestRecursiveValidationSuccessful)
+{
+  JSON data = sneaker::json::parse(
+    "["
+        "{"
+            "\"name\": \"Tomiko Van\","
+            "\"inner\": {"
+              "\"name\": \"Tomiko Van\""
+            "}"
+        "}"
+    "]"
+  );
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"array\","
+      "\"items\": {"
+        "\"$ref\": \"#/definitions/tomiko\""
+      "},"
+      "\"definitions\": {"
+        "\"tomiko\": {"
+          "\"type\": \"object\","
+          "\"properties\": {"
+            "\"name\": {"
+              "\"type\": \"string\""
+            "},"
+            "\"inner\": {"
+              "\"$ref\": \"#/definitions/tomiko\""
+            "}"
+          "},"
+          "\"required\": [\"name\"]"
+        "}"
+      "}"
+    "}"
+  );
+
+  this->validate_and_check_result(data, schema);
+}
+
+TEST_F(json_schema_ref_unittest, TestRecursiveValidationFailed)
+{
+  JSON data = sneaker::json::parse(
+    "["
+        "{"
+            "\"name\": \"Tomiko Van\","
+            "\"inner\": {"
+              "\"age\": \"25\""
+            "}"
+        "}"
+    "]"
+  );
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"array\","
+      "\"items\": {"
+        "\"$ref\": \"#/definitions/tomiko\""
+      "},"
+      "\"definitions\": {"
+        "\"tomiko\": {"
+          "\"type\": \"object\","
+          "\"properties\": {"
+            "\"name\": {"
+              "\"type\": \"string\""
+            "},"
+            "\"inner\": {"
+              "\"$ref\": \"#/definitions/tomiko\""
+            "}"
+          "},"
+          "\"required\": [\"name\"]"
+        "}"
+      "}"
+    "}"
+  );
+
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Object {\"age\": \"25\"} does not have unique property \"name\""
+  );
+}
+
+TEST_F(json_schema_ref_unittest, TestRecursiveDefinitionToTopLevel)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"inner\": {}"
+    "}"
+  );
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"object\","
+      "\"properties\": {"
+        "\"inner\": {"
+          "\"$ref\": \"#\""
+        "}"
+      "}"
+    "}"
+  ); 
+
+  this->validate_and_check_result(data, schema);
 }

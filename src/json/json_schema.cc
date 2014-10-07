@@ -23,10 +23,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <cassert>
 #include <cmath>
+#include <list>
 #include <regex>
 #include <set>
 #include <string>
 #include <unordered_map>
+#include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 #include "../../include/json/json_schema.h"
 
@@ -55,7 +57,7 @@ class json_primitive_type_validator {
 public:
   virtual JSON::Type primitive_type() const = 0;
 
-  virtual void validate(const JSON&, const JSON&) const = 0;
+  virtual void validate(const JSON&, const JSON&, const JSON::object&) const = 0;
 protected:
   void _validate_type(const JSON&) const;
 };
@@ -67,12 +69,12 @@ public:
     return JSON::Type::ARRAY;
   }
 
-  void validate(const JSON&, const JSON&) const;
+  void validate(const JSON&, const JSON&, const JSON::object&) const;
 private:
-  void validate_additionalItems_and_items(const JSON::array&, const JSON::object&) const;
-  void validate_maxItems(const JSON::array&, const JSON::object&) const;
-  void validate_minItems(const JSON::array&, const JSON::object&) const;
-  void validate_uniqueItems(const JSON::array&, const JSON::object&) const;
+  void validate_additionalItems_and_items(const JSON::array&, const JSON::object&, const JSON::object&) const;
+  void validate_maxItems(const JSON::array&, const JSON::object&, const JSON::object&) const;
+  void validate_minItems(const JSON::array&, const JSON::object&, const JSON::object&) const;
+  void validate_uniqueItems(const JSON::array&, const JSON::object&, const JSON::object&) const;
 };
 
 class json_boolean_type_validator : public json_primitive_type_validator {
@@ -81,7 +83,7 @@ public:
     return JSON::Type::BOOL;
   }
 
-  void validate(const JSON&, const JSON&) const;
+  void validate(const JSON&, const JSON&, const JSON::object&) const;
 };
 
 class json_integer_type_validator : public json_primitive_type_validator {
@@ -90,11 +92,11 @@ public:
     return JSON::Type::NUMBER;
   }
 
-  void validate(const JSON&, const JSON&) const;
+  void validate(const JSON&, const JSON&, const JSON::object&) const;
 private:
-  void validate_multipleOf(const int&, const JSON::object&) const;
-  void validate_maximum_and_exclusiveMaximum(const int&, const JSON::object&) const;
-  void validate_minimum_and_exclusiveMinimum(const int&, const JSON::object&) const;
+  void validate_multipleOf(const int&, const JSON::object&, const JSON::object&) const;
+  void validate_maximum_and_exclusiveMaximum(const int&, const JSON::object&, const JSON::object&) const;
+  void validate_minimum_and_exclusiveMinimum(const int&, const JSON::object&, const JSON::object&) const;
 };
 
 class json_number_type_validator : public json_primitive_type_validator {
@@ -103,11 +105,11 @@ public:
     return JSON::Type::NUMBER;
   }
 
-  void validate(const JSON&, const JSON&) const;
+  void validate(const JSON&, const JSON&, const JSON::object&) const;
 private:
-  void validate_multipleOf(const double&, const JSON::object&) const;
-  void validate_maximum_and_exclusiveMaximum(const double&, const JSON::object&) const;
-  void validate_minimum_and_exclusiveMinimum(const double&, const JSON::object&) const;
+  void validate_multipleOf(const double&, const JSON::object&, const JSON::object&) const;
+  void validate_maximum_and_exclusiveMaximum(const double&, const JSON::object&, const JSON::object&) const;
+  void validate_minimum_and_exclusiveMinimum(const double&, const JSON::object&, const JSON::object&) const;
 };
 
 class json_null_type_validator : public json_primitive_type_validator {
@@ -116,7 +118,7 @@ public:
     return JSON::Type::NUL;
   }
 
-  void validate(const JSON&, const JSON&) const;
+  void validate(const JSON&, const JSON&, const JSON::object&) const;
 };
 
 class json_object_type_validator : public json_primitive_type_validator {
@@ -125,13 +127,13 @@ public:
     return JSON::Type::OBJECT;
   }
 
-  void validate(const JSON&, const JSON&) const;
+  void validate(const JSON&, const JSON&, const JSON::object&) const;
 private:
-  void validate_maxProperties(const JSON::object&, const JSON::object&) const;
-  void validate_minProperties(const JSON::object&, const JSON::object&) const;
-  void validate_required(const JSON::object&, const JSON::object&) const;
-  void validate_properties(const JSON::object&, const JSON::object&) const;
-  void validate_dependencies(const JSON::object&, const JSON::object&) const;
+  void validate_maxProperties(const JSON::object&, const JSON::object&, const JSON::object&) const;
+  void validate_minProperties(const JSON::object&, const JSON::object&, const JSON::object&) const;
+  void validate_required(const JSON::object&, const JSON::object&, const JSON::object&) const;
+  void validate_properties(const JSON::object&, const JSON::object&, const JSON::object&) const;
+  void validate_dependencies(const JSON::object&, const JSON::object&, const JSON::object&) const;
 };
 
 class json_string_type_validator : public json_primitive_type_validator {
@@ -140,13 +142,12 @@ public:
     return JSON::Type::STRING;
   }
 
-  void validate(const JSON&, const JSON&) const;
+  void validate(const JSON&, const JSON&, const JSON::object&) const;
 private:
-  void validate_maxLength(const JSON::string&, const JSON::object&) const;
-  void validate_minLength(const JSON::string&, const JSON::object&) const;
-  void validate_pattern(const JSON::string&, const JSON::object&) const;
+  void validate_maxLength(const JSON::string&, const JSON::object&, const JSON::object&) const;
+  void validate_minLength(const JSON::string&, const JSON::object&, const JSON::object&) const;
+  void validate_pattern(const JSON::string&, const JSON::object&, const JSON::object&) const;
 };
-
 
 struct json_validator_wrapper {
   const json_primitive_type_validator* validator;
@@ -175,32 +176,37 @@ const json_validator_meta::map_type json_validator_meta::type_to_validator_map {
 
 class json_schema_keyword_validator {
 public:
-  virtual void validate(const JSON&, const JSON::object&) const = 0;
+  virtual void validate(const JSON&, const JSON::object&, const JSON::object&) const = 0;
 };
 
 class json_schema_allOf_keyword_validator : public json_schema_keyword_validator {
 public:
-  virtual void validate(const JSON&, const JSON::object&) const throw(json_validation_error);
+  virtual void validate(
+    const JSON&, const JSON::object&, const JSON::object&) const throw(json_validation_error);
 };
 
 class json_schema_anyOf_keyword_validator : public json_schema_keyword_validator {
 public:
-  virtual void validate(const JSON&, const JSON::object&) const throw(json_validation_error);
+  virtual void validate(
+    const JSON&, const JSON::object&, const JSON::object&) const throw(json_validation_error);
 };
 
 class json_schema_oneOf_keyword_validator : public json_schema_keyword_validator {
 public:
-  virtual void validate(const JSON&, const JSON::object&) const throw(json_validation_error);
+  virtual void validate(
+    const JSON&, const JSON::object&, const JSON::object&) const throw(json_validation_error);
 };
 
 class json_schema_not_keyword_validator : public json_schema_keyword_validator {
 public:
-  virtual void validate(const JSON&, const JSON::object&) const throw(json_validation_error);
+  virtual void validate(
+    const JSON&, const JSON::object&, const JSON::object&) const throw(json_validation_error);
 };
 
 class json_schema_enum_keyword_validator : public json_schema_keyword_validator {
 public:
-  virtual void validate(const JSON&, const JSON::object&) const throw(json_validation_error);
+  virtual void validate(
+    const JSON&, const JSON::object&, const JSON::object&) const throw(json_validation_error);
 };
 
 
@@ -225,6 +231,25 @@ const json_schema_keyword_validator_meta::map_type json_schema_keyword_validator
 };
 
 
+class json_schema_ref_validator {
+public:
+  void validate(const JSON&, const JSON&, const JSON::object&) const;
+};
+
+
+
+namespace json_schema_internal {
+
+
+void validate(const JSON&, const JSON&, const JSON::object&) throw(json_validation_error);
+
+
+JSON::object get_ref(JSON::object, JSON::string) throw(json_validation_error);
+
+
+} /* end namespace json_schema_internal */
+
+
 } /* end namespace json */
 
 
@@ -247,8 +272,19 @@ sneaker::json::json_validator_meta::get_validator(const std::string& type)
 }
 
 void
-sneaker::json::json_schema::validate(const JSON& data, const JSON& schema)
-  throw(json_validation_error)
+sneaker::json::json_schema::validate(
+  const JSON& data, const JSON& schema) throw(json_validation_error)
+{
+  const JSON::object original_schema = schema.object_items();
+
+  sneaker::json::json_schema_internal::validate(data, schema.object_items(), original_schema);
+}
+
+void
+sneaker::json::json_schema_internal::validate(
+  const JSON& data,
+  const JSON& schema,
+  const JSON::object& original_schema) throw(json_validation_error)
 {
   const JSON::object& schema_object = schema.object_items();
 
@@ -259,24 +295,59 @@ sneaker::json::json_schema::validate(const JSON& data, const JSON& schema)
 
     if(schema_object.find(keyword) != schema_object.end()) {
       auto validator = validator_wrapper.validator;
-      validator->validate(data, schema_object);
+      validator->validate(data, schema_object, original_schema);
     }
   }
 
-  if(schema_object.find("type") == schema_object.end()) {
-    return;
+  if(schema_object.find("type") != schema_object.end()) {
+    const JSON::string& type = schema_object.at("type").string_value();
+    std::string type_str = static_cast<std::string>(type);
+    const json_primitive_type_validator* validator = json_validator_meta::get_validator(type);
+    validator->validate(data, schema, original_schema);
+  } else if(schema_object.find("$ref") != schema_object.end()) {
+    sneaker::json::json_schema_ref_validator().validate(data, schema, original_schema);
+  }
+}
+
+JSON::object
+sneaker::json::json_schema_internal::get_ref(
+  JSON::object schema_object, JSON::string ref_path) throw(json_validation_error)
+{
+  // TODO|SNEAKER-59: Optimize this function to avoid the repeated
+  // string splitting and joining.
+  std::string raw_ref_path = static_cast<std::string>(ref_path);
+  std::list<std::string> sections;
+  boost::split(sections, raw_ref_path, boost::is_any_of("/"));
+
+  std::string first = sections.front();
+  sections.pop_front();
+
+  std::string remaining_ref_path = boost::algorithm::join(sections, "/");
+
+  if(first == "#") {
+    return sneaker::json::json_schema_internal::get_ref(schema_object, remaining_ref_path);
+  } else if(first.empty()) {
+    return schema_object;
   }
 
-  const JSON::string& type = schema_object.at("type").string_value();
-  std::string type_str = static_cast<std::string>(type);
+  if(schema_object.find(first) == schema_object.end()) {
+    throw json_validation_error("Invalid $ref path");
+  }
 
-  const json_primitive_type_validator* validator = json_validator_meta::get_validator(type);
-  validator->validate(data, schema);
+  JSON::object inner_schema = schema_object.at(first).object_items();
+
+  if(!sections.empty()) {
+    return sneaker::json::json_schema_internal::get_ref(inner_schema, remaining_ref_path);
+  } else {
+    return inner_schema;
+  }
 }
 
 void
 sneaker::json::json_schema_allOf_keyword_validator::validate(
-  const JSON& data, const JSON::object& schema_object) const throw(json_validation_error)
+  const JSON& data,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const throw(json_validation_error)
 {
   const JSON::array& schemas = schema_object.at("allOf").array_items(); 
 
@@ -285,7 +356,7 @@ sneaker::json::json_schema_allOf_keyword_validator::validate(
     const JSON& schema = static_cast<const JSON>(*itr);
 
     try {
-      sneaker::json::json_schema::validate(data, schema);
+      sneaker::json::json_schema_internal::validate(data, schema, original_schema);
       valid_count++;
     } catch (const sneaker::json::json_validation_error&) {
       // Do nothing here.
@@ -303,7 +374,9 @@ sneaker::json::json_schema_allOf_keyword_validator::validate(
 
 void
 sneaker::json::json_schema_anyOf_keyword_validator::validate(
-  const JSON& data, const JSON::object& schema_object) const throw(json_validation_error)
+  const JSON& data,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const throw(json_validation_error)
 {
   const JSON::array& schemas = schema_object.at("anyOf").array_items(); 
 
@@ -312,7 +385,7 @@ sneaker::json::json_schema_anyOf_keyword_validator::validate(
     const JSON& schema = static_cast<const JSON>(*itr);
 
     try {
-      sneaker::json::json_schema::validate(data, schema);
+      sneaker::json::json_schema_internal::validate(data, schema, original_schema);
       valid = true;
       break;
     } catch (sneaker::json::json_validation_error&) {
@@ -333,7 +406,9 @@ sneaker::json::json_schema_anyOf_keyword_validator::validate(
 
 void
 sneaker::json::json_schema_oneOf_keyword_validator::validate(
-  const JSON& data, const JSON::object& schema_object) const throw(json_validation_error)
+  const JSON& data,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const throw(json_validation_error)
 {
   const JSON::array& schemas = schema_object.at("oneOf").array_items(); 
 
@@ -342,7 +417,7 @@ sneaker::json::json_schema_oneOf_keyword_validator::validate(
     const JSON& schema = static_cast<const JSON>(*itr);
 
     try {
-      sneaker::json::json_schema::validate(data, schema);
+      sneaker::json::json_schema_internal::validate(data, schema, original_schema);
       valid_count++;
     } catch (sneaker::json::json_validation_error&) {
       // Do nothing here.
@@ -362,13 +437,15 @@ sneaker::json::json_schema_oneOf_keyword_validator::validate(
 
 void
 sneaker::json::json_schema_not_keyword_validator::validate(
-  const JSON& data, const JSON::object& schema_object) const throw(json_validation_error)
+  const JSON& data,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const throw(json_validation_error)
 {
   const JSON::object& schema = schema_object.at("not").object_items(); 
 
   bool valid = false;
   try {
-    sneaker::json::json_schema::validate(data, schema);
+    sneaker::json::json_schema_internal::validate(data, schema, original_schema);
     valid = true;
   } catch (sneaker::json::json_validation_error&) {
     // Do nothing here.
@@ -387,7 +464,9 @@ sneaker::json::json_schema_not_keyword_validator::validate(
 
 void
 sneaker::json::json_schema_enum_keyword_validator::validate(
-  const JSON& data, const JSON::object& schema_object) const throw(json_validation_error)
+  const JSON& data,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const throw(json_validation_error)
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor76
@@ -416,13 +495,28 @@ sneaker::json::json_schema_enum_keyword_validator::validate(
 }
 
 void
+sneaker::json::json_schema_ref_validator::validate(
+  const JSON& data, const JSON& schema, const JSON::object& original_schema) const
+{
+  const JSON::string& ref_path = schema.object_items().at("$ref").string_value();
+
+  JSON::object _original_schema = original_schema;
+  JSON::string _ref_path = ref_path;
+  JSON::object ref_schema = sneaker::json::json_schema_internal::get_ref(_original_schema, _ref_path); 
+
+  sneaker::json::json_schema_internal::validate(data, ref_schema, original_schema);
+}
+
+void
 sneaker::json::json_schema::validate_definitions(
-  const JSON& data, const JSON::object& schema_object) throw(json_validation_error)
+  const JSON& data,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) throw(json_validation_error)
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor94
    *
-   * This is not supported currently. 
+   * Do nothing here. This is handled by $ref.
    */
 }
 
@@ -440,7 +534,7 @@ sneaker::json::json_primitive_type_validator::_validate_type(const JSON& data) c
 
 void
 sneaker::json::json_array_type_validator::validate(
-  const JSON& data, const JSON& schema) const
+  const JSON& data, const JSON& schema, const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor36
@@ -450,15 +544,17 @@ sneaker::json::json_array_type_validator::validate(
   const JSON::array& json_array = data.array_items();
   const JSON::object& schema_object = const_cast<const JSON::object&>(schema.object_items());
 
-  this->validate_additionalItems_and_items(json_array, schema_object);
-  this->validate_maxItems(json_array, schema_object);
-  this->validate_minItems(json_array, schema_object);
-  this->validate_uniqueItems(json_array, schema_object);
+  this->validate_additionalItems_and_items(json_array, schema_object, original_schema);
+  this->validate_maxItems(json_array, schema_object, original_schema);
+  this->validate_minItems(json_array, schema_object, original_schema);
+  this->validate_uniqueItems(json_array, schema_object, original_schema);
 }
 
 void
 sneaker::json::json_array_type_validator::validate_additionalItems_and_items(
-  const JSON::array& json_array, const JSON::object& schema_object) const
+  const JSON::array& json_array,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor37
@@ -471,7 +567,10 @@ sneaker::json::json_array_type_validator::validate_additionalItems_and_items(
 
   // Case if the value of `items` is an object.
   if(inner.is_object()) {
-    sneaker::json::json_schema::validate(json_array, inner); 
+    for(JSON::array::size_type i = 0; i < json_array.size(); ++i) {
+      const JSON& child = json_array.at(i);
+      sneaker::json::json_schema_internal::validate(child, inner, original_schema); 
+    }
     return;
   }
 
@@ -519,13 +618,15 @@ sneaker::json::json_array_type_validator::validate_additionalItems_and_items(
     const JSON& child = json_array.at(i);
     const JSON& child_schema = items.at(i);
 
-    sneaker::json::json_schema::validate(child, child_schema);
+    sneaker::json::json_schema_internal::validate(child, child_schema, original_schema);
   }
 }
 
 void
 sneaker::json::json_array_type_validator::validate_maxItems(
-  const JSON::array& json_array, const JSON::object& schema_object) const
+  const JSON::array& json_array,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor42
@@ -549,7 +650,9 @@ sneaker::json::json_array_type_validator::validate_maxItems(
 
 void
 sneaker::json::json_array_type_validator::validate_minItems(
-  const JSON::array& json_array, const JSON::object& schema_object) const
+  const JSON::array& json_array,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor45
@@ -573,7 +676,9 @@ sneaker::json::json_array_type_validator::validate_minItems(
 
 void
 sneaker::json::json_array_type_validator::validate_uniqueItems(
-  const JSON::array& json_array, const JSON::object& schema_object) const
+  const JSON::array& json_array,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor49
@@ -602,7 +707,7 @@ sneaker::json::json_array_type_validator::validate_uniqueItems(
 
 void
 sneaker::json::json_boolean_type_validator::validate(
-  const JSON& data, const JSON& schema) const
+  const JSON& data, const JSON& schema, const JSON::object& original_schema) const
 {
   this->_validate_type(data);
 }
@@ -611,7 +716,7 @@ sneaker::json::json_boolean_type_validator::validate(
 
 void
 sneaker::json::json_integer_type_validator::validate(
-  const JSON& data, const JSON& schema) const
+  const JSON& data, const JSON& schema, const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor13
@@ -621,14 +726,16 @@ sneaker::json::json_integer_type_validator::validate(
   int int_value = data.int_value();
   const JSON::object& schema_object = const_cast<const JSON::object&>(schema.object_items());
 
-  this->validate_multipleOf(int_value, schema_object);
-  this->validate_maximum_and_exclusiveMaximum(int_value, schema_object);
-  this->validate_minimum_and_exclusiveMinimum(int_value, schema_object);
+  this->validate_multipleOf(int_value, schema_object, original_schema);
+  this->validate_maximum_and_exclusiveMaximum(int_value, schema_object, original_schema);
+  this->validate_minimum_and_exclusiveMinimum(int_value, schema_object, original_schema);
 }
 
 void
 sneaker::json::json_integer_type_validator::validate_multipleOf(
-  const int& int_value, const JSON::object& schema_object) const
+  const int& int_value,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor14
@@ -654,7 +761,9 @@ sneaker::json::json_integer_type_validator::validate_multipleOf(
 
 void
 sneaker::json::json_integer_type_validator::validate_maximum_and_exclusiveMaximum(
-  const int& int_value, const JSON::object& schema_object) const
+  const int& int_value,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor17
@@ -691,7 +800,9 @@ sneaker::json::json_integer_type_validator::validate_maximum_and_exclusiveMaximu
 
 void
 sneaker::json::json_integer_type_validator::validate_minimum_and_exclusiveMinimum(
-  const int& int_value, const JSON::object& schema_object) const
+  const int& int_value,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor21
@@ -730,21 +841,23 @@ sneaker::json::json_integer_type_validator::validate_minimum_and_exclusiveMinimu
 
 void
 sneaker::json::json_number_type_validator::validate(
-  const JSON& data, const JSON& schema) const
+  const JSON& data, const JSON& schema, const JSON::object& original_schema) const
 {
   this->_validate_type(data);
 
   double number_value = data.number_value();
   const JSON::object& schema_object = const_cast<const JSON::object&>(schema.object_items());
 
-  this->validate_multipleOf(number_value, schema_object);
-  this->validate_maximum_and_exclusiveMaximum(number_value, schema_object);
-  this->validate_minimum_and_exclusiveMinimum(number_value, schema_object);
+  this->validate_multipleOf(number_value, schema_object, original_schema);
+  this->validate_maximum_and_exclusiveMaximum(number_value, schema_object, original_schema);
+  this->validate_minimum_and_exclusiveMinimum(number_value, schema_object, original_schema);
 }
 
 void
 sneaker::json::json_number_type_validator::validate_multipleOf(
-  const double& number_value, const JSON::object& schema_object) const
+  const double& number_value,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor14
@@ -770,7 +883,9 @@ sneaker::json::json_number_type_validator::validate_multipleOf(
 
 void
 sneaker::json::json_number_type_validator::validate_maximum_and_exclusiveMaximum(
-  const double& number_value, const JSON::object& schema_object) const
+  const double& number_value,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor17
@@ -807,7 +922,9 @@ sneaker::json::json_number_type_validator::validate_maximum_and_exclusiveMaximum
 
 void
 sneaker::json::json_number_type_validator::validate_minimum_and_exclusiveMinimum(
-  const double& number_value, const JSON::object& schema_object) const
+  const double& number_value,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor21
@@ -846,7 +963,7 @@ sneaker::json::json_number_type_validator::validate_minimum_and_exclusiveMinimum
 
 void
 sneaker::json::json_null_type_validator::validate(
-  const JSON& data, const JSON& schema) const
+  const JSON& data, const JSON& schema, const JSON::object& original_schema) const
 {
   this->_validate_type(data);
 }
@@ -855,7 +972,7 @@ sneaker::json::json_null_type_validator::validate(
 
 void
 sneaker::json::json_object_type_validator::validate(
-  const JSON& data, const JSON& schema) const
+  const JSON& data, const JSON& schema, const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor53
@@ -865,16 +982,18 @@ sneaker::json::json_object_type_validator::validate(
   const JSON::object& object_value = data.object_items();
   const JSON::object& schema_object = schema.object_items();
 
-  this->validate_maxProperties(object_value, schema_object);
-  this->validate_minProperties(object_value, schema_object);
-  this->validate_required(object_value, schema_object);
-  this->validate_properties(object_value, schema_object);
-  this->validate_dependencies(object_value, schema_object);
+  this->validate_maxProperties(object_value, schema_object, original_schema);
+  this->validate_minProperties(object_value, schema_object, original_schema);
+  this->validate_required(object_value, schema_object, original_schema);
+  this->validate_properties(object_value, schema_object, original_schema);
+  this->validate_dependencies(object_value, schema_object, original_schema);
 }
 
 void
 sneaker::json::json_object_type_validator::validate_maxProperties(
-  const JSON::object& object_value, const JSON::object& schema_object) const
+  const JSON::object& object_value,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor54
@@ -898,7 +1017,9 @@ sneaker::json::json_object_type_validator::validate_maxProperties(
 
 void
 sneaker::json::json_object_type_validator::validate_minProperties(
-  const JSON::object& object_value, const JSON::object& schema_object) const
+  const JSON::object& object_value,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor57
@@ -922,7 +1043,9 @@ sneaker::json::json_object_type_validator::validate_minProperties(
 
 void
 sneaker::json::json_object_type_validator::validate_required(
-  const JSON::object& object_value, const JSON::object& schema_object) const
+  const JSON::object& object_value,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor61
@@ -937,14 +1060,12 @@ sneaker::json::json_object_type_validator::validate_required(
     const JSON& array_value = static_cast<JSON>(*itr);
     const JSON::string& unique = array_value.string_value();
 
-    std::string unique_value = static_cast<std::string>(unique);
-
-    if(object_value.find(unique_value) == object_value.end()) {
+    if(object_value.find(unique) == object_value.end()) {
       throw json_validation_error(
         str(
           format(
-            "Object %s does not have unique property %s"
-          ) % JSON(object_value).dump() % unique_value
+            "Object %s does not have unique property \"%s\""
+          ) % JSON(object_value).dump() % unique
         )
       );
     }
@@ -953,7 +1074,9 @@ sneaker::json::json_object_type_validator::validate_required(
 
 void
 sneaker::json::json_object_type_validator::validate_properties(
-  const JSON::object& object_value, const JSON::object& schema_object) const
+  const JSON::object& object_value,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor64
@@ -988,19 +1111,13 @@ sneaker::json::json_object_type_validator::validate_properties(
       std::string property = static_cast<std::string>(itr->first);
 
       if(object_value.find(property) == object_value.end()) {
-        throw json_validation_error(
-          str(
-            format(
-              "Property %s not found in object %s"
-            ) % property % JSON(object_value).dump()
-          )
-        );
+        continue;
       }
 
       const JSON& child = object_value.at(property);
       const JSON& property_schema = static_cast<JSON>(itr->second);
 
-      sneaker::json::json_schema::validate(child, property_schema);
+      sneaker::json::json_schema_internal::validate(child, property_schema, original_schema);
     }
   } else if(hasPatternProperties) {
     const JSON::object& pattern_properties = schema_object.at(
@@ -1020,7 +1137,7 @@ sneaker::json::json_object_type_validator::validate_properties(
       const JSON& child = object_value.at(property);
       const JSON& property_schema = static_cast<JSON>(itr->second);
 
-      sneaker::json::json_schema::validate(child, property_schema);
+      sneaker::json::json_schema_internal::validate(child, property_schema, original_schema);
 
       properties_set.erase(property);
     }
@@ -1042,7 +1159,7 @@ sneaker::json::json_object_type_validator::validate_properties(
         const JSON& child = object_value.at(property);
         const JSON& property_schema = static_cast<JSON>(itr->second);    
 
-        sneaker::json::json_schema::validate(child, property_schema);
+        sneaker::json::json_schema_internal::validate(child, property_schema, original_schema);
         properties_set.erase(property);
       }
     }
@@ -1061,7 +1178,9 @@ sneaker::json::json_object_type_validator::validate_properties(
 
 void
 sneaker::json::json_object_type_validator::validate_dependencies(
-  const JSON::object& object_value, const JSON::object& schema_object) const
+  const JSON::object& object_value,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor70
@@ -1083,7 +1202,7 @@ sneaker::json::json_object_type_validator::validate_dependencies(
     if(dependency.is_object()) {
       // Schema dependency
       const JSON::object& dependency_object = dependency.object_items();
-      sneaker::json::json_schema::validate(object_value, dependency_object);
+      sneaker::json::json_schema_internal::validate(object_value, dependency_object, original_schema);
     } else if(dependency.is_array()) {
       // Property dependency
       const JSON::array& dependency_array = dependency.array_items();
@@ -1112,7 +1231,7 @@ sneaker::json::json_object_type_validator::validate_dependencies(
 
 void
 sneaker::json::json_string_type_validator::validate(
-  const JSON& data, const JSON& schema) const
+  const JSON& data, const JSON& schema, const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor25
@@ -1122,14 +1241,16 @@ sneaker::json::json_string_type_validator::validate(
   const JSON::string& string_value = data.string_value();
   const JSON::object& schema_object = schema.object_items();
 
-  this->validate_maxLength(string_value, schema_object);
-  this->validate_minLength(string_value, schema_object);
-  this->validate_pattern(string_value, schema_object);
+  this->validate_maxLength(string_value, schema_object, original_schema);
+  this->validate_minLength(string_value, schema_object, original_schema);
+  this->validate_pattern(string_value, schema_object, original_schema);
 }
 
 void
 sneaker::json::json_string_type_validator::validate_maxLength(
-  const JSON::string& string_value, const JSON::object& schema_object) const
+  const JSON::string& string_value,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor26
@@ -1153,7 +1274,9 @@ sneaker::json::json_string_type_validator::validate_maxLength(
 
 void
 sneaker::json::json_string_type_validator::validate_minLength(
-  const JSON::string& string_value, const JSON::object& schema_object) const
+  const JSON::string& string_value,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor29
@@ -1168,7 +1291,7 @@ sneaker::json::json_string_type_validator::validate_minLength(
     throw json_validation_error(
       str(
         format(
-          "String %s does not meet the minimum length limit of %d"
+          "String \"%s\" does not meet the minimum length limit of %d"
         ) % string_value % min_length
       )
     );
@@ -1177,7 +1300,9 @@ sneaker::json::json_string_type_validator::validate_minLength(
 
 void
 sneaker::json::json_string_type_validator::validate_pattern(
-  const JSON::string& string_value, const JSON::object& schema_object) const
+  const JSON::string& string_value,
+  const JSON::object& schema_object,
+  const JSON::object& original_schema) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor33
@@ -1199,7 +1324,7 @@ sneaker::json::json_string_type_validator::validate_pattern(
     throw json_validation_error(
       str(
         format(
-          "String %s does not match to regular expression %s"
+          "String \"%s\" does not match to regular expression %s"
         ) % string_value % pattern_str
       )
     );
