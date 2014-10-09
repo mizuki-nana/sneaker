@@ -29,11 +29,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <set>
 #include <unordered_map>
 #include <vector>
+#include <boost/format.hpp>
 #include "../../include/testing/testing.h"
 #include "../../include/json/json.h"
 #include "../../include/json/json_schema.h"
 
 
+using boost::format;
 using namespace sneaker::json;
 
 
@@ -1757,4 +1759,477 @@ TEST_F(json_schema_ref_unittest, TestRecursiveDefinitionToTopLevel)
   ); 
 
   this->validate_and_check_result(data, schema);
+}
+
+
+class json_schema_semantic_format_unittest : public json_schema_unittest {};
+
+
+class json_schema_datetime_format_unittest : public json_schema_semantic_format_unittest {
+public:
+  static const JSON schema;
+};
+const JSON json_schema_datetime_format_unittest::schema = sneaker::json::parse(
+  "{"
+    "\"type\": \"object\","
+    "\"properties\": {"
+      "\"data\": {"
+        "\"type\": \"string\","
+        "\"format\": \"date-time\""
+      "}"
+    "}"
+  "}"
+);
+
+
+TEST_F(json_schema_datetime_format_unittest, TestValidDatetimeFormat)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"data\": \"2014-01-05T12:12:12\""
+    "}"
+  );
+
+  this->validate_and_check_result(data, schema);
+}
+
+TEST_F(json_schema_datetime_format_unittest, TestInvalidDatetimeFormat)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"data\": \"01/05/2014-12:12:12\""
+    "}"
+  );
+
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid data in date-time format: \"01/05/2014-12:12:12\""
+  );
+}
+
+TEST_F(json_schema_datetime_format_unittest, TestInvalidDataType)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"data\": []"
+    "}"
+  );
+
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"object\","
+      "\"properties\": {"
+        "\"data\": {"
+          "\"type\": \"array\","
+          "\"format\": \"date-time\""
+        "}"
+      "}"
+    "}"
+  );
+
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid semantic format \"date-time\" for data: []"
+  );
+}
+
+
+class json_schema_email_format_unittest : public json_schema_semantic_format_unittest {
+public:
+  static const JSON schema;
+};
+const JSON json_schema_email_format_unittest::schema = sneaker::json::parse(
+  "{"
+    "\"type\": \"object\","
+    "\"properties\": {"
+      "\"data\": {"
+        "\"type\": \"string\","
+        "\"format\": \"email\""
+      "}"
+    "}"
+  "}"
+);
+
+
+TEST_F(json_schema_email_format_unittest, TestValidEmailFormat)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"data\": \"yli@sneaker.org\""
+    "}"
+  );
+
+  this->validate_and_check_result(data, schema);
+}
+
+TEST_F(json_schema_email_format_unittest, TestInvalidEmailFormat)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"data\": \"Hello@@World.net\""
+    "}"
+  );
+
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid data in email format: \"Hello@@World.net\""
+  );
+}
+
+TEST_F(json_schema_email_format_unittest, TestInvalidDataType)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"data\": 123"
+    "}"
+  );
+
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"object\","
+      "\"properties\": {"
+        "\"data\": {"
+          "\"type\": \"number\","
+          "\"format\": \"email\""
+        "}"
+      "}"
+    "}"
+  );
+
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid semantic format \"email\" for data: 123"
+  );
+}
+
+
+class json_schema_hostname_format_unittest : public json_schema_semantic_format_unittest {
+public:
+  static const JSON schema;
+};
+const JSON json_schema_hostname_format_unittest::schema = sneaker::json::parse(
+  "{"
+    "\"type\": \"object\","
+    "\"properties\": {"
+      "\"data\": {"
+        "\"type\": \"string\","
+        "\"format\": \"hostname\""
+      "}"
+    "}"
+  "}"
+);
+
+
+TEST_F(json_schema_hostname_format_unittest, TestValidHostnameFormat)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"data\": \"hello-world.net\""
+    "}"
+  );
+
+  this->validate_and_check_result(data, schema);
+}
+
+TEST_F(json_schema_hostname_format_unittest, TestInvalidHostnameFormat)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"data\": \"mydomain@com\""
+    "}"
+  );
+
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid data in hostname format: \"mydomain@com\""
+  );
+}
+
+TEST_F(json_schema_hostname_format_unittest, TestInvalidDataType)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"data\": {}"
+    "}"
+  );
+
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"object\","
+      "\"properties\": {"
+        "\"data\": {"
+          "\"type\": \"object\","
+          "\"format\": \"hostname\""
+        "}"
+      "}"
+    "}"
+  );
+
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid semantic format \"hostname\" for data: {}"
+  );
+}
+
+
+class json_schema_ipv4_format_unittest : public json_schema_semantic_format_unittest {
+public:
+  static const JSON schema;
+};
+const JSON json_schema_ipv4_format_unittest::schema = sneaker::json::parse(
+  "{"
+    "\"type\": \"object\","
+    "\"properties\": {"
+      "\"data\": {"
+        "\"type\": \"string\","
+        "\"format\": \"ipv4\""
+      "}"
+    "}"
+  "}"
+);
+
+
+TEST_F(json_schema_ipv4_format_unittest, TestValidIpv4Format)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"data\": \"172.16.254.1\""
+    "}"
+  );
+
+  this->validate_and_check_result(data, schema);
+}
+
+TEST_F(json_schema_ipv4_format_unittest, TestInvalidIpv4Format)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"data\": \"2001:db8:0:1234:0:567:8:1\""
+    "}"
+  );
+
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid data in ipv4 format: \"2001:db8:0:1234:0:567:8:1\""
+  );
+}
+
+TEST_F(json_schema_ipv4_format_unittest, TestInvalidDataType)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"data\": true"
+    "}"
+  );
+
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"object\","
+      "\"properties\": {"
+        "\"data\": {"
+          "\"type\": \"boolean\","
+          "\"format\": \"ipv4\""
+        "}"
+      "}"
+    "}"
+  );
+
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid semantic format \"ipv4\" for data: true"
+  );
+}
+
+
+class json_schema_ipv6_format_unittest : public json_schema_semantic_format_unittest {
+public:
+  static const JSON schema;
+};
+const JSON json_schema_ipv6_format_unittest::schema = sneaker::json::parse(
+  "{"
+    "\"type\": \"object\","
+    "\"properties\": {"
+      "\"data\": {"
+        "\"type\": \"string\","
+        "\"format\": \"ipv6\""
+      "}"
+    "}"
+  "}"
+);
+
+
+TEST_F(json_schema_ipv6_format_unittest, TestValidIpv6Format)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"data\": \"2001:db8:0:1234:0:567:8:1\""
+    "}"
+  );
+
+  this->validate_and_check_result(data, schema);
+}
+
+TEST_F(json_schema_ipv6_format_unittest, TestInvalidIpv6Format)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"data\": \"172.16.254.1\""
+    "}"
+  );
+
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid data in ipv6 format: \"172.16.254.1\""
+  );
+}
+
+TEST_F(json_schema_ipv6_format_unittest, TestInvalidDataType)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"data\": false"
+    "}"
+  );
+
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"object\","
+      "\"properties\": {"
+        "\"data\": {"
+          "\"type\": \"boolean\","
+          "\"format\": \"ipv6\""
+        "}"
+      "}"
+    "}"
+  );
+
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid semantic format \"ipv6\" for data: false"
+  );
+}
+
+
+class json_schema_uri_format_unittest : public json_schema_semantic_format_unittest {
+public:
+  static const JSON schema;
+  static const std::list<std::string> VALID_URIs;
+};
+const JSON json_schema_uri_format_unittest::schema = sneaker::json::parse(
+  "{"
+    "\"type\": \"object\","
+    "\"properties\": {"
+      "\"data\": {"
+        "\"type\": \"string\","
+        "\"format\": \"uri\""
+      "}"
+    "}"
+  "}"
+);
+const std::list<std::string> json_schema_uri_format_unittest::VALID_URIs {
+  // Typical examples
+  "http://www.ietf.org/rfc/rfc2396.txt",
+  "ftp://ftp.is.co.za/rfc/rfc1808.txt",
+  "ldap://[2001:db8::7]/c=GB?objectClass?one",
+  "mailto:John.Doe@example.com",
+  "news:comp.infosystems.www.servers.unix",
+  "tel:+1-816-555-1212",
+  "telnet://192.0.2.16:80/",
+  "urn:oasis:names:specification:docbook:dtd:xml:4.1.2",
+  // Normal examples
+  "g:h",
+  "http://a/b/c/g",
+  "http://g",
+  "http://a/b/c/d;p?y",
+  "http://a/b/c/g?y",
+  "http://a/b/c/d;p?q#s",
+  "http://a/b/c/g#s",
+  "http://a/b/c/g?y#s",
+  "http://a/b/c/;x",
+  "http://a/b/c/g;x",
+  "http://a/b/c/g;x?y#s",
+  "http://a/b/c/d;p?q",
+  "http://a/b/c/",
+  "http://a/b/",
+  // Abnormal examples
+  "http://a/b/c/g.",
+  "http://a/b/c/.g",
+  "http://a/b/c/g..",
+  "http://a/b/c/..g",
+  "http://a/b/c/g;x=1/y",
+  "http://a/b/c/g?y/./x",
+  "http://a/b/c/g?y/../x",
+  "http://a/b/c/g#s/./x",
+  "http://a/b/c/g#s/../x",
+  "http:g",
+};
+
+
+TEST_F(json_schema_uri_format_unittest, TestValidURIFormat)
+{
+  const std::string data_shell = "{"
+    "\"data\": \"%s\""
+  "}";
+
+  for(auto itr = VALID_URIs.cbegin(); itr != VALID_URIs.cend(); ++itr) {
+    std::string uri = static_cast<std::string>(*itr);
+
+    JSON data = sneaker::json::parse(
+        str(format(data_shell) % uri)
+    );
+
+    this->validate_and_check_result(data, schema);
+  }
+}
+
+TEST_F(json_schema_uri_format_unittest, TestInvalidURIFormat)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"data\": \"hello world\""
+    "}"
+  );
+
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid data in uri format: \"hello world\""
+  );
+}
+
+TEST_F(json_schema_uri_format_unittest, TestInvalidDataType)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"data\": {}"
+    "}"
+  );
+
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"object\","
+      "\"properties\": {"
+        "\"data\": {"
+          "\"type\": \"object\","
+          "\"format\": \"uri\""
+        "}"
+      "}"
+    "}"
+  );
+
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Invalid semantic format \"uri\" for data: {}"
+  );
 }

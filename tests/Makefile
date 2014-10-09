@@ -29,7 +29,7 @@ LIBGTEST=/usr/lib/libgtest.a
 LIBSNEAKER_A=../../libsneaker.a
 LIBRARIES=$(LIBGTEST)
 
-LFLAGS=$(LIBSNEAKER_A) -lgtest -lpthread
+LFLAGS=$(LIBSNEAKER_A) -lgtest -lpthread -lboost_regex
 
 LIBC=./libc/
 IO=./io/

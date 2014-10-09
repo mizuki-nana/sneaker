@@ -38,7 +38,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * version, the following sections in the spec are not supported:
  *
  * 6. Metadata keywords
- * 7. Semantic validation with "format"
  *
  *
  * Example:
