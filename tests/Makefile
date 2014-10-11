@@ -29,7 +29,7 @@ LIBGTEST=/usr/lib/libgtest.a
 LIBSNEAKER_A=../../libsneaker.a
 LIBRARIES=$(LIBGTEST)
 
-LFLAGS=$(LIBSNEAKER_A) -lgtest -lpthread -lboost_regex
+LFLAGS=$(LIBSNEAKER_A) -lgtest -lpthread
 
 LIBC=./libc/
 IO=./io/
@@ -48,12 +48,12 @@ SUBDIRS=$(LIBC) $(IO) $(ALGORITHM) $(ALLOCATOR) $(ATOMIC) $(CACHE) $(CONTAINER) 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Linux)
 	CXXFLAGS += -D LINUX
-	LFLAGS += -lboost_system
+	LFLAGS += -lboost_system -lboost_regex
 endif
 ifeq ($(UNAME_S), Darwin)
 	CXXFLAGS += -D DARWIN
 	CXXFLAGS += -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0
-	LFLAGS += -lboost_system-mt
+	LFLAGS += -lboost_system-mt -lboost_regex-mt
 endif
 
 ifeq ($(UNAME_S), Linux)
