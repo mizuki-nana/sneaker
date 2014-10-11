@@ -34,10 +34,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * future versions.
  *
  * The implementation is strictly based on the latest specification found at
- * http://json-schema.org/latest/json-schema-validation.html. In the current
- * version, the following sections in the spec are not supported:
- *
- * 6. Metadata keywords
+ * http://json-schema.org/latest/json-schema-validation.html. All features
+ * specified in the specification are supported.
  *
  *
  * Example:
