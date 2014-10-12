@@ -1554,13 +1554,14 @@ sneaker::json::json_schema_internal::json_object_type_validator::validate_proper
       std::string property_pattern = static_cast<std::string>(itr->first);
       std::regex property_pattern_regex(property_pattern);
       
+      std::set<std::string> properties_erased;
+
       for(auto itr_ = properties_set.begin(); itr_ != properties_set.end(); itr_++) {
         std::string property = static_cast<std::string>(*itr_);
 
         std::smatch sm;
-        std::regex_match(property, sm, property_pattern_regex);
-
-        if(sm.empty()) {
+        bool matched = std::regex_match(property, sm, property_pattern_regex);
+        if(!matched) {
           continue;
         }
 
@@ -1568,6 +1569,11 @@ sneaker::json::json_schema_internal::json_object_type_validator::validate_proper
         const JSON& property_schema = static_cast<JSON>(itr->second);    
 
         sneaker::json::json_schema_internal::validate(child, property_schema, original_schema);
+        properties_erased.insert(property);
+      }
+
+      for(auto itr_ = properties_erased.begin(); itr_ != properties_erased.end(); ++itr_) {
+        std::string property = static_cast<std::string>(*itr_);
         properties_set.erase(property);
       }
     }
