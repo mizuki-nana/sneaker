@@ -31,8 +31,8 @@
 #clean:
 #	-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir clean;); done
 
-CC=cc
-CXX=c++
+CC=`which clang`
+CXX=`which clang++`
 CFLAGS=-Wall
 CXXFLAGS=-Wall -std=c++11
 CXXFLAGS_EXTRA=-Wno-overloaded-virtual

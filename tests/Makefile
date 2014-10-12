@@ -20,7 +20,7 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-CXX=c++
+CXX=`which clang++`
 CXXFLAGS=-Wall -std=c++11
 CXXFLAGS_EXTRA=-Wno-overloaded-virtual
 
