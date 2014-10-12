@@ -78,7 +78,11 @@ threading:
 	-cd $(THREADING) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) -c $$f); done
 
 .PHONY: all
+ifdef NO_TESTING
+all: libc io json threading
+else
 all: libc io json testing threading
+endif
 
 .PHONY: clean
 clean:
