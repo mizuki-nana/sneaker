@@ -50,14 +50,14 @@ Install
 
 
 ## Version
-`version 0.2.6`
+`version 0.2.7`
 
 
 ## Documentation
 [Link](http://www.libsneaker.org/documentation/)
 
 
-## Compilation Environment
+## Compilation Environments
 
 ### OS X
 Operating System:<br/>

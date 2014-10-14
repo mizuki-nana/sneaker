@@ -324,17 +324,9 @@ specification. More information can be found at:
 
   http://json-schema.org/documentation.html
 
-The current implementation does not support all the features mentioned in
-the spec, although quite exhaustive. More features will be supported in
-future versions.
-
 The implementation is strictly based on the latest specification found at
-http://json-schema.org/latest/json-schema-validation.html. In the current
-version, the following sections in the spec are not supported:
-
-* 5.5.7 Validation keywords for any instance type - definitions
-* 6. Metadata keywords
-* 7. Semantic validation with "format"
+http://json-schema.org/latest/json-schema-validation.html. All features
+specified in the specification are supported.
 
 
 Example:

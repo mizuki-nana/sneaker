@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-sneaker v0.2.6 documentation
+sneaker v0.2.7 documentation
 ============================
 
 Overview
@@ -58,8 +58,8 @@ Content
    src/algorithm
 
 
-Compilation Environment
------------------------
+Compilation Environments
+------------------------
 
 OS X
 

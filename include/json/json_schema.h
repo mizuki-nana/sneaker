@@ -29,10 +29,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  *  http://json-schema.org/documentation.html
  *
- * The current implementation does not support all the features mentioned in
- * the spec, although quite exhaustive. More features will be supported in
- * future versions.
- *
  * The implementation is strictly based on the latest specification found at
  * http://json-schema.org/latest/json-schema-validation.html. All features
  * specified in the specification are supported.
