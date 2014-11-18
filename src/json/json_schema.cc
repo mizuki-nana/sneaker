@@ -339,6 +339,9 @@ const json_schema_semantic_format_validator_meta::map_type json_schema_semantic_
 void validate(const JSON&, const JSON&, const JSON::object&) throw(json_validation_error);
 
 
+JSON::object _get_ref(JSON::object, std::list<std::string>&) throw(json_validation_error);
+
+
 JSON::object get_ref(JSON::object, JSON::string) throw(json_validation_error);
 
 
@@ -405,24 +408,18 @@ sneaker::json::json_schema_internal::validate(
 }
 
 JSON::object
-sneaker::json::json_schema_internal::get_ref(
-  JSON::object schema_object, JSON::string ref_path) throw(json_validation_error)
+sneaker::json::json_schema_internal::_get_ref(
+  JSON::object schema_object, std::list<std::string>& sections) throw(json_validation_error)
 {
-  // TODO|SNEAKER-59: Optimize this function to avoid the repeated
-  // string splitting and joining.
-  std::string raw_ref_path = static_cast<std::string>(ref_path);
-  std::list<std::string> sections;
-  boost::split(sections, raw_ref_path, boost::is_any_of("/"));
+  if(sections.empty()) {
+    return schema_object;
+  }
 
   std::string first = sections.front();
   sections.pop_front();
 
-  std::string remaining_ref_path = boost::algorithm::join(sections, "/");
-
   if(first == "#") {
-    return sneaker::json::json_schema_internal::get_ref(schema_object, remaining_ref_path);
-  } else if(first.empty()) {
-    return schema_object;
+    return sneaker::json::json_schema_internal::_get_ref(schema_object, sections);
   }
 
   if(schema_object.find(first) == schema_object.end()) {
@@ -431,11 +428,18 @@ sneaker::json::json_schema_internal::get_ref(
 
   JSON::object inner_schema = schema_object.at(first).object_items();
 
-  if(!sections.empty()) {
-    return sneaker::json::json_schema_internal::get_ref(inner_schema, remaining_ref_path);
-  } else {
-    return inner_schema;
-  }
+  return sneaker::json::json_schema_internal::_get_ref(inner_schema, sections);
+}
+
+JSON::object
+sneaker::json::json_schema_internal::get_ref(
+  JSON::object schema_object, JSON::string ref_path) throw(json_validation_error)
+{
+  std::string raw_ref_path = static_cast<std::string>(ref_path);
+  std::list<std::string> sections;
+  boost::split(sections, raw_ref_path, boost::is_any_of("/"));
+
+  return sneaker::json::json_schema_internal::_get_ref(schema_object, sections);
 }
 
 void
