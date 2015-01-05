@@ -24,6 +24,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef SNEAKER_STANDARD_ALLOC_POLICY_H_
 #define SNEAKER_STANDARD_ALLOC_POLICY_H_
 
+#include <limits>
+#include <memory>
+#include <type_traits>
+
 
 namespace sneaker {
 
