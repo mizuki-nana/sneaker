@@ -1,7 +1,7 @@
 /*******************************************************************************
 The MIT License (MIT)
 
-Copyright (c) 2014 Yanzheng Li
+Copyright (c) 2015 Yanzheng Li
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -21,15 +21,20 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-
 /* Unit test for functions defined in sneaker/libc/cutils.h */
+
+// This has to come before `cutils.h` because the declarations in it duplicate
+// their standard library equivalents.
+#include "../../include/testing/testing.h"
+
+#include "../../include/libc/cutils.h"
+
+#include "../../include/libc/memory.h"
 
 #include <cassert>
 #include <climits>
 #include <string>
-#include "../../include/testing/testing.h"
-#include "../../include/libc/cutils.h"
-#include "../../include/libc/memory.h"
+
 
 #define _INT_MIN_ -32767
 #define _INT_MAX_ 32767

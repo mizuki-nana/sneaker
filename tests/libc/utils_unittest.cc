@@ -1,7 +1,7 @@
 /*******************************************************************************
 The MIT License (MIT)
 
-Copyright (c) 2014 Yanzheng Li
+Copyright (c) 2015 Yanzheng Li
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -23,10 +23,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit tests for functions defined in sneaker/libc/utils.h */
 
+#include "../../include/libc/utils.h"
+
+#include "../../include/testing/testing.h"
+
 #include <cassert>
 #include <string>
-#include "../../include/testing/testing.h"
-#include "../../include/libc/utils.h"
 
 
 /*******************************************************************************

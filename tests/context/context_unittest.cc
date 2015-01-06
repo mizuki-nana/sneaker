@@ -1,7 +1,7 @@
 /*******************************************************************************
 The MIT License (MIT)
 
-Copyright (c) 2014 Yanzheng Li
+Copyright (c) 2015 Yanzheng Li
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -23,11 +23,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for context management framework. */
 
-#include <stdexcept>
-#include <vector>
-#include "../../include/testing/testing.h"
 #include "../../include/context/context_manager.h"
 #include "../../include/context/scoped_context.h"
+
+#include "../../include/testing/testing.h"
+
+#include <stdexcept>
+#include <vector>
 
 
 using namespace sneaker::context;

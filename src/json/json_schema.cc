@@ -1,7 +1,7 @@
 /*******************************************************************************
 The MIT License (MIT)
 
-Copyright (c) 2014 Yanzheng Li
+Copyright (c) 2015 Yanzheng Li
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -21,17 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-#include <cassert>
-#include <cmath>
-#include <ctime>
-#include <list>
-#include <netdb.h>
-#include <regex>
-#include <set>
-#include <string>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <unordered_map>
+#include "../../include/json/json_schema.h"
 
 #include <boost/algorithm/string.hpp>
 #include <boost/asio.hpp>
@@ -39,7 +29,18 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <boost/regex.hpp>
 #include <boost/system/error_code.hpp>
 
-#include "../../include/json/json_schema.h"
+#include <cassert>
+#include <cmath>
+#include <ctime>
+#include <list>
+#include <regex>
+#include <set>
+#include <string>
+#include <unordered_map>
+
+#include <netdb.h>
+#include <sys/socket.h>
+#include <sys/types.h>
 
 
 namespace sneaker {

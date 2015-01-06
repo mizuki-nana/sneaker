@@ -1,7 +1,7 @@
 /*******************************************************************************
 The MIT License (MIT)
 
-Copyright (c) 2014 Yanzheng Li
+Copyright (c) 2015 Yanzheng Li
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -21,14 +21,17 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
+#include "../../include/libc/hashmap.h"
+
+#include "../../include/libc/memory.h"
+#include "../../include/libc/utils.h"
+
 #include <assert.h>
 #include <errno.h>
 #include <pthread.h>
 #include <stdlib.h>
+
 #include <sys/types.h>
-#include "../../include/libc/hashmap.h"
-#include "../../include/libc/memory.h"
-#include "../../include/libc/utils.h"
 
 
 #define LOAD_FACTOR 0.75f

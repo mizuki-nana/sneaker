@@ -1,7 +1,7 @@
 /*******************************************************************************
 The MIT License (MIT)
 
-Copyright (c) 2014 Yanzheng Li
+Copyright (c) 2015 Yanzheng Li
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -25,11 +25,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * sneaker/container/reservation_map.h
  */
 
+#include "../../include/container/reservation_map.h"
+
+#include "../../include/testing/testing.h"
+
+#include <boost/uuid/uuid.hpp>
 
 #include <cassert>
-#include <boost/uuid/uuid.hpp>
-#include "../../include/testing/testing.h"
-#include "../../include/container/reservation_map.h"
 
 
 class reservation_unittest : public ::testing::Test {

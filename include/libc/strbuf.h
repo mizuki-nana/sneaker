@@ -1,7 +1,7 @@
 /*******************************************************************************
 The MIT License (MIT)
 
-Copyright (c) 2014 Yanzheng Li
+Copyright (c) 2015 Yanzheng Li
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -26,8 +26,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef SNEAKER_STRBUF_H_
 #define SNEAKER_STRBUF_H_
 
-#include <stddef.h>
 #include "c_str.h"
+
+#include <stddef.h>
+
 
 #ifdef __cplusplus
 extern "C" {

@@ -1,7 +1,7 @@
 /*******************************************************************************
 The MIT License (MIT)
 
-Copyright (c) 2014 Yanzheng Li
+Copyright (c) 2015 Yanzheng Li
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -21,13 +21,15 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
+#include "../../include/libc/uuid.h"
+
+#include "../../include/libc/hash.h"
+#include "../../include/libc/utils.h"
+
 #include <assert.h>
 #include <limits.h>
 #include <string.h>
 #include <time.h>
-#include "../../include/libc/hash.h"
-#include "../../include/libc/utils.h"
-#include "../../include/libc/uuid.h"
 
 
 uuid128_t uuid_create()
