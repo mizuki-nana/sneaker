@@ -31,6 +31,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <functional>
 #include <memory>
+#include <stdexcept>
 
 
 class assorted_value_map_unittest_base : public ::testing::Test {};
