@@ -98,3 +98,7 @@ boost:<br/>
 
 googletest:<br/>
 `Version 1.6.0`
+
+
+## License
+*sneaker* is licensed under [The MIT License](http://opensource.org/licenses/MIT).
