@@ -1,7 +1,7 @@
 /*******************************************************************************
 The MIT License (MIT)
 
-Copyright (c) 2014 Yanzheng Li
+Copyright (c) 2015 Yanzheng Li
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
 #include <ctype.h>
 #include <stdlib.h>
 #include "../../include/libc/utils.h"
@@ -34,7 +33,7 @@ char* strtoupper(char *s)
 
   char *str = s;
 
-  while(*str != '\0') {
+  while (*str != '\0') {
     *str = toupper(*str);
     str++;
   }
@@ -48,7 +47,7 @@ char* strtolower(char *s)
 
   char *str = s;
 
-  while(*str) {
+  while (*str) {
     *str = tolower(*str);
     str++;
   }
@@ -60,8 +59,8 @@ char* strtrim(char *s)
   RETURN_VAL_IF_NULL(s, NULL);
 
   size_t l = strlen(s);
-  while(l > 1 && isspace(s[l-1])) s[--l] = '\0';
-  while(*s && isspace(*s)) *s = '\0', ++s;
+  while (l > 1 && isspace(s[l-1])) s[--l] = '\0';
+  while (*s && isspace(*s)) *s = '\0', ++s;
   return s;
 }
 
@@ -73,7 +72,7 @@ char* strcpy_hard(char *dst, const char *src)
   size_t dstlen = dst ? strlen(dst) : 0;
   size_t len = MAX(dstlen, srclen);
 
-  if(dst) {
+  if (dst) {
     free(dst);
   }
 
@@ -104,19 +103,19 @@ size_t strlcpy2(char *dst, const char *src, size_t size)
   const char *s = src;
   size_t n = size;
 
-  if(n > 0) {
-    while(--n != 0) {
-      if((*d++ = *s++) == '\0') {
+  if (n > 0) {
+    while (--n != 0) {
+      if ((*d++ = *s++) == '\0') {
         break;
       }
     }
   }
 
-  if(n == 0) {
-    if(size != 0) {
+  if (n == 0) {
+    if (size != 0) {
       *d = '\0';
     }
-    while(*s++) {} // do nothing
+    while (*s++) {} // do nothing
   }
 
   return s - src - 1;

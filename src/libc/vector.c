@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
 #include "../../include/libc/vector.h"
 
 #include "../../include/libc/memory.h"
@@ -55,28 +54,28 @@ _vector_ensure_capacity(vector_t vector, size_t capacity)
 
   int oldCapacity = vector->capacity;
 
-  if(capacity > oldCapacity) {
+  if (capacity > oldCapacity) {
     size_t newCapcity = (oldCapacity == 0) ?
       DEFAULT_VECTOR_INITIAL_CAPACITY : oldCapacity;
 
-    while(newCapcity < capacity) {
+    while (newCapcity < capacity) {
       size_t newCap = newCapcity << 1;
-      if(newCap < newCapcity || newCap > VECTOR_MAX_CAPACITY) {
+      if (newCap < newCapcity || newCap > VECTOR_MAX_CAPACITY) {
         newCap = VECTOR_MAX_CAPACITY;
       }
       newCapcity = newCap;
     }
 
     void **newContent = NULL;
-    if(!vector->content) {
+    if (!vector->content) {
       newContent = malloc(newCapcity * sizeof(void*));
-      if(!newContent) {
+      if (!newContent) {
         errno = ENOMEM;
         return -1;
       }
     } else {
       newContent = realloc(vector->content, sizeof(void*) * newCapcity);
-      if(!newContent) {
+      if (!newContent) {
         errno = ENOMEM;
         return -1;
       }
@@ -102,7 +101,7 @@ vector_t vector_create()
 
   vector = MALLOC(struct __sneaker_vector_s);
 
-  if(!vector) {
+  if (!vector) {
     errno = ENOMEM;
     return NULL;
   }
@@ -164,7 +163,7 @@ vector_remove(vector_t vector, int index)
 
   int newSize = vector->size - 1;
 
-  if(index != newSize) {
+  if (index != newSize) {
     memmove(
       vector->content+index,
       vector->content+index+1,

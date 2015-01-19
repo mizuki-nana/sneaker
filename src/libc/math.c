@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
 #include "../../include/libc/math.h"
 
 #include <math.h>
@@ -38,7 +37,7 @@ nearest_exp2_floor(unsigned int num)
   double log_2 = log2(num);
   double log_2_int = (double)((int)log_2);
 
-  if(log_2 - log_2_int == 0.0) {
+  if (log_2 - log_2_int == 0.0) {
     return num;
   }
 

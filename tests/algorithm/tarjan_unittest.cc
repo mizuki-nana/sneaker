@@ -57,6 +57,7 @@ public:
   }
 };
 
+
 TEST_F(tarjan_unittest, TestEmptyGraph)
 {
   /*

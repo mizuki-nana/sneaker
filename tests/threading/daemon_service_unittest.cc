@@ -33,20 +33,20 @@ class dummy_daemon_service : public sneaker::threading::daemon_service {
 public:
   dummy_daemon_service(int num, bool wait_for_termination=false):
     daemon_service(wait_for_termination),
-    _num(num)
+    m_num(num)
   {
   }
 
   virtual void handle() {
-    this->_num += 1;
+    this->m_num += 1;
   }
 
   int num() {
-    return this->_num;
+    return this->m_num;
   }
 
 private:
-  int _num;
+  int m_num;
 };
 
 

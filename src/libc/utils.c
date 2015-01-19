@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
 #include "../../include/libc/utils.h"
 
 #include "../../include/libc/assert.h"
@@ -94,7 +93,7 @@ inline randf_top(double max)
   double f = (double)rand() / RAND_MAX;
   double _rand = f * max;
 
-  if(_rand < 1.0f) {
+  if (_rand < 1.0f) {
     _rand += 1.0f;
   }
 
@@ -120,7 +119,7 @@ generate_text(size_t len, size_t max)
   c_str text =  NULL;
   size_t _len = 0;
 
-  if(len && max) {
+  if (len && max) {
     _len = rand_range(len, max); 
   } else if (len && !max) {
     _len = len;
@@ -134,7 +133,7 @@ generate_text(size_t len, size_t max)
   memset(text, 0, _len+1);
 
   int i;
-  for(i = 0; i < _len; i++) {
+  for (i = 0; i < _len; i++) {
     text[i] = _rand_ascii();
   }
 

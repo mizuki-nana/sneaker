@@ -318,7 +318,7 @@ TEST_F(json_serialization_unittest, TestComplexSerialization)
 TEST_F(json_serialization_unittest, TestClassObjectToJsonArraySerialization)
 {
   std::vector<Point> points = { { 1, 2 }, { 10, 20 }, { 100, 200 } };
-  
+
   std::string expected_json = "[[1, 2], [10, 20], [100, 200]]";
   std::string actual_json = JSON(points).dump();
 

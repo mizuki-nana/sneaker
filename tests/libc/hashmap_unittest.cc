@@ -37,7 +37,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 unsigned long int simple_hash(c_str s) {
   unsigned long int h = 0;
 
-  for(size_t i = 0; i < strlen(s); i++) {
+  for (size_t i = 0; i < strlen(s); i++) {
     h = 127 * h + s[i];
   }
 
@@ -275,7 +275,7 @@ TEST_F(hashmap_unittest, TestStress)
   const int TOP = 500000;
   std::unordered_map<int, char*> map;
 
-  for(int i = 0; i < TOP; i++) {
+  for (int i = 0; i < TOP; i++) {
     char buf[10];
     snprintf(buf, sizeof(buf), "%d", i);
     char* s = strdup(buf);
@@ -287,7 +287,7 @@ TEST_F(hashmap_unittest, TestStress)
     map[i] = s;
   }
 
-  for(int i = 0; i < TOP; i++) {
+  for (int i = 0; i < TOP; i++) {
     char buf[10];
     snprintf(buf, sizeof(buf), "%d", i);
 

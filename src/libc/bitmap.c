@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
 #include "../../include/libc/bitmap.h"
 
 #include "../../include/libc/memory.h"
@@ -34,6 +33,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define ROW(row) floor((double)(row) / sizeof(char))
 #define COL(col) floor((double)(col) / sizeof(char))
+
 
 struct __sneaker_bitmap_s {
   char **_content;
@@ -49,7 +49,7 @@ bitmap_t bitmap_create(size_t width, size_t height)
 
   bitmap_t bitmap = MALLOC(struct __sneaker_bitmap_s);
 
-  if(!bitmap) {
+  if (!bitmap) {
     errno = ENOMEM;
     return NULL;
   }
@@ -60,12 +60,12 @@ bitmap_t bitmap_create(size_t width, size_t height)
 
   char **_content = (char**)calloc(_rows, sizeof(char*));
 
-  if(!bitmap) {
+  if (!bitmap) {
     errno = ENOMEM;
     return NULL;
   }
 
-  for(i = 0; i < _rows; i++) {
+  for (i = 0; i < _rows; i++) {
     _content[i] = (char*)calloc(_cols, sizeof(char));
     memset(_content[i], 0, _cols);
   }
@@ -84,7 +84,7 @@ void bitmap_free(bitmap_t *bitmap)
   bitmap_t _bitmap = *bitmap;
 
   int i;
-  for(i = 0; i < _bitmap->_height; i++) {
+  for (i = 0; i < _bitmap->_height; i++) {
     FREE(_bitmap->_content[i]);
   }
 
@@ -182,7 +182,7 @@ void bitmap_clear(bitmap_t bitmap)
   assert(bitmap);
 
   int i;
-  for(i = 0; i < bitmap->_height; i++) {
+  for (i = 0; i < bitmap->_height; i++) {
     char *row = bitmap->_content[i];
     memset(row, 0, bitmap->_width);
   }

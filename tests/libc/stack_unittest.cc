@@ -37,24 +37,24 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 class stack_unittest : public ::testing::Test {
 protected:
   virtual void SetUp() {
-    _stack = stack_create();
-    assert(_stack);
+    m_stack = stack_create();
+    assert(m_stack);
   }
 
   virtual void TearDown() {
-    stack_free(&_stack);
-    assert(_stack == NULL);
+    stack_free(&m_stack);
+    assert(m_stack == NULL);
   }
 
-  stack_t _stack;
+  stack_t m_stack;
 };
 
 
 TEST_F(stack_unittest, TestCreation)
 {
-  assert(_stack);
-  ASSERT_EQ(0, stack_size(_stack));
-  assert(stack_pop(_stack) == NULL);
+  assert(m_stack);
+  ASSERT_EQ(0, stack_size(m_stack));
+  assert(stack_pop(m_stack) == NULL);
 }
 
 TEST_F(stack_unittest, TestPushAndPop1)
@@ -62,58 +62,58 @@ TEST_F(stack_unittest, TestPushAndPop1)
   int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   int i;
 
-  for(i = 0; i < 10; i++) {
-    stack_push(_stack, &numbers[i], sizeof(int));
+  for (i = 0; i < 10; i++) {
+    stack_push(m_stack, &numbers[i], sizeof(int));
   }
 
-  ASSERT_EQ(10, stack_size(_stack));
+  ASSERT_EQ(10, stack_size(m_stack));
 
-  for(i = 9; i >= 0; i--) {
-    int *p = (int*)stack_pop(_stack);
+  for (i = 9; i >= 0; i--) {
+    int *p = (int*)stack_pop(m_stack);
     int val = DEREF_VOID(int, p);
     ASSERT_EQ(numbers[i], val);
   }
 
-  assert(stack_pop(_stack) == NULL);
+  assert(stack_pop(m_stack) == NULL);
 
-  ASSERT_EQ(0, stack_size(_stack));
+  ASSERT_EQ(0, stack_size(m_stack));
 }
 
 TEST_F(stack_unittest, TestPushAndPop2)
 {
   int odds[] = {1, 3, 5, 7, 9};
   int evens[] = {2, 4, 6, 8, 10};
-  
+
   int i;
-  for(i = 0; i < 5; i++) {
-    stack_push(_stack, &odds[i], sizeof(int));
+  for (i = 0; i < 5; i++) {
+    stack_push(m_stack, &odds[i], sizeof(int));
   }
 
-  ASSERT_EQ(5, stack_size(_stack));
+  ASSERT_EQ(5, stack_size(m_stack));
 
-  for(i = 4; i >= 0; i--) {
-    int *p = (int*)stack_pop(_stack);
+  for (i = 4; i >= 0; i--) {
+    int *p = (int*)stack_pop(m_stack);
     int val = DEREF_VOID(int, p);
     ASSERT_EQ(odds[i], val);
   }
 
-  assert(stack_pop(_stack) == NULL);
-  ASSERT_EQ(0, stack_size(_stack));
+  assert(stack_pop(m_stack) == NULL);
+  ASSERT_EQ(0, stack_size(m_stack));
 
-  for(i = 0; i < 5; i++) {
-    stack_push(_stack, &evens[i], sizeof(int));
+  for (i = 0; i < 5; i++) {
+    stack_push(m_stack, &evens[i], sizeof(int));
   }
 
-  ASSERT_EQ(5, stack_size(_stack));
+  ASSERT_EQ(5, stack_size(m_stack));
 
-  for(i = 4; i >= 0; i--) {
-    int *p = (int*)stack_pop(_stack);
+  for (i = 4; i >= 0; i--) {
+    int *p = (int*)stack_pop(m_stack);
     int val = DEREF_VOID(int, p);
     ASSERT_EQ(evens[i], val);
   }
 
-  assert(stack_pop(_stack) == NULL);
-  ASSERT_EQ(0, stack_size(_stack));
+  assert(stack_pop(m_stack) == NULL);
+  ASSERT_EQ(0, stack_size(m_stack));
 }
 
 TEST_F(stack_unittest, TestPushAndPop3)
@@ -127,20 +127,20 @@ TEST_F(stack_unittest, TestPushAndPop3)
   };
 
   int i;
-  for(i = 0; i < 26; i++) {
+  for (i = 0; i < 26; i++) {
     char *fruit = (char*)fruits[i];
-    stack_push(_stack, fruit, strlen(fruit)+1);
-    ASSERT_EQ(i + 1, stack_size(_stack));
+    stack_push(m_stack, fruit, strlen(fruit)+1);
+    ASSERT_EQ(i + 1, stack_size(m_stack));
   }
 
-  ASSERT_EQ(26, stack_size(_stack));
+  ASSERT_EQ(26, stack_size(m_stack));
 
-  for(i = 25; i >= 0; i--) {
-    char *fruit = (char*)stack_pop(_stack);
+  for (i = 25; i >= 0; i--) {
+    char *fruit = (char*)stack_pop(m_stack);
     ASSERT_STREQ(fruit, fruits[i]);
-    ASSERT_EQ(i, stack_size(_stack));
+    ASSERT_EQ(i, stack_size(m_stack));
   }
 
-  ASSERT_EQ(0, stack_size(_stack));
-  assert(stack_pop(_stack) == NULL);
+  ASSERT_EQ(0, stack_size(m_stack));
+  assert(stack_pop(m_stack) == NULL);
 }

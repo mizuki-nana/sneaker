@@ -40,97 +40,117 @@ extern "C" {
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
+
 #define CONTINUE_IF_EQUALS(val1, val2)                \
-  if( (val1) == (val2) ) continue;
+  if ( (val1) == (val2) ) continue;
+
 
 #define CONTINUE_IF_NULL(val)                         \
   CONTINUE_IF_EQUALS( (val), (NULL) )
 
+
 #define CONTINUE_IF_TRUE(val)                         \
   CONTINUE_IF_EQUALS( (val), (1) )
+
 
 #define CONTINUE_IF_FALSE(val)                        \
   CONTINUE_IF_EQUALS( (val), (0) )
 
+
 #define BREAK_IF_EQUALS(val1, val2)                   \
-  if( (val1) == (val2) ) break;
+  if ( (val1) == (val2) ) break;
+
 
 #define BREAK_IF_NULL(val)                            \
   BREAK_IF_EQUALS( (val), (NULL) )
 
+
 #define BREAK_IF_TRUE(val)                            \
   BREAK_IF_EQUALS( (val), (1) )
+
 
 #define BREAK_IF_FALSE(val)                           \
   BREAK_IF_EQUALS( (val), (0) )
 
+
 #define RETURN_IF_EQUALS(val1, val2)                  \
   do {                                                \
-    if( (val1) == (val2) ) {                          \
+    if ( (val1) == (val2) ) {                         \
       return;                                         \
     }                                                 \
-  } while(0)
+  } while (0)
+
 
 #define RETURN_IF_NULL(val)                           \
   RETURN_IF_EQUALS( (val), (NULL) )
 
+
 #define RETURN_IF_TRUE(val)                           \
   RETURN_IF_EQUALS( (val), (1) )
+
 
 #define RETURN_IF_FALSE(val)                          \
   RETURN_IF_EQUALS( (val), (0) )
 
+
 #define RETURN_VAL_IF_EQ(val1, val2, returnval)       \
   do {                                                \
-    if( (val1) == (val2) ) {                          \
+    if ( (val1) == (val2) ) {                         \
       return (returnval);                             \
     }                                                 \
-  } while(0)
+  } while (0)
+
 
 #define RETURN_VAL_IF_NE(val1, val2, returnval)       \
   do {                                                \
-    if( (val1) != (val2) ) {                          \
+    if ( (val1) != (val2) ) {                          \
       return (returnval);                             \
     }                                                 \
-  } while(0)
+  } while (0)
+
 
 #define RETURN_VAL_IF_NULL(val, returnval)            \
   RETURN_VAL_IF_EQ( (val), (NULL), (returnval) )
 
+
 #define RETURN_VAL_IF_TRUE(boolval, returnval)        \
   do {                                                \
-    if((boolval)) {                                   \
+    if ((boolval)) {                                  \
       return (returnval);                             \
     }                                                 \
-  } while(0)
+  } while (0)
+
 
 #define RETURN_VAL_IF_FALSE(boolval, returnval)       \
   do {                                                \
-    if(!(boolval)) {                                  \
+    if (!(boolval)) {                                 \
       return (returnval);                             \
     }                                                 \
-  } while(0)
+  } while (0)
+
 
 #define GOTO_IF_NULL(val, goto_target)                \
   do {                                                \
-    if( (val) == NULL ) {                             \
+    if ( (val) == NULL ) {                            \
       goto goto_target;                               \
     }                                                 \
-  } while(0)
+  } while (0)
+
 
 #define GOTO_IF_TRUE(boolval, goto_target)            \
   do {                                                \
-    if( (boolval) ) {                                 \
+    if ( (boolval) ) {                                \
       goto goto_target;                               \
     }                                                 \
-  } while(0)
+  } while (0)
+
 
 #define GOTO_IF_FALSE(boolval, goto_target)           \
   do {                                                \
-    if( !(boolval) ) {                                \
+    if ( !(boolval) ) {                               \
       goto goto_target;                               \
     }                                                 \
-  } while(0)
+  } while (0)
 
 
 /*
@@ -149,6 +169,7 @@ extern "C" {
 void
 set_nth_bit(int *val, char bit);
 
+
 /*
  * void
  * clear_nth_bit(int *val, char bit)
@@ -164,6 +185,7 @@ set_nth_bit(int *val, char bit);
  */
 void
 clear_nth_bit(int *val, char bit);
+
 
 /*
  * int
@@ -182,6 +204,7 @@ clear_nth_bit(int *val, char bit);
 int
 is_bit_set(int val, char bit);
 
+
 /*
  * void
  * set_nth_bit_uint32(uint32_t *val, char bit)
@@ -198,6 +221,7 @@ is_bit_set(int val, char bit);
 void
 set_nth_bit_uint32(uint32_t *val, char bit);
 
+
 /*
  * void
  * clear_nth_bit_uint32(uint32_t *val, char bit)
@@ -213,6 +237,7 @@ set_nth_bit_uint32(uint32_t *val, char bit);
  */
 void
 clear_nth_bit_uint32(uint32_t *val, char bit);
+
 
 /*
  * int
@@ -231,6 +256,7 @@ clear_nth_bit_uint32(uint32_t *val, char bit);
 int
 is_bit_set_uint32(uint32_t val, char bit);
 
+
 /*
  * int
  * rand_top(int max)
@@ -239,6 +265,7 @@ is_bit_set_uint32(uint32_t val, char bit);
  */
 int
 rand_top(int max);
+
 
 /*
  * int
@@ -249,6 +276,7 @@ rand_top(int max);
 int
 rand_range(int min, int max);
 
+
 /*
  * double
  * hex_randf_top(double max)
@@ -258,6 +286,7 @@ rand_range(int min, int max);
 double
 randf_top(double max);
 
+
 /*
  * int
  * randf_range(double min, double max)
@@ -266,6 +295,7 @@ randf_top(double max);
  */
 double
 randf_range(double min, double max);
+
 
 /*
  * c_str
@@ -293,6 +323,7 @@ randf_range(double min, double max);
  */
 c_str
 generate_text(size_t len, size_t max);
+
 
 /*
  * c_str

@@ -96,7 +96,7 @@ TEST_F(strtolower_unittest, TestNULLInput)
 
 TEST_F(strtolower_unittest, TestValidSingleWord)
 {
-  char s[] = "TEST"; 
+  char s[] = "TEST";
   ASSERT_STREQ("test", strtolower(s));
 }
 

@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
 #include "../../include/libc/dict.h"
 
 #include "../../include/libc/c_str.h"
@@ -64,7 +63,7 @@ dict_t dict_create()
 {
   dict_t dict = MALLOC(struct __sneaker_dict_s);
 
-  if(!dict) {
+  if (!dict) {
     errno = ENOMEM;
     return NULL;
   }
@@ -75,7 +74,7 @@ dict_t dict_create()
     _dict_keycmpfunc
   );
 
-  if(!hashmap) {
+  if (!hashmap) {
     errno = ENOMEM;
     return NULL;
   }

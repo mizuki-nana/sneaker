@@ -37,23 +37,23 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 class vector_unittest : public ::testing::Test {
 protected:
   virtual void SetUp() {
-    _vector = vector_create();
-    assert(_vector);
+    m_vector = vector_create();
+    assert(m_vector);
   }
 
   virtual void TearDown() {
-    vector_free(&_vector);
-    assert(_vector == NULL);
+    vector_free(&m_vector);
+    assert(m_vector == NULL);
   }
 
-  vector_t _vector;
+  vector_t m_vector;
 };
 
 
 TEST_F(vector_unittest, TestCreation)
 {
-  assert(_vector);
-  ASSERT_EQ(0, vector_size(_vector));
+  assert(m_vector);
+  ASSERT_EQ(0, vector_size(m_vector));
 }
 
 TEST_F(vector_unittest, TestAppendAndGet)
@@ -61,19 +61,19 @@ TEST_F(vector_unittest, TestAppendAndGet)
   int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   int i;
 
-  for(i = 0; i < 10; i++) {
-    vector_append(_vector, &numbers[i]);
-    ASSERT_EQ(i + 1, vector_size(_vector));
+  for (i = 0; i < 10; i++) {
+    vector_append(m_vector, &numbers[i]);
+    ASSERT_EQ(i + 1, vector_size(m_vector));
   }
 
-  for(i = 0; i < 10; i++) {
-    void *p = vector_get(_vector, i);
+  for (i = 0; i < 10; i++) {
+    void *p = vector_get(m_vector, i);
     int val = DEREF_VOID(int, p);
     ASSERT_EQ(numbers[i], val);
-    ASSERT_EQ(10, vector_size(_vector));
+    ASSERT_EQ(10, vector_size(m_vector));
   }
 
-  ASSERT_EQ(10, vector_size(_vector));
+  ASSERT_EQ(10, vector_size(m_vector));
 }
 
 TEST_F(vector_unittest, TestAppendAndRemove)
@@ -81,19 +81,19 @@ TEST_F(vector_unittest, TestAppendAndRemove)
   int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   int i;
 
-  for(i = 0; i < 10; i++) {
-    vector_append(_vector, &numbers[i]);
-    ASSERT_EQ(i + 1, vector_size(_vector));
+  for (i = 0; i < 10; i++) {
+    vector_append(m_vector, &numbers[i]);
+    ASSERT_EQ(i + 1, vector_size(m_vector));
   }
 
-  for(i = 0; i < 10; i++) {
-    void *p = vector_remove(_vector, 0);
+  for (i = 0; i < 10; i++) {
+    void *p = vector_remove(m_vector, 0);
     int val = DEREF_VOID(int, p);
     ASSERT_EQ(numbers[i], val);
-    ASSERT_EQ(10 - i - 1, vector_size(_vector));
+    ASSERT_EQ(10 - i - 1, vector_size(m_vector));
   }
 
-  ASSERT_EQ(0, vector_size(_vector));
+  ASSERT_EQ(0, vector_size(m_vector));
 }
 
 TEST_F(vector_unittest, TestRemove)
@@ -101,44 +101,44 @@ TEST_F(vector_unittest, TestRemove)
   int odds[] = {1, 3, 5, 7, 9};
   int i;
 
-  for(i = 0; i < 5; i++) {
-    vector_append(_vector, &odds[i]);
-    ASSERT_EQ(i + 1, vector_size(_vector));
+  for (i = 0; i < 5; i++) {
+    vector_append(m_vector, &odds[i]);
+    ASSERT_EQ(i + 1, vector_size(m_vector));
   }
 
   /* vector = {1, 3, 5, 7, 9} */
   {
-    int val = DEREF_VOID(int, vector_remove(_vector, 1));
+    int val = DEREF_VOID(int, vector_remove(m_vector, 1));
     ASSERT_EQ(3, val);
-    ASSERT_EQ(4, vector_size(_vector));
+    ASSERT_EQ(4, vector_size(m_vector));
   }
 
   /* vector = {1, 5, 7, 9} */
   {
-    int val = DEREF_VOID(int, vector_remove(_vector, 2));
+    int val = DEREF_VOID(int, vector_remove(m_vector, 2));
     ASSERT_EQ(7, val);
-    ASSERT_EQ(3, vector_size(_vector));
+    ASSERT_EQ(3, vector_size(m_vector));
   }
 
   /* vector = {1, 5, 9} */
   {
-    int val = DEREF_VOID(int, vector_remove(_vector, 2));
+    int val = DEREF_VOID(int, vector_remove(m_vector, 2));
     ASSERT_EQ(9, val);
-    ASSERT_EQ(2, vector_size(_vector));
+    ASSERT_EQ(2, vector_size(m_vector));
   }
 
   /* vector = {1, 5} */
   {
-    int val = DEREF_VOID(int, vector_remove(_vector, 0));
+    int val = DEREF_VOID(int, vector_remove(m_vector, 0));
     ASSERT_EQ(1, val);
-    ASSERT_EQ(1, vector_size(_vector));
+    ASSERT_EQ(1, vector_size(m_vector));
   }
 
   /* vector = {5} */
   {
-    int val = DEREF_VOID(int, vector_remove(_vector, 0));
+    int val = DEREF_VOID(int, vector_remove(m_vector, 0));
     ASSERT_EQ(5, val);
-    ASSERT_EQ(0, vector_size(_vector));
+    ASSERT_EQ(0, vector_size(m_vector));
   }
 }
 
@@ -148,26 +148,26 @@ TEST_F(vector_unittest, TestRemoveAndSet)
   int evens[] = {2,4,6,8,10};
   int i;
 
-  for(i = 0; i < 5; i++) {
-    vector_append(_vector, &odds[i]);
-    ASSERT_EQ(i + 1, vector_size(_vector));
+  for (i = 0; i < 5; i++) {
+    vector_append(m_vector, &odds[i]);
+    ASSERT_EQ(i + 1, vector_size(m_vector));
   }
 
-  for(i = 0; i < 5; i++) {
-    int val = DEREF_VOID(int, vector_set(_vector, i, &evens[i]));
+  for (i = 0; i < 5; i++) {
+    int val = DEREF_VOID(int, vector_set(m_vector, i, &evens[i]));
     ASSERT_EQ(odds[i], val);
-    val = DEREF_VOID(int, vector_get(_vector, i));
+    val = DEREF_VOID(int, vector_get(m_vector, i));
     ASSERT_EQ(evens[i], val);
-    ASSERT_EQ(5, vector_size(_vector));
+    ASSERT_EQ(5, vector_size(m_vector));
   }
 
-  ASSERT_EQ(5, vector_size(_vector));
+  ASSERT_EQ(5, vector_size(m_vector));
 
-  for(i = 4; i >= 0; i--) {
-    int val = DEREF_VOID(int, vector_remove(_vector, i));
+  for (i = 4; i >= 0; i--) {
+    int val = DEREF_VOID(int, vector_remove(m_vector, i));
     ASSERT_EQ(evens[i], val);
-    ASSERT_EQ(i, vector_size(_vector));
+    ASSERT_EQ(i, vector_size(m_vector));
   }
 
-  ASSERT_EQ(0, vector_size(_vector));
+  ASSERT_EQ(0, vector_size(m_vector));
 }

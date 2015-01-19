@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
 #include "../../include/io/file_reader.h"
 
 #include <cassert>
@@ -35,7 +34,7 @@ sneaker::io::file_reader::file_reader()
 
 sneaker::io::file_reader::file_reader(
   const char* path
-) : _path(path)
+) : m_path(path)
 {
   assert(this->file_path());
 }
@@ -43,26 +42,26 @@ sneaker::io::file_reader::file_reader(
 const char*
 sneaker::io::file_reader::file_path() const
 {
-  return this->_path.c_str();
+  return this->m_path.c_str();
 }
 
 void
 sneaker::io::file_reader::set_path(const char* path)
 {
   assert(path);
-  this->_path = path;
+  this->m_path = path;
 }
 
 bool
 sneaker::io::file_reader::read_file(char** p) const
 {
-  if(!this->file_path()) {
+  if (!this->file_path()) {
     return  false;
   }
 
   std::ifstream file(this->file_path());
 
-  if(file.fail()) {
+  if (file.fail()) {
     return false;
   }
 
@@ -73,5 +72,5 @@ sneaker::io::file_reader::read_file(char** p) const
   std::string str = buffer.str();
   *p = (char*)str.c_str();
 
-  return true;  
+  return true;
 }

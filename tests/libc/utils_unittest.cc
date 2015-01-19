@@ -186,7 +186,7 @@ TEST_F(return_if_equals_unittest, TestPassFalse)
 
 /*******************************************************************************
  * Unit tests for:
- * void set_nth_bit(int *val, char bit) 
+ * void set_nth_bit(int *val, char bit)
  ******************************************************************************/
 class set_nth_bit_unittest : public ::testing::Test {
 public:
@@ -236,7 +236,7 @@ TEST_F(set_nth_bit_unittest, TestSet32thBit)
 
 /*******************************************************************************
  * Unit tests for:
- * void clear_nth_bit(int *val, char bit) 
+ * void clear_nth_bit(int *val, char bit)
  ******************************************************************************/
 class clear_nth_bit_unittest : public ::testing::Test {
 public:
@@ -285,7 +285,7 @@ TEST_F(clear_nth_bit_unittest, TestClear32thBit)
 
 /*******************************************************************************
  * Unit test for:
- * void is_bit_set(int val, char bit) 
+ * void is_bit_set(int val, char bit)
  ******************************************************************************/
 class is_bit_set_unittest : public ::testing::Test {};
 
@@ -335,7 +335,7 @@ TEST_F(is_bit_set_unittest, TestSetOn16thBit)
 }
 
 TEST_F(is_bit_set_unittest, TestSetOn32thBit)
-{ 
+{
   int val = (1 << 31);
   EXPECT_FALSE(is_bit_set(val, 1));
   EXPECT_FALSE(is_bit_set(val, 2));
@@ -348,7 +348,7 @@ TEST_F(is_bit_set_unittest, TestSetOn32thBit)
 
 /*******************************************************************************
  * Unit tests for:
- * void set_nth_bit_uint32(uint32_t *val, char bit) 
+ * void set_nth_bit_uint32(uint32_t *val, char bit)
  ******************************************************************************/
 class set_nth_bit_uint32_unittest : public ::testing::Test {
 public:
@@ -398,7 +398,7 @@ TEST_F(set_nth_bit_uint32_unittest, TestSet32thBit)
 
 /*******************************************************************************
  * Unit tests for:
- * void clear_nth_bit_uint32(uint32_t *val, char bit) 
+ * void clear_nth_bit_uint32(uint32_t *val, char bit)
  ******************************************************************************/
 class clear_nth_bit_uint32_unittest : public ::testing::Test {
 public:
@@ -448,7 +448,7 @@ TEST_F(clear_nth_bit_uint32_unittest, TestClear32thBit)
 
 /*******************************************************************************
  * Unit test for:
- * void is_bit_set_uint32(uint32_t val, char bit) 
+ * void is_bit_set_uint32(uint32_t val, char bit)
  ******************************************************************************/
 class is_bit_set_uint32_unittest : public ::testing::Test {};
 
@@ -498,7 +498,7 @@ TEST_F(is_bit_set_uint32_unittest, TestSetOn16thBit)
 }
 
 TEST_F(is_bit_set_uint32_unittest, TestSetOn32thBit)
-{ 
+{
   uint32_t val = 1 << 31;
   EXPECT_FALSE(is_bit_set_uint32(val, 1));
   EXPECT_FALSE(is_bit_set_uint32(val, 2));
@@ -519,7 +519,7 @@ class rand_top_unittest : public ::testing::Test {};
 TEST_F(rand_top_unittest, TestRandomness)
 {
   int i;
-  for(i = 1; i <= 5000; i++) {
+  for (i = 1; i <= 5000; i++) {
     ASSERT_LE(rand_top(i), i);
   }
 }
@@ -536,7 +536,7 @@ TEST_F(rand_range_unittest, TestRandomness)
 {
   int i;
   int min = 20;
-  for(i = min; i <= 5000; i++) {
+  for (i = min; i <= 5000; i++) {
     int _rand = rand_range(min, i);
     ASSERT_LE(min, _rand);
     ASSERT_GE(i, _rand);
@@ -554,7 +554,7 @@ class randf_top_unittest : public ::testing::Test {};
 TEST_F(randf_top_unittest, TestRandomness)
 {
   int i;
-  for(i = 1.0f; i <= 5000.0f; i++) {
+  for (i = 1.0f; i <= 5000.0f; i++) {
     ASSERT_LE(rand_top(i), i);
   }
 }
@@ -571,7 +571,7 @@ TEST_F(randf_range_unittest, TestRandomness)
 {
   double i;
   double min = 20.0f;
-  for(i = min; i <= 5000.0f; i++) {
+  for (i = min; i <= 5000.0f; i++) {
     double _rand = randf_range(min, i);
     ASSERT_LE(min, _rand);
     ASSERT_GE(i, _rand);
@@ -603,7 +603,7 @@ TEST_F(generate_text_unittest, TestPassZeroMinAndMax)
 TEST_F(generate_text_unittest, TestPassNonZeroLenAndZeroMax)
 {
   int i;
-  for(i = 1; i <= 5000; i++) {
+  for (i = 1; i <= 5000; i++) {
     char *text = generate_text(i, 0);
     assert(text);
     ASSERT_EQ(i, strlen(text));
@@ -614,7 +614,7 @@ TEST_F(generate_text_unittest, TestPassNonZeroLenAndZeroMax)
 TEST_F(generate_text_unittest, TestPassZeroLenAndNonZeroMax)
 {
   int i;
-  for(i = 1; i <= 5000; i++) {
+  for (i = 1; i <= 5000; i++) {
     char *text = generate_text(0, i);
     assert(text);
     ASSERT_GE(i, strlen(text));

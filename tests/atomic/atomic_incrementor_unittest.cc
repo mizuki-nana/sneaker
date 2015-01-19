@@ -68,7 +68,7 @@ TEST_F(atomic_incrementor_unittest, TestIncrementsSuccessful)
 {
   sneaker::atomic::atomic_incrementor<int, INT_MAX> incrementor;
 
-  for(int i = 0; i < 10; i++) {
+  for (int i = 0; i < 10; i++) {
     ++incrementor;
     ASSERT_TRUE(i+1 == incrementor);
   }
@@ -78,7 +78,7 @@ TEST_F(atomic_incrementor_unittest, TestIncrementUntilOverflow)
 {
   sneaker::atomic::atomic_incrementor<unsigned char, UCHAR_MAX> incrementor;
 
-  for(unsigned char i = 0; i < UCHAR_MAX; i++) {
+  for (unsigned char i = 0; i < UCHAR_MAX; i++) {
     ++incrementor;
     ASSERT_TRUE(i+1 == incrementor);
   }
@@ -93,7 +93,7 @@ TEST_F(atomic_incrementor_unittest, TestIncrementUntilUnderflow)
 {
   sneaker::atomic::atomic_incrementor<signed char, SCHAR_MAX> incrementor;
 
-  for(signed char i = 0; i < SCHAR_MAX; i++) {
+  for (signed char i = 0; i < SCHAR_MAX; i++) {
     ++incrementor;
     ASSERT_TRUE(i+1 == incrementor);
   }
@@ -181,7 +181,7 @@ TEST_F(atomic_incrementor_atomicity_test, TestAtomicity)
   pthread_attr_init(&attr);
   pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
-  for(int i = 0; i < NUM_THREADS; ++i) {
+  for (int i = 0; i < NUM_THREADS; ++i) {
     struct atomic_incrementor_atomicity_test::arg arg = {
       .ptr = &incrementor
     };
@@ -190,16 +190,16 @@ TEST_F(atomic_incrementor_atomicity_test, TestAtomicity)
       &threads[i], &attr, atomic_incrementor_atomicity_test::increment, (void*)(&arg));
 
     if (res) {
-      std::cerr << "Failed to create thread. ERROR: " << res << std::endl; 
+      std::cerr << "Failed to create thread. ERROR: " << res << std::endl;
     }
   }
 
-  for(int i = 0; i < NUM_THREADS; ++i) {
+  for (int i = 0; i < NUM_THREADS; ++i) {
     void* status;
     int res = pthread_join(threads[i], &status);
 
     if (res) {
-      std::cerr << "Failed to join thread. ERROR: " << res << std::endl; 
+      std::cerr << "Failed to join thread. ERROR: " << res << std::endl;
     }
   }
 }

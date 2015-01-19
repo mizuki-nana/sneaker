@@ -48,7 +48,7 @@ unsigned long int linear_horners_rule_str_hash(const char * str)
   unsigned long int h = 0;
 
   int i;
-  for(i = 0; i < len; i++) {
+  for (i = 0; i < len; i++) {
     h = GOLDEN_PRIME * h + str[i];
   }
 
@@ -87,7 +87,7 @@ unsigned long int hash_str_jenkins_one_at_a_time(const char * str)
   unsigned long int hash=0;
 
   int i;
-  for(i = 0; i < strlen(str); i++) {
+  for (i = 0; i < strlen(str); i++) {
     hash += str[i];
     hash += (hash << 10);
     hash ^= (hash >> 6);

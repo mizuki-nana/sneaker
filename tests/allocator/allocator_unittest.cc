@@ -41,7 +41,10 @@ class object_traits_unittest : public ::testing::Test {
 public:
   class Dummy {
     public:
-      Dummy(int i_, double d_):i(i_), d(d_) {}
+      Dummy(int i_, double d_) : i(i_), d(d_)
+      {
+      }
+
       int i;
       double d;
   };
@@ -104,7 +107,7 @@ class standard_alloc_policy_unittest : public ::testing::Test {
 public:
   class Dummy {
     public:
-      Dummy(int i_, double d_):i(i_), d(d_) {}
+      Dummy(int i_, double d_) : i(i_), d(d_) {}
       int i;
       double d;
   };
@@ -127,8 +130,8 @@ TEST_F(standard_alloc_policy_unittest, TestAllocateAndDeallocate)
   int *nums = alloc_policy.allocate(N);
   assert(nums);
 
-  for(int i = 0; i < N; ++i) nums[i] = i;
-  for(int i = 0; i < N; ++i) ASSERT_EQ(i, nums[i]);
+  for (int i = 0; i < N; ++i) nums[i] = i;
+  for (int i = 0; i < N; ++i) ASSERT_EQ(i, nums[i]);
 
   alloc_policy.deallocate(nums, N);
 }
@@ -209,8 +212,8 @@ TEST_F(allocator_simple_unittest, TestAllocation)
 
   assert(a);
 
-  for(int i = 0; i < 10; ++i) a[i] = i;
-  for(int i = 0; i < 10; ++i) ASSERT_EQ(i, a[i]);
+  for (int i = 0; i < 10; ++i) a[i] = i;
+  for (int i = 0; i < 10; ++i) ASSERT_EQ(i, a[i]);
 
   allocator.deallocate(a, 10);
 }

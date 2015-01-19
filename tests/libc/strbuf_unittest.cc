@@ -37,65 +37,66 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 class strbuf_unittest : public ::testing::Test {
 protected:
   virtual void SetUp() {
-    _strbuf = strbuf_create();
-    assert(_strbuf);
+    m_strubuf = strbuf_create();
+    assert(m_strubuf);
   }
 
   virtual void TearDown() {
-    strbuf_free(&_strbuf);
-    assert(_strbuf == NULL);
+    strbuf_free(&m_strubuf);
+    assert(m_strubuf == NULL);
   }
 
   void test_empty();
   void test_append(const c_str);
   void test_append(const c_str, const c_str, const c_str=NULL);
 
-  strbuf_t _strbuf;
+  strbuf_t m_strubuf;
 };
+
 
 void
 strbuf_unittest::test_empty()
 {
-  ASSERT_STREQ("", strbuf_cstr(_strbuf));
-  ASSERT_EQ(0, strbuf_len(_strbuf));
-  ASSERT_LE(0, strbuf_capacity(_strbuf));
+  ASSERT_STREQ("", strbuf_cstr(m_strubuf));
+  ASSERT_EQ(0, strbuf_len(m_strubuf));
+  ASSERT_LE(0, strbuf_capacity(m_strubuf));
 }
 
 void
 strbuf_unittest::test_append(const c_str text)
 {
-  ASSERT_STREQ("", strbuf_cstr(_strbuf));
+  ASSERT_STREQ("", strbuf_cstr(m_strubuf));
 
-  strbuf_append(_strbuf, text);
+  strbuf_append(m_strubuf, text);
 
-  ASSERT_EQ(strlen(text), strbuf_len(_strbuf));
-  ASSERT_STREQ(text, strbuf_cstr(_strbuf));
-  ASSERT_LE(0, strbuf_capacity(_strbuf));
+  ASSERT_EQ(strlen(text), strbuf_len(m_strubuf));
+  ASSERT_STREQ(text, strbuf_cstr(m_strubuf));
+  ASSERT_LE(0, strbuf_capacity(m_strubuf));
 }
 
 void
 strbuf_unittest::test_append(
   const c_str text1, const c_str text2, const c_str expected_str)
 {
-  ASSERT_STREQ("", strbuf_cstr(_strbuf));
+  ASSERT_STREQ("", strbuf_cstr(m_strubuf));
 
-  strbuf_append(_strbuf, text1);
-  strbuf_append(_strbuf, text2);
+  strbuf_append(m_strubuf, text1);
+  strbuf_append(m_strubuf, text2);
 
-  ASSERT_EQ(strlen(text1) + strlen(text2), strbuf_len(_strbuf));
-  ASSERT_LE(0, strbuf_capacity(_strbuf));
+  ASSERT_EQ(strlen(text1) + strlen(text2), strbuf_len(m_strubuf));
+  ASSERT_LE(0, strbuf_capacity(m_strubuf));
 
-  if(expected_str) {
-    ASSERT_STREQ(expected_str, strbuf_cstr(_strbuf));
+  if (expected_str) {
+    ASSERT_STREQ(expected_str, strbuf_cstr(m_strubuf));
   }
 }
 
 
 TEST_F(strbuf_unittest, TestCreation)
 {
-  assert(_strbuf);
-  assert(strbuf_cstr(_strbuf));
-  ASSERT_STREQ("", strbuf_cstr(_strbuf));
+  assert(m_strubuf);
+  assert(strbuf_cstr(m_strubuf));
+  ASSERT_STREQ("", strbuf_cstr(m_strubuf));
 }
 
 TEST_F(strbuf_unittest, TestAppend1)
@@ -123,7 +124,7 @@ TEST_F(strbuf_unittest, TestStrbufAppend3)
 
   this->test_append(text1);
 
-  strbuf_empty(_strbuf);
+  strbuf_empty(m_strubuf);
 
   this->test_empty();
 
@@ -153,10 +154,10 @@ TEST_F(strbuf_unittest, TestStrbufAppend4)
   text = strcat(text, text1);
   text = strcat(text, text2);
 
-  strbuf_append(_strbuf, text2);
+  strbuf_append(m_strubuf, text2);
 
-  ASSERT_STREQ(text, strbuf_cstr(_strbuf));
-  ASSERT_EQ(size, strbuf_len(_strbuf));
+  ASSERT_STREQ(text, strbuf_cstr(m_strubuf));
+  ASSERT_EQ(size, strbuf_len(m_strubuf));
 }
 
 TEST_F(strbuf_unittest, TestStrbufAppend5)
@@ -181,31 +182,31 @@ TEST_F(strbuf_unittest, TestStrbufAppend5)
   text = strcat(text, text1);
   text = strcat(text, text2);
 
-  strbuf_append(_strbuf, text2);
+  strbuf_append(m_strubuf, text2);
 
-  ASSERT_STREQ(text, strbuf_cstr(_strbuf));
-  ASSERT_EQ(size, strbuf_len(_strbuf));
+  ASSERT_STREQ(text, strbuf_cstr(m_strubuf));
+  ASSERT_EQ(size, strbuf_len(m_strubuf));
 }
 
 TEST_F(strbuf_unittest, TestEmpty)
 {
   char text[] = "Another test for strbuf";
-  strbuf_append(_strbuf, text);
+  strbuf_append(m_strubuf, text);
 
-  ASSERT_STREQ(text, strbuf_cstr(_strbuf));
-  ASSERT_EQ(strlen(text), strbuf_len(_strbuf));
+  ASSERT_STREQ(text, strbuf_cstr(m_strubuf));
+  ASSERT_EQ(strlen(text), strbuf_len(m_strubuf));
 
   /* Empty strbuf */
-  strbuf_empty(_strbuf);
+  strbuf_empty(m_strubuf);
 
   this->test_empty();
 
   /* Append text after empty() */
   char text2[] = "An apple a day, keep the doctor away.";
 
-  strbuf_append(_strbuf, text2);
+  strbuf_append(m_strubuf, text2);
 
-  ASSERT_STREQ(text2, strbuf_cstr(_strbuf));
-  ASSERT_EQ(strlen(text2), strbuf_len(_strbuf));
-  ASSERT_LE(0, strbuf_capacity(_strbuf));
+  ASSERT_STREQ(text2, strbuf_cstr(m_strubuf));
+  ASSERT_EQ(strlen(text2), strbuf_len(m_strubuf));
+  ASSERT_LE(0, strbuf_capacity(m_strubuf));
 }

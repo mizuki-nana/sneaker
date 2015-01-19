@@ -1,7 +1,7 @@
 /*******************************************************************************
 The MIT License (MIT)
 
-Copyright (c) 2014 Yanzheng Li
+Copyright (c) 2015 Yanzheng Li
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
 #ifndef SNEAKER_FIXED_TIME_INTERVAL_DAEMON_SERVICE_H_
 #define SNEAKER_FIXED_TIME_INTERVAL_DAEMON_SERVICE_H_
 
@@ -62,11 +61,11 @@ protected:
   bool can_continue();
 
 private:
-  ExternalHandler _external_handler;
-  uint32_t _interval;
-  int32_t _max_iterations;
-  uint32_t _iteration_count;
-  bool _destroyed = false;
+  ExternalHandler m_external_handler;
+  uint32_t m_interval;
+  int32_t m_max_iterations;
+  uint32_t m_iteration_count;
+  bool m_destroyed = false;
 };
 
 

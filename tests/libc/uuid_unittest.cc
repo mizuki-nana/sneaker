@@ -52,7 +52,7 @@ TEST_F(uuid_unittest, TestUUIDCompareDifferentID)
 TEST_F(uuid_unittest, TestHashOnDifferentUUID)
 {
   int i;
-  for(i = 0; i < USHRT_MAX; i++) {
+  for (i = 0; i < USHRT_MAX; i++) {
     const uuid128_t uuid1 = uuid_create();
     const uuid128_t uuid2 = uuid_create();
 
@@ -68,7 +68,7 @@ TEST_F(uuid_unittest, TestHashOnDifferentUUID)
 TEST_F(uuid_unittest, TestCreateAndHash)
 {
   int i;
-  for(i = 0; i < USHRT_MAX; i++) {
+  for (i = 0; i < USHRT_MAX; i++) {
     ASSERT_NE(
       uuid_create_and_hash(),
       uuid_create_and_hash()
@@ -84,7 +84,7 @@ TEST_F(uuid_unittest, TestUniqueness)
 
   ASSERT_LT(limit, hashes.max_size());
 
-  for(int i = 0; i < limit; i++) {
+  for (int i = 0; i < limit; i++) {
     __uint128_t hash = uuid_create_and_hash();
     hashes.insert(hash);
   }

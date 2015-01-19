@@ -20,8 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
-
 #ifndef SNEAKER_SCOPED_CONTEXT_H_
 #define SNEAKER_SCOPED_CONTEXT_H_
 
@@ -68,7 +66,9 @@ void nested_context(
 
   try {
     func(mngrs, args...);
-  } catch (...) {}
+  } catch (...) {
+    // Do nothing here.
+  }
 
   std::for_each(
     mngrs.rbegin(),

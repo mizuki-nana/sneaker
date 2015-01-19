@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
 #ifndef SNEAKER_RESERVATION_MAP_H_
 #define SNEAKER_RESERVATION_MAP_H_
 
@@ -61,22 +60,22 @@ public:
   void clear();
 
 protected:
-  void _reserve(token_t);
+  void reserve(token_t);
 
   using token_set_type = typename std::set<token_t>;
   using map_type = typename std::map<token_t, T>;
 
-  token_set_type _tokens;
-  map_type _map;
-  generator_type _token_generator;
+  token_set_type m_tokens;
+  map_type m_map;
+  generator_type m_token_generator;
 };
 
 
 template<class T>
 sneaker::container::reservation_map<T>::reservation_map():
-  _tokens(token_set_type()),
-  _map(map_type()),
-  _token_generator(generator_type())
+  m_tokens(token_set_type()),
+  m_map(map_type()),
+  m_token_generator(generator_type())
 {
   // Do nothing here.
 }
@@ -91,26 +90,26 @@ template<class T>
 size_t
 sneaker::container::reservation_map<T>::size() const
 {
-  return _map.size();
+  return m_map.size();
 }
 
 template<class T>
 typename sneaker::container::reservation_map<T>::token_t
 sneaker::container::reservation_map<T>::reserve()
 {
-  token_t id = _token_generator();
+  token_t id = m_token_generator();
 
-  this->_reserve(id);
+  this->reserve(id);
 
   return (token_t)id;
 }
 
 template<class T>
 void
-sneaker::container::reservation_map<T>::_reserve(
+sneaker::container::reservation_map<T>::reserve(
   sneaker::container::reservation_map<T>::token_t id)
 {
-  _tokens.insert(id);
+  m_tokens.insert(id);
 }
 
 template<class T>
@@ -118,8 +117,8 @@ bool
 sneaker::container::reservation_map<T>::member(
   sneaker::container::reservation_map<T>::token_t id) const
 {
-  typename token_set_type::const_iterator itr = _tokens.find(id);
-  return itr != _tokens.cend();
+  typename token_set_type::const_iterator itr = m_tokens.find(id);
+  return itr != m_tokens.cend();
 }
 
 template<class T>
@@ -127,17 +126,17 @@ bool
 sneaker::container::reservation_map<T>::put(
   sneaker::container::reservation_map<T>::token_t id, T value)
 {
-  if(!member(id)) {
+  if (!member(id)) {
     return false;
   }
 
-  typename token_set_type::iterator itr = this->_tokens.find(id);
+  typename token_set_type::iterator itr = this->m_tokens.find(id);
 
-  if(itr == this->_tokens.end()) {
+  if (itr == this->m_tokens.end()) {
     return false;
   }
 
-  _map.insert(std::pair<token_t, T>(id, value));
+  m_map.insert(std::pair<token_t, T>(id, value));
 
   return true;
 }
@@ -147,17 +146,17 @@ bool
 sneaker::container::reservation_map<T>::get(
   sneaker::container::reservation_map<T>::token_t id, T* ptr)
 {
-  if(!member(id)) {
+  if (!member(id)) {
     return false;
   }
 
-  typename map_type::iterator itr = this->_map.find(id);
+  typename map_type::iterator itr = this->m_map.find(id);
 
-  if(itr == this->_map.cend()) {
+  if (itr == this->m_map.cend()) {
     return false;
   }
 
-  T value = _map.at(id);
+  T value = m_map.at(id);
 
   *ptr = value;
 
@@ -169,12 +168,12 @@ bool
 sneaker::container::reservation_map<T>::unreserve(
   sneaker::container::reservation_map<T>::token_t id)
 {
-  if(!member(id)) {
+  if (!member(id)) {
     return false;
   }
 
-  this->_tokens.erase(id);
-  this->_map.erase(id);
+  this->m_tokens.erase(id);
+  this->m_map.erase(id);
 
   return true;
 }
@@ -183,8 +182,8 @@ template<class T>
 void
 sneaker::container::reservation_map<T>::clear()
 {
-  this->_tokens.clear();
-  this->_map.clear();
+  this->m_tokens.clear();
+  this->m_map.clear();
 }
 
 

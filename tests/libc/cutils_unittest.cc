@@ -49,7 +49,7 @@ public:
   void test(int, int, const char*);
 
 protected:
-  void _test_base_10(int);
+  void test_base_10(int);
 };
 
 
@@ -64,7 +64,7 @@ itoa_unittest::test(int base, int num, const char* expected_str)
 }
 
 void
-itoa_unittest::_test_base_10(int num)
+itoa_unittest::test_base_10(int num)
 {
   char expected_str[15];
   char *actual_str = NULL;
@@ -79,16 +79,16 @@ itoa_unittest::_test_base_10(int num)
 TEST_F(itoa_unittest, TestBase10NegativeIntegerToASCII)
 {
   int i;
-  for(i = _INT_MIN_; i < 0; i++) {
-    this->_test_base_10(i);
+  for (i = _INT_MIN_; i < 0; i++) {
+    this->test_base_10(i);
   }
 }
 
 TEST_F(itoa_unittest, TestBase10PositiveIntegerToASCII)
 {
   int i;
-  for(i = 0; i < _INT_MAX_; i++) {
-    this->_test_base_10(i);
+  for (i = 0; i < _INT_MAX_; i++) {
+    this->test_base_10(i);
   }
 }
 
@@ -152,7 +152,7 @@ TEST_F(atoi_unittest, TestNULLStringToInteger)
 TEST_F(atoi_unittest, TestValidBase10NegativeStringToInteger)
 {
   int i;
-  for(i = _INT_MIN_; i < 0; i++) {
+  for (i = _INT_MIN_; i < 0; i++) {
     this->_test_valid_base_10(i);
   }
 }
@@ -160,7 +160,7 @@ TEST_F(atoi_unittest, TestValidBase10NegativeStringToInteger)
 TEST_F(atoi_unittest, TestValidBase10PositiveStringToInteger)
 {
   int i;
-  for(i = 0; i <= _INT_MAX_; i++) {
+  for (i = 0; i <= _INT_MAX_; i++) {
     this->_test_valid_base_10(i);
   }
 }
@@ -168,7 +168,7 @@ TEST_F(atoi_unittest, TestValidBase10PositiveStringToInteger)
 TEST_F(atoi_unittest, TestValidBase10PositiveStringWithSignToInteger)
 {
   int i;
-  for(i = 0; i <= _INT_MAX_; i++) {
+  for (i = 0; i <= _INT_MAX_; i++) {
     int expected_int = i;
     char expected_str[10];
     snprintf(expected_str + 1, sizeof(expected_str)-1, "%d", i);

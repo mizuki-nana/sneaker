@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
 #include "../../include/libc/strbuf.h"
 
 #include "../../include/libc/c_str.h"
@@ -59,7 +58,7 @@ void _strbuf_init(strbuf_t *strbuf, size_t min_len)
 
   _str = (c_str)malloc(len);
 
-  if(!_str) {
+  if (!_str) {
     errno = ENOMEM;
     exit(5);
   }
@@ -87,7 +86,7 @@ void _strbuf_allocate_more(strbuf_t *strbuf, size_t len)
 
   c_str = realloc(_strbuf->c_str, new_capacity);
 
-  if(!c_str) {
+  if (!c_str) {
     errno = ENOMEM;
     exit(-5);
   }
@@ -104,7 +103,7 @@ strbuf_t strbuf_create()
 
   strbuf = MALLOC(struct __sneaker_strbuf_s);
 
-  if(!strbuf) {
+  if (!strbuf) {
     errno = ENOMEM;
     return NULL;
   }
@@ -174,11 +173,11 @@ strbuf_append(strbuf_t strbuf, const c_str in_str)
   size_t len = strlen(in_str);
   size_t needed = len + 1;
 
-  if(strbuf->capacity == 0) { 
+  if (strbuf->capacity == 0) { 
     _strbuf_init(&strbuf, MAX(len, _strbuf_alloc_size));
   }
 
-  if(strbuf->size + len > strbuf->capacity) {
+  if (strbuf->size + len > strbuf->capacity) {
     _strbuf_allocate_more(&strbuf, needed);
   }
 

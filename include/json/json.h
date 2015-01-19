@@ -1,7 +1,7 @@
 /*******************************************************************************
 The MIT License (MIT)
 
-Copyright (c) 2014 Yanzheng Li
+Copyright (c) 2015 Yanzheng Li
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -108,9 +108,14 @@ class json_value;
 class invalid_json_error : public std::invalid_argument {
 public:
   explicit invalid_json_error(const std::string& what_arg):
-    std::invalid_argument(what_arg) {}
+    std::invalid_argument(what_arg)
+  {
+  }
+
   explicit invalid_json_error(const char* what_arg):
-    std::invalid_argument(what_arg) {}
+    std::invalid_argument(what_arg)
+  {
+  }
 };
 
 
@@ -194,7 +199,7 @@ public:
   std::string dump() const;
 
 private:
-  std::shared_ptr<json_value> _ptr;
+  std::shared_ptr<json_value> m_ptr;
 };
 
 

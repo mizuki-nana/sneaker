@@ -195,7 +195,7 @@ TEST_F(bitmap_unittest, TestBitmapSetAndClearBit2)
   ASSERT_EQ(1, bitmap_is_set(bitmap, 6, 6));
   ASSERT_EQ(1, bitmap_is_set(bitmap, 7, 7));
   ASSERT_EQ(0, bitmap_is_set(bitmap, 8, 8));
-  
+
   ASSERT_EQ(0, bitmap_is_set(bitmap, 0, 1));
   ASSERT_EQ(0, bitmap_is_set(bitmap, 1, 2));
   ASSERT_EQ(0, bitmap_is_set(bitmap, 2, 3));
@@ -204,7 +204,7 @@ TEST_F(bitmap_unittest, TestBitmapSetAndClearBit2)
   ASSERT_EQ(0, bitmap_is_set(bitmap, 5, 6));
   ASSERT_EQ(0, bitmap_is_set(bitmap, 6, 7));
   ASSERT_EQ(0, bitmap_is_set(bitmap, 7, 8));
- 
+
   bitmap_clear_bit(bitmap, 0, 0);
   bitmap_clear_bit(bitmap, 1, 1);
   bitmap_clear_bit(bitmap, 2, 2);
@@ -214,7 +214,7 @@ TEST_F(bitmap_unittest, TestBitmapSetAndClearBit2)
   bitmap_clear_bit(bitmap, 6, 6);
   bitmap_clear_bit(bitmap, 7, 7);
   bitmap_clear_bit(bitmap, 8, 8);
-  
+
   ASSERT_EQ(0, bitmap_is_set(bitmap, 0, 0));
   ASSERT_EQ(0, bitmap_is_set(bitmap, 1, 1));
   ASSERT_EQ(0, bitmap_is_set(bitmap, 2, 2));
@@ -279,12 +279,12 @@ TEST_F(bitmap_unittest, TestBitmapSetAndClearBit3)
 
   size_t r = 0;
   size_t c = 0;
-  for(r = 0; r < height; r++) {
-    for(c = 0; c < width; c++) {
+  for (r = 0; r < height; r++) {
+    for (c = 0; c < width; c++) {
       ASSERT_EQ(r == c, bitmap_is_set(bitmap, r, c));
     }
   }
- 
+
   bitmap_clear_bit(bitmap, 0, 0);
   bitmap_clear_bit(bitmap, 1, 1);
   bitmap_clear_bit(bitmap, 2, 2);
@@ -301,7 +301,7 @@ TEST_F(bitmap_unittest, TestBitmapSetAndClearBit3)
   bitmap_clear_bit(bitmap, 13, 13);
   bitmap_clear_bit(bitmap, 14, 14);
   bitmap_clear_bit(bitmap, 15, 15);
-  
+
   ASSERT_EQ(0, bitmap_is_set(bitmap, 0, 0));
   ASSERT_EQ(0, bitmap_is_set(bitmap, 1, 1));
   ASSERT_EQ(0, bitmap_is_set(bitmap, 2, 2));

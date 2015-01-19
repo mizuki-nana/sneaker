@@ -1,7 +1,7 @@
 /*******************************************************************************
 The MIT License (MIT)
 
-Copyright (c) 2014 Yanzheng Li
+Copyright (c) 2015 Yanzheng Li
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -21,7 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* General assertion */
+/* General assertions */
 
 #ifndef SNEAKER_ASSERT_H_
 #define SNEAKER_ASSERT_H_
@@ -33,23 +33,23 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef ASSERT
   #define ASSERT(expr)                                                         \
     do {                                                                       \
-      if((expr) == 0) {                                                        \
+      if ((expr) == 0) {                                                       \
         fprintf(stderr, "Assertion %s failed, "                                \
           "at %s[line %d]\n", #expr, __FILE__, __LINE__);                      \
         abort();                                                               \
       }                                                                        \
-    } while(0)
+    } while (0)
 #endif
 
 #ifndef ASSERT_STREQ
   #define ASSERT_STREQ(str1, str2)                                             \
     do {                                                                       \
-      if(strcmp((str1), (str2)) != 0) {                                        \
+      if (strcmp((str1), (str2)) != 0) {                                       \
         fprintf(stderr, "Assertion of \"%s\" == \"%s\" failed, "               \
           "at %s[line %d]\n", (str1), (str2), __FILE__, __LINE__);             \
         abort();                                                               \
       }                                                                        \
-    } while(0)
+    } while (0)
 #endif
 
 #endif /* SNEAKER_ASSERT_H_ */

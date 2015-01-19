@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
 #include "../../include/libc/queue.h"
 
 #include "../../include/libc/common.h"
@@ -43,7 +42,7 @@ queue_t queue_create()
 {
   queue_t queue = MALLOC(struct __sneaker_queue_s);
 
-  if(queue == NULL) {
+  if (queue == NULL) {
     errno = ENOMEM;
     return NULL;
   }
@@ -83,7 +82,7 @@ int queue_push(queue_t queue, void *val, size_t size)
 
   singly_node_t node = MALLOC(struct __sneaker_singly_node_s);
 
-  if(!node) {
+  if (!node) {
     errno = ENOMEM;
     return -1;
   }
@@ -96,12 +95,12 @@ int queue_push(queue_t queue, void *val, size_t size)
   memcpy(node->value, val, size);
   node->next = NULL;
 
-  if(queue->tail) {
+  if (queue->tail) {
     queue->tail->next = node;
   }
   queue->tail = node;
 
-  if(queue->size == 0) {
+  if (queue->size == 0) {
     queue->head = queue->tail;
   }
 
@@ -126,7 +125,7 @@ void* queue_pop(queue_t queue)
   queue->head = next;
   queue->size--;
 
-  if(queue->size == 0) {
+  if (queue->size == 0) {
     queue->tail = NULL;
     assert(queue->head == NULL);
   }
@@ -139,7 +138,7 @@ void queue_free(queue_t *queue)
   queue_t _queue = *queue;
   assert(_queue);
 
-  while(queue_size(_queue) > 0) {
+  while (queue_size(_queue) > 0) {
     queue_pop(_queue);
   }
 

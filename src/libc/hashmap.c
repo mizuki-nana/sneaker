@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
 #include "../../include/libc/hashmap.h"
 
 #include "../../include/libc/memory.h"
@@ -67,7 +66,7 @@ hashmap_t hashmap_create(size_t initial_capacity,
   hashmap_t hashmap = NULL;
   hashmap = MALLOC(struct __sneaker_hashmap_s);
 
-  if(!hashmap) {
+  if (!hashmap) {
     errno = ENOMEM;
     return NULL;
   }
@@ -76,7 +75,7 @@ hashmap_t hashmap_create(size_t initial_capacity,
 
   hashmap->bucketCount = 1;
 
-  while(hashmap->bucketCount <= min_bucket_count) {
+  while (hashmap->bucketCount <= min_bucket_count) {
     /* bucket count must be power of 2 */
     hashmap->bucketCount <<= 1; 
   }
@@ -86,7 +85,7 @@ hashmap_t hashmap_create(size_t initial_capacity,
     sizeof(struct __sneaker_hashmap_entry_s)
   );
 
-  if(!hashmap->buckets) {
+  if (!hashmap->buckets) {
     FREE(hashmap);
     return NULL;
   }
@@ -135,7 +134,7 @@ void _hashmap_expand(hashmap_t hashmap)
 {
   assert(hashmap);
 
-  if(hashmap->size > (hashmap->bucketCount * LOAD_FACTOR)) {
+  if (hashmap->size > (hashmap->bucketCount * LOAD_FACTOR)) {
     size_t newBucketCount = hashmap->bucketCount << 1;
 
     hashmap_entry_t *newBuckets = calloc(
@@ -144,10 +143,10 @@ void _hashmap_expand(hashmap_t hashmap)
     RETURN_IF_NULL(newBuckets);
 
     size_t i;
-    for(i = 0; i < hashmap->bucketCount; ++i) {
+    for (i = 0; i < hashmap->bucketCount; ++i) {
       hashmap_entry_t entry = hashmap->buckets[i];
 
-      while(entry) {
+      while (entry) {
         hashmap_entry_t next = entry->next;
         size_t index = _calculate_index(newBucketCount, entry->hash);
         entry->next = newBuckets[index];
@@ -181,9 +180,9 @@ void hashmap_free(hashmap_t *hashmap)
   hashmap_t _hashmap = *hashmap;
 
   size_t i;
-  for(i = 0; i < _hashmap->bucketCount; ++i) {
+  for (i = 0; i < _hashmap->bucketCount; ++i) {
     hashmap_entry_t entry = _hashmap->buckets[i];
-    while(entry) {
+    while (entry) {
       hashmap_entry_t next = entry->next;
       FREE(entry);
       entry = next;
@@ -203,7 +202,7 @@ hashmap_entry_t _create_entry(void *key, unsigned long int hash, void *val)
   hashmap_entry_t entry=NULL;
   entry = MALLOC(struct __sneaker_hashmap_entry_s);
 
-  if(entry == NULL) {
+  if (entry == NULL) {
     errno = ENOMEM;
     return NULL;
   }
@@ -242,13 +241,13 @@ void* hashmap_put(hashmap_t hashmap, void *key, void *val)
   hashmap_entry_t *p = &(hashmap->buckets[index]);
   assert(p);
 
-  while(1) {
+  while (1) {
     hashmap_entry_t current = *p;
 
-    if(!current) {
+    if (!current) {
       *p = _create_entry(key, hash, val);
 
-      if(*p == NULL) {
+      if (*p == NULL) {
         errno = ENOMEM;
         return NULL;
       }
@@ -268,7 +267,7 @@ void* hashmap_put(hashmap_t hashmap, void *key, void *val)
       return (*p)->value;
     }
 
-    if(_equals_key(
+    if (_equals_key(
       current->key,
       current->hash,
       key,
@@ -299,8 +298,8 @@ void* hashmap_get(hashmap_t hashmap, void *key)
   hashmap_entry_t *p = &(hashmap->buckets[index]);
   hashmap_entry_t entry = NULL;
 
-  while((entry=*p)) {
-    if(_equals_key(entry->key, entry->hash, key, hash, hashmap->keycmp)) {
+  while ((entry=*p)) {
+    if (_equals_key(entry->key, entry->hash, key, hash, hashmap->keycmp)) {
       return entry->value;
     }
     p = &(entry->next);
@@ -321,8 +320,8 @@ hashmap_contains_key(hashmap_t hashmap, void *key)
 
   hashmap_entry_t entry = hashmap->buckets[index];
 
-  while(entry) {
-    if(_equals_key(entry->key, entry->hash, key, hash, hashmap->keycmp)) {
+  while (entry) {
+    if (_equals_key(entry->key, entry->hash, key, hash, hashmap->keycmp)) {
       return 1;
     }
     entry = entry->next;
@@ -343,7 +342,7 @@ int hashmap_remove_bucket(hashmap_t hashmap, void *key)
   hashmap_entry_t *p = &(hashmap->buckets[index]);
   hashmap_entry_t current = NULL;
 
-  while((current = *p)) {
+  while ((current = *p)) {
     p = &current->next;
     FREE(current);
   }
@@ -367,8 +366,8 @@ void* hashmap_remove(hashmap_t hashmap, void *key)
   hashmap_entry_t *p = &(hashmap->buckets[index]);
   hashmap_entry_t current = NULL;
 
-  while((current = *p)) {
-    if(_equals_key(current->key, current->hash, key, hash, hashmap->keycmp)) {
+  while ((current = *p)) {
+    if (_equals_key(current->key, current->hash, key, hash, hashmap->keycmp)) {
       void *value = current->value;
       *p = current->next;
       FREE(current);
@@ -391,9 +390,9 @@ void* hashmap_lookup(hashmap_t hashmap,
   size_t i;
   for (i = 0; i < hashmap->bucketCount; i++) {
     hashmap_entry_t entry = hashmap->buckets[i];
-    while(entry != NULL) {
+    while (entry != NULL) {
       hashmap_entry_t next = entry->next;
-      if(lookup(entry->key, entry->value, arg)) {
+      if (lookup(entry->key, entry->value, arg)) {
         return entry->value;
       }
       entry = next;
@@ -412,9 +411,9 @@ void hashmap_iterate(hashmap_t hashmap,
   size_t i;
   for (i = 0; i < hashmap->bucketCount; i++) {
     hashmap_entry_t entry = hashmap->buckets[i];
-    while(entry != NULL) {
+    while (entry != NULL) {
       hashmap_entry_t next = entry->next;
-      if(!callback(entry->key, entry->value) && haltOnFail) {
+      if (!callback(entry->key, entry->value) && haltOnFail) {
         return;
       }
       entry = next;
@@ -442,10 +441,10 @@ size_t hashmap_count_collisions(hashmap_t hashmap)
   size_t collisions = 0;
   size_t i;
 
-  for(i = 0; i < hashmap->bucketCount; ++i) {
+  for (i = 0; i < hashmap->bucketCount; ++i) {
     hashmap_entry_t entry = hashmap->buckets[i];
-    while(entry) {
-      if(entry->next) {
+    while (entry) {
+      if (entry->next) {
         collisions++;
       }
       entry = entry->next;
@@ -472,27 +471,27 @@ int hashmap_equal(hashmap_t hashmap1, hashmap_t hashmap2)
   assert(hashmap1);
   assert(hashmap2);
 
-  if(hashmap_bucketcount(hashmap1) != hashmap_bucketcount(hashmap2)) {
+  if (hashmap_bucketcount(hashmap1) != hashmap_bucketcount(hashmap2)) {
     return 0;
   }
 
   int i;
-  for(i = 0; i < hashmap1->bucketCount; i++) {
+  for (i = 0; i < hashmap1->bucketCount; i++) {
     hashmap_entry_t entry = hashmap1->buckets[i];
-    while(entry != NULL) {
+    while (entry != NULL) {
       hashmap_entry_t next = entry->next;
-      if(hashmap_get(hashmap2, entry->key)==NULL) {
+      if (hashmap_get(hashmap2, entry->key)==NULL) {
         return 0;
       }
       entry = next;
     }
   } /* end of for-loop */
 
-  for(i = 0; i < hashmap2->bucketCount; i++) {
+  for (i = 0; i < hashmap2->bucketCount; i++) {
     hashmap_entry_t entry = hashmap2->buckets[i];
-    while(entry != NULL) {
+    while (entry != NULL) {
       hashmap_entry_t next = entry->next;
-      if(hashmap_get(hashmap1, entry->key)==NULL) {
+      if (hashmap_get(hashmap1, entry->key)==NULL) {
         return 0;
       }
       entry = next;

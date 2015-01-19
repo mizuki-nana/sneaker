@@ -35,18 +35,18 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 class file_reader_unittest : public ::testing::Test {
 public:
   virtual void SetUp() {
-    temp_file.open(file_path);
-    temp_file << content;
-    temp_file.close();
+    m_temp_file.open(m_file_path);
+    m_temp_file << m_content;
+    m_temp_file.close();
   }
 
   virtual void TearDown() {
-    remove(file_path);
+    remove(m_file_path);
   }
 
-  const char* file_path = "./__temp__.txt";
-  const char* content = "Hello world!!!\n";
-  std::ofstream temp_file;
+  const char* m_file_path = "./__temp__.txt";
+  const char* m_content = "Hello world!!!\n";
+  std::ofstream m_temp_file;
 };
 
 
@@ -60,18 +60,18 @@ TEST_F(file_reader_unittest, TestInitialization)
 
 TEST_F(file_reader_unittest, TestInitializationWithFilePath)
 {
-  sneaker::io::file_reader reader(file_path);
+  sneaker::io::file_reader reader(m_file_path);
   const char* actual_file_path = reader.file_path();
 
-  ASSERT_STREQ(file_path, actual_file_path);
+  ASSERT_STREQ(m_file_path, actual_file_path);
 }
 
 TEST_F(file_reader_unittest, TestSetPath)
 {
-  sneaker::io::file_reader reader(file_path);
+  sneaker::io::file_reader reader(m_file_path);
   const char* actual_file_path = reader.file_path();
 
-  ASSERT_STREQ(file_path, actual_file_path);
+  ASSERT_STREQ(m_file_path, actual_file_path);
 
   const char* new_path = "./hello_world.txt";
 
@@ -84,7 +84,7 @@ TEST_F(file_reader_unittest, TestSetPath)
 
 TEST_F(file_reader_unittest, TestReadFile)
 {
-  sneaker::io::file_reader reader(file_path);
+  sneaker::io::file_reader reader(m_file_path);
 
   char* content_read = nullptr;
 
@@ -92,7 +92,7 @@ TEST_F(file_reader_unittest, TestReadFile)
 
   ASSERT_EQ(true, res);
   ASSERT_NE(nullptr, content_read);
-  ASSERT_STREQ(content, content_read);
+  ASSERT_STREQ(m_content, content_read);
 }
 
 TEST_F(file_reader_unittest, TestReadFileUnsuccessful)

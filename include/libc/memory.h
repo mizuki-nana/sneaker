@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
 #ifndef SNEAKER_MEMORY_H_
 #define SNEAKER_MEMORY_H_
 
@@ -46,6 +45,7 @@ extern "C" {
 
 #endif /* MALLOC */
 
+
 //===========================================================================
 // convenience malloc macro.
 // USE WITH CAUTION
@@ -57,6 +57,7 @@ extern "C" {
 
 #endif /* MALLOC_BY_SIZE */
 
+
 //===========================================================================
 // Convenience malloc macro.
 // If malloc fails, set errno to ENOMEM and return null.
@@ -67,12 +68,13 @@ extern "C" {
   #define MALLOC_OR_ENOMEM(T, obj)     \
     (obj) = (T*)malloc(sizeof((T)));   \
     do {                               \
-      if((obj) == NULL) {              \
+      if ((obj) == NULL) {             \
         errno = ENOMEM;                \
       }                                \
-    } while(0)
+    } while (0)
 
 #endif /* MALLOC_OR_ENOMEM */
+
 
 //===========================================================================
 // Derefernece a void* pointer to a data of specified type.
@@ -100,6 +102,7 @@ extern "C" {
 
 #endif /* DEREF_VOID */
 
+
 //===========================================================================
 // Free-up memory.
 // USE WITH CAUTION
@@ -108,13 +111,14 @@ extern "C" {
 
   #define FREE(x)                      \
     do {                               \
-      if( (x) ) {                      \
+      if ( (x) ) {                     \
         free( (x) );                   \
         (x) = NULL;                    \
       }                                \
-    } while(0)
+    } while (0)
 
 #endif /* FREE */
+
 
 //===========================================================================
 // Free-up memory.
@@ -124,13 +128,14 @@ extern "C" {
 
   #define DELETE(x)                    \
     do {                               \
-      if( (x) ) {                      \
+      if ( (x) ) {                     \
         delete (x);                    \
         (x) = NULL;                    \
       }                                \
-    } while(0)
+    } while (0)
 
 #endif /* DELETE */
+
 
 //===========================================================================
 // Free target if val is null.
@@ -140,10 +145,10 @@ extern "C" {
 
   #define FREE_IF_NULL(val, target)    \
     do {                               \
-      if( (val) == NULL) {             \
-        HEX_FREE( (target) );          \
+      if ( (val) == NULL) {            \
+        FREE( (target) );              \
       }                                \
-    } while(0)
+    } while (0)
 
 #endif /* FREE_IF_NULL */
 

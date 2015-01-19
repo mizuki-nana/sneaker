@@ -36,16 +36,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 class dict_unittest : public ::testing::Test {
 protected:
   virtual void SetUp() {
-    _dict = dict_create();
-    assert(_dict);
+    m_dict = dict_create();
+    assert(m_dict);
   }
 
   virtual void Teardown() {
-    dict_free(&_dict);
-    assert(_dict == NULL);
+    dict_free(&m_dict);
+    assert(m_dict == NULL);
   }
 
-  dict_t _dict;
+  dict_t m_dict;
 };
 
 
@@ -103,24 +103,24 @@ KeyVal vehicles[] = {
 
 TEST_F(dict_unittest, TestCreation)
 {
-  assert(_dict);
-  ASSERT_EQ(0, dict_size(_dict));
+  assert(m_dict);
+  ASSERT_EQ(0, dict_size(m_dict));
 }
 
 TEST_F(dict_unittest, TestPut)
 {
-  dict_put(_dict, fruits[0].key, fruits[0].val);
-  ASSERT_EQ(1, dict_size(_dict));
+  dict_put(m_dict, fruits[0].key, fruits[0].val);
+  ASSERT_EQ(1, dict_size(m_dict));
 
-  dict_put(_dict, fruits[1].key, fruits[1].val);
-  ASSERT_EQ(2, dict_size(_dict));
+  dict_put(m_dict, fruits[1].key, fruits[1].val);
+  ASSERT_EQ(2, dict_size(m_dict));
 
-  dict_put(_dict, fruits[2].key, fruits[2].val);
-  ASSERT_EQ(3, dict_size(_dict));
+  dict_put(m_dict, fruits[2].key, fruits[2].val);
+  ASSERT_EQ(3, dict_size(m_dict));
 
-  c_str val1 = (c_str)dict_get(_dict, fruits[0].key);
-  c_str val2 = (c_str)dict_get(_dict, fruits[1].key);
-  c_str val3 = (c_str)dict_get(_dict, fruits[2].key);
+  c_str val1 = (c_str)dict_get(m_dict, fruits[0].key);
+  c_str val2 = (c_str)dict_get(m_dict, fruits[1].key);
+  c_str val3 = (c_str)dict_get(m_dict, fruits[2].key);
 
   assert(val1);
   assert(val2);
@@ -133,31 +133,31 @@ TEST_F(dict_unittest, TestPut)
 
 TEST_F(dict_unittest, TestGet)
 {
-  dict_put(_dict, fruits[0].key, fruits[0].val);
-  dict_put(_dict, fruits[1].key, fruits[1].val);
-  dict_put(_dict, fruits[2].key, fruits[2].val);
+  dict_put(m_dict, fruits[0].key, fruits[0].val);
+  dict_put(m_dict, fruits[1].key, fruits[1].val);
+  dict_put(m_dict, fruits[2].key, fruits[2].val);
 
-  ASSERT_EQ(3, dict_size(_dict));
+  ASSERT_EQ(3, dict_size(m_dict));
 
-  ASSERT_EQ(fruits[0].val, dict_get(_dict, fruits[0].key));
-  ASSERT_EQ(fruits[1].val, dict_get(_dict, fruits[1].key));
-  ASSERT_EQ(fruits[2].val, dict_get(_dict, fruits[2].key));
+  ASSERT_EQ(fruits[0].val, dict_get(m_dict, fruits[0].key));
+  ASSERT_EQ(fruits[1].val, dict_get(m_dict, fruits[1].key));
+  ASSERT_EQ(fruits[2].val, dict_get(m_dict, fruits[2].key));
 
-  assert(dict_put(_dict, sky[1].key, sky[1].val));
+  assert(dict_put(m_dict, sky[1].key, sky[1].val));
 
-  ASSERT_EQ(3, dict_size(_dict));
+  ASSERT_EQ(3, dict_size(m_dict));
 
-  ASSERT_EQ(fruits[0].val, dict_get(_dict, fruits[0].key));
-  ASSERT_EQ(sky[1].val,    dict_get(_dict, sky[1].key));
-  ASSERT_EQ(fruits[2].val, dict_get(_dict, fruits[2].key));
+  ASSERT_EQ(fruits[0].val, dict_get(m_dict, fruits[0].key));
+  ASSERT_EQ(sky[1].val,    dict_get(m_dict, sky[1].key));
+  ASSERT_EQ(fruits[2].val, dict_get(m_dict, fruits[2].key));
 
-  assert(dict_put(_dict, vehicles[2].key, vehicles[2].val));
+  assert(dict_put(m_dict, vehicles[2].key, vehicles[2].val));
 
-  ASSERT_EQ(3, dict_size(_dict));
+  ASSERT_EQ(3, dict_size(m_dict));
 
-  ASSERT_EQ(fruits[0].val,   (c_str)dict_get(_dict, fruits[0].key));
-  ASSERT_EQ(sky[1].val,      (c_str)dict_get(_dict, sky[1].key));
-  ASSERT_EQ(vehicles[2].val, (c_str)dict_get(_dict, vehicles[2].key));
+  ASSERT_EQ(fruits[0].val,   (c_str)dict_get(m_dict, fruits[0].key));
+  ASSERT_EQ(sky[1].val,      (c_str)dict_get(m_dict, sky[1].key));
+  ASSERT_EQ(vehicles[2].val, (c_str)dict_get(m_dict, vehicles[2].key));
 }
 
 TEST_F(dict_unittest, TestStress)
@@ -165,22 +165,22 @@ TEST_F(dict_unittest, TestStress)
   const int TOP = 500000;
   std::unordered_map<int, char*> map;
 
-  for(int i = 0; i < TOP; i++) {
+  for (int i = 0; i < TOP; i++) {
     char buf[10];
     snprintf(buf, sizeof(buf), "%d", i);
     char* s = strdup(buf);
     assert(s);
 
-    dict_put(_dict, s, s);
-    ASSERT_EQ(i + 1, dict_size(_dict));
+    dict_put(m_dict, s, s);
+    ASSERT_EQ(i + 1, dict_size(m_dict));
 
     map[i] = s;
   }
 
-  for(int i = 0; i < TOP; i++) {
+  for (int i = 0; i < TOP; i++) {
     char buf[10];
     snprintf(buf, sizeof(buf), "%d", i);
 
-    ASSERT_STREQ(map[i], (char*)dict_get(_dict, buf));
+    ASSERT_STREQ(map[i], (char*)dict_get(m_dict, buf));
   }
 }

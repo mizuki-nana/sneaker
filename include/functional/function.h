@@ -1,7 +1,7 @@
 /*******************************************************************************
 The MIT License (MIT)
 
-Copyright (c) 2014 Yanzheng Li
+Copyright (c) 2015 Yanzheng Li
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
 #ifndef SNEAKER_FUNCTION_H_
 #define SNEAKER_FUNCTION_H_
 
@@ -58,7 +57,7 @@ public:
   void invoke_async(Args... args);
 
 protected:
-  _F _func;
+  _F m_func;
 
   static void* handler(void* p);
 };
@@ -70,9 +69,9 @@ using _MyType = typename sneaker::functional::function<R, Args...>;
 
 template<class R, class... Args>
 sneaker::functional::function<R, Args...>::function(_F func):
-  _func(func)
+  m_func(func)
 {
-  assert(_func);
+  assert(m_func);
 }
 
 template<class R, class... Args>
@@ -80,7 +79,7 @@ template<class Functor>
 sneaker::functional::function<R, Args...>::function(Functor func)
 {
   assert(func);
-  _func = func;
+  m_func = func;
 }
 
 template<class R, class... Args>
@@ -88,7 +87,7 @@ const _MyType<R, Args...>&
 sneaker::functional::function<R, Args...>::operator=(_F func)
 {
   assert(func);
-  _func = func;
+  m_func = func;
   return *this;
 }
 
@@ -96,20 +95,20 @@ template<class R, class... Args>
 R
 sneaker::functional::function<R, Args...>::operator() (Args... args) const
 {
-  return _func(args...);
+  return m_func(args...);
 }
 
 template<class R, class... Args>
 sneaker::functional::function<R, Args...>::operator implicit_type()
 {
-  return _func;
+  return m_func;
 }
 
 template<class R, class... Args>
 void
 sneaker::functional::function<R, Args...>::invoke_async(Args... args)
 {
-  auto f = std::bind(_func, args...);
+  auto f = std::bind(m_func, args...);
   std::function<void()> *wrapper = new std::function<void()>(f);
 
   pthread_t thread_id;

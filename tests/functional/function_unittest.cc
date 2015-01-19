@@ -527,7 +527,7 @@ TEST_F(function_as_predicate_unittest, TestConversionFromLambdaToFunctionPointer
 
   bool actual_result = f(a, b);
 
-  test_call(actual_result);  
+  test_call(actual_result);
 }
 
 TEST_F(function_as_predicate_unittest, TestCopyConstructor)
@@ -862,7 +862,7 @@ TEST_F(predicate_unittest, TestConversionFromLambdaToFunctionPointer)
 
   bool actual_result = f(a, b);
 
-  test_call(actual_result);  
+  test_call(actual_result);
 }
 
 TEST_F(predicate_unittest, TestCopyConstructor)

@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
 #ifndef SNEAKER_DECORATORS_H_
 #define SNEAKER_DECORATORS_H_
 
@@ -40,13 +39,15 @@ template<class R, class... Args>
 class retry: public sneaker::functional::function<R, Args...> {
 public:
   template<class Functor>
-  retry(Functor func) : sneaker::functional::function<R, Args...>(func) {}
+  retry(Functor func) : sneaker::functional::function<R, Args...>(func)
+  {
+  }
 
   template<class ExceptionType, uint32_t N>
   R operator() (Args... args) const {
-    for(int i = 0; i < N; ++i) {
+    for (int i = 0; i < N; ++i) {
       try {
-        return this->_func(args...);
+        return this->m_func(args...);
       } catch(const ExceptionType&) {
         continue;
       } catch(const std::exception& exc) {
@@ -54,7 +55,7 @@ public:
       }
     }
 
-    return this->_func(args...);
+    return this->m_func(args...);
   }
 };
 

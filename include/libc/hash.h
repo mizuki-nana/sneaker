@@ -1,7 +1,7 @@
 /*******************************************************************************
 The MIT License (MIT)
 
-Copyright (c) 2014 Yanzheng Li
+Copyright (c) 2015 Yanzheng Li
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -40,7 +40,7 @@ unsigned long int hash64shift(unsigned long);
 
 unsigned long int hash_str_jenkins_one_at_a_time(const char*);
 
-unsigned long int hash_robert_jenkin(unsigned int); 
+unsigned long int hash_robert_jenkin(unsigned int);
 
 
 #ifdef __cplusplus

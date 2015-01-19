@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
 #include "../../include/threading/fixed_time_interval_daemon_service.h"
 
 #include <boost/asio.hpp>
@@ -37,31 +36,31 @@ sneaker::threading::fixed_time_interval_daemon_service::fixed_time_interval_daem
   int32_t max_iterations
 ):
   sneaker::threading::daemon_service(wait_for_termination),
-  _external_handler(external_handler),
-  _interval(interval),
-  _max_iterations(max_iterations),
-  _iteration_count(0)
+  m_external_handler(external_handler),
+  m_interval(interval),
+  m_max_iterations(max_iterations),
+  m_iteration_count(0)
 {
-  assert(_interval >= 0);
-  assert(_external_handler);
+  assert(m_interval >= 0);
+  assert(m_external_handler);
 }
 
 sneaker::threading::fixed_time_interval_daemon_service::~fixed_time_interval_daemon_service()
 {
-  _destroyed = true;
+  m_destroyed = true;
 }
 
 size_t
 sneaker::threading::fixed_time_interval_daemon_service::interval() const
 {
-  return _interval;
+  return m_interval;
 }
 
 void
 sneaker::threading::fixed_time_interval_daemon_service::handle()
 {
   boost::asio::io_service io;
-  boost::asio::deadline_timer t(io, boost::posix_time::milliseconds(_interval));
+  boost::asio::deadline_timer t(io, boost::posix_time::milliseconds(m_interval));
 
   t.async_wait(
     boost::bind(tick_handler, boost::asio::placeholders::error, &t, this)
@@ -73,21 +72,21 @@ sneaker::threading::fixed_time_interval_daemon_service::handle()
 void
 sneaker::threading::fixed_time_interval_daemon_service::invoke_external_handler()
 {
-  this->_external_handler(this);
+  this->m_external_handler(this);
   this->increment_iteration_count();
 }
 
 void
 sneaker::threading::fixed_time_interval_daemon_service::increment_iteration_count()
 {
-  this->_iteration_count++;
+  this->m_iteration_count++;
 }
 
 bool
 sneaker::threading::fixed_time_interval_daemon_service::can_continue()
 {
-  return !this->_destroyed && (
-    static_cast<int32_t>(this->_iteration_count) < this->_max_iterations || this->_max_iterations == -1
+  return !this->m_destroyed && (
+    static_cast<int32_t>(this->m_iteration_count) < this->m_max_iterations || this->m_max_iterations == -1
   );
 }
 

@@ -47,7 +47,7 @@ protected:
   void validate_and_check_result(
     const JSON& data, const JSON& schema, const char* err=NULL
   ) {
-    if(err) {
+    if (err) {
       bool thrown = false;
 
       try {
@@ -79,7 +79,7 @@ class json_schema_null_type_unittest : public json_schema_unittest {};
 
 TEST_F(json_schema_null_type_unittest, TestValidationSuccessful)
 {
-  JSON data = sneaker::json::parse("[null]"); 
+  JSON data = sneaker::json::parse("[null]");
   JSON schema = sneaker::json::parse(
     "{"
       "\"type\": \"array\","
@@ -100,7 +100,7 @@ class json_schema_boolean_type_unittest : public json_schema_unittest {};
 
 TEST_F(json_schema_boolean_type_unittest, TestValidationSuccessful)
 {
-  JSON data = sneaker::json::parse("[true]"); 
+  JSON data = sneaker::json::parse("[true]");
   JSON schema = sneaker::json::parse(
     "{"
       "\"type\": \"array\","
@@ -121,7 +121,7 @@ class json_schema_integer_type_unittest : public json_schema_unittest {};
 
 TEST_F(json_schema_integer_type_unittest, TestValidationSuccessful)
 {
-  JSON data = sneaker::json::parse("[1]"); 
+  JSON data = sneaker::json::parse("[1]");
   JSON schema = sneaker::json::parse(
     "{"
       "\"type\": \"array\","
@@ -138,7 +138,7 @@ TEST_F(json_schema_integer_type_unittest, TestValidationSuccessful)
 
 TEST_F(json_schema_integer_type_unittest, TestMultileOf)
 {
-  JSON data = sneaker::json::parse("[10]"); 
+  JSON data = sneaker::json::parse("[10]");
   JSON schema = sneaker::json::parse(
     "{"
       "\"type\": \"array\","
@@ -156,7 +156,7 @@ TEST_F(json_schema_integer_type_unittest, TestMultileOf)
 
 TEST_F(json_schema_integer_type_unittest, TestViolatingMultipleOf)
 {
-  JSON data = sneaker::json::parse("[10]"); 
+  JSON data = sneaker::json::parse("[10]");
   JSON schema = sneaker::json::parse(
     "{"
       "\"type\": \"array\","
@@ -308,7 +308,7 @@ class json_schema_string_type_unittest : public json_schema_unittest {};
 
 TEST_F(json_schema_string_type_unittest, TestValidationSuccessful)
 {
-  JSON data = sneaker::json::parse("[\"Hello world\"]"); 
+  JSON data = sneaker::json::parse("[\"Hello world\"]");
   JSON schema = sneaker::json::parse(
     "{"
       "\"type\": \"array\","
@@ -325,7 +325,7 @@ TEST_F(json_schema_string_type_unittest, TestValidationSuccessful)
 
 TEST_F(json_schema_string_type_unittest, TestMaxLength)
 {
-  JSON data = sneaker::json::parse("[\"Hello world\"]"); 
+  JSON data = sneaker::json::parse("[\"Hello world\"]");
   JSON schema = sneaker::json::parse(
     "{"
       "\"type\": \"array\","
@@ -343,7 +343,7 @@ TEST_F(json_schema_string_type_unittest, TestMaxLength)
 
 TEST_F(json_schema_string_type_unittest, TestViolatingMaxLength)
 {
-  JSON data = sneaker::json::parse("[\"Hello world\"]"); 
+  JSON data = sneaker::json::parse("[\"Hello world\"]");
   JSON schema = sneaker::json::parse(
     "{"
       "\"type\": \"array\","
@@ -365,7 +365,7 @@ TEST_F(json_schema_string_type_unittest, TestViolatingMaxLength)
 
 TEST_F(json_schema_string_type_unittest, TestMinLength)
 {
-  JSON data = sneaker::json::parse("[\"Hello world\"]"); 
+  JSON data = sneaker::json::parse("[\"Hello world\"]");
   JSON schema = sneaker::json::parse(
     "{"
       "\"type\": \"array\","
@@ -383,7 +383,7 @@ TEST_F(json_schema_string_type_unittest, TestMinLength)
 
 TEST_F(json_schema_string_type_unittest, TestViolatingMinLength)
 {
-  JSON data = sneaker::json::parse("[\"Hello world\"]"); 
+  JSON data = sneaker::json::parse("[\"Hello world\"]");
   JSON schema = sneaker::json::parse(
     "{"
       "\"type\": \"array\","
@@ -405,7 +405,7 @@ TEST_F(json_schema_string_type_unittest, TestViolatingMinLength)
 
 TEST_F(json_schema_string_type_unittest, TestPattern)
 {
-  JSON data = sneaker::json::parse("[\"subject\"]"); 
+  JSON data = sneaker::json::parse("[\"subject\"]");
   JSON schema = sneaker::json::parse(
     "{"
       "\"type\": \"array\","
@@ -423,7 +423,7 @@ TEST_F(json_schema_string_type_unittest, TestPattern)
 
 TEST_F(json_schema_string_type_unittest, TestViolatingPatternMatching)
 {
-  JSON data = sneaker::json::parse("[\"Hello world\"]"); 
+  JSON data = sneaker::json::parse("[\"Hello world\"]");
   JSON schema = sneaker::json::parse(
     "{"
       "\"type\": \"array\","
@@ -438,7 +438,7 @@ TEST_F(json_schema_string_type_unittest, TestViolatingPatternMatching)
 
   this->validate_and_check_result(
     data,
-    schema, 
+    schema,
     "String \"Hello world\" does not match to regular expression (sub)(.*)"
   );
 }
@@ -467,7 +467,7 @@ TEST_F(json_schema_array_type_unittest, TestValidationSuccessful)
     "}"
   );
 
-  this->validate_and_check_result(data, schema); 
+  this->validate_and_check_result(data, schema);
 }
 
 TEST_F(json_schema_array_type_unittest, TestValidationFailed)
@@ -494,7 +494,7 @@ TEST_F(json_schema_array_type_unittest, TestValidationFailed)
     data,
     schema,
     "Invalid type for \"Hello world\""
-  ); 
+  );
 }
 
 TEST_F(json_schema_array_type_unittest, TestValidationWithItemsBeingSchemaObject)
@@ -509,7 +509,7 @@ TEST_F(json_schema_array_type_unittest, TestValidationWithItemsBeingSchemaObject
     "}"
   );
 
-  this->validate_and_check_result(data, schema); 
+  this->validate_and_check_result(data, schema);
 }
 
 TEST_F(json_schema_array_type_unittest, TestValidationFailedWithItemsBeingSchemaObject)
@@ -529,7 +529,7 @@ TEST_F(json_schema_array_type_unittest, TestValidationFailedWithItemsBeingSchema
     data,
     schema,
     "Invalid type for \"Hello world\""
-  ); 
+  );
 }
 
 TEST_F(json_schema_array_type_unittest, TestAdditionalItems)
@@ -581,7 +581,7 @@ TEST_F(json_schema_array_type_unittest, TesViolatingAdditionalItems)
     data,
     schema,
     "Array [1, \"Hello world\", {}, false] contains extra items (3 items allowed)"
-  ); 
+  );
 }
 
 TEST_F(json_schema_array_type_unittest, TestMaxItems)
@@ -605,7 +605,7 @@ TEST_F(json_schema_array_type_unittest, TestMaxItems)
     "}"
   );
 
-  this->validate_and_check_result(data, schema); 
+  this->validate_and_check_result(data, schema);
 }
 
 TEST_F(json_schema_array_type_unittest, TestViolatingMaxItems)
@@ -633,7 +633,7 @@ TEST_F(json_schema_array_type_unittest, TestViolatingMaxItems)
     data,
     schema,
     "Array [1, \"Hello world\", {}] exceeds the maximum number of items (2)"
-  ); 
+  );
 }
 
 TEST_F(json_schema_array_type_unittest, TestMinItems)
@@ -657,7 +657,7 @@ TEST_F(json_schema_array_type_unittest, TestMinItems)
     "}"
   );
 
-  this->validate_and_check_result(data, schema); 
+  this->validate_and_check_result(data, schema);
 }
 
 TEST_F(json_schema_array_type_unittest, TestViolatingMinItems)
@@ -685,7 +685,7 @@ TEST_F(json_schema_array_type_unittest, TestViolatingMinItems)
     data,
     schema,
     "Array [1, \"Hello world\", {}] does not meet the minimum number of items (4)"
-  ); 
+  );
 }
 
 TEST_F(json_schema_array_type_unittest, TestUniqueItems)
@@ -709,7 +709,7 @@ TEST_F(json_schema_array_type_unittest, TestUniqueItems)
     "}"
   );
 
-  this->validate_and_check_result(data, schema); 
+  this->validate_and_check_result(data, schema);
 }
 
 TEST_F(json_schema_array_type_unittest, TestViolatingUniqueItems)
@@ -737,7 +737,7 @@ TEST_F(json_schema_array_type_unittest, TestViolatingUniqueItems)
     data,
     schema,
     "Array [{}, {}, {}] does not have unique items"
-  ); 
+  );
 }
 
 
@@ -1312,6 +1312,7 @@ protected:
   static const JSON data;
 };
 
+
 const JSON json_schema_keyword_unittest::data = sneaker::json::parse(
   "[\"Hello world\"]"
 );
@@ -1543,6 +1544,7 @@ TEST_F(json_schema_not_keyword_unittest, TestValidationFailed)
   );
 }
 
+
 class json_schema_enum_keyword_unittest : public json_schema_keyword_unittest {};
 
 
@@ -1595,6 +1597,7 @@ class json_schema_ref_unittest : public json_schema_unittest {
 protected:
   static const JSON schema;
 };
+
 
 const JSON json_schema_ref_unittest::schema = sneaker::json::parse(
   "{"
@@ -1759,7 +1762,7 @@ TEST_F(json_schema_ref_unittest, TestRecursiveDefinitionToTopLevel)
         "}"
       "}"
     "}"
-  ); 
+  );
 
   this->validate_and_check_result(data, schema);
 }
@@ -1772,6 +1775,8 @@ class json_schema_datetime_format_unittest : public json_schema_semantic_format_
 public:
   static const JSON schema;
 };
+
+
 const JSON json_schema_datetime_format_unittest::schema = sneaker::json::parse(
   "{"
     "\"type\": \"object\","
@@ -1843,6 +1848,8 @@ class json_schema_email_format_unittest : public json_schema_semantic_format_uni
 public:
   static const JSON schema;
 };
+
+
 const JSON json_schema_email_format_unittest::schema = sneaker::json::parse(
   "{"
     "\"type\": \"object\","
@@ -1914,6 +1921,8 @@ class json_schema_hostname_format_unittest : public json_schema_semantic_format_
 public:
   static const JSON schema;
 };
+
+
 const JSON json_schema_hostname_format_unittest::schema = sneaker::json::parse(
   "{"
     "\"type\": \"object\","
@@ -1985,6 +1994,8 @@ class json_schema_ipv4_format_unittest : public json_schema_semantic_format_unit
 public:
   static const JSON schema;
 };
+
+
 const JSON json_schema_ipv4_format_unittest::schema = sneaker::json::parse(
   "{"
     "\"type\": \"object\","
@@ -2056,6 +2067,8 @@ class json_schema_ipv6_format_unittest : public json_schema_semantic_format_unit
 public:
   static const JSON schema;
 };
+
+
 const JSON json_schema_ipv6_format_unittest::schema = sneaker::json::parse(
   "{"
     "\"type\": \"object\","
@@ -2128,6 +2141,8 @@ public:
   static const JSON schema;
   static const std::list<std::string> VALID_URIs;
 };
+
+
 const JSON json_schema_uri_format_unittest::schema = sneaker::json::parse(
   "{"
     "\"type\": \"object\","
@@ -2139,6 +2154,8 @@ const JSON json_schema_uri_format_unittest::schema = sneaker::json::parse(
     "}"
   "}"
 );
+
+
 const std::list<std::string> json_schema_uri_format_unittest::VALID_URIs {
   // Typical examples
   "http://www.ietf.org/rfc/rfc2396.txt",
@@ -2184,7 +2201,7 @@ TEST_F(json_schema_uri_format_unittest, TestValidURIFormat)
     "\"data\": \"%s\""
   "}";
 
-  for(auto itr = VALID_URIs.cbegin(); itr != VALID_URIs.cend(); ++itr) {
+  for (auto itr = VALID_URIs.cbegin(); itr != VALID_URIs.cend(); ++itr) {
     std::string uri = static_cast<std::string>(*itr);
 
     JSON data = sneaker::json::parse(

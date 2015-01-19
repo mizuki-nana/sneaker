@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-
 #include "../../include/libc/stack.h"
 
 #include "../../include/libc/common.h"
@@ -42,7 +41,7 @@ stack_t stack_create()
 {
   stack_t stack = MALLOC(struct __sneaker_stack_s);
 
-  if(stack == NULL) {
+  if (stack == NULL) {
     errno = ENOMEM;
     return NULL;
   }
@@ -74,7 +73,7 @@ int stack_push(stack_t stack, void *val, size_t size)
 
   singly_node_t node = MALLOC(struct __sneaker_singly_node_s);
 
-  if(!node) {
+  if (!node) {
     errno = ENOMEM;
     return -1;
   }
@@ -87,7 +86,7 @@ int stack_push(stack_t stack, void *val, size_t size)
   memcpy(node->value, val, size);
   node->next = NULL;
 
-  if(stack->top) {
+  if (stack->top) {
     node->next = stack->top;
   }
 
@@ -121,7 +120,7 @@ void stack_free(stack_t *stack)
   stack_t _stack = *stack;
   assert(_stack);
 
-  while(stack_size(_stack) > 0) {
+  while (stack_size(_stack) > 0) {
     stack_pop(_stack);
   }
 

@@ -87,7 +87,10 @@ public:
 
   explicit unordered_assorted_value_map();
   explicit unordered_assorted_value_map(core_type);
-  unordered_assorted_value_map(const sneaker::container::unordered_assorted_value_map<K, ValueTypes...>&);
+
+  unordered_assorted_value_map(
+    const sneaker::container::unordered_assorted_value_map<K, ValueTypes...>&);
+
   ~unordered_assorted_value_map();
 
   template<size_type N, class Hash, class Pred, class Alloc>
@@ -100,7 +103,9 @@ public:
 
   template<size_type N, class Hash, class Pred, class Alloc>
   static
-  sneaker::container::unordered_assorted_value_map<K, ValueTypes...> create(const Hash& hasher, const Pred& key_eq, const Alloc& allocator) {
+  sneaker::container::unordered_assorted_value_map<K, ValueTypes...> create(
+    const Hash& hasher, const Pred& key_eq, const Alloc& allocator)
+  {
     return sneaker::container::unordered_assorted_value_map<K, ValueTypes...>(
       core_type(N, hasher, key_eq, allocator)
     );
@@ -159,7 +164,7 @@ public:
   allocator_type get_allocator() const noexcept;
 
 protected:
-  core_type _core;
+  core_type m_core;
 };
 
 
@@ -169,14 +174,14 @@ using _MyType = typename sneaker::container::unordered_assorted_value_map<K, Val
 
 template<class K, class... ValueTypes>
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::unordered_assorted_value_map():
-  _core(core_type())
+  m_core(core_type())
 {
   // Do nothing here.
 }
 
 template<class K, class... ValueTypes>
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::unordered_assorted_value_map(core_type core):
-  _core(core)
+  m_core(core)
 {
   // Do nothing here.
 }
@@ -185,7 +190,7 @@ template<class K, class... ValueTypes>
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::unordered_assorted_value_map(
   const sneaker::container::unordered_assorted_value_map<K, ValueTypes...>& other
 ):
-  _core(other._core)
+  m_core(other.m_core)
 {
   // Do nothing here.
 }
@@ -200,21 +205,21 @@ template<class K, class... ValueTypes>
 bool
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::empty() const
 {
-  return _core.empty();
+  return m_core.empty();
 }
 
 template<class K, class... ValueTypes>
 typename _MyType<K, ValueTypes...>::size_type
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::size() const
 {
-  return _core.size();
+  return m_core.size();
 }
 
 template<class K, class... ValueTypes>
 typename _MyType<K, ValueTypes...>::size_type
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::max_size() const
 {
-  return _core.max_size();
+  return m_core.max_size();
 }
 
 template<class K, class... ValueTypes>
@@ -224,21 +229,21 @@ sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::insert(
   ValueTypes... values
 )
 {
-  _core.insert( value_type(key, mapped_type(values...)) );
+  m_core.insert( value_type(key, mapped_type(values...)) );
 }
 
 template<class K, class... ValueTypes>
 void
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::erase(iterator itr)
 {
-  _core.erase(itr);
+  m_core.erase(itr);
 }
 
 template<class K, class... ValueTypes>
 typename _MyType<K, ValueTypes...>::size_type
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::erase(const K& key)
 {
-  return _core.erase(key);
+  return m_core.erase(key);
 }
 
 template<class K, class... ValueTypes>
@@ -246,7 +251,7 @@ void
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::erase(
   iterator first, iterator last)
 {
-  _core.erase(first, last);
+  m_core.erase(first, last);
 }
 
 template<class K, class... ValueTypes>
@@ -254,28 +259,28 @@ void
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::swap(
   sneaker::container::unordered_assorted_value_map<K, ValueTypes...>& other)
 {
-  _core.swap(other._core);
+  m_core.swap(other.m_core);
 }
 
 template<class K, class... ValueTypes>
 void
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::clear() noexcept
 {
-  _core.clear();
+  m_core.clear();
 }
 
 template<class K, class... ValueTypes>
 typename _MyType<K, ValueTypes...>::mapped_type&
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::at(K key)
 {
-  return static_cast<mapped_type&>(_core.at(key));
+  return static_cast<mapped_type&>(m_core.at(key));
 }
 
 template<class K, class... ValueTypes>
 const typename _MyType<K, ValueTypes...>::mapped_type&
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::at(K key) const
 {
-  return static_cast<const mapped_type&>(_core.at(key));
+  return static_cast<const mapped_type&>(m_core.at(key));
 }
 
 template<class K, class... ValueTypes>
@@ -312,112 +317,112 @@ template<class K, class... ValueTypes>
 typename _MyType<K, ValueTypes...>::iterator
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::begin()
 {
-  return _core.begin();
+  return m_core.begin();
 }
 
 template<class K, class... ValueTypes>
 typename _MyType<K, ValueTypes...>::const_iterator
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::begin() const
 {
-  return _core.begin();
+  return m_core.begin();
 }
 
 template<class K, class... ValueTypes>
 typename _MyType<K, ValueTypes...>::iterator
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::end()
 {
-  return _core.end();
+  return m_core.end();
 }
 
 template<class K, class... ValueTypes>
 typename _MyType<K, ValueTypes...>::const_iterator
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::end() const
 {
-  return _core.end();
+  return m_core.end();
 }
 
 template<class K, class... ValueTypes>
 typename _MyType<K, ValueTypes...>::const_iterator
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::cbegin() const noexcept
 {
-  return _core.cbegin();
+  return m_core.cbegin();
 }
 
 template<class K, class... ValueTypes>
 typename _MyType<K, ValueTypes...>::const_iterator
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::cend() const noexcept
 {
-  return _core.cend();
+  return m_core.cend();
 }
 
 template<class K, class... ValueTypes>
 typename _MyType<K, ValueTypes...>::iterator
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::find(K key)
 {
-  return _core.find(key);
+  return m_core.find(key);
 }
 
 template<class K, class... ValueTypes>
 typename _MyType<K, ValueTypes...>::const_iterator
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::find(K key) const
 {
-  return _core.find(key);
+  return m_core.find(key);
 }
 
 template<class K, class... ValueTypes>
 float
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::load_factor() const noexcept
 {
-  return _core.load_factor();
+  return m_core.load_factor();
 }
 
 template<class K, class... ValueTypes>
 float
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::max_load_factor() const noexcept
 {
-  return _core.max_load_factor();
+  return m_core.max_load_factor();
 }
 
 template<class K, class... ValueTypes>
 void
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::max_load_factor(float z)
 {
-  return _core.max_load_factor(z);
+  return m_core.max_load_factor(z);
 }
 
 template<class K, class... ValueTypes>
 void
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::rehash(size_type n)
 {
-  return _core.rehash(n);
+  return m_core.rehash(n);
 }
 
 template<class K, class... ValueTypes>
 void
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::reserve(size_type n)
 {
-  return _core.reserve(n);
+  return m_core.reserve(n);
 }
 
 template<class K, class... ValueTypes>
 typename _MyType<K, ValueTypes...>::hasher
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::hash_function() const
 {
-  return _core.hash_function();
+  return m_core.hash_function();
 }
 
 template<class K, class... ValueTypes>
 typename _MyType<K, ValueTypes...>::key_equal
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::key_eq() const
 {
-  return _core.key_eq();
+  return m_core.key_eq();
 }
 
 template<class K, class... ValueTypes>
 typename _MyType<K, ValueTypes...>::allocator_type
 sneaker::container::unordered_assorted_value_map<K, ValueTypes...>::get_allocator() const noexcept
 {
-  return _core.get_allocator();
+  return m_core.get_allocator();
 }
 
 

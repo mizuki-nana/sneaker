@@ -38,81 +38,81 @@ class unordered_assorted_value_map_unittest_base : public ::testing::Test {};
 
 class unordered_assorted_value_map_with_no_value_types_unittest : public unordered_assorted_value_map_unittest_base {
 protected:
-  sneaker::container::unordered_assorted_value_map<int> _map;
+  sneaker::container::unordered_assorted_value_map<int> m_map;
 };
 
 
 TEST_F(unordered_assorted_value_map_with_no_value_types_unittest, TestInitialization)
 {
-  ASSERT_TRUE(_map.empty());
-  ASSERT_EQ(0, _map.size());
+  ASSERT_TRUE(m_map.empty());
+  ASSERT_EQ(0, m_map.size());
 }
 
 TEST_F(unordered_assorted_value_map_with_no_value_types_unittest, TestPutAndAt)
 {
-  _map.insert(1);
-  _map.insert(2);
-  _map.insert(3);
+  m_map.insert(1);
+  m_map.insert(2);
+  m_map.insert(3);
 
-  ASSERT_FALSE(_map.empty());
-  ASSERT_EQ(3, _map.size());
+  ASSERT_FALSE(m_map.empty());
+  ASSERT_EQ(3, m_map.size());
 }
 
 
 class unordered_assorted_value_map_with_multiple_value_types_unittest : public unordered_assorted_value_map_unittest_base {
 protected:
-  sneaker::container::unordered_assorted_value_map<char, int, long, bool> _map;
+  sneaker::container::unordered_assorted_value_map<char, int, long, bool> m_map;
 };
 
 
 TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestInitialization)
 {
-  ASSERT_TRUE(_map.empty());
-  ASSERT_EQ(0, _map.size());
+  ASSERT_TRUE(m_map.empty());
+  ASSERT_EQ(0, m_map.size());
 }
 
 TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestPutAndAt)
 {
-  _map.insert('a', 1, 100, true);
-  _map.insert('b', 2, 200, true);
-  _map.insert('c', 3, 300, false);
+  m_map.insert('a', 1, 100, true);
+  m_map.insert('b', 2, 200, true);
+  m_map.insert('c', 3, 300, false);
 
-  ASSERT_FALSE(_map.empty());
-  ASSERT_EQ(3, _map.size());
+  ASSERT_FALSE(m_map.empty());
+  ASSERT_EQ(3, m_map.size());
 
-  ASSERT_EQ(1, boost::get<0>(_map.at('a')));
-  ASSERT_EQ(2, boost::get<0>(_map.at('b')));
-  ASSERT_EQ(3, boost::get<0>(_map.at('c')));
+  ASSERT_EQ(1, boost::get<0>(m_map.at('a')));
+  ASSERT_EQ(2, boost::get<0>(m_map.at('b')));
+  ASSERT_EQ(3, boost::get<0>(m_map.at('c')));
 
-  ASSERT_EQ(100, boost::get<1>(_map.at('a')));
-  ASSERT_EQ(200, boost::get<1>(_map.at('b')));
-  ASSERT_EQ(300, boost::get<1>(_map.at('c')));
+  ASSERT_EQ(100, boost::get<1>(m_map.at('a')));
+  ASSERT_EQ(200, boost::get<1>(m_map.at('b')));
+  ASSERT_EQ(300, boost::get<1>(m_map.at('c')));
 
-  ASSERT_EQ(true,  boost::get<2>(_map.at('a')));
-  ASSERT_EQ(true,  boost::get<2>(_map.at('b')));
-  ASSERT_EQ(false, boost::get<2>(_map.at('c')));
+  ASSERT_EQ(true,  boost::get<2>(m_map.at('a')));
+  ASSERT_EQ(true,  boost::get<2>(m_map.at('b')));
+  ASSERT_EQ(false, boost::get<2>(m_map.at('c')));
 }
 
 TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestPutAndGet)
 {
-  _map.insert('a', 1, 100, true);
-  _map.insert('b', 2, 200, true);
-  _map.insert('c', 3, 300, false);
+  m_map.insert('a', 1, 100, true);
+  m_map.insert('b', 2, 200, true);
+  m_map.insert('c', 3, 300, false);
 
-  ASSERT_FALSE(_map.empty());
-  ASSERT_EQ(3, _map.size());
+  ASSERT_FALSE(m_map.empty());
+  ASSERT_EQ(3, m_map.size());
 
-  int  a1 = _map.get<int,  0>('a');
-  long a2 = _map.get<long, 1>('a');
-  bool a3 = _map.get<bool, 2>('a');
+  int  a1 = m_map.get<int,  0>('a');
+  long a2 = m_map.get<long, 1>('a');
+  bool a3 = m_map.get<bool, 2>('a');
 
-  int  b1 = _map.get<int,  0>('b');
-  long b2 = _map.get<long, 1>('b');
-  bool b3 = _map.get<bool, 2>('b');
+  int  b1 = m_map.get<int,  0>('b');
+  long b2 = m_map.get<long, 1>('b');
+  bool b3 = m_map.get<bool, 2>('b');
 
-  int  c1 = _map.get<int,  0>('c');
-  long c2 = _map.get<long, 1>('c');
-  bool c3 = _map.get<bool, 2>('c');
+  int  c1 = m_map.get<int,  0>('c');
+  long c2 = m_map.get<long, 1>('c');
+  bool c3 = m_map.get<bool, 2>('c');
 
   ASSERT_EQ(1, a1);
   ASSERT_EQ(100, a2);
@@ -129,24 +129,24 @@ TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestPutA
 
 TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestPutAndGetByReference)
 {
-  _map.insert('a', 1, 100, true);
-  _map.insert('b', 2, 200, true);
-  _map.insert('c', 3, 300, false);
+  m_map.insert('a', 1, 100, true);
+  m_map.insert('b', 2, 200, true);
+  m_map.insert('c', 3, 300, false);
 
-  ASSERT_FALSE(_map.empty());
-  ASSERT_EQ(3, _map.size());
+  ASSERT_FALSE(m_map.empty());
+  ASSERT_EQ(3, m_map.size());
 
-  const int  &a1 = _map.get<int,  0>('a');
-  const long &a2 = _map.get<long, 1>('a');
-  const bool &a3 = _map.get<bool, 2>('a');
+  const int  &a1 = m_map.get<int,  0>('a');
+  const long &a2 = m_map.get<long, 1>('a');
+  const bool &a3 = m_map.get<bool, 2>('a');
 
-  const int  &b1 = _map.get<int,  0>('b');
-  const long &b2 = _map.get<long, 1>('b');
-  const bool &b3 = _map.get<bool, 2>('b');
+  const int  &b1 = m_map.get<int,  0>('b');
+  const long &b2 = m_map.get<long, 1>('b');
+  const bool &b3 = m_map.get<bool, 2>('b');
 
-  const int  &c1 = _map.get<int,  0>('c');
-  const long &c2 = _map.get<long, 1>('c');
-  const bool &c3 = _map.get<bool, 2>('c');
+  const int  &c1 = m_map.get<int,  0>('c');
+  const long &c2 = m_map.get<long, 1>('c');
+  const bool &c3 = m_map.get<bool, 2>('c');
 
   ASSERT_EQ(1, a1);
   ASSERT_EQ(100, a2);
@@ -163,11 +163,11 @@ TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestPutA
 
 TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestAccessByInvalidKeyFails)
 {
-  ASSERT_EQ(0, _map.size());
+  ASSERT_EQ(0, m_map.size());
 
   ASSERT_THROW(
     {
-      _map.at('X');
+      m_map.at('X');
     },
     std::out_of_range
   );
@@ -296,10 +296,10 @@ TEST_F(unordered_assorted_value_map_unittest, TestSwap)
 
 TEST_F(unordered_assorted_value_map_unittest, TestFind)
 {
-  typedef sneaker::container::unordered_assorted_value_map<const char*, int, bool> _map_type;
-  _map_type map;
+  typedef sneaker::container::unordered_assorted_value_map<const char*, int, bool> map_type;
+  map_type map;
 
-  _map_type::iterator itr = map.find("Apple");
+  map_type::iterator itr = map.find("Apple");
   ASSERT_EQ(itr, map.end());
 
   map.insert("Apple", 100, true);
@@ -308,7 +308,7 @@ TEST_F(unordered_assorted_value_map_unittest, TestFind)
   ASSERT_NE(itr, map.end());
   ASSERT_STREQ("Apple", map.find("Apple")->first);
 
-  _map_type::mapped_type value = map.find("Apple")->second;
+  map_type::mapped_type value = map.find("Apple")->second;
 
   ASSERT_EQ(100,  value.get<0>());
   ASSERT_EQ(true, value.get<1>());

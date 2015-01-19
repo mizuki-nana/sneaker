@@ -1,7 +1,7 @@
 /*******************************************************************************
 The MIT License (MIT)
 
-Copyright (c) 2014 Yanzheng Li
+Copyright (c) 2015 Yanzheng Li
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -38,14 +38,15 @@ namespace io {
 class file_reader {
 public:
   file_reader();
-  file_reader(const char*);
+  explicit file_reader(const char*);
 
   const char* file_path() const;
   void set_path(const char*);
 
   bool read_file(char**) const;
+
 protected:
-  std::string _path;
+  std::string m_path;
 };
 
 
