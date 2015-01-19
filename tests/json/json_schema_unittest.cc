@@ -841,6 +841,45 @@ TEST_F(json_schema_object_type_unittest, TestValidationFailsWithAdditionalProper
   );
 }
 
+TEST_F(json_schema_object_type_unittest, TestValidationFailsWithAdditionalProperties2)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"name\": \"Tomiko Van\","
+      "\"age\": 24,"
+      "\"my favorite\": true,"
+      "\"favorite color\": \"red\","
+      "\"favorite food\": \"sushi\""
+    "}"
+  );
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"object\","
+      "\"properties\": {"
+        "\"name\": {"
+          "\"type\": \"string\""
+        "},"
+        "\"age\": {"
+          "\"type\": \"integer\""
+        "},"
+        "\"my favorite\": {"
+          "\"type\": \"boolean\""
+        "},"
+        "\"favorite season\": {"
+          "\"type\": \"boolean\""
+        "}"
+      "},"
+      "\"additionalProperties\": false"
+    "}"
+  );
+
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Properties [favorite color, favorite food] are invalid in object {\"age\": 24, \"favorite color\": \"red\", \"favorite food\": \"sushi\", \"my favorite\": true, \"name\": \"Tomiko Van\"}"
+  );
+}
+
 TEST_F(json_schema_object_type_unittest, TestValidationSuccessfulWithAdditionalPropertiesAndPatternProperties)
 {
   JSON data = sneaker::json::parse(

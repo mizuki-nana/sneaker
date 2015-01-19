@@ -1601,6 +1601,10 @@ sneaker::json::json_schema_internal::json_object_type_validator::validate_proper
     for (auto itr = properties.begin(); itr != properties.end(); itr++) {
       std::string property = static_cast<std::string>(itr->first);
 
+      if (object_value.find(property) == object_value.end()) {
+        continue;
+      }
+
       const JSON& child = object_value.at(property);
       const JSON& property_schema = static_cast<JSON>(itr->second);
 
