@@ -45,8 +45,8 @@ using namespace sneaker::json;
 class json_schema_unittest : public ::testing::Test {
 protected:
   void validate_and_check_result(
-    const JSON& data, const JSON& schema, const char* err=NULL
-  ) {
+    const JSON& data, const JSON& schema, const char* err=NULL)
+  {
     if (err) {
       bool thrown = false;
 
@@ -805,6 +805,42 @@ TEST_F(json_schema_object_type_unittest, TestValidationSuccessfulWithAdditionalP
   this->validate_and_check_result(data, schema);
 }
 
+TEST_F(json_schema_object_type_unittest, TestValidationFailsWithAdditionalProperties)
+{
+  JSON data = sneaker::json::parse(
+    "{"
+      "\"name\": \"Tomiko Van\","
+      "\"age\": 24,"
+      "\"my favorite\": true,"
+      "\"favorite color\": \"red\","
+      "\"favorite food\": \"sushi\""
+    "}"
+  );
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"object\","
+      "\"properties\": {"
+        "\"name\": {"
+          "\"type\": \"string\""
+        "},"
+        "\"age\": {"
+          "\"type\": \"integer\""
+        "},"
+        "\"my favorite\": {"
+          "\"type\": \"boolean\""
+        "}"
+      "},"
+      "\"additionalProperties\": false"
+    "}"
+  );
+
+  this->validate_and_check_result(
+    data,
+    schema,
+    "Properties [favorite color, favorite food] are invalid in object {\"age\": 24, \"favorite color\": \"red\", \"favorite food\": \"sushi\", \"my favorite\": true, \"name\": \"Tomiko Van\"}"
+  );
+}
+
 TEST_F(json_schema_object_type_unittest, TestValidationSuccessfulWithAdditionalPropertiesAndPatternProperties)
 {
   JSON data = sneaker::json::parse(
@@ -930,9 +966,7 @@ TEST_F(json_schema_object_type_unittest, TestValidationFailedWithExtraProperty)
   this->validate_and_check_result(
     data,
     schema,
-    "There are 1 properties cannot be validated in object "
-    "{\"age\": 24, \"favorite color\": \"red\", \"favorite food\": \"sushi\", "
-    "\"favorite number\": 8, \"my favorite\": true, \"name\": \"Tomiko Van\"}"
+    "Properties [favorite food] are invalid in object {\"age\": 24, \"favorite color\": \"red\", \"favorite food\": \"sushi\", \"favorite number\": 8, \"my favorite\": true, \"name\": \"Tomiko Van\"}"
   );
 }
 

@@ -34,6 +34,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <list>
 #include <regex>
 #include <set>
+#include <sstream>
 #include <string>
 #include <unordered_map>
 
@@ -1558,15 +1559,10 @@ sneaker::json::json_schema_internal::json_object_type_validator::validate_proper
   const JSON::object& properties = schema_object.at("properties").object_items();
 
   bool hasAdditionalProperties = false;
-  bool hasPatternProperties = false;
   bool do_normal_validation = true;
 
   if (schema_object.find("additionalProperties") != schema_object.end()) {
     hasAdditionalProperties = true;
-  }
-
-  if (schema_object.find("patternProperties") != schema_object.end()) {
-    hasPatternProperties = true;
   }
 
   if (hasAdditionalProperties) {
@@ -1576,6 +1572,11 @@ sneaker::json::json_schema_internal::json_object_type_validator::validate_proper
     }
   }
 
+  /* Do special validation if "additionalProperties" has boolean value false.
+   *
+   * Spec:
+   * http://json-schema.org/latest/json-schema-validation.html#anchor64
+   **/
   if (do_normal_validation) {
     for (auto itr = properties.begin(); itr != properties.end(); itr++) {
       std::string property = static_cast<std::string>(itr->first);
@@ -1589,11 +1590,7 @@ sneaker::json::json_schema_internal::json_object_type_validator::validate_proper
 
       sneaker::json::json_schema_internal::validate(child, property_schema, original_schema);
     }
-  } else if (hasPatternProperties) {
-    const JSON::object& pattern_properties = schema_object.at(
-      "patternProperties"
-    ).object_items();
-
+  } else {
     std::set<std::string> properties_set;
 
     for (auto itr = object_value.begin(); itr != object_value.end(); itr++) {
@@ -1612,40 +1609,65 @@ sneaker::json::json_schema_internal::json_object_type_validator::validate_proper
       properties_set.erase(property);
     }
 
-    for (auto itr = pattern_properties.begin(); itr != pattern_properties.end(); itr++) {
-      std::string property_pattern = static_cast<std::string>(itr->first);
-      std::regex property_pattern_regex(property_pattern);
+    bool hasPatternProperties = schema_object.find("patternProperties") != schema_object.end();
 
-      std::set<std::string> properties_erased;
+    if (hasPatternProperties) {
 
-      for (auto itr_ = properties_set.begin(); itr_ != properties_set.end(); itr_++) {
-        std::string property = static_cast<std::string>(*itr_);
+      const JSON::object& pattern_properties = schema_object.at(
+        "patternProperties"
+      ).object_items();
 
-        std::smatch sm;
-        bool matched = std::regex_match(property, sm, property_pattern_regex);
-        if (!matched) {
-          continue;
+      for (auto itr = pattern_properties.begin(); itr != pattern_properties.end(); itr++) {
+        std::string property_pattern = static_cast<std::string>(itr->first);
+        std::regex property_pattern_regex(property_pattern);
+
+        std::set<std::string> properties_erased;
+
+        for (auto itr_ = properties_set.begin(); itr_ != properties_set.end(); itr_++) {
+          std::string property = static_cast<std::string>(*itr_);
+
+          std::smatch sm;
+          bool matched = std::regex_match(property, sm, property_pattern_regex);
+          if (!matched) {
+            continue;
+          }
+
+          const JSON& child = object_value.at(property);
+          const JSON& property_schema = static_cast<JSON>(itr->second);
+
+          sneaker::json::json_schema_internal::validate(child, property_schema, original_schema);
+          properties_erased.insert(property);
         }
 
-        const JSON& child = object_value.at(property);
-        const JSON& property_schema = static_cast<JSON>(itr->second);    
-
-        sneaker::json::json_schema_internal::validate(child, property_schema, original_schema);
-        properties_erased.insert(property);
+        for (auto itr_ = properties_erased.begin(); itr_ != properties_erased.end(); ++itr_) {
+          std::string property = static_cast<std::string>(*itr_);
+          properties_set.erase(property);
+        }
       }
 
-      for (auto itr_ = properties_erased.begin(); itr_ != properties_erased.end(); ++itr_) {
-        std::string property = static_cast<std::string>(*itr_);
-        properties_set.erase(property);
-      }
-    }
+    } /* if (hasPatternProperties) */
 
     if (!properties_set.empty()) {
+      std::stringstream ss;
+
+      ss << "[";
+
+      for (auto itr_ = properties_set.begin(); itr_ != properties_set.end(); )  {
+        std::string property_ = static_cast<std::string>(*itr_);
+        ss << property_;
+
+        if (++itr_ != properties_set.end()) {
+          ss << ", ";
+        }
+      }
+
+      ss << "]";
+
       throw json_validation_error(
         str(
           format(
-            "There are %d properties cannot be validated in object %s"
-          ) % properties_set.size() % JSON(object_value).dump()
+            "Properties %s are invalid in object %s"
+          ) % ss.str() % JSON(object_value).dump()
         )
       );
     }
