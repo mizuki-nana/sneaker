@@ -36,9 +36,9 @@ DOCS=./docs
 DOCUMENTATION=./documentation
 SUBDIRS=$(SRC) $(TESTS)
 
-GTEST_DIR=./gtest-1.6.0
-GTEST_BUILD=./gtest_build
-GTEST_INCLUDE_DIR=./gtest-1.6.0/include/gtest
+GTEST_DIR=./libs/gtest-1.6.0
+GTEST_BUILD=./libs/gtest_build
+GTEST_INCLUDE_DIR=./libs/gtest-1.6.0/include/gtest
 GTEST_INCLUDE_TARGET_DIR=/usr/include/
 GTEST_STATIC_LIB=libgtest.a
 GTEST_STATIC_LIB_PATH=$(GTEST_BUILD)/$(GTEST_STATIC_LIB)
@@ -60,9 +60,10 @@ all: src
 
 .PHONY: gtest
 gtest:
+	git submodule sync
 	git submodule update --init
 	mkdir -p $(GTEST_BUILD)
-	cd $(GTEST_BUILD) && cmake ../$(GTEST_DIR)
+	cd $(GTEST_BUILD) && cmake ../../$(GTEST_DIR)
 	cd $(GTEST_BUILD) && $(MAKE)
 	sudo cp -rf $(GTEST_INCLUDE_DIR) $(GTEST_INCLUDE_TARGET_DIR)
 	sudo cp $(GTEST_STATIC_LIB_PATH) $(GTEST_STATIC_LIB_TARGET_DIR)
