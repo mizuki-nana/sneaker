@@ -1735,7 +1735,7 @@ TEST_F(json_schema_ref_unittest, TestValidationFailsWithInvalidRefPath)
   this->validate_and_check_result(
     data,
     schema,
-    "Invalid $ref path"
+    "Invalid $ref path (sub path: helloWorld/positiveInteger)"
   );
 }
 

@@ -417,6 +417,9 @@ using boost::format;
 using namespace sneaker::json;
 
 
+const std::string REF_PATH_DELIMITER = "/";
+
+
 const sneaker::json::json_schema_internal::json_primitive_type_validator*
 sneaker::json::json_schema_internal::json_validator_meta::get_validator(const std::string& type)
 {
@@ -475,15 +478,23 @@ sneaker::json::json_schema_internal::_get_ref(
   }
 
   std::string first = sections.front();
-  sections.pop_front();
 
   if (first == "#") {
+    sections.pop_front();
     return sneaker::json::json_schema_internal::_get_ref(schema_object, sections);
   }
 
   if (schema_object.find(first) == schema_object.end()) {
-    throw json_validation_error("Invalid $ref path");
+    throw json_validation_error(
+      str(
+        format(
+          "Invalid $ref path (sub path: %s)"
+        ) % boost::algorithm::join(sections, REF_PATH_DELIMITER)
+      )
+    );
   }
+
+  sections.pop_front();
 
   JSON::object inner_schema = schema_object.at(first).object_items();
 
@@ -496,7 +507,7 @@ sneaker::json::json_schema_internal::get_ref(
 {
   std::string raw_ref_path = static_cast<std::string>(ref_path);
   std::list<std::string> sections;
-  boost::split(sections, raw_ref_path, boost::is_any_of("/"));
+  boost::split(sections, raw_ref_path, boost::is_any_of(REF_PATH_DELIMITER));
 
   return sneaker::json::json_schema_internal::_get_ref(schema_object, sections);
 }
