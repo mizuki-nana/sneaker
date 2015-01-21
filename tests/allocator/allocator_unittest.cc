@@ -174,18 +174,30 @@ public:
   template<typename T>
   class DummyAllocPolicy1 : public sneaker::allocator::standard_alloc_policy<T> {
     public:
-      DummyAllocPolicy1():i(1) {}
+      DummyAllocPolicy1() : i(1)
+      {
+      }
+
       template<typename U>
-      DummyAllocPolicy1(U const&) {}
+      DummyAllocPolicy1(U const&)
+      {
+      }
+
       int i;
   };
 
   template<typename T>
   class DummyAllocPolicy2 : public sneaker::allocator::standard_alloc_policy<T> {
     public:
-      DummyAllocPolicy2():i(2) {}
+      DummyAllocPolicy2() : i(2)
+      {
+      }
+
       template<typename U>
-      DummyAllocPolicy2(U const&) {}
+      DummyAllocPolicy2(U const&)
+      {
+      }
+
       int i;
   };
 };
@@ -193,7 +205,7 @@ public:
 
 TEST_F(allocator_simple_unittest, TestCopyConstructor1)
 {
-  sneaker::allocator::allocator<int, allocator_simple_unittest::DummyAllocPolicy1<int>>  allocator1;
+  sneaker::allocator::allocator<int, allocator_simple_unittest::DummyAllocPolicy1<int>> allocator1;
   sneaker::allocator::allocator<double, allocator_simple_unittest::DummyAllocPolicy2<double>> allocator2;
 
   ASSERT_EQ(1, allocator1.i);
@@ -212,8 +224,13 @@ TEST_F(allocator_simple_unittest, TestAllocation)
 
   assert(a);
 
-  for (int i = 0; i < 10; ++i) a[i] = i;
-  for (int i = 0; i < 10; ++i) ASSERT_EQ(i, a[i]);
+  for (int i = 0; i < 10; ++i) {
+    a[i] = i;
+  }
+
+  for (int i = 0; i < 10; ++i) {
+    ASSERT_EQ(i, a[i]);
+  }
 
   allocator.deallocate(a, 10);
 }

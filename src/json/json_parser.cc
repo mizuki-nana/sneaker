@@ -239,6 +239,7 @@ sneaker::json::json_parser::parse_string()
       }
 
       i += 4;
+
       continue;
     }
 

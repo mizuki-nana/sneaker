@@ -59,6 +59,7 @@ protected:
   }
 };
 
+
 int function_as_call_unittest::expected_result = 25257758;
 int function_as_call_unittest::actual_result = 0;
 

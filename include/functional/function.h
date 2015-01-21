@@ -63,8 +63,12 @@ protected:
 };
 
 
+namespace {
+
 template<class R, class... Args>
 using _MyType = typename sneaker::functional::function<R, Args...>;
+
+} /* end namespace */
 
 
 template<class R, class... Args>

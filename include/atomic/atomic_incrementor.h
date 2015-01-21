@@ -56,8 +56,12 @@ protected:
 };
 
 
+namespace {
+
 template<class T, T UPPER_LIMIT>
 using _MyType = typename sneaker::atomic::atomic_incrementor<T, UPPER_LIMIT>;
+
+} /* end namespace */
 
 
 template<class T, T UPPER_LIMIT>

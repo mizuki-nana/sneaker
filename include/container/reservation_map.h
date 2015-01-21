@@ -101,7 +101,7 @@ sneaker::container::reservation_map<T>::reserve()
 
   this->reserve(id);
 
-  return (token_t)id;
+  return static_cast<token_t>(id);
 }
 
 template<class T>

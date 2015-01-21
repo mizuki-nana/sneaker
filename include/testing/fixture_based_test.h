@@ -52,8 +52,8 @@ public:
 protected:
   virtual void TearDown();
 
-  std::vector<T> _fixtures;
-  FixtureTeardownHandler _teardown_handler;
+  std::vector<T> m_fixtures;
+  FixtureTeardownHandler m_teardown_handler;
 };
 
 
@@ -61,7 +61,7 @@ template<class T>
 sneaker::testing::fixture_based_test<T>::fixture_based_test(
   FixtureTeardownHandler teardown_handler
 ):
-  _teardown_handler(teardown_handler)
+  m_teardown_handler(teardown_handler)
 {
 }
 
@@ -69,7 +69,7 @@ template<class T>
 void
 sneaker::testing::fixture_based_test<T>::add_fixture(T fixture)
 {
-  _fixtures.push_back(fixture);
+  m_fixtures.push_back(fixture);
 }
 
 template<class T>
@@ -77,8 +77,8 @@ void
 sneaker::testing::fixture_based_test<T>::TearDown()
 {
   typename std::vector<T>::iterator itr;
-  for(itr = _fixtures.begin(); itr != _fixtures.end(); itr++) {
-    _teardown_handler(static_cast<T>(*itr));
+  for (itr = m_fixtures.begin(); itr != m_fixtures.end(); itr++) {
+    m_teardown_handler(static_cast<T>(*itr));
   }
 }
 

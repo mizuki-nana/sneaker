@@ -86,7 +86,8 @@ bool
 sneaker::threading::fixed_time_interval_daemon_service::can_continue()
 {
   return !this->m_destroyed && (
-    static_cast<int32_t>(this->m_iteration_count) < this->m_max_iterations || this->m_max_iterations == -1
+    static_cast<int32_t>(this->m_iteration_count) < this->m_max_iterations ||
+    this->m_max_iterations == -1
   );
 }
 
@@ -97,7 +98,7 @@ sneaker::threading::fixed_time_interval_daemon_service::tick_handler(
   sneaker::threading::fixed_time_interval_daemon_service* daemon_service
 )
 {
-  if(!daemon_service->can_continue()) {
+  if (!daemon_service->can_continue()) {
     return;
   }
 

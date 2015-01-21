@@ -132,7 +132,9 @@ protected:
   void parse_and_assert_error(const std::string& invalid_json, const std::string& expected_err) {
     // High level parsing through `sneaker::json::parse()`.
     ASSERT_THROW(
-      { sneaker::json::parse(invalid_json); },
+      {
+        sneaker::json::parse(invalid_json);
+      },
       sneaker::json::invalid_json_error
     );
 
@@ -149,72 +151,113 @@ protected:
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithoutOuterListOrObjectLayer)
 {
-  parse_and_assert_error("This is an invalid JSON.", "Expected value, got 'T' (84)");
+  parse_and_assert_error(
+    "This is an invalid JSON.",
+    "Expected value, got 'T' (84)"
+  );
 }
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithInvalidBooleanValue)
 {
-  parse_and_assert_error("[TRUE]", "Expected value, got 'T' (84)");
+  parse_and_assert_error(
+    "[TRUE]",
+    "Expected value, got 'T' (84)"
+  );
 }
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithMultipleAdjacentJsonObjects)
 {
-  parse_and_assert_error("{}{}{}", "Unexpected trailing '{' (123)");
+  parse_and_assert_error(
+    "{}{}{}",
+    "Unexpected trailing '{' (123)"
+  );
 }
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithMismatchingBrackets)
 {
-  parse_and_assert_error("[{]]", "Expected '\"' in object, got ']' (93)");
+  parse_and_assert_error(
+    "[{]]",
+    "Expected '\"' in object, got ']' (93)"
+  );
 }
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithMissingColon)
 {
-  parse_and_assert_error("{\"hello\" \"world\"}", "Expected ':' in object, got '\"' (34)");
+  parse_and_assert_error(
+    "{\"hello\" \"world\"}",
+    "Expected ':' in object, got '\"' (34)"
+  );
 }
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithTrailingWhitespaces)
 {
-  parse_and_assert_error("{[1,2,3]}    ", "Expected '\"' in object, got '[' (91)");
+  parse_and_assert_error(
+    "{[1,2,3]}    ",
+    "Expected '\"' in object, got '[' (91)"
+  );
 }
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithMissingQuote)
 {
-  parse_and_assert_error("{\"hello: \"world\"}", "Expected ':' in object, got 'w' (119)");
+  parse_and_assert_error(
+    "{\"hello: \"world\"}",
+    "Expected ':' in object, got 'w' (119)"
+  );
 }
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithExtraQuote)
 {
-  parse_and_assert_error("{\"hello\": \"world\"\"}", "Expected ',' in object, got '\"' (34)");
+  parse_and_assert_error(
+    "{\"hello\": \"world\"\"}",
+    "Expected ',' in object, got '\"' (34)"
+  );
 }
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithExtraCommaInArray)
 {
-  parse_and_assert_error("[1, 2, 3,]", "Expected value, got ']' (93)");
+  parse_and_assert_error(
+    "[1, 2, 3,]",
+    "Expected value, got ']' (93)"
+  );
 }
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithInvalidNumber)
 {
-  parse_and_assert_error("[0.-00000]", "At least one digit required in fractional part");
+  parse_and_assert_error(
+    "[0.-00000]",
+    "At least one digit required in fractional part"
+  );
 }
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithLeadingZeros)
 {
-  parse_and_assert_error("[00.01]", "Leading 0s not permitted in numbers"); 
+  parse_and_assert_error(
+    "[00.01]",
+    "Leading 0s not permitted in numbers"
+  );
 }
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithNoDigitInFraction)
 {
-  parse_and_assert_error("[0.]", "At least one digit required in fractional part");
+  parse_and_assert_error(
+    "[0.]",
+    "At least one digit required in fractional part"
+  );
 }
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithInvalidExponent)
 {
-  parse_and_assert_error("[0.0E]", "At least one digit required in exponent");
+  parse_and_assert_error(
+    "[0.0E]",
+    "At least one digit required in exponent");
 }
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithInvalidEscapedString)
 {
-  parse_and_assert_error("[\"\\\"]", "Unexpected end of input in string");
+  parse_and_assert_error(
+    "[\"\\\"]",
+    "Unexpected end of input in string"
+  );
 }
 
 
@@ -222,16 +265,27 @@ class json_serialization_unittest : public json_unittest {
 public:
   class Point {
     public:
+      Point (int x_, int y_) : x(x_), y(y_)
+      {
+      }
+
+      JSON to_json() const {
+        return JSON::array { x, y };
+      }
+
       int x;
       int y;
-      Point (int x, int y) : x(x), y(y) {}
-      JSON to_json() const { return JSON::array { x, y }; }
   };
 
   class ComplexPoint : public Point {
     public:
-      ComplexPoint(int x, int y) : Point(x, y) {}
-      JSON to_json() const { return JSON::object { {"re", x}, {"im", y} }; }
+      ComplexPoint(int x, int y) : Point(x, y)
+      {
+      }
+
+      JSON to_json() const {
+        return JSON::object { {"re", x}, {"im", y} };
+      }
   };
 };
 
@@ -329,7 +383,12 @@ TEST_F(json_serialization_unittest, TestClassObjectToJsonObjectSerialization)
 {
   std::vector<ComplexPoint> points = { { 1, 2 }, { 10, 20 }, { 100, 200 } };
 
-  std::string expected_json = "[{\"im\": 2, \"re\": 1}, {\"im\": 20, \"re\": 10}, {\"im\": 200, \"re\": 100}]";
+  std::string expected_json = "["
+    "{\"im\": 2, \"re\": 1}, "
+    "{\"im\": 20, \"re\": 10}, "
+    "{\"im\": 200, \"re\": 100}"
+  "]";
+
   std::string actual_json = JSON(points).dump();
 
   ASSERT_EQ(expected_json, actual_json);

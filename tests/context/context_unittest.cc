@@ -108,6 +108,8 @@ public:
       }
   };
 };
+
+
 int nested_context_unittest::count = 0;
 
 

@@ -44,8 +44,8 @@ protected:
 
   virtual void handle() = 0;
 
-  pthread_attr_t _attr;
-  pthread_t _thread_id;
+  pthread_attr_t m_attr;
+  pthread_t m_thread_id;
 
 private:
   void init();

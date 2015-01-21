@@ -47,6 +47,8 @@ public:
 
   static int counter;
 };
+
+
 int retry_decorator_unittest::counter = 0;
 
 
@@ -57,9 +59,13 @@ TEST_F(retry_decorator_unittest, TestRetrySuccessful)
   retry<void> wrapper = []() -> void {
     ++retry_decorator_unittest::counter;
 
-    if(retry_decorator_unittest::counter < MAX_RETRY) {
+    if (retry_decorator_unittest::counter < MAX_RETRY) {
       throw std::runtime_error(
-        str(boost::format("Counter has reached %d") % retry_decorator_unittest::counter)
+        str(
+          boost::format(
+            "Counter has reached %d"
+          ) % retry_decorator_unittest::counter
+        )
       );
     }
   };
@@ -76,9 +82,13 @@ TEST_F(retry_decorator_unittest, TestExceptionOnOverRetryLimit)
   retry<void> wrapper = []() -> void {
     ++retry_decorator_unittest::counter;
 
-    if(retry_decorator_unittest::counter < MAX_RETRY) {
+    if (retry_decorator_unittest::counter < MAX_RETRY) {
       throw std::runtime_error(
-        str(boost::format("Counter has reached %d") % retry_decorator_unittest::counter)
+        str(
+          boost::format(
+            "Counter has reached %d"
+          ) % retry_decorator_unittest::counter
+        )
       );
     }
   };

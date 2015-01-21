@@ -22,31 +22,32 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
 /*
-`sneaker::container::unordered_assorted_value_map<K, ValueTypes...>` is an
-associative container class where each set of multiple(zero or more) assorted
-statically-typed values are associated to a single statically-typed key.
-
-The types of the keys and values are defined through templating. The type
-of the key must be specified, followed by the assorted types of the values.
-
-Since this is an associative container, its interfaces and usage are very much
-the same as the ones of `std::unordered_map`.
-
-Example:
-
-// Define a map of fruits to their scores and descriptions (I'm being very subjective here).
-sneaker::container::unordered_assorted_value_map<char*, int, char*> fruits;
-
-fruits.insert("Apple", 100, "Best thing ever <3");
-fruits.insert("Bananna", 90, "Get ALL the Potassum you need!");
-fruits.insert("Orange", 80, "sweet and sour, very citric...");
-
-size_t count = fruits.size();
-std::cout << "There are %d fruits here." << count << std::endl;
-std::cout << "My favorite is Apple: %s (score %d)" << fruits.get<char*, 0>("Apple") \
-    << fruits.get<int, 1>("Apple") << std::endl;
-std::cout << "The reason, you ask?" << std:endl;
-std::cout << "It's because: %s." << fruits.get<char*, 2>("Apple") << std::endl;
+ * `sneaker::container::unordered_assorted_value_map<K, ValueTypes...>` is an
+ * associative container class where each set of multiple(zero or more) assorted
+ * statically-typed values are associated to a single statically-typed key.
+ *
+ * The types of the keys and values are defined through templating. The type
+ * of the key must be specified, followed by the assorted types of the values.
+ *
+ * Since this is an associative container, its interfaces and usage are very much
+ * the same as the ones of `std::unordered_map`.
+ *
+ * Example:
+ *
+ * // Define a map of fruits to their scores and descriptions
+ * // (I'm being very subjective here).
+ * sneaker::container::unordered_assorted_value_map<char*, int, char*> fruits;
+ *
+ * fruits.insert("Apple", 100, "Best thing ever <3");
+ * fruits.insert("Bananna", 90, "Get ALL the Potassum you need!");
+ * fruits.insert("Orange", 80, "sweet and sour, very citric...");
+ *
+ * size_t count = fruits.size();
+ * std::cout << "There are %d fruits here." << count << std::endl;
+ * std::cout << "My favorite is Apple: %s (score %d)" << \
+ *  fruits.get<char*, 0>("Apple") << fruits.get<int, 1>("Apple") << std::endl;
+ * std::cout << "The reason, you ask?" << std:endl;
+ * std::cout << "It's because: %s." << fruits.get<char*, 2>("Apple") << std::endl;
 */
 
 #ifndef SNEAKER_UNORDERED_ASSORTED_VALUE_MAP_H_
@@ -127,7 +128,7 @@ public:
 
   void clear() noexcept;
 
-        mapped_type& at(K);
+  mapped_type& at(K);
   const mapped_type& at(K) const;
 
   template<class A, size_t Index>
@@ -136,7 +137,7 @@ public:
   template<class A, size_t Index>
   const A& get(K) const;
 
-        mapped_type& operator[](K);
+  mapped_type& operator[](K);
   const mapped_type& operator[](K) const;
 
   iterator begin();
@@ -168,8 +169,12 @@ protected:
 };
 
 
+namespace {
+
 template<class K, class... ValueTypes>
 using _MyType = typename sneaker::container::unordered_assorted_value_map<K, ValueTypes...>;
+
+} /* end namespace */
 
 
 template<class K, class... ValueTypes>

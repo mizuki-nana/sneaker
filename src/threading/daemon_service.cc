@@ -32,23 +32,23 @@ sneaker::threading::daemon_service::daemon_service(bool wait_for_termination):
 void
 sneaker::threading::daemon_service::init()
 {
-  pthread_attr_init(&_attr);
-  pthread_attr_setdetachstate(&_attr, PTHREAD_CREATE_JOINABLE);
+  pthread_attr_init(&m_attr);
+  pthread_attr_setdetachstate(&m_attr, PTHREAD_CREATE_JOINABLE);
 }
 
 sneaker::threading::daemon_service::~daemon_service()
 {
-  pthread_attr_destroy(&_attr);
+  pthread_attr_destroy(&m_attr);
 }
 
 bool
 sneaker::threading::daemon_service::start()
 {
-  int created = pthread_create(&_thread_id, &_attr, handler, (void*)this);
+  int created = pthread_create(&m_thread_id, &m_attr, handler, (void*)this);
 
   if (wait_for_termination) {
     void* res = NULL;
-    pthread_join(_thread_id, &res);
+    pthread_join(m_thread_id, &res);
   }
 
   return created;

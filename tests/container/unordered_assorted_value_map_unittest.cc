@@ -60,8 +60,14 @@ TEST_F(unordered_assorted_value_map_with_no_value_types_unittest, TestPutAndAt)
 
 
 class unordered_assorted_value_map_with_multiple_value_types_unittest : public unordered_assorted_value_map_unittest_base {
+public:
+  typedef char T0;
+  typedef int T1;
+  typedef long T2;
+  typedef bool T3;
+
 protected:
-  sneaker::container::unordered_assorted_value_map<char, int, long, bool> m_map;
+  sneaker::container::unordered_assorted_value_map<T0, T1, T2, T3> m_map;
 };
 
 
@@ -102,17 +108,17 @@ TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestPutA
   ASSERT_FALSE(m_map.empty());
   ASSERT_EQ(3, m_map.size());
 
-  int  a1 = m_map.get<int,  0>('a');
-  long a2 = m_map.get<long, 1>('a');
-  bool a3 = m_map.get<bool, 2>('a');
+  T1 a1 = m_map.get<T1, 0>('a');
+  T2 a2 = m_map.get<T2, 1>('a');
+  T3 a3 = m_map.get<T3, 2>('a');
 
-  int  b1 = m_map.get<int,  0>('b');
-  long b2 = m_map.get<long, 1>('b');
-  bool b3 = m_map.get<bool, 2>('b');
+  T1 b1 = m_map.get<T1, 0>('b');
+  T2 b2 = m_map.get<T2, 1>('b');
+  T3 b3 = m_map.get<T3, 2>('b');
 
-  int  c1 = m_map.get<int,  0>('c');
-  long c2 = m_map.get<long, 1>('c');
-  bool c3 = m_map.get<bool, 2>('c');
+  T1 c1 = m_map.get<T1, 0>('c');
+  T2 c2 = m_map.get<T2, 1>('c');
+  T3 c3 = m_map.get<T3, 2>('c');
 
   ASSERT_EQ(1, a1);
   ASSERT_EQ(100, a2);
@@ -136,17 +142,17 @@ TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestPutA
   ASSERT_FALSE(m_map.empty());
   ASSERT_EQ(3, m_map.size());
 
-  const int  &a1 = m_map.get<int,  0>('a');
-  const long &a2 = m_map.get<long, 1>('a');
-  const bool &a3 = m_map.get<bool, 2>('a');
+  const T1& a1 = m_map.get<T1, 0>('a');
+  const T2& a2 = m_map.get<T2, 1>('a');
+  const T3& a3 = m_map.get<T3, 2>('a');
 
-  const int  &b1 = m_map.get<int,  0>('b');
-  const long &b2 = m_map.get<long, 1>('b');
-  const bool &b3 = m_map.get<bool, 2>('b');
+  const T1& b1 = m_map.get<T1, 0>('b');
+  const T2& b2 = m_map.get<T2, 1>('b');
+  const T3& b3 = m_map.get<T3, 2>('b');
 
-  const int  &c1 = m_map.get<int,  0>('c');
-  const long &c2 = m_map.get<long, 1>('c');
-  const bool &c3 = m_map.get<bool, 2>('c');
+  const T1& c1 = m_map.get<T1, 0>('c');
+  const T2& c2 = m_map.get<T2, 1>('c');
+  const T3& c3 = m_map.get<T3, 2>('c');
 
   ASSERT_EQ(1, a1);
   ASSERT_EQ(100, a2);
@@ -252,8 +258,13 @@ TEST_F(unordered_assorted_value_map_unittest, TestCreateWithArgs)
 
 TEST_F(unordered_assorted_value_map_unittest, TestSwap)
 {
-  sneaker::container::unordered_assorted_value_map<const char*, int, bool, const char*> map1;
-  sneaker::container::unordered_assorted_value_map<const char*, int, bool, const char*> map2;
+  typedef const char* T0_;
+  typedef int T1_;
+  typedef bool T2_;
+  typedef const char* T3_;
+
+  sneaker::container::unordered_assorted_value_map<T0_, T1_, T2_, T3_> map1;
+  sneaker::container::unordered_assorted_value_map<T0_, T1_, T2_, T3_> map2;
 
   map1.insert("Grape",      60,  false, "Too sour, don't like...");
   map1.insert("Watermalon", 90,  false, "The best in the summer");
@@ -272,26 +283,46 @@ TEST_F(unordered_assorted_value_map_unittest, TestSwap)
   ASSERT_EQ(2, map2.size());
 
   // check map1
-  int         map1_a1 = map1.get<int,    0>("Apple");           ASSERT_EQ(map1_a1, 100);
-  bool        map1_a2 = map1.get<bool,   1>("Apple");           ASSERT_EQ(map1_a2, false);
-  const char* map1_a3 = map1.get<const char*, 2>("Apple");      ASSERT_EQ(map1_a3, "best thing ever :-)");
+  T1_ map1_a1 = map1.get<T1_, 0>("Apple");
+  T2_ map1_a2 = map1.get<T2_, 1>("Apple");
+  T3_ map1_a3 = map1.get<T3_, 2>("Apple");
 
-  int         map1_b1 = map1.get<int,    0>("Orange");          ASSERT_EQ(map1_b1, 80);
-  bool        map1_b2 = map1.get<bool,   1>("Orange");          ASSERT_EQ(map1_b2, true);
-  const char* map1_b3 = map1.get<const char*, 2>("Orange");     ASSERT_EQ(map1_b3, "I'm lovin' it <3");
+  ASSERT_EQ(map1_a1, 100);
+  ASSERT_EQ(map1_a2, false);
+  ASSERT_EQ(map1_a3, "best thing ever :-)");
 
-  int         map1_c1 = map1.get<int,    0>("Bananna");         ASSERT_EQ(map1_c1, 90);
-  bool        map1_c2 = map1.get<bool,   1>("Bananna");         ASSERT_EQ(map1_c2, false);
-  const char* map1_c3 = map1.get<const char*, 2>("Bananna");    ASSERT_EQ(map1_c3, "get ALL the Potassium!!!");
+  T1_ map1_b1 = map1.get<T1_, 0>("Orange");
+  T2_ map1_b2 = map1.get<T2_, 1>("Orange");
+  T3_ map1_b3 = map1.get<T3_, 2>("Orange");
+
+  ASSERT_EQ(map1_b1, 80);
+  ASSERT_EQ(map1_b2, true);
+  ASSERT_EQ(map1_b3, "I'm lovin' it <3");
+
+  T1_ map1_c1 = map1.get<T1_, 0>("Bananna");
+  T2_ map1_c2 = map1.get<T2_, 1>("Bananna");
+  T3_ map1_c3 = map1.get<T3_, 2>("Bananna");
+
+  ASSERT_EQ(map1_c1, 90);
+  ASSERT_EQ(map1_c2, false);
+  ASSERT_EQ(map1_c3, "get ALL the Potassium!!!");
 
   // check map2
-  int         map2_a1 = map2.get<int,    0>("Grape");           ASSERT_EQ(map2_a1, 60);
-  bool        map2_a2 = map2.get<bool,   1>("Grape");           ASSERT_EQ(map2_a2, false);
-  const char* map2_a3 = map2.get<const char*, 2>("Grape");      ASSERT_EQ(map2_a3, "Too sour, don't like...");
+  T1_ map2_a1 = map2.get<T1_, 0>("Grape");
+  T2_ map2_a2 = map2.get<T2_, 1>("Grape");
+  T3_ map2_a3 = map2.get<T3_, 2>("Grape");
 
-  int         map2_b1 = map2.get<int,    0>("Watermalon");      ASSERT_EQ(map2_b1, 90);
-  bool        map2_b2 = map2.get<bool,   1>("Watermalon");      ASSERT_EQ(map2_b2, false);
-  const char* map2_b3 = map2.get<const char*, 2>("Watermalon"); ASSERT_EQ(map2_b3, "The best in the summer");
+  ASSERT_EQ(map2_a1, 60);
+  ASSERT_EQ(map2_a2, false);
+  ASSERT_EQ(map2_a3, "Too sour, don't like...");
+
+  T1_ map2_b1 = map2.get<T1_, 0>("Watermalon");
+  T2_ map2_b2 = map2.get<T2_, 1>("Watermalon");
+  T3_ map2_b3 = map2.get<T3_, 2>("Watermalon");
+
+  ASSERT_EQ(map2_b1, 90);
+  ASSERT_EQ(map2_b2, false);
+  ASSERT_EQ(map2_b3, "The best in the summer");
 }
 
 TEST_F(unordered_assorted_value_map_unittest, TestFind)

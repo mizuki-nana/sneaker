@@ -203,11 +203,12 @@ public:
       std::list<Enumerable> m_collection;
   }; /* end class strongly_connected_component_list */
 
-  explicit tarjan():
+  explicit tarjan() :
     m_index(0),
     m_stack(std::list<vertex*>()),
     m_components(strongly_connected_component_list())
-  {};
+  {
+  }
 
   strongly_connected_component_list get_components(std::list<vertex*>&);
 

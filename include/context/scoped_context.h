@@ -46,7 +46,9 @@ void scoped_context(
 
   try {
     func(mngr, args...);
-  } catch (...) {}
+  } catch (...) {
+    // Do nothing here.
+  }
 
   mngr->__exit__();
 }
