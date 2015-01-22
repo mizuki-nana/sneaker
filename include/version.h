@@ -1,7 +1,7 @@
 /*******************************************************************************
 The MIT License (MIT)
 
-Copyright (c) 2014 Yanzheng Li
+Copyright (c) 2015 Yanzheng Li
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -32,11 +32,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // SNEAKER_VERSION % 100 is the patch level.
 // SNEAKER_VERSION / 100 % 1000 is the minor version.
 // SNEAKER_VERSION / 100000 is the major version.
-#define SNEAKER_VERSION 002700
+#define SNEAKER_VERSION 002800
 
 
 // Canonical version of library.
-#define SNEAKER_LIB_VERSION "0.27"
+#define SNEAKER_LIB_VERSION "0.2.8"
 
 
 #endif /* _SNEAKER_VERSION_H_ */

@@ -35,6 +35,7 @@ management and function decorators, which are all prevalent features in Python.
 * `functional` - _versatile function wrappers that support asynchronous invocations_
 * `json` - _JSON serialization, deserialization and validation_
 * `threading` - _thread management and daemons_
+* `testing` - _testing utilities_
 
 
 ## Get started
@@ -50,7 +51,7 @@ Install
 
 
 ## Version
-`version 0.2.7`
+`version 0.2.8`
 
 
 ## Documentation
@@ -61,11 +62,11 @@ Install
 
 ### OS X
 Operating System:<br/>
-`OS X 10.9.5 (13F34)`
+`OS X 10.10 (14A389)`
 
 Compiler:<br/>
 `Apple LLVM version 5.1 (clang-503.0.40) (based on LLVM 3.4svn)
-Target: x86_64-apple-darwin13.4.0
+Target: x86_64-apple-darwin14.0.0
 Thread model: posix`
 
 Make:<br/>
@@ -93,11 +94,8 @@ Sphinx:<br/>
 
 
 ## Dependencies
-boost:<br/>
-`Version 1.55`
-
-googletest:<br/>
-`Version 1.6.0`
+* [Boost] (http://www.boost.org/) `Version 1.55`
+* [Google Test] (https://code.google.com/p/googletest/) `Version 1.6.0`
 
 
 ## License
