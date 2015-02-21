@@ -26,6 +26,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/libc/c_str.h"
 
 #include <stdlib.h>
+#include <stdint.h>
 
 
 void
@@ -47,6 +48,29 @@ is_bit_set(int val, char bit)
 {
   unsigned int v = val;
   int b = (1 << (bit-1));
+  v = v & b;
+  return (v >> (bit-1)) == 1;
+}
+
+void
+set_nth_bit_uint8(uint8_t *val, char bit)
+{
+  uint8_t b = (1 << (bit - 1));
+  *val = *val | b;
+}
+
+void
+clear_nth_bit_uint8(uint8_t* val, char bit)
+{
+  uint8_t b = (1 << (bit-1));
+  *val = *val & (~b);
+}
+
+int
+is_bit_set_uint8(uint8_t val, char bit)
+{
+  uint8_t v = val;
+  uint8_t b = (1 << (bit - 1));
   v = v & b;
   return (v >> (bit-1)) == 1;
 }

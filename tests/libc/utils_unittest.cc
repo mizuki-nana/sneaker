@@ -510,6 +510,128 @@ TEST_F(is_bit_set_uint32_unittest, TestSetOn32thBit)
 
 
 /*******************************************************************************
+ * Unit tests for:
+ * void set_nth_bit_uint8(uint8_t *val, char bit)
+ ******************************************************************************/
+class set_nth_bit_uint8_unittest : public ::testing::Test {
+public:
+  void test(char, uint8_t);
+};
+
+
+void
+set_nth_bit_uint8_unittest::test(char bit, uint8_t expected_value)
+{
+  uint8_t val = 0;
+  set_nth_bit_uint8(&val, bit);
+  EXPECT_EQ(expected_value, val);
+}
+
+
+TEST_F(set_nth_bit_uint8_unittest, TestSet1stBit)
+{
+  test(1, 0x0001);
+}
+
+TEST_F(set_nth_bit_uint8_unittest, TestSet2ndBit)
+{
+  test(2, 0x0002);
+}
+
+TEST_F(set_nth_bit_uint8_unittest, TestSet4thBit)
+{
+  test(4, 0x0008);
+}
+
+TEST_F(set_nth_bit_uint8_unittest, TestSet8thBit)
+{
+  test(8, 128);
+}
+
+
+/*******************************************************************************
+ * Unit tests for:
+ * void clear_nth_bit_uint8(uint8_t *val, char bit)
+ ******************************************************************************/
+class clear_nth_bit_uint8_unittest : public ::testing::Test {
+public:
+  void test(uint8_t, char, uint8_t=0);
+};
+
+
+void
+clear_nth_bit_uint8_unittest::test(
+  uint8_t value, char bit, uint8_t expected_value)
+{
+  clear_nth_bit_uint8(&value, bit);
+  EXPECT_EQ(expected_value, value);
+}
+
+
+TEST_F(clear_nth_bit_uint8_unittest, TestClear1stBit)
+{
+  test(0x0001, 1);
+}
+
+TEST_F(clear_nth_bit_uint8_unittest, TestClear2ndBit)
+{
+  test(0x0002, 2);
+}
+
+TEST_F(clear_nth_bit_uint8_unittest, TestClear4thBit)
+{
+  test(0x0008, 4);
+}
+
+TEST_F(clear_nth_bit_uint8_unittest, TestClear8thBit)
+{
+  test(128, 8);
+}
+
+
+/*******************************************************************************
+ * Unit test for:
+ * void is_bit_set_uint8(uint8_t val, char bit)
+ ******************************************************************************/
+class is_bit_set_uint8_unittest : public ::testing::Test {};
+
+
+TEST_F(is_bit_set_uint8_unittest, TestBitSetOnZeroValueInteger)
+{
+  EXPECT_FALSE(is_bit_set_uint8(0, 1));
+}
+
+TEST_F(is_bit_set_uint8_unittest, TestSetOn1stBit)
+{
+  EXPECT_TRUE(is_bit_set_uint8(1, 1));
+}
+
+TEST_F(is_bit_set_uint8_unittest, TestSetOn2ndBit)
+{
+  uint8_t val = 2;
+  EXPECT_FALSE(is_bit_set_uint8(val, 1));
+  EXPECT_TRUE(is_bit_set_uint8(val, 2));
+}
+
+TEST_F(is_bit_set_uint8_unittest, TestSetOn4thBit)
+{
+  uint8_t val = 8;
+  EXPECT_FALSE(is_bit_set_uint8(val, 1));
+  EXPECT_FALSE(is_bit_set_uint8(val, 2));
+  EXPECT_TRUE(is_bit_set_uint8(val, 4));
+}
+
+TEST_F(is_bit_set_uint8_unittest, TestSetOn8thBit)
+{
+  uint8_t val = 128;
+  EXPECT_FALSE(is_bit_set_uint8(val, 1));
+  EXPECT_FALSE(is_bit_set_uint8(val, 2));
+  EXPECT_FALSE(is_bit_set_uint8(val, 4));
+  EXPECT_TRUE(is_bit_set_uint8(val, 8));
+}
+
+
+/*******************************************************************************
  * Unit Test for:
  * rand_top(int top)
  ******************************************************************************/
