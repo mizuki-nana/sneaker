@@ -44,8 +44,9 @@ IO=./io/
 JSON=./json/
 TESTING=./testing/
 THREADING=./threading/
+UTILITY=./utility/
 
-SUBDIRS=$(LIBC) $(IO) $(TESTING) $(THREADING)
+SUBDIRS=$(LIBC) $(IO) $(JSON) $(TESTING) $(THREADING) $(UTILITY)
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Linux)
@@ -77,11 +78,15 @@ testing:
 threading:
 	-cd $(THREADING) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) -c $$f); done
 
+.PHONY: utility
+utility:
+	-cd $(UTILITY) && for f in ./*.cc; do ($(CXX) $(CXXFLAGS) -c $$f); done
+
 .PHONY: all
 ifdef NO_TESTING
-all: libc io json threading
+all: libc io json threading utility
 else
-all: libc io json testing threading
+all: libc io json testing threading utility
 endif
 
 .PHONY: clean

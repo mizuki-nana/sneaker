@@ -35,6 +35,7 @@ management and function decorators, which are all prevalent features in Python.
 * `functional` - _versatile function wrappers that support asynchronous invocations_
 * `json` - _JSON serialization, deserialization and validation_
 * `threading` - _thread management and daemons_
+* `utility` - _miscellaneous utilities_
 * `testing` - _testing utilities_
 
 
