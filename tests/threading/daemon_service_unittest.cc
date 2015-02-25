@@ -56,7 +56,9 @@ class daemon_service_unittest : public ::testing::Test {};
 TEST_F(daemon_service_unittest, TestRunDaemonAsynchronously)
 {
   dummy_daemon_service dummy_daemon(5);
-  dummy_daemon.start();
+  bool res = dummy_daemon.start();
+
+  ASSERT_EQ(true, res);
 
   // sleep for one second in main thread to wait for daemon thread to process.
   sleep(1);
@@ -67,7 +69,9 @@ TEST_F(daemon_service_unittest, TestRunDaemonAsynchronously)
 TEST_F(daemon_service_unittest, TestRunDaemonSynchronously)
 {
   dummy_daemon_service dummy_daemon(5, true);
-  dummy_daemon.start();
+  bool res = dummy_daemon.start();
+
+  ASSERT_EQ(true, res);
 
   ASSERT_EQ(5 + 1, dummy_daemon.num());
 }

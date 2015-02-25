@@ -53,7 +53,8 @@ TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonAsynchronously)
   fixed_time_interval_daemon_service daemon_service(
     20, fixed_time_interval_daemon_service_unittest::DummyHandler);
 
-  daemon_service.start();
+  bool res = daemon_service.start();
+  ASSERT_EQ(true, res);
 }
 
 TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonSynchronously)
@@ -67,6 +68,8 @@ TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonSynchronously)
   fixed_time_interval_daemon_service daemon_service(
     20, fixed_time_interval_daemon_service_unittest::DummyHandler, true, 5);
 
-  daemon_service.start();
+  bool res = daemon_service.start();
+  ASSERT_EQ(true, res);
+
   std::cout << '\n';
 }

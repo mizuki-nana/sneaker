@@ -48,10 +48,10 @@ sneaker::threading::daemon_service::start()
 
   if (wait_for_termination) {
     void* res = NULL;
-    pthread_join(m_thread_id, &res);
+    created = pthread_join(m_thread_id, &res);
   }
 
-  return created;
+  return created == 0;
 }
 
 void*
