@@ -54,18 +54,27 @@ protected:
     fixed_time_interval_daemon_service*
   );
 
+  static void dummy_tick_handler(
+    const boost::system::error_code&,
+    boost::asio::deadline_timer* t,
+    long
+  );
+
   void invoke_external_handler();
 
   void increment_iteration_count();
 
-  bool can_continue();
+  bool can_continue() const;
+
+  void stop();
 
 private:
   ExternalHandler m_external_handler;
   uint32_t m_interval;
   int32_t m_max_iterations;
   uint32_t m_iteration_count;
-  bool m_destroyed = false;
+  boost::asio::io_service m_io_service;
+  boost::asio::deadline_timer m_timer;
 };
 
 

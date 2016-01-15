@@ -36,10 +36,33 @@ using namespace sneaker::threading;
 
 class fixed_time_interval_daemon_service_unittest : public ::testing::Test {
 public:
-  static void DummyHandler(void*) {
-    std::cout << '.';
+
+  static size_t count() {
+    return count_;
   }
+
+  static void increment() {
+    ++count_;
+  }
+
+  virtual void SetUp() {
+    count_ = 0;
+  }
+
+  virtual void TearDown() {
+    count_ = 0;
+  }
+
+  static void DummyHandler(void* arg) {
+    std::cout << '.';
+    fixed_time_interval_daemon_service_unittest::increment();
+  }
+
+private:
+  static size_t count_;
 };
+
+size_t fixed_time_interval_daemon_service_unittest::count_ = 0;
 
 
 TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonAsynchronously)
@@ -67,6 +90,27 @@ TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonSynchronously)
    */
   fixed_time_interval_daemon_service daemon_service(
     20, fixed_time_interval_daemon_service_unittest::DummyHandler, true, 5);
+
+  bool res = daemon_service.start();
+  ASSERT_EQ(true, res);
+  ASSERT_EQ(5, fixed_time_interval_daemon_service_unittest::count());
+
+  std::cout << '\n';
+}
+
+TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonAsynchronouslyIndefinitely)
+{
+  /* Tests that a daemon which runs on a background thread, and pokes the
+   * foreground thread indefinitely every 100 ms.
+   *
+   * The daemon object should be destroyed on the stack before the 100ms interval
+   * finishes, and this tests it should not be an issue.
+   *
+   * See: [SNEAKER 90] Fix daemon service crash
+   * https://github.com/yanzhengli/sneaker/pull/19/
+   */
+  fixed_time_interval_daemon_service daemon_service(
+    100, fixed_time_interval_daemon_service_unittest::DummyHandler, false, -1);
 
   bool res = daemon_service.start();
   ASSERT_EQ(true, res);

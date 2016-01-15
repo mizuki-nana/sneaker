@@ -39,7 +39,9 @@ sneaker::threading::fixed_time_interval_daemon_service::fixed_time_interval_daem
   m_external_handler(external_handler),
   m_interval(interval),
   m_max_iterations(max_iterations),
-  m_iteration_count(0)
+  m_iteration_count(0),
+  m_io_service(),
+  m_timer(m_io_service, boost::posix_time::milliseconds(m_interval))
 {
   assert(m_interval >= 0);
   assert(m_external_handler);
@@ -47,7 +49,7 @@ sneaker::threading::fixed_time_interval_daemon_service::fixed_time_interval_daem
 
 sneaker::threading::fixed_time_interval_daemon_service::~fixed_time_interval_daemon_service()
 {
-  m_destroyed = true;
+  stop();
 }
 
 size_t
@@ -59,14 +61,11 @@ sneaker::threading::fixed_time_interval_daemon_service::interval() const
 void
 sneaker::threading::fixed_time_interval_daemon_service::handle()
 {
-  boost::asio::io_service io;
-  boost::asio::deadline_timer t(io, boost::posix_time::milliseconds(m_interval));
-
-  t.async_wait(
-    boost::bind(tick_handler, boost::asio::placeholders::error, &t, this)
+  m_timer.async_wait(
+    boost::bind(tick_handler, boost::asio::placeholders::error, &m_timer, this)
   );
 
-  io.run();
+  m_io_service.run();
 }
 
 void
@@ -83,12 +82,18 @@ sneaker::threading::fixed_time_interval_daemon_service::increment_iteration_coun
 }
 
 bool
-sneaker::threading::fixed_time_interval_daemon_service::can_continue()
+sneaker::threading::fixed_time_interval_daemon_service::can_continue() const
 {
-  return !this->m_destroyed && (
-    static_cast<int32_t>(this->m_iteration_count) < this->m_max_iterations ||
-    this->m_max_iterations == -1
-  );
+  return m_max_iterations == -1 ||
+    (static_cast<int32_t>(m_iteration_count) < m_max_iterations);
+}
+
+void
+sneaker::threading::fixed_time_interval_daemon_service::stop() {
+  m_timer.expires_from_now(boost::posix_time::milliseconds(1));
+  m_timer.wait();
+  m_timer.cancel();
+  m_io_service.stop();
 }
 
 void
@@ -102,8 +107,8 @@ sneaker::threading::fixed_time_interval_daemon_service::tick_handler(
     return;
   }
 
-  t->expires_at(
-    t->expires_at() + boost::posix_time::milliseconds(daemon_service->interval())
+  t->expires_from_now(
+    boost::posix_time::milliseconds(daemon_service->interval())
   );
 
   t->async_wait(
@@ -112,4 +117,13 @@ sneaker::threading::fixed_time_interval_daemon_service::tick_handler(
   );
 
   daemon_service->invoke_external_handler();
+}
+
+void
+sneaker::threading::fixed_time_interval_daemon_service::dummy_tick_handler(
+  const boost::system::error_code& e,
+  boost::asio::deadline_timer* t,
+  long)
+{
+  // Do nothing here.
 }
