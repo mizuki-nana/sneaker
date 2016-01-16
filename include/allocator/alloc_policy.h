@@ -68,12 +68,7 @@ public:
 // -----------------------------------------------------------------------------
 
 template<typename T>
-using _MyType = typename sneaker::allocator::standard_alloc_policy<T>;
-
-// -----------------------------------------------------------------------------
-
-template<typename T>
-sneaker::allocator::standard_alloc_policy<T>::standard_alloc_policy()
+standard_alloc_policy<T>::standard_alloc_policy()
 {
   // Do nothing here.
 }
@@ -81,7 +76,7 @@ sneaker::allocator::standard_alloc_policy<T>::standard_alloc_policy()
 // -----------------------------------------------------------------------------
 
 template<typename T>
-sneaker::allocator::standard_alloc_policy<T>::~standard_alloc_policy()
+standard_alloc_policy<T>::~standard_alloc_policy()
 {
   // Do nothing here.
 }
@@ -89,7 +84,7 @@ sneaker::allocator::standard_alloc_policy<T>::~standard_alloc_policy()
 // -----------------------------------------------------------------------------
 
 template<typename T>
-sneaker::allocator::standard_alloc_policy<T>::standard_alloc_policy(
+standard_alloc_policy<T>::standard_alloc_policy(
   standard_alloc_policy const&)
 {
   // Do nothing here.
@@ -99,7 +94,7 @@ sneaker::allocator::standard_alloc_policy<T>::standard_alloc_policy(
 
 template<typename T>
 template<typename U>
-sneaker::allocator::standard_alloc_policy<T>::standard_alloc_policy(
+standard_alloc_policy<T>::standard_alloc_policy(
   standard_alloc_policy<U> const&)
 {
   // Do nothing here.
@@ -108,8 +103,8 @@ sneaker::allocator::standard_alloc_policy<T>::standard_alloc_policy(
 // -----------------------------------------------------------------------------
 
 template<typename T>
-typename _MyType<T>::pointer
-sneaker::allocator::standard_alloc_policy<T>::allocate(
+typename standard_alloc_policy<T>::pointer
+standard_alloc_policy<T>::allocate(
   size_type n, typename std::allocator<void>::const_pointer)
 {
   return reinterpret_cast<pointer>(::operator new(n * sizeof(T)));
@@ -118,7 +113,7 @@ sneaker::allocator::standard_alloc_policy<T>::allocate(
 // -----------------------------------------------------------------------------
 
 template<typename T>
-void sneaker::allocator::standard_alloc_policy<T>::deallocate(pointer p, size_type)
+void standard_alloc_policy<T>::deallocate(pointer p, size_type)
 {
   ::operator delete(p);
 }
@@ -126,8 +121,8 @@ void sneaker::allocator::standard_alloc_policy<T>::deallocate(pointer p, size_ty
 // -----------------------------------------------------------------------------
 
 template<typename T>
-typename _MyType<T>::size_type
-sneaker::allocator::standard_alloc_policy<T>::max_size() const
+typename standard_alloc_policy<T>::size_type
+standard_alloc_policy<T>::max_size() const
 {
   return std::numeric_limits<size_type>::max();
 }

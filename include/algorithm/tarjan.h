@@ -223,13 +223,8 @@ private:
 // -----------------------------------------------------------------------------
 
 template<class T>
-using _MyType = typename sneaker::algorithm::tarjan<T>;
-
-// -----------------------------------------------------------------------------
-
-template<class T>
-typename _MyType<T>::strongly_connected_component_list
-sneaker::algorithm::tarjan<T>::get_components(std::list<vertex*>& graph)
+typename tarjan<T>::strongly_connected_component_list
+tarjan<T>::get_components(std::list<vertex*>& graph)
 {
   for (auto itr = graph.begin(); itr != graph.end(); ++itr) {
     vertex* vtx = static_cast<vertex*>(*itr);
@@ -246,7 +241,7 @@ sneaker::algorithm::tarjan<T>::get_components(std::list<vertex*>& graph)
 
 template<class T>
 void
-sneaker::algorithm::tarjan<T>::strong_connect(vertex* vtx)
+tarjan<T>::strong_connect(vertex* vtx)
 {
   vtx->set_index(this->m_index);
   vtx->set_lowlink(this->m_index);

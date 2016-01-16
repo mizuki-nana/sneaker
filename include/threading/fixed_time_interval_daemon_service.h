@@ -38,7 +38,7 @@ namespace sneaker {
 namespace threading {
 
 
-class fixed_time_interval_daemon_service : public sneaker::threading::daemon_service {
+class fixed_time_interval_daemon_service : public daemon_service {
 public:
   fixed_time_interval_daemon_service(uint32_t, ExternalHandler, bool=false, int32_t=UINT_MAX);
   ~fixed_time_interval_daemon_service();

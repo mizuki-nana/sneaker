@@ -69,7 +69,7 @@ public:
 // -----------------------------------------------------------------------------
 
 template<typename T, typename Policy, typename Traits>
-sneaker::allocator::allocator<T, Policy, Traits>::allocator()
+allocator<T, Policy, Traits>::allocator()
 {
   // Do nothing here.
 }
@@ -77,7 +77,7 @@ sneaker::allocator::allocator<T, Policy, Traits>::allocator()
 // -----------------------------------------------------------------------------
 
 template<typename T, typename Policy, typename Traits>
-sneaker::allocator::allocator<T, Policy, Traits>::~allocator()
+allocator<T, Policy, Traits>::~allocator()
 {
   // Do nothing here.
 }
@@ -85,7 +85,7 @@ sneaker::allocator::allocator<T, Policy, Traits>::~allocator()
 // -----------------------------------------------------------------------------
 
 template<typename T, typename Policy, typename Traits>
-sneaker::allocator::allocator<T, Policy, Traits>::allocator(allocator const& rhs):
+allocator<T, Policy, Traits>::allocator(allocator const& rhs):
   Policy(rhs),
   Traits(rhs)
 {
@@ -96,7 +96,7 @@ sneaker::allocator::allocator<T, Policy, Traits>::allocator(allocator const& rhs
 
 template<typename T, typename Policy, typename Traits>
 template<typename U>
-sneaker::allocator::allocator<T, Policy, Traits>::allocator(allocator<U> const&)
+allocator<T, Policy, Traits>::allocator(allocator<U> const&)
 {
   // Do nothing here.
 }
@@ -105,7 +105,7 @@ sneaker::allocator::allocator<T, Policy, Traits>::allocator(allocator<U> const&)
 
 template<typename T, typename Policy, typename Traits>
 template <typename U, typename P, typename T2>
-sneaker::allocator::allocator<T, Policy, Traits>::allocator(allocator<U, P, T2> const& rhs):
+allocator<T, Policy, Traits>::allocator(allocator<U, P, T2> const& rhs):
   Policy(rhs),
   Traits(rhs)
 {

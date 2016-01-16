@@ -29,15 +29,21 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <cassert>
 
 
+namespace sneaker {
+
+
+namespace threading {
+
+
 // -----------------------------------------------------------------------------
 
-sneaker::threading::fixed_time_interval_daemon_service::fixed_time_interval_daemon_service(
+fixed_time_interval_daemon_service::fixed_time_interval_daemon_service(
   uint32_t interval,
   ExternalHandler external_handler,
   bool wait_for_termination,
   int32_t max_iterations
 ):
-  sneaker::threading::daemon_service(wait_for_termination),
+  daemon_service(wait_for_termination),
   m_external_handler(external_handler),
   m_interval(interval),
   m_max_iterations(max_iterations),
@@ -51,7 +57,7 @@ sneaker::threading::fixed_time_interval_daemon_service::fixed_time_interval_daem
 
 // -----------------------------------------------------------------------------
 
-sneaker::threading::fixed_time_interval_daemon_service::~fixed_time_interval_daemon_service()
+fixed_time_interval_daemon_service::~fixed_time_interval_daemon_service()
 {
   stop();
 }
@@ -59,7 +65,7 @@ sneaker::threading::fixed_time_interval_daemon_service::~fixed_time_interval_dae
 // -----------------------------------------------------------------------------
 
 size_t
-sneaker::threading::fixed_time_interval_daemon_service::interval() const
+fixed_time_interval_daemon_service::interval() const
 {
   return m_interval;
 }
@@ -67,7 +73,7 @@ sneaker::threading::fixed_time_interval_daemon_service::interval() const
 // -----------------------------------------------------------------------------
 
 void
-sneaker::threading::fixed_time_interval_daemon_service::handle()
+fixed_time_interval_daemon_service::handle()
 {
   m_timer.async_wait(
     boost::bind(tick_handler, boost::asio::placeholders::error, &m_timer, this)
@@ -79,7 +85,7 @@ sneaker::threading::fixed_time_interval_daemon_service::handle()
 // -----------------------------------------------------------------------------
 
 void
-sneaker::threading::fixed_time_interval_daemon_service::invoke_external_handler()
+fixed_time_interval_daemon_service::invoke_external_handler()
 {
   this->m_external_handler(this);
   this->increment_iteration_count();
@@ -88,7 +94,7 @@ sneaker::threading::fixed_time_interval_daemon_service::invoke_external_handler(
 // -----------------------------------------------------------------------------
 
 void
-sneaker::threading::fixed_time_interval_daemon_service::increment_iteration_count()
+fixed_time_interval_daemon_service::increment_iteration_count()
 {
   this->m_iteration_count++;
 }
@@ -96,7 +102,7 @@ sneaker::threading::fixed_time_interval_daemon_service::increment_iteration_coun
 // -----------------------------------------------------------------------------
 
 bool
-sneaker::threading::fixed_time_interval_daemon_service::can_continue() const
+fixed_time_interval_daemon_service::can_continue() const
 {
   return m_max_iterations == -1 ||
     (static_cast<int32_t>(m_iteration_count) < m_max_iterations);
@@ -105,7 +111,7 @@ sneaker::threading::fixed_time_interval_daemon_service::can_continue() const
 // -----------------------------------------------------------------------------
 
 void
-sneaker::threading::fixed_time_interval_daemon_service::stop() {
+fixed_time_interval_daemon_service::stop() {
   m_timer.expires_from_now(boost::posix_time::milliseconds(1));
   m_timer.wait();
   m_timer.cancel();
@@ -115,10 +121,10 @@ sneaker::threading::fixed_time_interval_daemon_service::stop() {
 // -----------------------------------------------------------------------------
 
 void
-sneaker::threading::fixed_time_interval_daemon_service::tick_handler(
+fixed_time_interval_daemon_service::tick_handler(
   const boost::system::error_code& e,
   boost::asio::deadline_timer* t,
-  sneaker::threading::fixed_time_interval_daemon_service* daemon_service
+  fixed_time_interval_daemon_service* daemon_service
 )
 {
   if (!daemon_service->can_continue()) {
@@ -140,7 +146,7 @@ sneaker::threading::fixed_time_interval_daemon_service::tick_handler(
 // -----------------------------------------------------------------------------
 
 void
-sneaker::threading::fixed_time_interval_daemon_service::dummy_tick_handler(
+fixed_time_interval_daemon_service::dummy_tick_handler(
   const boost::system::error_code& e,
   boost::asio::deadline_timer* t,
   long)
@@ -149,3 +155,9 @@ sneaker::threading::fixed_time_interval_daemon_service::dummy_tick_handler(
 }
 
 // -----------------------------------------------------------------------------
+
+
+} /* end namespace threading */
+
+
+} /* end namespace sneaker */

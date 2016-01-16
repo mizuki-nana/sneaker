@@ -60,7 +60,7 @@ public:
 // -----------------------------------------------------------------------------
 
 template<typename T>
-sneaker::allocator::object_traits<T>::object_traits()
+object_traits<T>::object_traits()
 {
   // Do nothing here.
 }
@@ -68,7 +68,7 @@ sneaker::allocator::object_traits<T>::object_traits()
 // -----------------------------------------------------------------------------
 
 template<typename T>
-sneaker::allocator::object_traits<T>::~object_traits()
+object_traits<T>::~object_traits()
 {
   // Do nothing here.
 }
@@ -77,7 +77,7 @@ sneaker::allocator::object_traits<T>::~object_traits()
 
 template<typename T>
 template<typename U>
-sneaker::allocator::object_traits<T>::object_traits(object_traits<U> const&)
+object_traits<T>::object_traits(object_traits<U> const&)
 {
   // Do nothing here.
 }
@@ -85,7 +85,7 @@ sneaker::allocator::object_traits<T>::object_traits(object_traits<U> const&)
 // -----------------------------------------------------------------------------
 
 template<typename T>
-T* sneaker::allocator::object_traits<T>::address(T& r)
+T* object_traits<T>::address(T& r)
 {
   return &r;
 }
@@ -93,7 +93,7 @@ T* sneaker::allocator::object_traits<T>::address(T& r)
 // -----------------------------------------------------------------------------
 
 template<typename T>
-T const* sneaker::allocator::object_traits<T>::address(T const& r)
+T const* object_traits<T>::address(T const& r)
 {
   return &r;
 }
@@ -101,7 +101,7 @@ T const* sneaker::allocator::object_traits<T>::address(T const& r)
 // -----------------------------------------------------------------------------
 
 template<typename T>
-void sneaker::allocator::object_traits<T>::construct(T* p, const T& t)
+void object_traits<T>::construct(T* p, const T& t)
 {
   ::new ((void*)p) T (t);
 }
@@ -110,7 +110,7 @@ void sneaker::allocator::object_traits<T>::construct(T* p, const T& t)
 
 template<typename T>
 template<class U, class... Args>
-void sneaker::allocator::object_traits<T>::construct(U* p, Args&&... args)
+void object_traits<T>::construct(U* p, Args&&... args)
 {
   ::new ((void*)p) U (std::forward<Args>(args)...);
 }
@@ -118,7 +118,7 @@ void sneaker::allocator::object_traits<T>::construct(U* p, Args&&... args)
 // -----------------------------------------------------------------------------
 
 template<typename T>
-void sneaker::allocator::object_traits<T>::destroy(T* p)
+void object_traits<T>::destroy(T* p)
 {
   p->~T();
 }

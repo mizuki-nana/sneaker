@@ -62,20 +62,10 @@ protected:
   static void* handler(void* p);
 };
 
-
-// -----------------------------------------------------------------------------
-
-namespace {
-
-template<class R, class... Args>
-using _MyType = typename sneaker::functional::function<R, Args...>;
-
-} /* end namespace */
-
 // -----------------------------------------------------------------------------
 
 template<class R, class... Args>
-sneaker::functional::function<R, Args...>::function(_F func):
+function<R, Args...>::function(_F func):
   m_func(func)
 {
   assert(m_func);
@@ -85,7 +75,7 @@ sneaker::functional::function<R, Args...>::function(_F func):
 
 template<class R, class... Args>
 template<class Functor>
-sneaker::functional::function<R, Args...>::function(Functor func)
+function<R, Args...>::function(Functor func)
 {
   assert(func);
   m_func = func;
@@ -94,8 +84,8 @@ sneaker::functional::function<R, Args...>::function(Functor func)
 // -----------------------------------------------------------------------------
 
 template<class R, class... Args>
-const _MyType<R, Args...>&
-sneaker::functional::function<R, Args...>::operator=(_F func)
+const function<R, Args...>&
+function<R, Args...>::operator=(_F func)
 {
   assert(func);
   m_func = func;
@@ -106,7 +96,7 @@ sneaker::functional::function<R, Args...>::operator=(_F func)
 
 template<class R, class... Args>
 R
-sneaker::functional::function<R, Args...>::operator() (Args... args) const
+function<R, Args...>::operator() (Args... args) const
 {
   return m_func(args...);
 }
@@ -114,7 +104,7 @@ sneaker::functional::function<R, Args...>::operator() (Args... args) const
 // -----------------------------------------------------------------------------
 
 template<class R, class... Args>
-sneaker::functional::function<R, Args...>::operator implicit_type()
+function<R, Args...>::operator implicit_type()
 {
   return m_func;
 }
@@ -123,7 +113,7 @@ sneaker::functional::function<R, Args...>::operator implicit_type()
 
 template<class R, class... Args>
 void
-sneaker::functional::function<R, Args...>::invoke_async(Args... args)
+function<R, Args...>::invoke_async(Args... args)
 {
   auto f = std::bind(m_func, args...);
   std::function<void()> *wrapper = new std::function<void()>(f);
@@ -136,7 +126,7 @@ sneaker::functional::function<R, Args...>::invoke_async(Args... args)
 
 template<class R, class... Args>
 void*
-sneaker::functional::function<R, Args...>::handler(void* p)
+function<R, Args...>::handler(void* p)
 {
   std::function<void()> *f = reinterpret_cast<std::function<void()>*>(p);
   (*f)();

@@ -27,16 +27,22 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <sstream>
 
 
+namespace sneaker {
+
+
+namespace io {
+
+
 // -----------------------------------------------------------------------------
 
-sneaker::io::file_reader::file_reader()
+file_reader::file_reader()
 {
   // Do nothing here.
 }
 
 // -----------------------------------------------------------------------------
 
-sneaker::io::file_reader::file_reader(
+file_reader::file_reader(
   const char* path
 ) : m_path(path)
 {
@@ -46,7 +52,7 @@ sneaker::io::file_reader::file_reader(
 // -----------------------------------------------------------------------------
 
 const char*
-sneaker::io::file_reader::file_path() const
+file_reader::file_path() const
 {
   return this->m_path.c_str();
 }
@@ -54,7 +60,7 @@ sneaker::io::file_reader::file_path() const
 // -----------------------------------------------------------------------------
 
 void
-sneaker::io::file_reader::set_path(const char* path)
+file_reader::set_path(const char* path)
 {
   assert(path);
   this->m_path = path;
@@ -63,7 +69,7 @@ sneaker::io::file_reader::set_path(const char* path)
 // -----------------------------------------------------------------------------
 
 bool
-sneaker::io::file_reader::read_file(char** p) const
+file_reader::read_file(char** p) const
 {
   if (!this->file_path()) {
     return  false;
@@ -86,3 +92,9 @@ sneaker::io::file_reader::read_file(char** p) const
 }
 
 // -----------------------------------------------------------------------------
+
+
+} /* end namespace io */
+
+
+} /* end namespace sneaker */

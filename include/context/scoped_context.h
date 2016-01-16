@@ -40,7 +40,7 @@ namespace context {
 
 template<class F, class... Args>
 void scoped_context(
-  sneaker::context::context_manager* mngr, F func, Args... args)
+  context_manager* mngr, F func, Args... args)
 {
   assert(mngr);
 
@@ -59,7 +59,7 @@ void scoped_context(
 
 template<class F, class... Args>
 void nested_context(
-  std::vector<sneaker::context::context_manager*> mngrs, F func, Args... args)
+  std::vector<context_manager*> mngrs, F func, Args... args)
 {
   std::for_each(
     mngrs.begin(),

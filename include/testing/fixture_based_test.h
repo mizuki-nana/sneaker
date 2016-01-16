@@ -59,7 +59,7 @@ protected:
 // -----------------------------------------------------------------------------
 
 template<class T>
-sneaker::testing::fixture_based_test<T>::fixture_based_test(
+fixture_based_test<T>::fixture_based_test(
   FixtureTeardownHandler teardown_handler
 ):
   m_teardown_handler(teardown_handler)
@@ -70,7 +70,7 @@ sneaker::testing::fixture_based_test<T>::fixture_based_test(
 
 template<class T>
 void
-sneaker::testing::fixture_based_test<T>::add_fixture(T fixture)
+fixture_based_test<T>::add_fixture(T fixture)
 {
   m_fixtures.push_back(fixture);
 }
@@ -79,7 +79,7 @@ sneaker::testing::fixture_based_test<T>::add_fixture(T fixture)
 
 template<class T>
 void
-sneaker::testing::fixture_based_test<T>::TearDown()
+fixture_based_test<T>::TearDown()
 {
   typename std::vector<T>::iterator itr;
   for (itr = m_fixtures.begin(); itr != m_fixtures.end(); itr++) {

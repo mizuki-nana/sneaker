@@ -23,9 +23,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/threading/daemon_service.h"
 
 
+namespace sneaker {
+
+
+namespace threading {
+
+
 // -----------------------------------------------------------------------------
 
-sneaker::threading::daemon_service::daemon_service(bool wait_for_termination):
+daemon_service::daemon_service(bool wait_for_termination):
   wait_for_termination(wait_for_termination)
 {
   this->init();
@@ -34,7 +40,7 @@ sneaker::threading::daemon_service::daemon_service(bool wait_for_termination):
 // -----------------------------------------------------------------------------
 
 void
-sneaker::threading::daemon_service::init()
+daemon_service::init()
 {
   pthread_attr_init(&m_attr);
   pthread_attr_setdetachstate(&m_attr, PTHREAD_CREATE_JOINABLE);
@@ -42,7 +48,7 @@ sneaker::threading::daemon_service::init()
 
 // -----------------------------------------------------------------------------
 
-sneaker::threading::daemon_service::~daemon_service()
+daemon_service::~daemon_service()
 {
   pthread_attr_destroy(&m_attr);
 }
@@ -50,7 +56,7 @@ sneaker::threading::daemon_service::~daemon_service()
 // -----------------------------------------------------------------------------
 
 bool
-sneaker::threading::daemon_service::start()
+daemon_service::start()
 {
   int created = pthread_create(&m_thread_id, &m_attr, handler, (void*)this);
 
@@ -65,10 +71,16 @@ sneaker::threading::daemon_service::start()
 // -----------------------------------------------------------------------------
 
 void*
-sneaker::threading::daemon_service::handler(void* instance)
+daemon_service::handler(void* instance)
 {
-  reinterpret_cast<sneaker::threading::daemon_service*>(instance)->handle();
+  reinterpret_cast<daemon_service*>(instance)->handle();
   return NULL;
 }
 
 // -----------------------------------------------------------------------------
+
+
+} /* end namespace threading */
+
+
+} /* end namespace sneaker */

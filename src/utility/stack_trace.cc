@@ -28,10 +28,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string>
 
 
+namespace sneaker {
+
+
+namespace utility {
+
+
 // -----------------------------------------------------------------------------
 
 void
-sneaker::utility::stack_trace::print_stack_trace(
+stack_trace::print_stack_trace(
   std::ostream& stream, unsigned int max_frames)
 {
   unsigned int frames_num = max_frames + 1;
@@ -125,3 +131,9 @@ sneaker::utility::stack_trace::print_stack_trace(
 }
 
 // -----------------------------------------------------------------------------
+
+
+} /* end namespace utility */
+
+
+} /* end namespace sneaker */

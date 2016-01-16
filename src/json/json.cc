@@ -293,22 +293,13 @@ public:
 
 // -----------------------------------------------------------------------------
 
-
-} /* end namespace json */
-
-
-} /* end namespace sneaker */
-
-
-// -----------------------------------------------------------------------------
-
 struct Statics {
-  const std::shared_ptr<sneaker::json::json_value> null = std::make_shared<sneaker::json::json_null>();
-  const std::shared_ptr<sneaker::json::json_value> t = std::make_shared<sneaker::json::json_boolean>(true);
-  const std::shared_ptr<sneaker::json::json_value> f = std::make_shared<sneaker::json::json_boolean>(false);
-  const sneaker::json::JSON::string empty_string;
-  const sneaker::json::JSON::array empty_vector;
-  const sneaker::json::JSON::object empty_map;
+  const std::shared_ptr<json_value> null = std::make_shared<json_null>();
+  const std::shared_ptr<json_value> t = std::make_shared<json_boolean>(true);
+  const std::shared_ptr<json_value> f = std::make_shared<json_boolean>(false);
+  const JSON::string empty_string;
+  const JSON::array empty_vector;
+  const JSON::object empty_map;
   Statics() {}
 };
 
@@ -322,15 +313,15 @@ const Statics & statics()
 
 // -----------------------------------------------------------------------------
 
-const sneaker::json::JSON& static_null()
+const JSON& static_null()
 {
-  static const sneaker::json::JSON json_null_value;
+  static const JSON json_null_value;
   return json_null_value;
 }
 
 // -----------------------------------------------------------------------------
 
-sneaker::json::JSON::JSON() noexcept :
+JSON::JSON() noexcept :
   m_ptr(statics().null)
 {
   // Do nothing here.
@@ -338,7 +329,7 @@ sneaker::json::JSON::JSON() noexcept :
 
 // -----------------------------------------------------------------------------
 
-sneaker::json::JSON::JSON(null) noexcept :
+JSON::JSON(null) noexcept :
   m_ptr(statics().null)
 {
   // Do nothing here.
@@ -346,7 +337,7 @@ sneaker::json::JSON::JSON(null) noexcept :
 
 // -----------------------------------------------------------------------------
 
-sneaker::json::JSON::JSON(double value) noexcept :
+JSON::JSON(double value) noexcept :
   m_ptr(std::make_shared<json_double>(value))
 {
   // Do nothing here.
@@ -354,7 +345,7 @@ sneaker::json::JSON::JSON(double value) noexcept :
 
 // -----------------------------------------------------------------------------
 
-sneaker::json::JSON::JSON(int value) noexcept :
+JSON::JSON(int value) noexcept :
   m_ptr(std::make_shared<json_int>(value))
 {
   // Do nothing here.
@@ -362,7 +353,7 @@ sneaker::json::JSON::JSON(int value) noexcept :
 
 // -----------------------------------------------------------------------------
 
-sneaker::json::JSON::JSON(bool value) noexcept :
+JSON::JSON(bool value) noexcept :
   m_ptr(value ? statics().t : statics().f)
 {
   // Do nothing here.
@@ -370,7 +361,7 @@ sneaker::json::JSON::JSON(bool value) noexcept :
 
 // -----------------------------------------------------------------------------
 
-sneaker::json::JSON::JSON(const string& value) noexcept:
+JSON::JSON(const string& value) noexcept:
   m_ptr(std::make_shared<json_string>(value))
 {
   // Do nothing here.
@@ -378,7 +369,7 @@ sneaker::json::JSON::JSON(const string& value) noexcept:
 
 // -----------------------------------------------------------------------------
 
-sneaker::json::JSON::JSON(string&& value) noexcept :
+JSON::JSON(string&& value) noexcept :
   m_ptr(std::make_shared<json_string>(std::move(value)))
 {
   // Do nothing here.
@@ -386,7 +377,7 @@ sneaker::json::JSON::JSON(string&& value) noexcept :
 
 // -----------------------------------------------------------------------------
 
-sneaker::json::JSON::JSON(const char * value) noexcept :
+JSON::JSON(const char * value) noexcept :
   m_ptr(std::make_shared<json_string>(value))
 {
   // Do nothing here.
@@ -394,7 +385,7 @@ sneaker::json::JSON::JSON(const char * value) noexcept :
 
 // -----------------------------------------------------------------------------
 
-sneaker::json::JSON::JSON(const array & value) noexcept :
+JSON::JSON(const array & value) noexcept :
   m_ptr(std::make_shared<json_array>(value))
 {
   // Do nothing here.
@@ -402,7 +393,7 @@ sneaker::json::JSON::JSON(const array & value) noexcept :
 
 // -----------------------------------------------------------------------------
 
-sneaker::json::JSON::JSON(array&& value) noexcept :
+JSON::JSON(array&& value) noexcept :
   m_ptr(std::make_shared<json_array>(std::move(value)))
 {
   // Do nothing here.
@@ -410,7 +401,7 @@ sneaker::json::JSON::JSON(array&& value) noexcept :
 
 // -----------------------------------------------------------------------------
 
-sneaker::json::JSON::JSON(const object& value) noexcept :
+JSON::JSON(const object& value) noexcept :
   m_ptr(std::make_shared<json_object>(value))
 {
   // Do nothing here.
@@ -418,7 +409,7 @@ sneaker::json::JSON::JSON(const object& value) noexcept :
 
 // -----------------------------------------------------------------------------
 
-sneaker::json::JSON::JSON(object&& value) noexcept :
+JSON::JSON(object&& value) noexcept :
   m_ptr(std::make_shared<json_object>(std::move(value)))
 {
   // Do nothing here.
@@ -426,8 +417,8 @@ sneaker::json::JSON::JSON(object&& value) noexcept :
 
 // -----------------------------------------------------------------------------
 
-sneaker::json::JSON::Type
-sneaker::json::JSON::type() const
+JSON::Type
+JSON::type() const
 {
   return m_ptr->type();
 }
@@ -435,7 +426,7 @@ sneaker::json::JSON::type() const
 // -----------------------------------------------------------------------------
 
 double
-sneaker::json::JSON::number_value() const
+JSON::number_value() const
 {
   return m_ptr->number_value();
 }
@@ -443,7 +434,7 @@ sneaker::json::JSON::number_value() const
 // -----------------------------------------------------------------------------
 
 int
-sneaker::json::JSON::int_value() const
+JSON::int_value() const
 {
   return m_ptr->int_value();
 }
@@ -451,31 +442,31 @@ sneaker::json::JSON::int_value() const
 // -----------------------------------------------------------------------------
 
 bool
-sneaker::json::JSON::bool_value() const
+JSON::bool_value() const
 {
   return m_ptr->bool_value();
 }
 
 // -----------------------------------------------------------------------------
 
-const sneaker::json::JSON::string&
-sneaker::json::JSON::string_value() const
+const JSON::string&
+JSON::string_value() const
 {
   return m_ptr->string_value();
 }
 
 // -----------------------------------------------------------------------------
 
-const sneaker::json::JSON::array&
-sneaker::json::JSON::array_items() const
+const JSON::array&
+JSON::array_items() const
 {
   return m_ptr->array_items();
 }
 
 // -----------------------------------------------------------------------------
 
-const sneaker::json::JSON::object&
-sneaker::json::JSON::object_items() const
+const JSON::object&
+JSON::object_items() const
 {
   return m_ptr->object_items();
 }
@@ -483,7 +474,7 @@ sneaker::json::JSON::object_items() const
 // -----------------------------------------------------------------------------
 
 bool
-sneaker::json::JSON::operator!=(const JSON& rhs) const
+JSON::operator!=(const JSON& rhs) const
 {
   return !(*this == rhs);
 }
@@ -491,7 +482,7 @@ sneaker::json::JSON::operator!=(const JSON& rhs) const
 // -----------------------------------------------------------------------------
 
 bool
-sneaker::json::JSON::operator<=(const JSON& rhs) const
+JSON::operator<=(const JSON& rhs) const
 {
   return !(rhs < *this);
 }
@@ -499,7 +490,7 @@ sneaker::json::JSON::operator<=(const JSON& rhs) const
 // -----------------------------------------------------------------------------
 
 bool
-sneaker::json::JSON::operator>(const JSON& rhs) const
+JSON::operator>(const JSON& rhs) const
 {
   return rhs < *this;
 }
@@ -507,23 +498,23 @@ sneaker::json::JSON::operator>(const JSON& rhs) const
 // -----------------------------------------------------------------------------
 
 bool
-sneaker::json::JSON::operator>=(const JSON& rhs) const
+JSON::operator>=(const JSON& rhs) const
 {
   return !(*this < rhs);
 }
 
 // -----------------------------------------------------------------------------
 
-const sneaker::json::JSON&
-sneaker::json::JSON::operator[](size_t i) const
+const JSON&
+JSON::operator[](size_t i) const
 {
   return (*m_ptr)[i];
 }
 
 // -----------------------------------------------------------------------------
 
-const sneaker::json::JSON&
-sneaker::json::JSON::operator[](const std::string& key) const
+const JSON&
+JSON::operator[](const std::string& key) const
 {
   return (*m_ptr)[key];
 }
@@ -531,7 +522,7 @@ sneaker::json::JSON::operator[](const std::string& key) const
 // -----------------------------------------------------------------------------
 
 bool
-sneaker::json::JSON::operator==(const JSON& other) const
+JSON::operator==(const JSON& other) const
 {
   if (m_ptr->type() != other.m_ptr->type()) {
     return false;
@@ -543,7 +534,7 @@ sneaker::json::JSON::operator==(const JSON& other) const
 // -----------------------------------------------------------------------------
 
 bool
-sneaker::json::JSON::operator<(const JSON& other) const
+JSON::operator<(const JSON& other) const
 {
   if (m_ptr->type() != other.m_ptr->type()) {
     return m_ptr->type() < other.m_ptr->type();
@@ -555,7 +546,7 @@ sneaker::json::JSON::operator<(const JSON& other) const
 // -----------------------------------------------------------------------------
 
 std::string
-sneaker::json::JSON::dump() const
+JSON::dump() const
 {
   std::string out;
   dump(out);
@@ -565,7 +556,7 @@ sneaker::json::JSON::dump() const
 // -----------------------------------------------------------------------------
 
 void
-sneaker::json::JSON::dump(std::string& out) const
+JSON::dump(std::string& out) const
 {
   m_ptr->dump(out);
 }
@@ -573,7 +564,7 @@ sneaker::json::JSON::dump(std::string& out) const
 // -----------------------------------------------------------------------------
 
 double
-sneaker::json::json_value::number_value() const
+json_value::number_value() const
 {
   return 0;
 }
@@ -581,7 +572,7 @@ sneaker::json::json_value::number_value() const
 // -----------------------------------------------------------------------------
 
 int
-sneaker::json::json_value::int_value() const
+json_value::int_value() const
 {
   return 0;
 }
@@ -589,55 +580,55 @@ sneaker::json::json_value::int_value() const
 // -----------------------------------------------------------------------------
 
 bool
-sneaker::json::json_value::bool_value() const
+json_value::bool_value() const
 {
   return false;
 }
 
 // -----------------------------------------------------------------------------
 
-const sneaker::json::JSON::string&
-sneaker::json::json_value::string_value() const
+const JSON::string&
+json_value::string_value() const
 {
   return statics().empty_string;
 }
 
 // -----------------------------------------------------------------------------
 
-const sneaker::json::JSON::array&
-sneaker::json::json_value::array_items() const
+const JSON::array&
+json_value::array_items() const
 {
   return statics().empty_vector;
 }
 
 // -----------------------------------------------------------------------------
 
-const sneaker::json::JSON::object&
-sneaker::json::json_value::object_items() const
+const JSON::object&
+json_value::object_items() const
 {
   return statics().empty_map;
 }
 
 // -----------------------------------------------------------------------------
 
-const sneaker::json::JSON&
-sneaker::json::json_value::operator[](size_t i) const
+const JSON&
+json_value::operator[](size_t i) const
 {
   return static_null();
 }
 
 // -----------------------------------------------------------------------------
 
-const sneaker::json::JSON&
-sneaker::json::json_value::operator[](const std::string& key) const
+const JSON&
+json_value::operator[](const std::string& key) const
 {
   return static_null();
 }
 
 // -----------------------------------------------------------------------------
 
-const sneaker::json::JSON&
-sneaker::json::json_array::operator[](size_t i) const
+const JSON&
+json_array::operator[](size_t i) const
 {
   if (i >= m_value.size()) {
     return static_null();
@@ -648,8 +639,8 @@ sneaker::json::json_array::operator[](size_t i) const
 
 // -----------------------------------------------------------------------------
 
-const sneaker::json::JSON&
-sneaker::json::json_object::operator[](const std::string& key) const
+const JSON&
+json_object::operator[](const std::string& key) const
 {
   auto itr = m_value.find(key);
   return (itr == m_value.end()) ? static_null() : itr->second;
@@ -657,8 +648,8 @@ sneaker::json::json_object::operator[](const std::string& key) const
 
 // -----------------------------------------------------------------------------
 
-sneaker::json::JSON
-sneaker::json::parse(const std::string& in) throw(invalid_json_error)
+JSON
+parse(const std::string& in) throw(invalid_json_error)
 {
   std::string err;
   json_parser parser { in, 0, err, false };
@@ -672,3 +663,9 @@ sneaker::json::parse(const std::string& in) throw(invalid_json_error)
 }
 
 // -----------------------------------------------------------------------------
+
+
+} /* end namespace json */
+
+
+} /* end namespace sneaker */

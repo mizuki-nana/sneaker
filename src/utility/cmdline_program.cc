@@ -30,9 +30,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string>
 
 
+namespace sneaker {
+
+
+namespace utility {
+
+
 // -----------------------------------------------------------------------------
 
-sneaker::utility::cmdline_program::cmdline_program(const char* description)
+cmdline_program::cmdline_program(const char* description)
   :
   m_description(description)
 {
@@ -42,7 +48,7 @@ sneaker::utility::cmdline_program::cmdline_program(const char* description)
 // -----------------------------------------------------------------------------
 
 void
-sneaker::utility::cmdline_program::add_string_parameter(
+cmdline_program::add_string_parameter(
   const char* name, const char* description, std::string* res)
 {
   m_options.add_options()
@@ -52,7 +58,7 @@ sneaker::utility::cmdline_program::add_string_parameter(
 // -----------------------------------------------------------------------------
 
 void
-sneaker::utility::cmdline_program::add_uint64_parameter(
+cmdline_program::add_uint64_parameter(
   const char* name, const char* description, uint64_t* res)
 {
   m_options.add_options()
@@ -62,7 +68,7 @@ sneaker::utility::cmdline_program::add_uint64_parameter(
 // -----------------------------------------------------------------------------
 
 void
-sneaker::utility::cmdline_program::add_uint32_parameter(
+cmdline_program::add_uint32_parameter(
   const char* name, const char* description, uint32_t* res)
 {
   m_options.add_options()
@@ -72,7 +78,7 @@ sneaker::utility::cmdline_program::add_uint32_parameter(
 // -----------------------------------------------------------------------------
 
 void
-sneaker::utility::cmdline_program::add_float_parameter(
+cmdline_program::add_float_parameter(
   const char* name, const char* description, float* res)
 {
   m_options.add_options()
@@ -82,7 +88,7 @@ sneaker::utility::cmdline_program::add_float_parameter(
 // -----------------------------------------------------------------------------
 
 void
-sneaker::utility::cmdline_program::add_positional_parameter(
+cmdline_program::add_positional_parameter(
   const char* name, int n)
 {
   m_positionals.add(name, n);
@@ -91,7 +97,7 @@ sneaker::utility::cmdline_program::add_positional_parameter(
 // -----------------------------------------------------------------------------
 
 void
-sneaker::utility::cmdline_program::add_boolean_parameter(
+cmdline_program::add_boolean_parameter(
   const char* name, const char* description, bool* res)
 {
   m_options.add_options()(name, description);
@@ -101,7 +107,7 @@ sneaker::utility::cmdline_program::add_boolean_parameter(
 // -----------------------------------------------------------------------------
 
 bool
-sneaker::utility::cmdline_program::option_provided(const char* name) const
+cmdline_program::option_provided(const char* name) const
 {
   return m_opts_map.count(name) > 0;
 }
@@ -109,7 +115,7 @@ sneaker::utility::cmdline_program::option_provided(const char* name) const
 // -----------------------------------------------------------------------------
 
 int
-sneaker::utility::cmdline_program::run(int argc, char** argv)
+cmdline_program::run(int argc, char** argv)
 {
   try
   {
@@ -165,3 +171,9 @@ sneaker::utility::cmdline_program::run(int argc, char** argv)
 }
 
 // -----------------------------------------------------------------------------
+
+
+} /* end namespace utility */
+
+
+} /* end namespace sneaker */

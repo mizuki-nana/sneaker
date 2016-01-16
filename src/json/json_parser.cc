@@ -32,7 +32,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <vector>
 
 
-using namespace sneaker::json;
+namespace sneaker {
+
+
+namespace json {
+
 
 // -----------------------------------------------------------------------------
 
@@ -42,7 +46,7 @@ const int json_parser::MAX_DEPTH = 200;
 
 template<typename T>
 T
-sneaker::json::json_parser::fail(std::string&& msg, const T err_ret)
+json_parser::fail(std::string&& msg, const T err_ret)
 {
   if (!failed) {
     err = std::move(msg);
@@ -56,7 +60,7 @@ sneaker::json::json_parser::fail(std::string&& msg, const T err_ret)
 // -----------------------------------------------------------------------------
 
 void
-sneaker::json::json_parser::consume_whitespace()
+json_parser::consume_whitespace()
 {
   while (str[i] == ' ' || str[i] == '\r' || str[i] == '\n' || str[i] == '\t') {
     i++;
@@ -66,7 +70,7 @@ sneaker::json::json_parser::consume_whitespace()
 // -----------------------------------------------------------------------------
 
 JSON
-sneaker::json::json_parser::fail(std::string&& msg)
+json_parser::fail(std::string&& msg)
 {
   return fail(std::move(msg), JSON());
 }
@@ -74,7 +78,7 @@ sneaker::json::json_parser::fail(std::string&& msg)
 // -----------------------------------------------------------------------------
 
 char
-sneaker::json::json_parser::get_next_token()
+json_parser::get_next_token()
 {
   consume_whitespace();
 
@@ -88,7 +92,7 @@ sneaker::json::json_parser::get_next_token()
 // -----------------------------------------------------------------------------
 
 void
-sneaker::json::json_parser::encode_utf8(long pt, std::string& out)
+json_parser::encode_utf8(long pt, std::string& out)
 {
   if (pt < 0) {
     return;
@@ -114,7 +118,7 @@ sneaker::json::json_parser::encode_utf8(long pt, std::string& out)
 // -----------------------------------------------------------------------------
 
 JSON
-sneaker::json::json_parser::parse_number()
+json_parser::parse_number()
 {
   size_t start_pos = i;
 
@@ -176,7 +180,7 @@ sneaker::json::json_parser::parse_number()
 // -----------------------------------------------------------------------------
 
 JSON
-sneaker::json::json_parser::expect(const std::string& expected, JSON res)
+json_parser::expect(const std::string& expected, JSON res)
 {
   assert(i != 0);
   i--;
@@ -193,7 +197,7 @@ sneaker::json::json_parser::expect(const std::string& expected, JSON res)
 // -----------------------------------------------------------------------------
 
 std::string
-sneaker::json::json_parser::parse_string()
+json_parser::parse_string()
 {
   std::string out;
   long last_escaped_codepoint = -1;
@@ -283,7 +287,7 @@ sneaker::json::json_parser::parse_string()
 // -----------------------------------------------------------------------------
 
 JSON
-sneaker::json::json_parser::parse_json()
+json_parser::parse_json()
 {
   JSON result = parse_json(0);
 
@@ -303,7 +307,7 @@ sneaker::json::json_parser::parse_json()
 // -----------------------------------------------------------------------------
 
 JSON
-sneaker::json::json_parser::parse_json(uint32_t depth)
+json_parser::parse_json(uint32_t depth)
 {
   if (depth > json_parser::MAX_DEPTH) {
     return fail("Exceeded maximum nesting depth");
@@ -424,7 +428,7 @@ sneaker::json::json_parser::parse_json(uint32_t depth)
 // -----------------------------------------------------------------------------
 
 std::string
-sneaker::json::json_parser::esc(char c)
+json_parser::esc(char c)
 {
   char buf[12];
 
@@ -440,9 +444,15 @@ sneaker::json::json_parser::esc(char c)
 // -----------------------------------------------------------------------------
 
 bool
-sneaker::json::json_parser::in_range(long x, long lower, long upper)
+json_parser::in_range(long x, long lower, long upper)
 {
   return (x >= lower && x <= upper);
 }
 
 // -----------------------------------------------------------------------------
+
+
+} /* end namespace json */
+
+
+} /* end namespace sneaker */

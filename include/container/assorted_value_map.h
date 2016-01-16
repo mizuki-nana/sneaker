@@ -90,24 +90,24 @@ public:
   explicit assorted_value_map(const core_type&);
 
   assorted_value_map(
-    const sneaker::container::assorted_value_map<K, ValueTypes...>&);
+    const assorted_value_map<K, ValueTypes...>&);
 
   ~assorted_value_map();
 
   template<class Compare, class Alloc>
   static
-  sneaker::container::assorted_value_map<K, ValueTypes...> create() {
-    return sneaker::container::assorted_value_map<K, ValueTypes...>(
+  assorted_value_map<K, ValueTypes...> create() {
+    return assorted_value_map<K, ValueTypes...>(
       core_type(Compare(), Alloc())
     );
   }
 
   template<class Compare, class Alloc>
   static
-  sneaker::container::assorted_value_map<K, ValueTypes...> create(
+  assorted_value_map<K, ValueTypes...> create(
     const Compare& comparer, const Alloc& allocator)
   {
-    return sneaker::container::assorted_value_map<K, ValueTypes...>(
+    return assorted_value_map<K, ValueTypes...>(
       core_type(comparer, allocator)
     );
   }
@@ -167,17 +167,8 @@ protected:
 
 // -----------------------------------------------------------------------------
 
-namespace {
-
 template<class K, class... ValueTypes>
-using _MyType = typename sneaker::container::assorted_value_map<K, ValueTypes...>;
-
-} /* end namespace */
-
-// -----------------------------------------------------------------------------
-
-template<class K, class... ValueTypes>
-sneaker::container::assorted_value_map<K, ValueTypes...>::assorted_value_map():
+assorted_value_map<K, ValueTypes...>::assorted_value_map():
   m_core(core_type())
 {
   // Do nothing here.
@@ -186,7 +177,7 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::assorted_value_map():
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-sneaker::container::assorted_value_map<K, ValueTypes...>::assorted_value_map(
+assorted_value_map<K, ValueTypes...>::assorted_value_map(
   const core_type& core
 ) :
   m_core(core)
@@ -195,8 +186,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::assorted_value_map(
 }
 
 template<class K, class... ValueTypes>
-sneaker::container::assorted_value_map<K, ValueTypes...>::assorted_value_map(
-  const sneaker::container::assorted_value_map<K, ValueTypes...>& other
+assorted_value_map<K, ValueTypes...>::assorted_value_map(
+  const assorted_value_map<K, ValueTypes...>& other
 ) :
   m_core(other.m_core)
 {
@@ -206,14 +197,14 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::assorted_value_map(
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-sneaker::container::assorted_value_map<K, ValueTypes...>::~assorted_value_map()
+assorted_value_map<K, ValueTypes...>::~assorted_value_map()
 {
   // Do nothing here.
 }
 
 template<class K, class... ValueTypes>
 bool
-sneaker::container::assorted_value_map<K, ValueTypes...>::empty() const
+assorted_value_map<K, ValueTypes...>::empty() const
 {
   return m_core.empty();
 }
@@ -221,8 +212,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::empty() const
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::size_type
-sneaker::container::assorted_value_map<K, ValueTypes...>::size() const
+typename assorted_value_map<K, ValueTypes...>::size_type
+assorted_value_map<K, ValueTypes...>::size() const
 {
   return m_core.size();
 }
@@ -230,8 +221,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::size() const
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::size_type
-sneaker::container::assorted_value_map<K, ValueTypes...>::max_size() const
+typename assorted_value_map<K, ValueTypes...>::size_type
+assorted_value_map<K, ValueTypes...>::max_size() const
 {
   return m_core.max_size();
 }
@@ -240,7 +231,7 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::max_size() const
 
 template<class K, class... ValueTypes>
 void
-sneaker::container::assorted_value_map<K, ValueTypes...>::insert(
+assorted_value_map<K, ValueTypes...>::insert(
   K key,
   ValueTypes... values
 )
@@ -252,7 +243,7 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::insert(
 
 template<class K, class... ValueTypes>
 void
-sneaker::container::assorted_value_map<K, ValueTypes...>::erase(iterator itr)
+assorted_value_map<K, ValueTypes...>::erase(iterator itr)
 {
   m_core.erase(itr);
 }
@@ -260,8 +251,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::erase(iterator itr)
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::size_type
-sneaker::container::assorted_value_map<K, ValueTypes...>::erase(const K& key)
+typename assorted_value_map<K, ValueTypes...>::size_type
+assorted_value_map<K, ValueTypes...>::erase(const K& key)
 {
   return m_core.erase(key);
 }
@@ -270,7 +261,7 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::erase(const K& key)
 
 template<class K, class... ValueTypes>
 void
-sneaker::container::assorted_value_map<K, ValueTypes...>::erase(
+assorted_value_map<K, ValueTypes...>::erase(
   iterator first, iterator last)
 {
   m_core.erase(first, last);
@@ -280,8 +271,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::erase(
 
 template<class K, class... ValueTypes>
 void
-sneaker::container::assorted_value_map<K, ValueTypes...>::swap(
-  sneaker::container::assorted_value_map<K, ValueTypes...>& other
+assorted_value_map<K, ValueTypes...>::swap(
+  assorted_value_map<K, ValueTypes...>& other
 )
 {
   m_core.swap(other.m_core);
@@ -291,7 +282,7 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::swap(
 
 template<class K, class... ValueTypes>
 void
-sneaker::container::assorted_value_map<K, ValueTypes...>::clear() noexcept
+assorted_value_map<K, ValueTypes...>::clear() noexcept
 {
   m_core.clear();
 }
@@ -299,8 +290,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::clear() noexcept
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::mapped_type&
-sneaker::container::assorted_value_map<K, ValueTypes...>::at(K key)
+typename assorted_value_map<K, ValueTypes...>::mapped_type&
+assorted_value_map<K, ValueTypes...>::at(K key)
 {
   return static_cast<mapped_type&>(m_core.at(key));
 }
@@ -308,8 +299,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::at(K key)
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-const typename _MyType<K, ValueTypes...>::mapped_type&
-sneaker::container::assorted_value_map<K, ValueTypes...>::at(K key) const
+const typename assorted_value_map<K, ValueTypes...>::mapped_type&
+assorted_value_map<K, ValueTypes...>::at(K key) const
 {
   return static_cast<const mapped_type&>(m_core.at(key));
 }
@@ -319,7 +310,7 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::at(K key) const
 template<class K, class... ValueTypes>
 template<class A, size_t Index>
 A
-sneaker::container::assorted_value_map<K, ValueTypes...>::get(K key)
+assorted_value_map<K, ValueTypes...>::get(K key)
 {
   return boost::get<Index>(at(key));
 }
@@ -329,7 +320,7 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::get(K key)
 template<class K, class... ValueTypes>
 template<class A, size_t Index>
 const A&
-sneaker::container::assorted_value_map<K, ValueTypes...>::get(K key) const
+assorted_value_map<K, ValueTypes...>::get(K key) const
 {
   return boost::get<Index>(at(key));
 }
@@ -337,8 +328,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::get(K key) const
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::mapped_type&
-sneaker::container::assorted_value_map<K, ValueTypes...>::operator[](const K& key)
+typename assorted_value_map<K, ValueTypes...>::mapped_type&
+assorted_value_map<K, ValueTypes...>::operator[](const K& key)
 {
   return m_core[key];
 }
@@ -346,8 +337,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::operator[](const K& ke
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::iterator
-sneaker::container::assorted_value_map<K, ValueTypes...>::begin()
+typename assorted_value_map<K, ValueTypes...>::iterator
+assorted_value_map<K, ValueTypes...>::begin()
 {
   return m_core.begin();
 }
@@ -355,8 +346,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::begin()
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::const_iterator
-sneaker::container::assorted_value_map<K, ValueTypes...>::begin() const
+typename assorted_value_map<K, ValueTypes...>::const_iterator
+assorted_value_map<K, ValueTypes...>::begin() const
 {
   return m_core.begin();
 }
@@ -364,8 +355,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::begin() const
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::iterator
-sneaker::container::assorted_value_map<K, ValueTypes...>::end()
+typename assorted_value_map<K, ValueTypes...>::iterator
+assorted_value_map<K, ValueTypes...>::end()
 {
   return m_core.end();
 }
@@ -373,8 +364,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::end()
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::const_iterator
-sneaker::container::assorted_value_map<K, ValueTypes...>::end() const
+typename assorted_value_map<K, ValueTypes...>::const_iterator
+assorted_value_map<K, ValueTypes...>::end() const
 {
   return m_core.end();
 }
@@ -382,8 +373,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::end() const
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::reverse_iterator
-sneaker::container::assorted_value_map<K, ValueTypes...>::rbegin()
+typename assorted_value_map<K, ValueTypes...>::reverse_iterator
+assorted_value_map<K, ValueTypes...>::rbegin()
 {
   return m_core.rbegin();
 }
@@ -391,8 +382,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::rbegin()
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::const_reverse_iterator
-sneaker::container::assorted_value_map<K, ValueTypes...>::rbegin() const
+typename assorted_value_map<K, ValueTypes...>::const_reverse_iterator
+assorted_value_map<K, ValueTypes...>::rbegin() const
 {
   return m_core.rbegin();
 }
@@ -400,8 +391,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::rbegin() const
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::reverse_iterator
-sneaker::container::assorted_value_map<K, ValueTypes...>::rend()
+typename assorted_value_map<K, ValueTypes...>::reverse_iterator
+assorted_value_map<K, ValueTypes...>::rend()
 {
   return m_core.rend();
 }
@@ -409,8 +400,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::rend()
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::const_reverse_iterator
-sneaker::container::assorted_value_map<K, ValueTypes...>::rend() const
+typename assorted_value_map<K, ValueTypes...>::const_reverse_iterator
+assorted_value_map<K, ValueTypes...>::rend() const
 {
   return m_core.rend();
 }
@@ -418,8 +409,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::rend() const
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::const_iterator
-sneaker::container::assorted_value_map<K, ValueTypes...>::cbegin() const noexcept
+typename assorted_value_map<K, ValueTypes...>::const_iterator
+assorted_value_map<K, ValueTypes...>::cbegin() const noexcept
 {
   return m_core.cbegin();
 }
@@ -427,8 +418,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::cbegin() const noexcep
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::const_iterator
-sneaker::container::assorted_value_map<K, ValueTypes...>::cend() const noexcept
+typename assorted_value_map<K, ValueTypes...>::const_iterator
+assorted_value_map<K, ValueTypes...>::cend() const noexcept
 {
   return m_core.cend();
 }
@@ -436,8 +427,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::cend() const noexcept
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::const_reverse_iterator
-sneaker::container::assorted_value_map<K, ValueTypes...>::crbegin() const noexcept
+typename assorted_value_map<K, ValueTypes...>::const_reverse_iterator
+assorted_value_map<K, ValueTypes...>::crbegin() const noexcept
 {
   return m_core.crbegin();
 }
@@ -445,8 +436,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::crbegin() const noexce
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::const_reverse_iterator
-sneaker::container::assorted_value_map<K, ValueTypes...>::crend() const noexcept
+typename assorted_value_map<K, ValueTypes...>::const_reverse_iterator
+assorted_value_map<K, ValueTypes...>::crend() const noexcept
 {
   return m_core.crend();
 }
@@ -454,8 +445,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::crend() const noexcept
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::iterator
-sneaker::container::assorted_value_map<K, ValueTypes...>::find(K key)
+typename assorted_value_map<K, ValueTypes...>::iterator
+assorted_value_map<K, ValueTypes...>::find(K key)
 {
   return m_core.find(key);
 }
@@ -463,8 +454,8 @@ sneaker::container::assorted_value_map<K, ValueTypes...>::find(K key)
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-typename _MyType<K, ValueTypes...>::const_iterator
-sneaker::container::assorted_value_map<K, ValueTypes...>::find(K key) const
+typename assorted_value_map<K, ValueTypes...>::const_iterator
+assorted_value_map<K, ValueTypes...>::find(K key) const
 {
   return m_core.find(key);
 }
