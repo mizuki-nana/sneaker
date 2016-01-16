@@ -31,11 +31,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdio.h>
 
 
+// -----------------------------------------------------------------------------
+
 using namespace sneaker::functional;
 
+// -----------------------------------------------------------------------------
 
 class function_unittest_base : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 class function_as_call_unittest : public function_unittest_base {
 public:
@@ -59,10 +63,15 @@ protected:
   }
 };
 
+// -----------------------------------------------------------------------------
 
 int function_as_call_unittest::expected_result = 25257758;
+
+// -----------------------------------------------------------------------------
+
 int function_as_call_unittest::actual_result = 0;
 
+// -----------------------------------------------------------------------------
 
 TEST_F(function_as_call_unittest, TestInitializationFromLambdaAndCall)
 {
@@ -77,6 +86,8 @@ TEST_F(function_as_call_unittest, TestInitializationFromLambdaAndCall)
   test_call();
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_call_unittest, TestInitializationFromLambdaAndCall2)
 {
   function<void> func = []() -> void {
@@ -88,6 +99,8 @@ TEST_F(function_as_call_unittest, TestInitializationFromLambdaAndCall2)
   test_call();
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_call_unittest, TestInitializationFromStaticFunctionAndCall)
 {
   function<void> func = function_as_call_unittest::func;
@@ -96,6 +109,8 @@ TEST_F(function_as_call_unittest, TestInitializationFromStaticFunctionAndCall)
 
   test_call();
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(function_as_call_unittest, TestExplicitConversionFromLambdaToStdFunction)
 {
@@ -112,6 +127,8 @@ TEST_F(function_as_call_unittest, TestExplicitConversionFromLambdaToStdFunction)
   test_call();
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_call_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction)
 {
   function<void> func = function_as_call_unittest::func;
@@ -123,6 +140,8 @@ TEST_F(function_as_call_unittest, TestExplicitConvertionFromStaticFunctionToStdF
   test_call();
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_call_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 {
   function<void> func = function_as_call_unittest::func;
@@ -133,6 +152,8 @@ TEST_F(function_as_call_unittest, TestConversionFromStaticFunctionToFunctionPoin
 
   test_call();
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(function_as_call_unittest, TestConversionFromLambdaToFunctionPointer)
 {
@@ -148,6 +169,8 @@ TEST_F(function_as_call_unittest, TestConversionFromLambdaToFunctionPointer)
 
   test_call();
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(function_as_call_unittest, TestCopyConstructor)
 {
@@ -171,6 +194,7 @@ TEST_F(function_as_call_unittest, TestInvokeAsync)
   test_call();
 }
 
+// -----------------------------------------------------------------------------
 
 class function_as_action_unittest : public function_unittest_base {
 public:
@@ -200,6 +224,7 @@ protected:
   char * dst = NULL;
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(function_as_action_unittest, TestInitializationFromLambdaAndCall)
 {
@@ -227,6 +252,8 @@ TEST_F(function_as_action_unittest, TestInitializationFromLambdaAndCall2)
   test_call(dst);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_action_unittest, TestInitializationFromStaticFunctionAndCall)
 {
   function<void, const char*, const int, char*> func = function_as_action_unittest::func;
@@ -235,6 +262,8 @@ TEST_F(function_as_action_unittest, TestInitializationFromStaticFunctionAndCall)
 
   test_call(dst);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(function_as_action_unittest, TestExplicitConversionFromLambdaToStdFunction)
 {
@@ -251,6 +280,8 @@ TEST_F(function_as_action_unittest, TestExplicitConversionFromLambdaToStdFunctio
   test_call(dst);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_action_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction)
 {
   function<void, const char*, const int, char*> func = function_as_action_unittest::func;
@@ -262,6 +293,8 @@ TEST_F(function_as_action_unittest, TestExplicitConvertionFromStaticFunctionToSt
   test_call(dst);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_action_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 {
   function<void, const char*, const int, char*> func = function_as_action_unittest::func;
@@ -272,6 +305,8 @@ TEST_F(function_as_action_unittest, TestConversionFromStaticFunctionToFunctionPo
 
   test_call(dst);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(function_as_action_unittest, TestConversionFromLambdaToFunctionPointer)
 {
@@ -288,6 +323,8 @@ TEST_F(function_as_action_unittest, TestConversionFromLambdaToFunctionPointer)
   test_call(dst);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_action_unittest, TestCopyConstructor)
 {
   function<void, const char*, const int, char*> func = function_as_action_unittest::func;
@@ -298,6 +335,8 @@ TEST_F(function_as_action_unittest, TestCopyConstructor)
 
   test_call(dst);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(function_as_action_unittest, TestInvokeAsync)
 {
@@ -310,6 +349,7 @@ TEST_F(function_as_action_unittest, TestInvokeAsync)
   test_call(dst);
 }
 
+// -----------------------------------------------------------------------------
 
 class function_as_function_unittest : public function_unittest_base {
 public:
@@ -327,6 +367,7 @@ protected:
   const int expected_result = 108;
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(function_as_function_unittest, TestInitializationFromLambdaAndCall)
 {
@@ -341,6 +382,8 @@ TEST_F(function_as_function_unittest, TestInitializationFromLambdaAndCall)
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_function_unittest, TestInitializationFromLambdaAndCall2)
 {
   function<int, const int, const int> func =
@@ -354,6 +397,8 @@ TEST_F(function_as_function_unittest, TestInitializationFromLambdaAndCall2)
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_function_unittest, TestInitializationFromStaticFunctionAndCall)
 {
   function<int, const int, const int> func = function_as_function_unittest::func;
@@ -362,6 +407,8 @@ TEST_F(function_as_function_unittest, TestInitializationFromStaticFunctionAndCal
 
   test_call(actual_result);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(function_as_function_unittest, TestExplicitConversionFromLambdaToStdFunction)
 {
@@ -378,6 +425,8 @@ TEST_F(function_as_function_unittest, TestExplicitConversionFromLambdaToStdFunct
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_function_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction)
 {
   function<int, const int, const int> func = function_as_function_unittest::func;
@@ -389,6 +438,8 @@ TEST_F(function_as_function_unittest, TestExplicitConvertionFromStaticFunctionTo
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_function_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 {
   function<int, const int, const int> func = function_as_function_unittest::func;
@@ -399,6 +450,8 @@ TEST_F(function_as_function_unittest, TestConversionFromStaticFunctionToFunction
 
   test_call(actual_result);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(function_as_function_unittest, TestConversionFromLambdaToFunctionPointer)
 {
@@ -415,6 +468,8 @@ TEST_F(function_as_function_unittest, TestConversionFromLambdaToFunctionPointer)
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_function_unittest, TestCopyConstructor)
 {
   function<int, const int, const int> func = function_as_function_unittest::func;
@@ -426,6 +481,7 @@ TEST_F(function_as_function_unittest, TestCopyConstructor)
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
 
 class function_as_predicate_unittest : public function_unittest_base {
 public:
@@ -443,6 +499,7 @@ protected:
   int expected_result = a > b;
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(function_as_predicate_unittest, TestInitializationFromLambdaAndCall)
 {
@@ -457,6 +514,8 @@ TEST_F(function_as_predicate_unittest, TestInitializationFromLambdaAndCall)
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_predicate_unittest, TestInitializationFromLambdaAndCall2)
 {
   function<bool, int, int> func =
@@ -470,6 +529,8 @@ TEST_F(function_as_predicate_unittest, TestInitializationFromLambdaAndCall2)
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_predicate_unittest, TestInitializationFromStaticFunctionAndCall)
 {
   function<bool, int, int> func = function_as_predicate_unittest::func;
@@ -478,6 +539,8 @@ TEST_F(function_as_predicate_unittest, TestInitializationFromStaticFunctionAndCa
 
   test_call(actual_result);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(function_as_predicate_unittest, TestExplicitConversionFromLambdaToStdFunction)
 {
@@ -494,6 +557,8 @@ TEST_F(function_as_predicate_unittest, TestExplicitConversionFromLambdaToStdFunc
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_predicate_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction)
 {
   function<bool, int, int> func = function_as_predicate_unittest::func;
@@ -505,6 +570,8 @@ TEST_F(function_as_predicate_unittest, TestExplicitConvertionFromStaticFunctionT
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_predicate_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 {
   function<bool, int, int> func = function_as_predicate_unittest::func;
@@ -515,6 +582,8 @@ TEST_F(function_as_predicate_unittest, TestConversionFromStaticFunctionToFunctio
 
   test_call(actual_result);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(function_as_predicate_unittest, TestConversionFromLambdaToFunctionPointer)
 {
@@ -531,6 +600,8 @@ TEST_F(function_as_predicate_unittest, TestConversionFromLambdaToFunctionPointer
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(function_as_predicate_unittest, TestCopyConstructor)
 {
   function<bool, int, int> func = function_as_predicate_unittest::func;
@@ -542,12 +613,17 @@ TEST_F(function_as_predicate_unittest, TestCopyConstructor)
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
+
 
 /****************** END OF `sneaker::functional::function` ********************/
 
 
+// -----------------------------------------------------------------------------
+
 class call_unittest : public function_as_call_unittest {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(call_unittest, TestInitializationFromLambdaAndCall)
 {
@@ -562,6 +638,8 @@ TEST_F(call_unittest, TestInitializationFromLambdaAndCall)
   test_call();
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(call_unittest, TestInitializationFromLambdaAndCall2)
 {
   call func = []() -> void {
@@ -573,6 +651,8 @@ TEST_F(call_unittest, TestInitializationFromLambdaAndCall2)
   test_call();
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(call_unittest, TestInitializationFromStaticFunctionAndCall)
 {
   call func = call_unittest::func;
@@ -581,6 +661,8 @@ TEST_F(call_unittest, TestInitializationFromStaticFunctionAndCall)
 
   test_call();
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(call_unittest, TestExplicitConversionFromLambdaToStdFunction)
 {
@@ -597,6 +679,8 @@ TEST_F(call_unittest, TestExplicitConversionFromLambdaToStdFunction)
   test_call();
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(call_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction)
 {
   call func = call_unittest::func;
@@ -608,6 +692,8 @@ TEST_F(call_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction)
   test_call();
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(call_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 {
   call func = call_unittest::func;
@@ -618,6 +704,8 @@ TEST_F(call_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 
   test_call();
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(call_unittest, TestConversionFromLambdaToFunctionPointer)
 {
@@ -634,6 +722,8 @@ TEST_F(call_unittest, TestConversionFromLambdaToFunctionPointer)
   test_call();
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(call_unittest, TestCopyConstructor)
 {
   call func = call_unittest::func;
@@ -644,6 +734,8 @@ TEST_F(call_unittest, TestCopyConstructor)
 
   test_call();
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(call_unittest, TestInvokeAsync)
 {
@@ -656,12 +748,17 @@ TEST_F(call_unittest, TestInvokeAsync)
   test_call();
 }
 
+// -----------------------------------------------------------------------------
+
 
 /****************** END OF `sneaker::functional::call` ************************/
 
 
+// -----------------------------------------------------------------------------
+
 class action_unittest : public function_as_action_unittest {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(action_unittest, TestInitializationFromLambdaAndCall)
 {
@@ -676,6 +773,8 @@ TEST_F(action_unittest, TestInitializationFromLambdaAndCall)
   test_call(dst);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(action_unittest, TestInitializationFromLambdaAndCall2)
 {
   action<const char*, const int, char*> func = 
@@ -689,6 +788,8 @@ TEST_F(action_unittest, TestInitializationFromLambdaAndCall2)
   test_call(dst);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(action_unittest, TestInitializationFromStaticFunctionAndCall)
 {
   action<const char*, const int, char*> func = action_unittest::func;
@@ -697,6 +798,8 @@ TEST_F(action_unittest, TestInitializationFromStaticFunctionAndCall)
 
   test_call(dst);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(action_unittest, TestExplicitConversionFromLambdaToStdFunction)
 {
@@ -713,6 +816,8 @@ TEST_F(action_unittest, TestExplicitConversionFromLambdaToStdFunction)
   test_call(dst);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(action_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction)
 {
   action<const char*, const int, char*> func = action_unittest::func;
@@ -724,6 +829,8 @@ TEST_F(action_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction)
   test_call(dst);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(action_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 {
   action<const char*, const int, char*> func = action_unittest::func;
@@ -734,6 +841,8 @@ TEST_F(action_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 
   test_call(dst);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(action_unittest, TestConversionFromLambdaToFunctionPointer)
 {
@@ -750,6 +859,8 @@ TEST_F(action_unittest, TestConversionFromLambdaToFunctionPointer)
   test_call(dst);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(action_unittest, TestCopyConstructor)
 {
   action<const char*, const int, char*> func = action_unittest::func;
@@ -760,6 +871,8 @@ TEST_F(action_unittest, TestCopyConstructor)
 
   test_call(dst);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(action_unittest, TestInvokeAsync)
 {
@@ -772,12 +885,17 @@ TEST_F(action_unittest, TestInvokeAsync)
   test_call(dst);
 }
 
+// -----------------------------------------------------------------------------
+
 
 /****************** END OF `sneaker::functional::action` **********************/
 
 
+// -----------------------------------------------------------------------------
+
 class predicate_unittest : public function_as_predicate_unittest {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(predicate_unittest, TestInitializationFromLambdaAndCall)
 {
@@ -792,6 +910,8 @@ TEST_F(predicate_unittest, TestInitializationFromLambdaAndCall)
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(predicate_unittest, TestInitializationFromLambdaAndCall2)
 {
   predicate<int, int> func =
@@ -805,6 +925,8 @@ TEST_F(predicate_unittest, TestInitializationFromLambdaAndCall2)
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(predicate_unittest, TestInitializationFromStaticFunctionAndCall)
 {
   predicate<int, int> func = predicate_unittest::func;
@@ -813,6 +935,8 @@ TEST_F(predicate_unittest, TestInitializationFromStaticFunctionAndCall)
 
   test_call(actual_result);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(predicate_unittest, TestExplicitConversionFromLambdaToStdFunction)
 {
@@ -829,6 +953,8 @@ TEST_F(predicate_unittest, TestExplicitConversionFromLambdaToStdFunction)
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(predicate_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction)
 {
   predicate<int, int> func = predicate_unittest::func;
@@ -840,6 +966,8 @@ TEST_F(predicate_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(predicate_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 {
   predicate<int, int> func = predicate_unittest::func;
@@ -850,6 +978,8 @@ TEST_F(predicate_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 
   test_call(actual_result);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(predicate_unittest, TestConversionFromLambdaToFunctionPointer)
 {
@@ -866,6 +996,8 @@ TEST_F(predicate_unittest, TestConversionFromLambdaToFunctionPointer)
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(predicate_unittest, TestCopyConstructor)
 {
   predicate<int, int> func = predicate_unittest::func;
@@ -877,5 +1009,8 @@ TEST_F(predicate_unittest, TestCopyConstructor)
   test_call(actual_result);
 }
 
+// -----------------------------------------------------------------------------
 
 /****************** END OF `sneaker::functional::predicate` *******************/
+
+// -----------------------------------------------------------------------------

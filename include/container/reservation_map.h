@@ -70,6 +70,7 @@ protected:
   generator_type m_token_generator;
 };
 
+// -----------------------------------------------------------------------------
 
 template<class T>
 sneaker::container::reservation_map<T>::reservation_map():
@@ -80,11 +81,15 @@ sneaker::container::reservation_map<T>::reservation_map():
   // Do nothing here.
 }
 
+// -----------------------------------------------------------------------------
+
 template<class T>
 sneaker::container::reservation_map<T>::~reservation_map()
 {
   // Do nothing here.
 }
+
+// -----------------------------------------------------------------------------
 
 template<class T>
 size_t
@@ -92,6 +97,8 @@ sneaker::container::reservation_map<T>::size() const
 {
   return m_map.size();
 }
+
+// -----------------------------------------------------------------------------
 
 template<class T>
 typename sneaker::container::reservation_map<T>::token_t
@@ -104,6 +111,8 @@ sneaker::container::reservation_map<T>::reserve()
   return static_cast<token_t>(id);
 }
 
+// -----------------------------------------------------------------------------
+
 template<class T>
 void
 sneaker::container::reservation_map<T>::reserve(
@@ -111,6 +120,8 @@ sneaker::container::reservation_map<T>::reserve(
 {
   m_tokens.insert(id);
 }
+
+// -----------------------------------------------------------------------------
 
 template<class T>
 bool
@@ -120,6 +131,8 @@ sneaker::container::reservation_map<T>::member(
   typename token_set_type::const_iterator itr = m_tokens.find(id);
   return itr != m_tokens.cend();
 }
+
+// -----------------------------------------------------------------------------
 
 template<class T>
 bool
@@ -140,6 +153,8 @@ sneaker::container::reservation_map<T>::put(
 
   return true;
 }
+
+// -----------------------------------------------------------------------------
 
 template<class T>
 bool
@@ -163,6 +178,8 @@ sneaker::container::reservation_map<T>::get(
   return true;
 }
 
+// -----------------------------------------------------------------------------
+
 template<class T>
 bool
 sneaker::container::reservation_map<T>::unreserve(
@@ -178,6 +195,8 @@ sneaker::container::reservation_map<T>::unreserve(
   return true;
 }
 
+// -----------------------------------------------------------------------------
+
 template<class T>
 void
 sneaker::container::reservation_map<T>::clear()
@@ -185,6 +204,8 @@ sneaker::container::reservation_map<T>::clear()
   this->m_tokens.clear();
   this->m_map.clear();
 }
+
+// -----------------------------------------------------------------------------
 
 
 } /* end namespace container */

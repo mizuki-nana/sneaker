@@ -33,6 +33,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <vector>
 
 
+// -----------------------------------------------------------------------------
+
 /*******************************************************************************
  * Unit test for:
  * sneaker::allocator::object_traits<T>
@@ -50,11 +52,14 @@ public:
   };
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(object_traits_unittest, TestInitialization)
 {
   sneaker::allocator::object_traits<int> object_trait;
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(object_traits_unittest, TestConstructAndDestroy)
 {
@@ -69,6 +74,8 @@ TEST_F(object_traits_unittest, TestConstructAndDestroy)
 
   object_trait.destroy(p);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(object_traits_unittest, TestConstructAndDestroyCPP11)
 {
@@ -87,6 +94,8 @@ TEST_F(object_traits_unittest, TestConstructAndDestroyCPP11)
   object_trait.destroy(p);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(object_traits_unittest, TestAddress)
 {
   sneaker::allocator::object_traits<int> object_trait;
@@ -98,6 +107,7 @@ TEST_F(object_traits_unittest, TestAddress)
   ASSERT_EQ(&i2, object_trait.address(i2));
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -113,6 +123,7 @@ public:
   };
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(standard_alloc_policy_unittest, TestMaxSize)
 {
@@ -121,6 +132,8 @@ TEST_F(standard_alloc_policy_unittest, TestMaxSize)
   ASSERT_GT(alloc_policy.max_size(), 0);
   ASSERT_LE(alloc_policy.max_size(), ULONG_MAX);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(standard_alloc_policy_unittest, TestAllocateAndDeallocate)
 {
@@ -136,6 +149,8 @@ TEST_F(standard_alloc_policy_unittest, TestAllocateAndDeallocate)
   alloc_policy.deallocate(nums, N);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(standard_alloc_policy_unittest, TestEquality)
 {
   ASSERT_TRUE(
@@ -148,6 +163,8 @@ TEST_F(standard_alloc_policy_unittest, TestEquality)
     sneaker::allocator::standard_alloc_policy<double>()
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(standard_alloc_policy_unittest, TestInequality)
 {
@@ -164,6 +181,7 @@ TEST_F(standard_alloc_policy_unittest, TestInequality)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -202,6 +220,7 @@ public:
   };
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(allocator_simple_unittest, TestCopyConstructor1)
 {
@@ -216,6 +235,8 @@ TEST_F(allocator_simple_unittest, TestCopyConstructor1)
   ASSERT_NE(1, allocator1.i);
   ASSERT_EQ(2, allocator2.i);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(allocator_simple_unittest, TestAllocation)
 {
@@ -235,6 +256,8 @@ TEST_F(allocator_simple_unittest, TestAllocation)
   allocator.deallocate(a, 10);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(allocator_simple_unittest, TestAllocationAndDestroy)
 {
   sneaker::allocator::allocator<std::string> allocator;
@@ -251,6 +274,7 @@ TEST_F(allocator_simple_unittest, TestAllocationAndDestroy)
   allocator.deallocate(s, 2);
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -262,6 +286,7 @@ public:
   using vector_type = typename std::vector<T, sneaker::allocator::allocator<T>>;
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(allocator_in_std_container_unittest, TestInitialization)
 {
@@ -269,6 +294,8 @@ TEST_F(allocator_in_std_container_unittest, TestInitialization)
   ASSERT_EQ(10, v.capacity());
   ASSERT_EQ(10, v.size());
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(allocator_in_std_container_unittest, TestPushback)
 {
@@ -283,6 +310,8 @@ TEST_F(allocator_in_std_container_unittest, TestPushback)
 
   delete v;
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(allocator_in_std_container_unittest, TestPushBackWithPointers)
 {
@@ -299,6 +328,7 @@ TEST_F(allocator_in_std_container_unittest, TestPushBackWithPointers)
   ASSERT_EQ(3, v.size());
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -306,6 +336,7 @@ TEST_F(allocator_in_std_container_unittest, TestPushBackWithPointers)
  ******************************************************************************/
 class allocator_equality_unittest : public allocator_simple_unittest {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(allocator_equality_unittest, TestEquality1)
 {
@@ -316,6 +347,8 @@ TEST_F(allocator_equality_unittest, TestEquality1)
   ASSERT_FALSE(allocator1 != allocator2);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(allocator_equality_unittest, TestEquality2)
 {
   sneaker::allocator::allocator<int, allocator_equality_unittest::DummyAllocPolicy1<int>> allocator1;
@@ -325,6 +358,8 @@ TEST_F(allocator_equality_unittest, TestEquality2)
   ASSERT_TRUE(allocator1 != allocator2);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(allocator_equality_unittest, TestEquality3)
 {
   sneaker::allocator::allocator<int> allocator1;
@@ -333,3 +368,5 @@ TEST_F(allocator_equality_unittest, TestEquality3)
   ASSERT_FALSE(allocator1 == allocator2);
   ASSERT_TRUE(allocator1 != allocator2);
 }
+
+// -----------------------------------------------------------------------------

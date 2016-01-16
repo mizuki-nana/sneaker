@@ -34,6 +34,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <cstring>
 
 
+// -----------------------------------------------------------------------------
+
 class stack_unittest : public ::testing::Test {
 protected:
   virtual void SetUp() {
@@ -49,6 +51,7 @@ protected:
   stack_t m_stack;
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(stack_unittest, TestCreation)
 {
@@ -56,6 +59,8 @@ TEST_F(stack_unittest, TestCreation)
   ASSERT_EQ(0, stack_size(m_stack));
   assert(stack_pop(m_stack) == NULL);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(stack_unittest, TestPushAndPop1)
 {
@@ -78,6 +83,8 @@ TEST_F(stack_unittest, TestPushAndPop1)
 
   ASSERT_EQ(0, stack_size(m_stack));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(stack_unittest, TestPushAndPop2)
 {
@@ -116,6 +123,8 @@ TEST_F(stack_unittest, TestPushAndPop2)
   ASSERT_EQ(0, stack_size(m_stack));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(stack_unittest, TestPushAndPop3)
 {
   const char *fruits[26] = {
@@ -144,3 +153,5 @@ TEST_F(stack_unittest, TestPushAndPop3)
   ASSERT_EQ(0, stack_size(m_stack));
   assert(stack_pop(m_stack) == NULL);
 }
+
+// -----------------------------------------------------------------------------

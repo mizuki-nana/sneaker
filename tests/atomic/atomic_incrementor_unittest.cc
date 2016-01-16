@@ -33,8 +33,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdexcept>
 
 
+// -----------------------------------------------------------------------------
+
 class atomic_incrementor_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(atomic_incrementor_unittest, TestDefaultConstructor)
 {
@@ -42,11 +45,15 @@ TEST_F(atomic_incrementor_unittest, TestDefaultConstructor)
   ASSERT_TRUE(0 == incrementor);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(atomic_incrementor_unittest, TestConstrutorWithInitialValue)
 {
   sneaker::atomic::atomic_incrementor<int, INT_MAX> incrementor(10);
   ASSERT_TRUE(10 == incrementor);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(atomic_incrementor_unittest, TestCopyConstructor)
 {
@@ -56,6 +63,8 @@ TEST_F(atomic_incrementor_unittest, TestCopyConstructor)
   ASSERT_TRUE(100 == incrementor2);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(atomic_incrementor_unittest, TestAssignmentOperator)
 {
   sneaker::atomic::atomic_incrementor<int, INT_MAX> incrementor;
@@ -63,6 +72,8 @@ TEST_F(atomic_incrementor_unittest, TestAssignmentOperator)
 
   ASSERT_TRUE(100 == incrementor);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(atomic_incrementor_unittest, TestIncrementsSuccessful)
 {
@@ -73,6 +84,8 @@ TEST_F(atomic_incrementor_unittest, TestIncrementsSuccessful)
     ASSERT_TRUE(i+1 == incrementor);
   }
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(atomic_incrementor_unittest, TestIncrementUntilOverflow)
 {
@@ -89,6 +102,8 @@ TEST_F(atomic_incrementor_unittest, TestIncrementUntilOverflow)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(atomic_incrementor_unittest, TestIncrementUntilUnderflow)
 {
   sneaker::atomic::atomic_incrementor<signed char, SCHAR_MAX> incrementor;
@@ -104,9 +119,11 @@ TEST_F(atomic_incrementor_unittest, TestIncrementUntilUnderflow)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class atomic_incrementor_equality_test : public atomic_incrementor_unittest {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(atomic_incrementor_equality_test, TestEquality)
 {
@@ -118,6 +135,8 @@ TEST_F(atomic_incrementor_equality_test, TestEquality)
   ASSERT_EQ(incrementor1, incrementor2);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(atomic_incrementor_equality_test, TestInequality)
 {
   sneaker::atomic::atomic_incrementor<int, INT_MAX> incrementor1(1);
@@ -128,6 +147,8 @@ TEST_F(atomic_incrementor_equality_test, TestInequality)
   ASSERT_NE(incrementor1, incrementor2);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(atomic_incrementor_equality_test, TestEqualityOnDifferentType)
 {
   sneaker::atomic::atomic_incrementor<int, INT_MAX> incrementor1(1);
@@ -135,6 +156,8 @@ TEST_F(atomic_incrementor_equality_test, TestEqualityOnDifferentType)
 
   ASSERT_EQ(incrementor1, incrementor2);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(atomic_incrementor_equality_test, TestInequalityOnDifferentType)
 {
@@ -144,6 +167,7 @@ TEST_F(atomic_incrementor_equality_test, TestInequalityOnDifferentType)
   ASSERT_NE(incrementor1, incrementor2);
 }
 
+// -----------------------------------------------------------------------------
 
 class atomic_incrementor_atomicity_test : public atomic_incrementor_unittest {
 public:
@@ -169,6 +193,7 @@ public:
   }
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(atomic_incrementor_atomicity_test, TestAtomicity)
 {
@@ -203,3 +228,5 @@ TEST_F(atomic_incrementor_atomicity_test, TestAtomicity)
     }
   }
 }
+
+// -----------------------------------------------------------------------------

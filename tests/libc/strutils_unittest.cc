@@ -30,17 +30,22 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <cstring>
 
 
+// -----------------------------------------------------------------------------
+
 /*******************************************************************************
  * Unit test for:
  * char* strtoupper(char*)
  ******************************************************************************/
 class strtoupper_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(strtoupper_unittest, TestNullInput)
 {
   ASSERT_EQ(NULL, strtoupper(NULL));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(strtoupper_unittest, TestValidSingleWord)
 {
@@ -48,11 +53,15 @@ TEST_F(strtoupper_unittest, TestValidSingleWord)
   ASSERT_STREQ("TEST", strtoupper(s));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(strtoupper_unittest, TestMixedSingleWord)
 {
   char s[] = "TeSt";
   ASSERT_STREQ("TEST", strtoupper(s));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(strtoupper_unittest, TestValidSentence)
 {
@@ -60,17 +69,23 @@ TEST_F(strtoupper_unittest, TestValidSentence)
   ASSERT_STREQ("THIS IS A TEST", strtoupper(s));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(strtoupper_unittest, TestSentenceWithMixedCases)
 {
   char s[] = "tHis IS a TesT";
   ASSERT_STREQ("THIS IS A TEST", strtoupper(s));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(strtoupper_unittest, TestSentenceWithNumbers)
 {
   char s[] = "five = 5";
   ASSERT_STREQ("FIVE = 5", strtoupper(s));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(strtoupper_unittest, TestSentenceWithSpecialCharacters)
 {
@@ -81,6 +96,7 @@ TEST_F(strtoupper_unittest, TestSentenceWithSpecialCharacters)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -88,11 +104,14 @@ TEST_F(strtoupper_unittest, TestSentenceWithSpecialCharacters)
  ******************************************************************************/
 class strtolower_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(strtolower_unittest, TestNULLInput)
 {
  ASSERT_EQ(NULL, strtolower(NULL));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(strtolower_unittest, TestValidSingleWord)
 {
@@ -100,11 +119,15 @@ TEST_F(strtolower_unittest, TestValidSingleWord)
   ASSERT_STREQ("test", strtolower(s));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(strtolower_unittest, TestSingleWordWithMixedCases)
 {
   char s[] = "TeSt";
   ASSERT_STREQ("test", strtolower(s));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(strtolower_unittest, TestValidSentence)
 {
@@ -112,17 +135,23 @@ TEST_F(strtolower_unittest, TestValidSentence)
   ASSERT_STREQ("this is a test", strtolower(s));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(strtolower_unittest, TestSentenceWithMixedCases)
 {
   char s[] = "tHis IS a TesT";
   ASSERT_STREQ("this is a test", strtolower(s));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(strtolower_unittest, TestMixedSentenceNumbers)
 {
   char s[] = "FIVE = 5";
   ASSERT_STREQ("five = 5", strtolower(s));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(strtolower_unittest, TestSentenceWithSpecialCharacters)
 {
@@ -133,6 +162,7 @@ TEST_F(strtolower_unittest, TestSentenceWithSpecialCharacters)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -140,11 +170,14 @@ TEST_F(strtolower_unittest, TestSentenceWithSpecialCharacters)
  ******************************************************************************/
 class strcpy_hard_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(strcpy_hard_unittest, TestNullInputSrc)
 {
   ASSERT_EQ(NULL, strcpy_hard(NULL, NULL));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(strcpy_hard_unittest, TestNullDstAndValidSrc)
 {
@@ -158,6 +191,8 @@ TEST_F(strcpy_hard_unittest, TestNullDstAndValidSrc)
 
   free(dst);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(strcpy_hard_unittest, TestValidDstAndValidSrc)
 {
@@ -173,6 +208,7 @@ TEST_F(strcpy_hard_unittest, TestValidDstAndValidSrc)
   free(dst);
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -180,12 +216,15 @@ TEST_F(strcpy_hard_unittest, TestValidDstAndValidSrc)
  ******************************************************************************/
 class strtrim_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(strtrim_unittest, TestNullInputTest)
 {
   char *s = NULL;
   ASSERT_EQ(NULL, strtrim(s));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(strtrim_unittest, TestInputWithNoOuterWhitespaces)
 {
@@ -196,6 +235,8 @@ TEST_F(strtrim_unittest, TestInputWithNoOuterWhitespaces)
   ASSERT_EQ(strlen(s), strlen(d));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(strtrim_unittest, TestInputWithLeadingWhitespaces)
 {
   char s[] = "  this is a test";
@@ -204,6 +245,8 @@ TEST_F(strtrim_unittest, TestInputWithLeadingWhitespaces)
   ASSERT_STREQ("this is a test", d);
   ASSERT_EQ(strlen("this is a test"), strlen(d));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(strtrim_unittest, TestInputWithTrailingWhitespaces)
 {
@@ -214,6 +257,8 @@ TEST_F(strtrim_unittest, TestInputWithTrailingWhitespaces)
   ASSERT_EQ(strlen("this is a test"), strlen(d));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(strtrim_unittest, TestInputWithBothLeadingAndTrailingWhitespacesTest)
 {
   char s[] = "   this is a test   ";
@@ -223,6 +268,7 @@ TEST_F(strtrim_unittest, TestInputWithBothLeadingAndTrailingWhitespacesTest)
   ASSERT_EQ(strlen("this is a test"), strlen(d));
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -230,6 +276,7 @@ TEST_F(strtrim_unittest, TestInputWithBothLeadingAndTrailingWhitespacesTest)
  ******************************************************************************/
 class strncpy_safe_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(strncpy_safe_unittest, TestNullDstInputTest)
 {
@@ -240,6 +287,8 @@ TEST_F(strncpy_safe_unittest, TestNullDstInputTest)
   free(src);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(strncpy_safe_unittest, TestNullSrcInput)
 {
   char *dst = (char*)malloc(10);
@@ -249,6 +298,8 @@ TEST_F(strncpy_safe_unittest, TestNullSrcInput)
   free(dst);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(strncpy_safe_unittest, TestNullDstAndSrcInput)
 {
   char *dst = NULL;
@@ -256,6 +307,8 @@ TEST_F(strncpy_safe_unittest, TestNullDstAndSrcInput)
 
   ASSERT_EQ(NULL, strncpy_safe(dst, src, 10));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(strncpy_safe_unittest, TestEqualSizeDstAndSrcTest)
 {
@@ -268,6 +321,8 @@ TEST_F(strncpy_safe_unittest, TestEqualSizeDstAndSrcTest)
   ASSERT_EQ(strlen(dst), strlen(src));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(strncpy_safe_unittest, TestSmallerSizeDstThanSrc)
 {
   char *dst = (char*)malloc(5);
@@ -278,6 +333,8 @@ TEST_F(strncpy_safe_unittest, TestSmallerSizeDstThanSrc)
   ASSERT_STREQ("1234", dst);
   ASSERT_EQ(strlen("1234"), strlen(dst));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(strncpy_safe_unittest, TestLargerSizeDstThanSrcTest)
 {
@@ -290,6 +347,7 @@ TEST_F(strncpy_safe_unittest, TestLargerSizeDstThanSrcTest)
   ASSERT_EQ(strlen(src), strlen(dst));
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -297,12 +355,15 @@ TEST_F(strncpy_safe_unittest, TestLargerSizeDstThanSrcTest)
  ******************************************************************************/
 class strlcpy2_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(strlcpy2_unittest, TestNullDstAndSrc)
 {
   size_t copied = strlcpy2(NULL, NULL, 10);
   ASSERT_EQ(0, copied);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(strlcpy2_unittest, TestSrcLargerThanDst)
 {
@@ -316,6 +377,8 @@ TEST_F(strlcpy2_unittest, TestSrcLargerThanDst)
   ASSERT_STREQ("Hell", dst);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(strlcpy2_unittest, TestSrcLessThanDst)
 {
   char dst[20];
@@ -327,3 +390,5 @@ TEST_F(strlcpy2_unittest, TestSrcLessThanDst)
   ASSERT_EQ(expectec_copied, copied);
   ASSERT_STREQ(src, dst);
 }
+
+// -----------------------------------------------------------------------------

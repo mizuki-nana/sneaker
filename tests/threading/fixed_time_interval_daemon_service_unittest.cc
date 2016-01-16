@@ -31,8 +31,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <iostream>
 
 
+// -----------------------------------------------------------------------------
+
 using namespace sneaker::threading;
 
+// -----------------------------------------------------------------------------
 
 class fixed_time_interval_daemon_service_unittest : public ::testing::Test {
 public:
@@ -62,8 +65,11 @@ private:
   static size_t count_;
 };
 
+// -----------------------------------------------------------------------------
+
 size_t fixed_time_interval_daemon_service_unittest::count_ = 0;
 
+// -----------------------------------------------------------------------------
 
 TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonAsynchronously)
 {
@@ -79,6 +85,8 @@ TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonAsynchronously)
   bool res = daemon_service.start();
   ASSERT_EQ(true, res);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonSynchronously)
 {
@@ -97,6 +105,8 @@ TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonSynchronously)
 
   std::cout << '\n';
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonAsynchronouslyIndefinitely)
 {
@@ -117,3 +127,5 @@ TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonAsynchronouslyI
 
   std::cout << '\n';
 }
+
+// -----------------------------------------------------------------------------

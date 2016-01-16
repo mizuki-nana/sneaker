@@ -36,9 +36,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string>
 
 
+// -----------------------------------------------------------------------------
+
 #define _INT_MIN_ -32767
 #define _INT_MAX_ 32767
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -52,6 +55,7 @@ protected:
   void test_base_10(int);
 };
 
+// -----------------------------------------------------------------------------
 
 void
 itoa_unittest::test(int base, int num, const char* expected_str)
@@ -62,6 +66,8 @@ itoa_unittest::test(int base, int num, const char* expected_str)
   ASSERT_STREQ(expected_str, str);
   FREE(str);
 }
+
+// -----------------------------------------------------------------------------
 
 void
 itoa_unittest::test_base_10(int num)
@@ -75,6 +81,7 @@ itoa_unittest::test_base_10(int num)
   FREE(actual_str);
 }
 
+// -----------------------------------------------------------------------------
 
 TEST_F(itoa_unittest, TestBase10NegativeIntegerToASCII)
 {
@@ -84,6 +91,8 @@ TEST_F(itoa_unittest, TestBase10NegativeIntegerToASCII)
   }
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(itoa_unittest, TestBase10PositiveIntegerToASCII)
 {
   int i;
@@ -91,6 +100,8 @@ TEST_F(itoa_unittest, TestBase10PositiveIntegerToASCII)
     this->test_base_10(i);
   }
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(itoa_unittest, TestBase2PositiveIntegerToASCII)
 {
@@ -104,6 +115,8 @@ TEST_F(itoa_unittest, TestBase2PositiveIntegerToASCII)
   test(2, 1024 + 512, "11000000000");
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(itoa_unittest, TestBase8PositiveIntegerToASCII)
 {
   test(8, 7, "7");
@@ -113,6 +126,7 @@ TEST_F(itoa_unittest, TestBase8PositiveIntegerToASCII)
   test(8, 64, "100");
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -126,12 +140,15 @@ protected:
   void _test_valid_base_10(int);
 };
 
+// -----------------------------------------------------------------------------
 
 void
 atoi_unittest::test(const char* input_str, int expected_int)
 {
   ASSERT_EQ(expected_int, atoi(input_str));
 }
+
+// -----------------------------------------------------------------------------
 
 void
 atoi_unittest::_test_valid_base_10(int num)
@@ -143,11 +160,14 @@ atoi_unittest::_test_valid_base_10(int num)
   ASSERT_EQ(expected_int, actual_int);
 }
 
+// -----------------------------------------------------------------------------
 
 TEST_F(atoi_unittest, TestNULLStringToInteger)
 {
   test(NULL, 0);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(atoi_unittest, TestValidBase10NegativeStringToInteger)
 {
@@ -157,6 +177,8 @@ TEST_F(atoi_unittest, TestValidBase10NegativeStringToInteger)
   }
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(atoi_unittest, TestValidBase10PositiveStringToInteger)
 {
   int i;
@@ -164,6 +186,8 @@ TEST_F(atoi_unittest, TestValidBase10PositiveStringToInteger)
     this->_test_valid_base_10(i);
   }
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(atoi_unittest, TestValidBase10PositiveStringWithSignToInteger)
 {
@@ -178,6 +202,8 @@ TEST_F(atoi_unittest, TestValidBase10PositiveStringWithSignToInteger)
   }
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(atoi_unittest, TestBase10PositiveStringToInteger)
 {
   test("++123", 0);
@@ -187,3 +213,5 @@ TEST_F(atoi_unittest, TestBase10PositiveStringToInteger)
   test("-123--", -123);
   test(" -123 ", -123);
 }
+
+// -----------------------------------------------------------------------------

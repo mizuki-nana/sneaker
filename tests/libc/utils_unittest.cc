@@ -31,11 +31,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string>
 
 
+// -----------------------------------------------------------------------------
+
 /*******************************************************************************
  * Unit tests for MAX(a,b)
  ******************************************************************************/
 class max_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(max_unittest, TestMaxOfPositiveInteger)
 {
@@ -43,11 +46,15 @@ TEST_F(max_unittest, TestMaxOfPositiveInteger)
   EXPECT_EQ(6, MAX(0, 6));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(max_unittest, TestMaxOfNegativeInteger)
 {
   EXPECT_EQ(-5, MAX(-5, -6));
   EXPECT_EQ(0, MAX(-5, 0));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(max_unittest, TestMaxOfPositiveFloatingNumber)
 {
@@ -55,18 +62,22 @@ TEST_F(max_unittest, TestMaxOfPositiveFloatingNumber)
   EXPECT_EQ(0.1f, MAX(0.0f, 0.1f));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(max_unittest, TestMaxOfNegativeFloatingNumber)
 {
   EXPECT_EQ(-5.0f, MAX(-5.0f, -6.0f));
   EXPECT_EQ(0.0f, MAX(-5.0f, 0.0f));
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit tests for MIN(a,b)
  ******************************************************************************/
 class min_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(min_unittest, TestMinOfPositiveInteger)
 {
@@ -74,11 +85,15 @@ TEST_F(min_unittest, TestMinOfPositiveInteger)
   EXPECT_EQ(0, MIN(5,0));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(min_unittest, TestMinOfNegativeInteger)
 {
   EXPECT_EQ(-6, MIN(-5, -6));
   EXPECT_EQ(-6, MIN(0, -6));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(min_unittest, TestMinOfPositiveFloatingNumber)
 {
@@ -86,12 +101,15 @@ TEST_F(min_unittest, TestMinOfPositiveFloatingNumber)
   EXPECT_EQ(0.0f, MIN(0.0f, 5.0f));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(min_unittest, TestMinOfNegativeFloatingNumber)
 {
   EXPECT_EQ(-6.0f, MIN(-5.0f, -6.0f));
   EXPECT_EQ(-6.0f, MIN(0.0f, -6.0f));
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -99,6 +117,7 @@ TEST_F(min_unittest, TestMinOfNegativeFloatingNumber)
  ******************************************************************************/
 class return_if_null_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(return_if_null_unittest, TestPassNull)
 {
@@ -106,6 +125,8 @@ TEST_F(return_if_null_unittest, TestPassNull)
   RETURN_IF_NULL(val);
   ASSERT_EQ(1, 2);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(return_if_null_unittest, TestPassNotNull)
 {
@@ -115,6 +136,7 @@ TEST_F(return_if_null_unittest, TestPassNotNull)
   free(val);
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -122,6 +144,7 @@ TEST_F(return_if_null_unittest, TestPassNotNull)
  ******************************************************************************/
 class return_if_true_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(return_if_true_unittest, TestPassTrue)
 {
@@ -130,6 +153,8 @@ TEST_F(return_if_true_unittest, TestPassTrue)
   ASSERT_EQ(1, 2);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(return_if_true_unittest, TestPassFalse)
 {
   int val = 1 == 2;
@@ -137,6 +162,7 @@ TEST_F(return_if_true_unittest, TestPassFalse)
   ASSERT_EQ(1, 1);
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -144,6 +170,7 @@ TEST_F(return_if_true_unittest, TestPassFalse)
  ******************************************************************************/
 class return_if_false_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(return_if_false_unittest, TestPassTrue)
 {
@@ -152,6 +179,8 @@ TEST_F(return_if_false_unittest, TestPassTrue)
   ASSERT_EQ(1, 1);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(return_if_false_unittest, TestPassFalseTest)
 {
   int val = 1 == 2;
@@ -159,6 +188,7 @@ TEST_F(return_if_false_unittest, TestPassFalseTest)
   ASSERT_EQ(1, 2);
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -166,6 +196,7 @@ TEST_F(return_if_false_unittest, TestPassFalseTest)
  ******************************************************************************/
 class return_if_equals_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(return_if_equals_unittest, TestPassTrue)
 {
@@ -175,6 +206,8 @@ TEST_F(return_if_equals_unittest, TestPassTrue)
   ASSERT_EQ(1, 2);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(return_if_equals_unittest, TestPassFalse)
 {
   int val1 = 1;
@@ -183,6 +216,7 @@ TEST_F(return_if_equals_unittest, TestPassFalse)
   ASSERT_EQ(1, 1);
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit tests for:
@@ -193,6 +227,7 @@ public:
   void test(int, int);
 };
 
+// -----------------------------------------------------------------------------
 
 void
 set_nth_bit_unittest::test(int bit, int expected_value)
@@ -202,37 +237,49 @@ set_nth_bit_unittest::test(int bit, int expected_value)
   EXPECT_EQ(expected_value, val);
 }
 
+// -----------------------------------------------------------------------------
 
 TEST_F(set_nth_bit_unittest, TestSet1stBit)
 {
   test(1, 0x0001);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(set_nth_bit_unittest, TestSet2ndBit)
 {
   test(2, 0x0002);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(set_nth_bit_unittest, TestSet4thBit)
 {
   test(4, 0x0008);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(set_nth_bit_unittest, TestSet8thBit)
 {
   test(8, 128);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(set_nth_bit_unittest, TestSet16thBit)
 {
   test(16, 32768);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(set_nth_bit_unittest, TestSet32thBit)
 {
   test(32, (1 << 31));
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit tests for:
@@ -243,6 +290,7 @@ public:
   void test(int, int, int=0);
 };
 
+// -----------------------------------------------------------------------------
 
 void
 clear_nth_bit_unittest::test(int value, int bit, int expected_value)
@@ -251,37 +299,49 @@ clear_nth_bit_unittest::test(int value, int bit, int expected_value)
   EXPECT_EQ(expected_value, value);
 }
 
+// -----------------------------------------------------------------------------
 
 TEST_F(clear_nth_bit_unittest, TestClear1stBit)
 {
   test(0x0001, 1);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(clear_nth_bit_unittest, TestClear2ndBit)
 {
   test(0x0002, 2);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(clear_nth_bit_unittest, TestClear4thBit)
 {
   test(0x0008, 4);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(clear_nth_bit_unittest, TestClear8thBit)
 {
   test(128, 8);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(clear_nth_bit_unittest, TestClear16thBit)
 {
   test(32768, 16);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(clear_nth_bit_unittest, TestClear32thBit)
 {
   test((1 << 31), 32);
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -289,16 +349,21 @@ TEST_F(clear_nth_bit_unittest, TestClear32thBit)
  ******************************************************************************/
 class is_bit_set_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(is_bit_set_unittest, TestBitSetOnZeroValueInteger)
 {
   EXPECT_FALSE(is_bit_set(0, 1));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(is_bit_set_unittest, TestSetOn1stBit)
 {
   EXPECT_TRUE(is_bit_set(1, 1));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(is_bit_set_unittest, TestSetOn2ndBit)
 {
@@ -307,6 +372,8 @@ TEST_F(is_bit_set_unittest, TestSetOn2ndBit)
   EXPECT_TRUE(is_bit_set(val, 2));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(is_bit_set_unittest, TestSetOn4thBit)
 {
   int val = 8;
@@ -314,6 +381,8 @@ TEST_F(is_bit_set_unittest, TestSetOn4thBit)
   EXPECT_FALSE(is_bit_set(val, 2));
   EXPECT_TRUE(is_bit_set(val, 4));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(is_bit_set_unittest, TestSetOn8thBit)
 {
@@ -324,6 +393,8 @@ TEST_F(is_bit_set_unittest, TestSetOn8thBit)
   EXPECT_TRUE(is_bit_set(val, 8));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(is_bit_set_unittest, TestSetOn16thBit)
 {
   int val = 32768;
@@ -333,6 +404,8 @@ TEST_F(is_bit_set_unittest, TestSetOn16thBit)
   EXPECT_FALSE(is_bit_set(val, 8));
   EXPECT_TRUE(is_bit_set(val, 16));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(is_bit_set_unittest, TestSetOn32thBit)
 {
@@ -345,6 +418,7 @@ TEST_F(is_bit_set_unittest, TestSetOn32thBit)
   EXPECT_TRUE(is_bit_set(val, 32));
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit tests for:
@@ -355,6 +429,7 @@ public:
   void test(char, uint32_t);
 };
 
+// -----------------------------------------------------------------------------
 
 void
 set_nth_bit_uint32_unittest::test(char bit, uint32_t expected_value)
@@ -364,37 +439,49 @@ set_nth_bit_uint32_unittest::test(char bit, uint32_t expected_value)
   EXPECT_EQ(expected_value, val);
 }
 
+// -----------------------------------------------------------------------------
 
 TEST_F(set_nth_bit_uint32_unittest, TestSet1stBit)
 {
   test(1, 0x0001);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(set_nth_bit_uint32_unittest, TestSet2ndBit)
 {
   test(2, 0x0002);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(set_nth_bit_uint32_unittest, TestSet4thBit)
 {
   test(4, 0x0008);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(set_nth_bit_uint32_unittest, TestSet8thBit)
 {
   test(8, 128);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(set_nth_bit_uint32_unittest, TestSet16thBit)
 {
   test(16, 32768);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(set_nth_bit_uint32_unittest, TestSet32thBit)
 {
   test(32, (1 << 31));
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit tests for:
@@ -405,6 +492,7 @@ public:
   void test(uint32_t, char, uint32_t=0);
 };
 
+// -----------------------------------------------------------------------------
 
 void
 clear_nth_bit_uint32_unittest::test(
@@ -414,37 +502,49 @@ clear_nth_bit_uint32_unittest::test(
   EXPECT_EQ(expected_value, value);
 }
 
+// -----------------------------------------------------------------------------
 
 TEST_F(clear_nth_bit_uint32_unittest, TestClear1stBit)
 {
   test(0x0001, 1);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(clear_nth_bit_uint32_unittest, TestClear2ndBit)
 {
   test(0x0002, 2);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(clear_nth_bit_uint32_unittest, TestClear4thBit)
 {
   test(0x0008, 4);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(clear_nth_bit_uint32_unittest, TestClear8thBit)
 {
   test(128, 8);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(clear_nth_bit_uint32_unittest, TestClear16thBit)
 {
   test(32768, 16);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(clear_nth_bit_uint32_unittest, TestClear32thBit)
 {
   test((1 << 31), 32);
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -452,16 +552,21 @@ TEST_F(clear_nth_bit_uint32_unittest, TestClear32thBit)
  ******************************************************************************/
 class is_bit_set_uint32_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(is_bit_set_uint32_unittest, TestBitSetOnZeroValueInteger)
 {
   EXPECT_FALSE(is_bit_set_uint32(0, 1));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(is_bit_set_uint32_unittest, TestSetOn1stBit)
 {
   EXPECT_TRUE(is_bit_set_uint32(1, 1));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(is_bit_set_uint32_unittest, TestSetOn2ndBit)
 {
@@ -470,6 +575,8 @@ TEST_F(is_bit_set_uint32_unittest, TestSetOn2ndBit)
   EXPECT_TRUE(is_bit_set_uint32(val, 2));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(is_bit_set_uint32_unittest, TestSetOn4thBit)
 {
   uint32_t val = 8;
@@ -477,6 +584,8 @@ TEST_F(is_bit_set_uint32_unittest, TestSetOn4thBit)
   EXPECT_FALSE(is_bit_set_uint32(val, 2));
   EXPECT_TRUE(is_bit_set_uint32(val, 4));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(is_bit_set_uint32_unittest, TestSetOn8thBit)
 {
@@ -487,6 +596,8 @@ TEST_F(is_bit_set_uint32_unittest, TestSetOn8thBit)
   EXPECT_TRUE(is_bit_set_uint32(val, 8));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(is_bit_set_uint32_unittest, TestSetOn16thBit)
 {
   uint32_t val = 32768;
@@ -496,6 +607,8 @@ TEST_F(is_bit_set_uint32_unittest, TestSetOn16thBit)
   EXPECT_FALSE(is_bit_set_uint32(val, 8));
   EXPECT_TRUE(is_bit_set_uint32(val, 16));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(is_bit_set_uint32_unittest, TestSetOn32thBit)
 {
@@ -508,6 +621,7 @@ TEST_F(is_bit_set_uint32_unittest, TestSetOn32thBit)
   EXPECT_TRUE(is_bit_set_uint32(val, 32));
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit tests for:
@@ -518,6 +632,7 @@ public:
   void test(char, uint8_t);
 };
 
+// -----------------------------------------------------------------------------
 
 void
 set_nth_bit_uint8_unittest::test(char bit, uint8_t expected_value)
@@ -527,27 +642,35 @@ set_nth_bit_uint8_unittest::test(char bit, uint8_t expected_value)
   EXPECT_EQ(expected_value, val);
 }
 
+// -----------------------------------------------------------------------------
 
 TEST_F(set_nth_bit_uint8_unittest, TestSet1stBit)
 {
   test(1, 0x0001);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(set_nth_bit_uint8_unittest, TestSet2ndBit)
 {
   test(2, 0x0002);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(set_nth_bit_uint8_unittest, TestSet4thBit)
 {
   test(4, 0x0008);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(set_nth_bit_uint8_unittest, TestSet8thBit)
 {
   test(8, 128);
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit tests for:
@@ -558,6 +681,7 @@ public:
   void test(uint8_t, char, uint8_t=0);
 };
 
+// -----------------------------------------------------------------------------
 
 void
 clear_nth_bit_uint8_unittest::test(
@@ -567,27 +691,35 @@ clear_nth_bit_uint8_unittest::test(
   EXPECT_EQ(expected_value, value);
 }
 
+// -----------------------------------------------------------------------------
 
 TEST_F(clear_nth_bit_uint8_unittest, TestClear1stBit)
 {
   test(0x0001, 1);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(clear_nth_bit_uint8_unittest, TestClear2ndBit)
 {
   test(0x0002, 2);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(clear_nth_bit_uint8_unittest, TestClear4thBit)
 {
   test(0x0008, 4);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(clear_nth_bit_uint8_unittest, TestClear8thBit)
 {
   test(128, 8);
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -595,16 +727,21 @@ TEST_F(clear_nth_bit_uint8_unittest, TestClear8thBit)
  ******************************************************************************/
 class is_bit_set_uint8_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(is_bit_set_uint8_unittest, TestBitSetOnZeroValueInteger)
 {
   EXPECT_FALSE(is_bit_set_uint8(0, 1));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(is_bit_set_uint8_unittest, TestSetOn1stBit)
 {
   EXPECT_TRUE(is_bit_set_uint8(1, 1));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(is_bit_set_uint8_unittest, TestSetOn2ndBit)
 {
@@ -613,6 +750,8 @@ TEST_F(is_bit_set_uint8_unittest, TestSetOn2ndBit)
   EXPECT_TRUE(is_bit_set_uint8(val, 2));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(is_bit_set_uint8_unittest, TestSetOn4thBit)
 {
   uint8_t val = 8;
@@ -620,6 +759,8 @@ TEST_F(is_bit_set_uint8_unittest, TestSetOn4thBit)
   EXPECT_FALSE(is_bit_set_uint8(val, 2));
   EXPECT_TRUE(is_bit_set_uint8(val, 4));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(is_bit_set_uint8_unittest, TestSetOn8thBit)
 {
@@ -630,6 +771,7 @@ TEST_F(is_bit_set_uint8_unittest, TestSetOn8thBit)
   EXPECT_TRUE(is_bit_set_uint8(val, 8));
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit Test for:
@@ -637,6 +779,7 @@ TEST_F(is_bit_set_uint8_unittest, TestSetOn8thBit)
  ******************************************************************************/
 class rand_top_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(rand_top_unittest, TestRandomness)
 {
@@ -646,6 +789,7 @@ TEST_F(rand_top_unittest, TestRandomness)
   }
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit Test for:
@@ -653,6 +797,7 @@ TEST_F(rand_top_unittest, TestRandomness)
  ******************************************************************************/
 class rand_range_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(rand_range_unittest, TestRandomness)
 {
@@ -665,6 +810,7 @@ TEST_F(rand_range_unittest, TestRandomness)
   }
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit Tests for:
@@ -672,6 +818,7 @@ TEST_F(rand_range_unittest, TestRandomness)
  ******************************************************************************/
 class randf_top_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(randf_top_unittest, TestRandomness)
 {
@@ -681,6 +828,7 @@ TEST_F(randf_top_unittest, TestRandomness)
   }
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit Tests for:
@@ -688,6 +836,7 @@ TEST_F(randf_top_unittest, TestRandomness)
  ******************************************************************************/
 class randf_range_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(randf_range_unittest, TestRandomness)
 {
@@ -700,6 +849,7 @@ TEST_F(randf_range_unittest, TestRandomness)
   }
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit Tests for:
@@ -707,6 +857,7 @@ TEST_F(randf_range_unittest, TestRandomness)
  ******************************************************************************/
 class generate_text_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(generate_text_unittest, TestPassNonZeroLenAndMax)
 {
@@ -716,11 +867,15 @@ TEST_F(generate_text_unittest, TestPassNonZeroLenAndMax)
   ASSERT_GE(12, strlen(text));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(generate_text_unittest, TestPassZeroMinAndMax)
 {
   char *text = generate_text(0, 0);
   assert(text == NULL);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(generate_text_unittest, TestPassNonZeroLenAndZeroMax)
 {
@@ -733,6 +888,8 @@ TEST_F(generate_text_unittest, TestPassNonZeroLenAndZeroMax)
   }
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(generate_text_unittest, TestPassZeroLenAndNonZeroMax)
 {
   int i;
@@ -744,6 +901,7 @@ TEST_F(generate_text_unittest, TestPassZeroLenAndNonZeroMax)
   }
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit Tests for:
@@ -751,6 +909,7 @@ TEST_F(generate_text_unittest, TestPassZeroLenAndNonZeroMax)
  ******************************************************************************/
 class generate_loremipsum_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(generate_loremipsum_unittest, TestGenerateLoremIpsum)
 {
@@ -759,3 +918,5 @@ TEST_F(generate_loremipsum_unittest, TestGenerateLoremIpsum)
   ASSERT_GE(strlen(ipsum), 0);
   free(ipsum);
 }
+
+// -----------------------------------------------------------------------------

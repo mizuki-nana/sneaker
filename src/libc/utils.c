@@ -29,6 +29,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdint.h>
 
 
+// -----------------------------------------------------------------------------
+
 void
 set_nth_bit(int *val, char bit)
 {
@@ -36,12 +38,16 @@ set_nth_bit(int *val, char bit)
   *val = *val | b;
 }
 
+// -----------------------------------------------------------------------------
+
 void
 clear_nth_bit(int *val, char bit)
 {
   int b = (1 << (bit-1));
   *val = *val & (~b);
 }
+
+// -----------------------------------------------------------------------------
 
 int
 is_bit_set(int val, char bit)
@@ -52,6 +58,8 @@ is_bit_set(int val, char bit)
   return (v >> (bit-1)) == 1;
 }
 
+// -----------------------------------------------------------------------------
+
 void
 set_nth_bit_uint8(uint8_t *val, char bit)
 {
@@ -59,12 +67,16 @@ set_nth_bit_uint8(uint8_t *val, char bit)
   *val = *val | b;
 }
 
+// -----------------------------------------------------------------------------
+
 void
 clear_nth_bit_uint8(uint8_t* val, char bit)
 {
   uint8_t b = (1 << (bit-1));
   *val = *val & (~b);
 }
+
+// -----------------------------------------------------------------------------
 
 int
 is_bit_set_uint8(uint8_t val, char bit)
@@ -75,6 +87,8 @@ is_bit_set_uint8(uint8_t val, char bit)
   return (v >> (bit-1)) == 1;
 }
 
+// -----------------------------------------------------------------------------
+
 void
 set_nth_bit_uint32(uint32_t *val, char bit)
 {
@@ -82,12 +96,16 @@ set_nth_bit_uint32(uint32_t *val, char bit)
   *val = *val | b;
 }
 
+// -----------------------------------------------------------------------------
+
 void
 clear_nth_bit_uint32(uint32_t *val, char bit)
 {
   uint32_t b = (1 << (bit-1));
   *val = *val & (~b);
 }
+
+// -----------------------------------------------------------------------------
 
 int
 is_bit_set_uint32(uint32_t val, char bit)
@@ -98,11 +116,15 @@ is_bit_set_uint32(uint32_t val, char bit)
   return (v >> (bit-1)) == 1;
 }
 
+// -----------------------------------------------------------------------------
+
 int
 inline rand_top(int max)
 {
   return rand() % max + 1;
 }
+
+// -----------------------------------------------------------------------------
 
 int
 inline rand_range(int min, int max)
@@ -110,6 +132,8 @@ inline rand_range(int min, int max)
   int _rand = rand_top(max);
   return MAX(min, _rand);
 }
+
+// -----------------------------------------------------------------------------
 
 double
 inline randf_top(double max)
@@ -124,6 +148,8 @@ inline randf_top(double max)
   return _rand;
 }
 
+// -----------------------------------------------------------------------------
+
 double
 inline randf_range(double min, double max)
 {
@@ -131,11 +157,15 @@ inline randf_range(double min, double max)
   return min + f * (max - min);
 }
 
+// -----------------------------------------------------------------------------
+
 static
 inline char _rand_ascii()
 {
   return '0' + rand_top(127);
 }
+
+// -----------------------------------------------------------------------------
 
 c_str
 generate_text(size_t len, size_t max)
@@ -164,6 +194,8 @@ generate_text(size_t len, size_t max)
   return text;
 }
 
+// -----------------------------------------------------------------------------
+
 c_str
 generate_loremipsum()
 {
@@ -177,3 +209,5 @@ generate_loremipsum()
 
   return strdup(ipsum);
 }
+
+// -----------------------------------------------------------------------------

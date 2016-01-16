@@ -32,6 +32,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <iostream>
 
 
+// -----------------------------------------------------------------------------
+
 class file_reader_unittest : public ::testing::Test {
 public:
   virtual void SetUp() {
@@ -49,6 +51,7 @@ public:
   std::ofstream m_temp_file;
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(file_reader_unittest, TestInitialization)
 {
@@ -58,6 +61,8 @@ TEST_F(file_reader_unittest, TestInitialization)
   ASSERT_EQ(0, strlen(actual_file_path));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(file_reader_unittest, TestInitializationWithFilePath)
 {
   sneaker::io::file_reader reader(m_file_path);
@@ -65,6 +70,8 @@ TEST_F(file_reader_unittest, TestInitializationWithFilePath)
 
   ASSERT_STREQ(m_file_path, actual_file_path);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(file_reader_unittest, TestSetPath)
 {
@@ -82,6 +89,8 @@ TEST_F(file_reader_unittest, TestSetPath)
   ASSERT_STREQ(new_path, actual_file_path);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(file_reader_unittest, TestReadFile)
 {
   sneaker::io::file_reader reader(m_file_path);
@@ -95,6 +104,8 @@ TEST_F(file_reader_unittest, TestReadFile)
   ASSERT_STREQ(m_content, content_read);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(file_reader_unittest, TestReadFileUnsuccessful)
 {
   sneaker::io::file_reader reader("!@#$^&*((");
@@ -105,3 +116,5 @@ TEST_F(file_reader_unittest, TestReadFileUnsuccessful)
   ASSERT_EQ(false, res);
   ASSERT_EQ(nullptr, content_read);
 }
+
+// -----------------------------------------------------------------------------

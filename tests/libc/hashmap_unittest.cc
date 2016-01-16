@@ -34,6 +34,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <unordered_map>
 
 
+// -----------------------------------------------------------------------------
+
 unsigned long int simple_hash(c_str s) {
   unsigned long int h = 0;
 
@@ -44,23 +46,32 @@ unsigned long int simple_hash(c_str s) {
   return h;
 }
 
+// -----------------------------------------------------------------------------
+
 unsigned long int hashfunc(void *key) {
   RETURN_VAL_IF_NULL(key, 0);
   c_str s = (c_str)key;
   return simple_hash(s);
 }
 
+// -----------------------------------------------------------------------------
+
 int keycmpfunc(void *key1, void *key2) {
   return strcmp((c_str)key1, (c_str)key2) == 0;  
 }
 
+// -----------------------------------------------------------------------------
+
 #define HASHMAP_INITIAL_CAPACITY 10
+
+// -----------------------------------------------------------------------------
 
 typedef struct {
   c_str key;
   c_str val;
 } KeyVal;
 
+// -----------------------------------------------------------------------------
 
 KeyVal fruits[] = {
   {
@@ -77,6 +88,8 @@ KeyVal fruits[] = {
   }
 };
 
+// -----------------------------------------------------------------------------
+
 KeyVal sky[] = {
   {
     (c_str)"a",
@@ -91,6 +104,8 @@ KeyVal sky[] = {
     (c_str)"cloud"
   }
 };
+
+// -----------------------------------------------------------------------------
 
 KeyVal vehicles[] = {
   {
@@ -107,6 +122,7 @@ KeyVal vehicles[] = {
   }
 };
 
+// -----------------------------------------------------------------------------
 
 class hashmap_unittest : public ::testing::Test {
 protected:
@@ -124,6 +140,7 @@ protected:
   hashmap_t _hashmap;
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(hashmap_unittest, TestCreation)
 {
@@ -131,6 +148,8 @@ TEST_F(hashmap_unittest, TestCreation)
   ASSERT_EQ(hashmap_size(_hashmap), 0);
   ASSERT_EQ(hashmap_bucketcount(_hashmap), 8);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(hashmap_unittest, TestPutSingleItem)
 {
@@ -158,6 +177,8 @@ TEST_F(hashmap_unittest, TestPutSingleItem)
   ASSERT_EQ(0, hashmap_size(_hashmap));
   ASSERT_EQ(6, hashmap_capacity(_hashmap));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(hashmap_unittest, TestPutMultipleValues)
 {
@@ -228,6 +249,8 @@ TEST_F(hashmap_unittest, TestPutMultipleValues)
   ASSERT_EQ(0, hashmap_size(_hashmap));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(hashmap_unittest, TestGetWithNonExistentKeys)
 {
   assert(_hashmap);
@@ -250,6 +273,8 @@ TEST_F(hashmap_unittest, TestGetWithNonExistentKeys)
   ASSERT_EQ(3, hashmap_size(_hashmap));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(hashmap_unittest, TestFree)
 {
   assert(_hashmap);
@@ -269,6 +294,8 @@ TEST_F(hashmap_unittest, TestFree)
 
   ASSERT_EQ(NULL, _hashmap);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(hashmap_unittest, TestStress)
 {
@@ -294,3 +321,5 @@ TEST_F(hashmap_unittest, TestStress)
     ASSERT_STREQ(map[i], (char*)hashmap_get(_hashmap, buf));
   }
 }
+
+// -----------------------------------------------------------------------------

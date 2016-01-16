@@ -34,9 +34,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using namespace sneaker::json;
 
+// -----------------------------------------------------------------------------
 
 const int json_parser::MAX_DEPTH = 200;
 
+// -----------------------------------------------------------------------------
 
 template<typename T>
 T
@@ -51,6 +53,8 @@ sneaker::json::json_parser::fail(std::string&& msg, const T err_ret)
   return err_ret;
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_parser::consume_whitespace()
 {
@@ -59,11 +63,15 @@ sneaker::json::json_parser::consume_whitespace()
   }
 }
 
+// -----------------------------------------------------------------------------
+
 JSON
 sneaker::json::json_parser::fail(std::string&& msg)
 {
   return fail(std::move(msg), JSON());
 }
+
+// -----------------------------------------------------------------------------
 
 char
 sneaker::json::json_parser::get_next_token()
@@ -76,6 +84,8 @@ sneaker::json::json_parser::get_next_token()
 
   return str[i++];
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_parser::encode_utf8(long pt, std::string& out)
@@ -100,6 +110,8 @@ sneaker::json::json_parser::encode_utf8(long pt, std::string& out)
     out += (pt & 0x3F) | 0x80;
   }
 }
+
+// -----------------------------------------------------------------------------
 
 JSON
 sneaker::json::json_parser::parse_number()
@@ -161,6 +173,8 @@ sneaker::json::json_parser::parse_number()
   return std::atof(str.c_str() + start_pos);
 }
 
+// -----------------------------------------------------------------------------
+
 JSON
 sneaker::json::json_parser::expect(const std::string& expected, JSON res)
 {
@@ -175,6 +189,8 @@ sneaker::json::json_parser::expect(const std::string& expected, JSON res)
     return fail("Parse error: expected " + expected + ", got " + found);
   }
 }
+
+// -----------------------------------------------------------------------------
 
 std::string
 sneaker::json::json_parser::parse_string()
@@ -264,6 +280,8 @@ sneaker::json::json_parser::parse_string()
   } /* end of `while (true)` */
 }
 
+// -----------------------------------------------------------------------------
+
 JSON
 sneaker::json::json_parser::parse_json()
 {
@@ -281,6 +299,8 @@ sneaker::json::json_parser::parse_json()
 
   return result;
 }
+
+// -----------------------------------------------------------------------------
 
 JSON
 sneaker::json::json_parser::parse_json(uint32_t depth)
@@ -401,6 +421,8 @@ sneaker::json::json_parser::parse_json(uint32_t depth)
   return fail("Expected value, got " + esc(ch));
 }
 
+// -----------------------------------------------------------------------------
+
 std::string
 sneaker::json::json_parser::esc(char c)
 {
@@ -415,8 +437,12 @@ sneaker::json::json_parser::esc(char c)
   return std::string(buf);
 }
 
+// -----------------------------------------------------------------------------
+
 bool
 sneaker::json::json_parser::in_range(long x, long lower, long upper)
 {
   return (x >= lower && x <= upper);
 }
+
+// -----------------------------------------------------------------------------

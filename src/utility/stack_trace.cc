@@ -28,6 +28,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string>
 
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::utility::stack_trace::print_stack_trace(
   std::ostream& stream, unsigned int max_frames)
@@ -121,3 +123,5 @@ sneaker::utility::stack_trace::print_stack_trace(
 
   free(symbollist);
 }
+
+// -----------------------------------------------------------------------------

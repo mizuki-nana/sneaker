@@ -32,14 +32,19 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdio.h>
 
 
+// -----------------------------------------------------------------------------
+
 class uuid_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(uuid_unittest, TestUUIDCompareSameID)
 {
   uuid128_t id = uuid_create();
   ASSERT_EQ(0, uuid_compare(id, id));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(uuid_unittest, TestUUIDCompareDifferentID)
 {
@@ -48,6 +53,8 @@ TEST_F(uuid_unittest, TestUUIDCompareDifferentID)
 
   ASSERT_NE(0, uuid_compare(uuid1, uuid2));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(uuid_unittest, TestHashOnDifferentUUID)
 {
@@ -65,6 +72,8 @@ TEST_F(uuid_unittest, TestHashOnDifferentUUID)
   }
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(uuid_unittest, TestCreateAndHash)
 {
   int i;
@@ -75,6 +84,8 @@ TEST_F(uuid_unittest, TestCreateAndHash)
     );
   }
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(uuid_unittest, TestUniqueness)
 {
@@ -91,3 +102,5 @@ TEST_F(uuid_unittest, TestUniqueness)
 
   ASSERT_EQ(limit, hashes.size());
 }
+
+// -----------------------------------------------------------------------------

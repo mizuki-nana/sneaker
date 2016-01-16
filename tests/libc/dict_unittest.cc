@@ -33,6 +33,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <unordered_map>
 
 
+// -----------------------------------------------------------------------------
+
 class dict_unittest : public ::testing::Test {
 protected:
   virtual void SetUp() {
@@ -48,12 +50,14 @@ protected:
   dict_t m_dict;
 };
 
+// -----------------------------------------------------------------------------
 
 typedef struct {
   c_str key;
   c_str val;
 } KeyVal;
 
+// -----------------------------------------------------------------------------
 
 KeyVal fruits[] = {
   {
@@ -70,6 +74,8 @@ KeyVal fruits[] = {
   }
 };
 
+// -----------------------------------------------------------------------------
+
 KeyVal sky[] = {
   {
     (c_str)"a",
@@ -84,6 +90,8 @@ KeyVal sky[] = {
     (c_str)"cloud"
   }
 };
+
+// -----------------------------------------------------------------------------
 
 KeyVal vehicles[] = {
   {
@@ -100,12 +108,15 @@ KeyVal vehicles[] = {
   }
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(dict_unittest, TestCreation)
 {
   assert(m_dict);
   ASSERT_EQ(0, dict_size(m_dict));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(dict_unittest, TestPut)
 {
@@ -130,6 +141,8 @@ TEST_F(dict_unittest, TestPut)
   ASSERT_STREQ(val2, fruits[1].val);
   ASSERT_STREQ(val3, fruits[2].val);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(dict_unittest, TestGet)
 {
@@ -160,6 +173,8 @@ TEST_F(dict_unittest, TestGet)
   ASSERT_EQ(vehicles[2].val, (c_str)dict_get(m_dict, vehicles[2].key));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(dict_unittest, TestStress)
 {
   const int TOP = 500000;
@@ -184,3 +199,5 @@ TEST_F(dict_unittest, TestStress)
     ASSERT_STREQ(map[i], (char*)dict_get(m_dict, buf));
   }
 }
+
+// -----------------------------------------------------------------------------

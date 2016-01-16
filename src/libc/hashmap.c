@@ -33,10 +33,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <sys/types.h>
 
 
+// -----------------------------------------------------------------------------
+
 #define LOAD_FACTOR 0.75f
+
+// -----------------------------------------------------------------------------
 
 #define HASHMAP_DEFAULT_BUCKETCOUNT 8
 
+// -----------------------------------------------------------------------------
 
 /* Hashmap entry(bucket) */
 typedef struct __sneaker_hashmap_entry_s {
@@ -46,6 +51,7 @@ typedef struct __sneaker_hashmap_entry_s {
   struct __sneaker_hashmap_entry_s *next;
 } * hashmap_entry_t;
 
+// -----------------------------------------------------------------------------
 
 struct __sneaker_hashmap_s {
   hashmap_entry_t * buckets;
@@ -56,6 +62,7 @@ struct __sneaker_hashmap_s {
   size_t size;
 };
 
+// -----------------------------------------------------------------------------
 
 hashmap_t hashmap_create(size_t initial_capacity,
   HashFunc hashfunc, KeyCmpFunc keycmpfunc)
@@ -99,6 +106,8 @@ hashmap_t hashmap_create(size_t initial_capacity,
   return hashmap;
 }
 
+// -----------------------------------------------------------------------------
+
 /* Secondary hashing against bad hashses. */
 static
 inline unsigned long int _hash_key(hashmap_t hashmap, void *key)
@@ -117,17 +126,23 @@ inline unsigned long int _hash_key(hashmap_t hashmap, void *key)
   return h;
 }
 
+// -----------------------------------------------------------------------------
+
 size_t hashmap_size(hashmap_t hashmap)
 {
   assert(hashmap);
   return hashmap->size;
 }
 
+// -----------------------------------------------------------------------------
+
 static
 inline size_t _calculate_index(size_t bucketCount, int hash)
 {
   return ((size_t)hash) & (bucketCount - 1);
 }
+
+// -----------------------------------------------------------------------------
 
 static
 void _hashmap_expand(hashmap_t hashmap)
@@ -161,17 +176,23 @@ void _hashmap_expand(hashmap_t hashmap)
   }
 }
 
+// -----------------------------------------------------------------------------
+
 void hashmap_lock(hashmap_t hashmap)
 {
   assert(hashmap);
   pthread_mutex_lock(&hashmap->lock);
 }
 
+// -----------------------------------------------------------------------------
+
 void hashmap_unlock(hashmap_t hashmap)
 {
   assert(hashmap);
   pthread_mutex_unlock(&hashmap->lock);
 }
+
+// -----------------------------------------------------------------------------
 
 void hashmap_free(hashmap_t *hashmap)
 {
@@ -196,6 +217,8 @@ void hashmap_free(hashmap_t *hashmap)
   *hashmap = NULL;
 }
 
+// -----------------------------------------------------------------------------
+
 static
 hashmap_entry_t _create_entry(void *key, unsigned long int hash, void *val)
 {
@@ -215,6 +238,8 @@ hashmap_entry_t _create_entry(void *key, unsigned long int hash, void *val)
   return entry;
 }
 
+// -----------------------------------------------------------------------------
+
 static
 inline int _equals_key(
   void *keyA,
@@ -227,6 +252,8 @@ inline int _equals_key(
   RETURN_VAL_IF_EQ(hashA, hashB, 1);
   return keycmp(keyA, keyB);
 }
+
+// -----------------------------------------------------------------------------
 
 void* hashmap_put(hashmap_t hashmap, void *key, void *val)
 {
@@ -285,6 +312,8 @@ void* hashmap_put(hashmap_t hashmap, void *key, void *val)
   return NULL;
 }
 
+// -----------------------------------------------------------------------------
+
 void* hashmap_get(hashmap_t hashmap, void *key)
 {
   assert(hashmap);
@@ -308,6 +337,8 @@ void* hashmap_get(hashmap_t hashmap, void *key)
   return NULL;
 }
 
+// -----------------------------------------------------------------------------
+
 int
 hashmap_contains_key(hashmap_t hashmap, void *key)
 {
@@ -329,6 +360,8 @@ hashmap_contains_key(hashmap_t hashmap, void *key)
 
   return 0;
 }
+
+// -----------------------------------------------------------------------------
 
 int hashmap_remove_bucket(hashmap_t hashmap, void *key)
 {
@@ -353,6 +386,8 @@ int hashmap_remove_bucket(hashmap_t hashmap, void *key)
 
   return 1;
 }
+
+// -----------------------------------------------------------------------------
 
 void* hashmap_remove(hashmap_t hashmap, void *key)
 {
@@ -381,6 +416,8 @@ void* hashmap_remove(hashmap_t hashmap, void *key)
   return NULL;
 }
 
+// -----------------------------------------------------------------------------
+
 void* hashmap_lookup(hashmap_t hashmap,
   int(*lookup)(void *key, void *value, void* arg), void *arg)
 {
@@ -402,6 +439,8 @@ void* hashmap_lookup(hashmap_t hashmap,
   return NULL;
 }
 
+// -----------------------------------------------------------------------------
+
 void hashmap_iterate(hashmap_t hashmap,
     int(*callback)(void *key, void *value), int haltOnFail)
 {
@@ -421,11 +460,15 @@ void hashmap_iterate(hashmap_t hashmap,
   } /* end of for-loop */
 }
 
+// -----------------------------------------------------------------------------
+
 size_t hashmap_bucketcount(hashmap_t hashmap)
 {
   assert(hashmap);
   return hashmap->bucketCount;
 }
+
+// -----------------------------------------------------------------------------
 
 size_t hashmap_capacity(hashmap_t hashmap)
 {
@@ -433,6 +476,8 @@ size_t hashmap_capacity(hashmap_t hashmap)
   size_t bucketCount = hashmap->bucketCount;
   return bucketCount * LOAD_FACTOR;
 }
+
+// -----------------------------------------------------------------------------
 
 size_t hashmap_count_collisions(hashmap_t hashmap)
 {
@@ -454,6 +499,8 @@ size_t hashmap_count_collisions(hashmap_t hashmap)
   return collisions;
 }
 
+// -----------------------------------------------------------------------------
+
 int
 hashmap_int_equals(void *keyA, void *keyB)
 {
@@ -465,6 +512,8 @@ hashmap_int_equals(void *keyA, void *keyB)
 
   return a == b;
 }
+
+// -----------------------------------------------------------------------------
 
 int hashmap_equal(hashmap_t hashmap1, hashmap_t hashmap2)
 {
@@ -500,3 +549,5 @@ int hashmap_equal(hashmap_t hashmap1, hashmap_t hashmap2)
 
   return 1;
 }
+
+// -----------------------------------------------------------------------------

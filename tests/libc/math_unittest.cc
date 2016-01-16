@@ -28,6 +28,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/testing/testing.h"
 
 
+// -----------------------------------------------------------------------------
+
 /*******************************************************************************
  * Unit test for:
  * unsigned int nearest_exp2_ceil(unsigned int)
@@ -39,6 +41,7 @@ public:
   }
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(nearest_exp2_ceil_unittest, TestOnValue)
 {
@@ -51,11 +54,14 @@ TEST_F(nearest_exp2_ceil_unittest, TestOnValue)
   test(1024, 1024);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(nearest_exp2_ceil_unittest, TestOn2ToThePowerOf20)
 {
   test(1024 * 1024 - 1000, 1024 * 1024);
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -68,6 +74,7 @@ public:
   }
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(nearest_exp2_floor_unittest, TestOnValue)
 {
@@ -80,7 +87,11 @@ TEST_F(nearest_exp2_floor_unittest, TestOnValue)
   test(1024, 1024);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(nearest_exp2_floor_unittest, TestOn2ToThePowerOf20)
 {
   test(1024 * 1024 + 1000, 1024 * 1024);
 }
+
+// -----------------------------------------------------------------------------

@@ -31,6 +31,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <time.h>
 
 
+// -----------------------------------------------------------------------------
+
 uuid128_t uuid_create()
 {
   uuid128_t uuid;
@@ -74,10 +76,14 @@ uuid128_t uuid_create()
   return uuid;
 }
 
+// -----------------------------------------------------------------------------
+
 int uuid_compare(uuid128_t uuid1, uuid128_t uuid2)
 {
   return memcmp(uuid1.data, uuid2.data, sizeof(uuid1.data));
 }
+
+// -----------------------------------------------------------------------------
 
 __uint128_t uuid_to_hash(const uuid128_t uuid)
 {
@@ -86,8 +92,12 @@ __uint128_t uuid_to_hash(const uuid128_t uuid)
   return hash;
 }
 
+// -----------------------------------------------------------------------------
+
 __uint128_t uuid_create_and_hash()
 {
   uuid128_t uuid = uuid_create();
   return uuid_to_hash(uuid);
 }
+
+// -----------------------------------------------------------------------------

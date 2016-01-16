@@ -66,6 +66,7 @@ public:
   inline allocator(allocator<U, P, T2> const& rhs);
 };
 
+// -----------------------------------------------------------------------------
 
 template<typename T, typename Policy, typename Traits>
 sneaker::allocator::allocator<T, Policy, Traits>::allocator()
@@ -73,11 +74,15 @@ sneaker::allocator::allocator<T, Policy, Traits>::allocator()
   // Do nothing here.
 }
 
+// -----------------------------------------------------------------------------
+
 template<typename T, typename Policy, typename Traits>
 sneaker::allocator::allocator<T, Policy, Traits>::~allocator()
 {
   // Do nothing here.
 }
+
+// -----------------------------------------------------------------------------
 
 template<typename T, typename Policy, typename Traits>
 sneaker::allocator::allocator<T, Policy, Traits>::allocator(allocator const& rhs):
@@ -87,12 +92,16 @@ sneaker::allocator::allocator<T, Policy, Traits>::allocator(allocator const& rhs
   // Do nothing here.
 }
 
+// -----------------------------------------------------------------------------
+
 template<typename T, typename Policy, typename Traits>
 template<typename U>
 sneaker::allocator::allocator<T, Policy, Traits>::allocator(allocator<U> const&)
 {
   // Do nothing here.
 }
+
+// -----------------------------------------------------------------------------
 
 template<typename T, typename Policy, typename Traits>
 template <typename U, typename P, typename T2>
@@ -103,6 +112,7 @@ sneaker::allocator::allocator<T, Policy, Traits>::allocator(allocator<U, P, T2> 
   // Do nothing here.
 }
 
+// -----------------------------------------------------------------------------
 
 /* Equality operators. */
 template<typename T, typename P, typename Tr>
@@ -111,11 +121,15 @@ inline bool operator==(allocator<T, P, Tr> const& lhs, allocator<T, P, Tr> const
   return operator==(static_cast<P>(lhs), static_cast<P>(rhs));
 }
 
+// -----------------------------------------------------------------------------
+
 template<typename T, typename P, typename Tr, typename T2, typename P2, typename Tr2>
 inline bool operator==(allocator<T, P, Tr> const& lhs, allocator<T2, P2, Tr2> const& rhs)
 {
   return operator==(static_cast<P>(lhs), static_cast<P2>(rhs));
 }
+
+// -----------------------------------------------------------------------------
 
 template<typename T, typename P, typename Tr, typename other_allocator>
 inline bool operator==(allocator<T, P, Tr> const& lhs, other_allocator const& rhs)
@@ -123,11 +137,15 @@ inline bool operator==(allocator<T, P, Tr> const& lhs, other_allocator const& rh
   return operator==(static_cast<P>(lhs), rhs);
 }
 
+// -----------------------------------------------------------------------------
+
 template<typename T, typename P, typename Tr>
 inline bool operator!=(allocator<T, P, Tr> const& lhs, allocator<T, P, Tr> const& rhs)
 {
   return !operator==(lhs, rhs);
 }
+
+// -----------------------------------------------------------------------------
 
 template<typename T, typename P, typename Tr, typename T2, typename P2, typename Tr2>
 inline bool operator!=(allocator<T, P, Tr> const& lhs, allocator<T2, P2, Tr2> const& rhs)
@@ -140,6 +158,8 @@ inline bool operator!=(allocator<T, P, Tr> const& lhs, other_allocator const& rh
 {
   return !operator==(lhs, rhs);
 }
+
+// -----------------------------------------------------------------------------
 
 
 } /* end namespace allocator */

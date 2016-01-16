@@ -31,9 +31,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdlib.h>
 
 
+// -----------------------------------------------------------------------------
+
 #define ROW(row) floor((double)(row) / sizeof(char))
+
+// -----------------------------------------------------------------------------
+
 #define COL(col) floor((double)(col) / sizeof(char))
 
+// -----------------------------------------------------------------------------
 
 struct __sneaker_bitmap_s {
   char **_content;
@@ -41,6 +47,7 @@ struct __sneaker_bitmap_s {
   size_t _height;
 };
 
+// -----------------------------------------------------------------------------
 
 bitmap_t bitmap_create(size_t width, size_t height)
 {
@@ -77,6 +84,8 @@ bitmap_t bitmap_create(size_t width, size_t height)
   return bitmap;
 }
 
+// -----------------------------------------------------------------------------
+
 void bitmap_free(bitmap_t *bitmap)
 {
   assert(bitmap);
@@ -93,17 +102,23 @@ void bitmap_free(bitmap_t *bitmap)
   *bitmap = _bitmap;
 }
 
+// -----------------------------------------------------------------------------
+
 size_t bitmap_width(bitmap_t bitmap)
 {
   assert(bitmap);
   return bitmap->_width;
 }
 
+// -----------------------------------------------------------------------------
+
 size_t bitmap_height(bitmap_t bitmap)
 {
   assert(bitmap);
   return bitmap->_height;
 }
+
+// -----------------------------------------------------------------------------
 
 int bitmap_set_bit(bitmap_t bitmap, size_t row, size_t col)
 {
@@ -133,6 +148,8 @@ int bitmap_set_bit(bitmap_t bitmap, size_t row, size_t col)
   return 1;
 }
 
+// -----------------------------------------------------------------------------
+
 int bitmap_clear_bit(bitmap_t bitmap, size_t row, size_t col)
 {
   assert(bitmap);
@@ -157,6 +174,8 @@ int bitmap_clear_bit(bitmap_t bitmap, size_t row, size_t col)
   return 1;
 }
 
+// -----------------------------------------------------------------------------
+
 int bitmap_is_set(bitmap_t bitmap, size_t row, size_t col)
 {
   assert(bitmap);
@@ -177,6 +196,8 @@ int bitmap_is_set(bitmap_t bitmap, size_t row, size_t col)
   return is_bit_set(val, bit);
 }
 
+// -----------------------------------------------------------------------------
+
 void bitmap_clear(bitmap_t bitmap)
 {
   assert(bitmap);
@@ -187,3 +208,5 @@ void bitmap_clear(bitmap_t bitmap)
     memset(row, 0, bitmap->_width);
   }
 }
+
+// -----------------------------------------------------------------------------

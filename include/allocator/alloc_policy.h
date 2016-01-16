@@ -65,10 +65,12 @@ public:
   inline size_type max_size() const;
 };
 
+// -----------------------------------------------------------------------------
 
 template<typename T>
 using _MyType = typename sneaker::allocator::standard_alloc_policy<T>;
 
+// -----------------------------------------------------------------------------
 
 template<typename T>
 sneaker::allocator::standard_alloc_policy<T>::standard_alloc_policy()
@@ -76,11 +78,15 @@ sneaker::allocator::standard_alloc_policy<T>::standard_alloc_policy()
   // Do nothing here.
 }
 
+// -----------------------------------------------------------------------------
+
 template<typename T>
 sneaker::allocator::standard_alloc_policy<T>::~standard_alloc_policy()
 {
   // Do nothing here.
 }
+
+// -----------------------------------------------------------------------------
 
 template<typename T>
 sneaker::allocator::standard_alloc_policy<T>::standard_alloc_policy(
@@ -88,6 +94,8 @@ sneaker::allocator::standard_alloc_policy<T>::standard_alloc_policy(
 {
   // Do nothing here.
 }
+
+// -----------------------------------------------------------------------------
 
 template<typename T>
 template<typename U>
@@ -97,6 +105,8 @@ sneaker::allocator::standard_alloc_policy<T>::standard_alloc_policy(
   // Do nothing here.
 }
 
+// -----------------------------------------------------------------------------
+
 template<typename T>
 typename _MyType<T>::pointer
 sneaker::allocator::standard_alloc_policy<T>::allocate(
@@ -105,11 +115,15 @@ sneaker::allocator::standard_alloc_policy<T>::allocate(
   return reinterpret_cast<pointer>(::operator new(n * sizeof(T)));
 }
 
+// -----------------------------------------------------------------------------
+
 template<typename T>
 void sneaker::allocator::standard_alloc_policy<T>::deallocate(pointer p, size_type)
 {
   ::operator delete(p);
 }
+
+// -----------------------------------------------------------------------------
 
 template<typename T>
 typename _MyType<T>::size_type
@@ -118,6 +132,7 @@ sneaker::allocator::standard_alloc_policy<T>::max_size() const
   return std::numeric_limits<size_type>::max();
 }
 
+// -----------------------------------------------------------------------------
 
 /* Equality operators. */
 template<typename T, typename T2>
@@ -127,12 +142,16 @@ inline bool operator==(
   return true;
 }
 
+// -----------------------------------------------------------------------------
+
 template<typename T, typename T2>
 inline bool operator!=(
   standard_alloc_policy<T> const& lhs, standard_alloc_policy<T2> const& rhs)
 {
   return !(operator==(lhs, rhs));
 }
+
+// -----------------------------------------------------------------------------
 
 template<typename T, typename other_allocator>
 inline bool operator==(
@@ -141,12 +160,16 @@ inline bool operator==(
   return false;
 }
 
+// -----------------------------------------------------------------------------
+
 template<typename T, typename other_allocator>
 inline bool operator!=(
   standard_alloc_policy<T> const& lhs, other_allocator const& rhs)
 {
   return !(operator==(lhs, rhs));
 }
+
+// -----------------------------------------------------------------------------
 
 
 } /* end namespace allocator */

@@ -63,6 +63,8 @@ protected:
 };
 
 
+// -----------------------------------------------------------------------------
+
 namespace {
 
 template<class R, class... Args>
@@ -70,6 +72,7 @@ using _MyType = typename sneaker::functional::function<R, Args...>;
 
 } /* end namespace */
 
+// -----------------------------------------------------------------------------
 
 template<class R, class... Args>
 sneaker::functional::function<R, Args...>::function(_F func):
@@ -78,6 +81,8 @@ sneaker::functional::function<R, Args...>::function(_F func):
   assert(m_func);
 }
 
+// -----------------------------------------------------------------------------
+
 template<class R, class... Args>
 template<class Functor>
 sneaker::functional::function<R, Args...>::function(Functor func)
@@ -85,6 +90,8 @@ sneaker::functional::function<R, Args...>::function(Functor func)
   assert(func);
   m_func = func;
 }
+
+// -----------------------------------------------------------------------------
 
 template<class R, class... Args>
 const _MyType<R, Args...>&
@@ -95,6 +102,8 @@ sneaker::functional::function<R, Args...>::operator=(_F func)
   return *this;
 }
 
+// -----------------------------------------------------------------------------
+
 template<class R, class... Args>
 R
 sneaker::functional::function<R, Args...>::operator() (Args... args) const
@@ -102,11 +111,15 @@ sneaker::functional::function<R, Args...>::operator() (Args... args) const
   return m_func(args...);
 }
 
+// -----------------------------------------------------------------------------
+
 template<class R, class... Args>
 sneaker::functional::function<R, Args...>::operator implicit_type()
 {
   return m_func;
 }
+
+// -----------------------------------------------------------------------------
 
 template<class R, class... Args>
 void
@@ -119,6 +132,8 @@ sneaker::functional::function<R, Args...>::invoke_async(Args... args)
   pthread_create(&thread_id, NULL, handler, (void*)(wrapper));
 }
 
+// -----------------------------------------------------------------------------
+
 template<class R, class... Args>
 void*
 sneaker::functional::function<R, Args...>::handler(void* p)
@@ -129,16 +144,21 @@ sneaker::functional::function<R, Args...>::handler(void* p)
   return NULL;
 }
 
+// -----------------------------------------------------------------------------
 
 using call = typename sneaker::functional::function<void>;
 
+// -----------------------------------------------------------------------------
 
 template<class... Args>
 using action = typename sneaker::functional::function<void, Args...>;
 
+// -----------------------------------------------------------------------------
 
 template<class... Args>
 using predicate = typename sneaker::functional::function<bool, Args...>;
+
+// -----------------------------------------------------------------------------
 
 
 } /* end namespace functional */

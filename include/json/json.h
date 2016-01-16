@@ -202,8 +202,11 @@ private:
   std::shared_ptr<json_value> m_ptr;
 };
 
+// -----------------------------------------------------------------------------
 
 JSON parse(const std::string& in) throw(invalid_json_error);
+
+// -----------------------------------------------------------------------------
 
 
 } /* end namespace json */

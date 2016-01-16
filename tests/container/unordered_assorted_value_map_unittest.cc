@@ -33,20 +33,26 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdexcept>
 
 
+// -----------------------------------------------------------------------------
+
 class unordered_assorted_value_map_unittest_base : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 class unordered_assorted_value_map_with_no_value_types_unittest : public unordered_assorted_value_map_unittest_base {
 protected:
   sneaker::container::unordered_assorted_value_map<int> m_map;
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(unordered_assorted_value_map_with_no_value_types_unittest, TestInitialization)
 {
   ASSERT_TRUE(m_map.empty());
   ASSERT_EQ(0, m_map.size());
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(unordered_assorted_value_map_with_no_value_types_unittest, TestPutAndAt)
 {
@@ -58,6 +64,7 @@ TEST_F(unordered_assorted_value_map_with_no_value_types_unittest, TestPutAndAt)
   ASSERT_EQ(3, m_map.size());
 }
 
+// -----------------------------------------------------------------------------
 
 class unordered_assorted_value_map_with_multiple_value_types_unittest : public unordered_assorted_value_map_unittest_base {
 public:
@@ -70,12 +77,15 @@ protected:
   sneaker::container::unordered_assorted_value_map<T0, T1, T2, T3> m_map;
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestInitialization)
 {
   ASSERT_TRUE(m_map.empty());
   ASSERT_EQ(0, m_map.size());
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestPutAndAt)
 {
@@ -98,6 +108,8 @@ TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestPutA
   ASSERT_EQ(true,  boost::get<2>(m_map.at('b')));
   ASSERT_EQ(false, boost::get<2>(m_map.at('c')));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestPutAndGet)
 {
@@ -133,6 +145,8 @@ TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestPutA
   ASSERT_EQ(false, c3);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestPutAndGetByReference)
 {
   m_map.insert('a', 1, 100, true);
@@ -167,6 +181,8 @@ TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestPutA
   ASSERT_EQ(false, c3);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestAccessByInvalidKeyFails)
 {
   ASSERT_EQ(0, m_map.size());
@@ -179,9 +195,11 @@ TEST_F(unordered_assorted_value_map_with_multiple_value_types_unittest, TestAcce
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class unordered_assorted_value_map_unittest : public unordered_assorted_value_map_unittest_base {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(unordered_assorted_value_map_unittest, TestCopyConstructor)
 {
@@ -211,6 +229,8 @@ TEST_F(unordered_assorted_value_map_unittest, TestCopyConstructor)
   ASSERT_EQ(true, val2);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(unordered_assorted_value_map_unittest, TestCreate)
 {
   using unordered_assorted_value_map_type = typename sneaker::container::unordered_assorted_value_map<int, bool>;
@@ -230,6 +250,8 @@ TEST_F(unordered_assorted_value_map_unittest, TestCreate)
   ASSERT_EQ(false, val1);
   ASSERT_EQ(true, val2);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(unordered_assorted_value_map_unittest, TestCreateWithArgs)
 {
@@ -255,6 +277,8 @@ TEST_F(unordered_assorted_value_map_unittest, TestCreateWithArgs)
   ASSERT_EQ(false, val1);
   ASSERT_EQ(true, val2);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(unordered_assorted_value_map_unittest, TestSwap)
 {
@@ -325,6 +349,8 @@ TEST_F(unordered_assorted_value_map_unittest, TestSwap)
   ASSERT_EQ(map2_b3, "The best in the summer");
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(unordered_assorted_value_map_unittest, TestFind)
 {
   typedef sneaker::container::unordered_assorted_value_map<const char*, int, bool> map_type;
@@ -344,3 +370,5 @@ TEST_F(unordered_assorted_value_map_unittest, TestFind)
   ASSERT_EQ(100,  value.get<0>());
   ASSERT_EQ(true, value.get<1>());
 }
+
+// -----------------------------------------------------------------------------

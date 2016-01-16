@@ -30,12 +30,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <unordered_set>
 
 
+// -----------------------------------------------------------------------------
+
 /*******************************************************************************
  * Unit test for:
  * hash_t linear_horners_rule_str_hash(const char * str)
  ******************************************************************************/
 class linear_horners_rule_str_hash_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(linear_horners_rule_str_hash_unittest, TestHashNullString)
 {
@@ -45,6 +48,8 @@ TEST_F(linear_horners_rule_str_hash_unittest, TestHashNullString)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(linear_horners_rule_str_hash_unittest, TestHashOneCharacterString)
 {
   ASSERT_EQ(
@@ -53,6 +58,8 @@ TEST_F(linear_horners_rule_str_hash_unittest, TestHashOneCharacterString)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(linear_horners_rule_str_hash_unittest, TestHashSameString_1)
 {
   ASSERT_EQ(
@@ -60,6 +67,8 @@ TEST_F(linear_horners_rule_str_hash_unittest, TestHashSameString_1)
     linear_horners_rule_str_hash("hash string")
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(linear_horners_rule_str_hash_unittest, TestHashSameString_2)
 {
@@ -85,6 +94,8 @@ TEST_F(linear_horners_rule_str_hash_unittest, TestHashSameString_2)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(linear_horners_rule_str_hash_unittest, TestStress)
 {
   const int TOP = 100000;
@@ -99,6 +110,7 @@ TEST_F(linear_horners_rule_str_hash_unittest, TestStress)
   }
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -106,6 +118,7 @@ TEST_F(linear_horners_rule_str_hash_unittest, TestStress)
  ******************************************************************************/
 class hash32shift_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(hash32shift_unittest, TestHashOnSameKey)
 {
@@ -115,6 +128,8 @@ TEST_F(hash32shift_unittest, TestHashOnSameKey)
     hash32shift(key)
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(hash32shift_unittest, TestHashOnDifferentKey)
 {
@@ -130,6 +145,8 @@ TEST_F(hash32shift_unittest, TestHashOnDifferentKey)
   }
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(hash32shift_unittest, TestStress)
 {
   const int TOP = 500000;
@@ -142,6 +159,7 @@ TEST_F(hash32shift_unittest, TestStress)
   }
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -149,6 +167,7 @@ TEST_F(hash32shift_unittest, TestStress)
  ******************************************************************************/
 class hash64shift_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(hash64shift_unittest, TestHashOnSameKey)
 {
@@ -158,6 +177,8 @@ TEST_F(hash64shift_unittest, TestHashOnSameKey)
     hash64shift(key)
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(hash64shift_unittest, TestHashOnDifferentKey)
 {
@@ -173,6 +194,8 @@ TEST_F(hash64shift_unittest, TestHashOnDifferentKey)
   }
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(hash64shift_unittest, TestStress)
 {
   const unsigned long TOP = 500000;
@@ -185,6 +208,7 @@ TEST_F(hash64shift_unittest, TestStress)
   }
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit Test for:
@@ -192,6 +216,7 @@ TEST_F(hash64shift_unittest, TestStress)
  ******************************************************************************/
 class hash_str_jenkins_one_at_a_time_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(hash_str_jenkins_one_at_a_time_unittest, TestHashNullString)
 {
@@ -200,6 +225,8 @@ TEST_F(hash_str_jenkins_one_at_a_time_unittest, TestHashNullString)
     hash_str_jenkins_one_at_a_time(NULL)
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(hash_str_jenkins_one_at_a_time_unittest, TestHashSameString)
 {
@@ -211,6 +238,8 @@ TEST_F(hash_str_jenkins_one_at_a_time_unittest, TestHashSameString)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(hash_str_jenkins_one_at_a_time_unittest, TestHashDifferentString_1)
 {
   ASSERT_NE(
@@ -219,6 +248,8 @@ TEST_F(hash_str_jenkins_one_at_a_time_unittest, TestHashDifferentString_1)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(hash_str_jenkins_one_at_a_time_unittest, TestHashDifferentString_2)
 {
   ASSERT_NE(
@@ -226,6 +257,8 @@ TEST_F(hash_str_jenkins_one_at_a_time_unittest, TestHashDifferentString_2)
     hash_str_jenkins_one_at_a_time("")
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(hash_str_jenkins_one_at_a_time_unittest, TestStress)
 {
@@ -241,6 +274,7 @@ TEST_F(hash_str_jenkins_one_at_a_time_unittest, TestStress)
   }
 }
 
+// -----------------------------------------------------------------------------
 
 /*******************************************************************************
  * Unit test for:
@@ -248,6 +282,7 @@ TEST_F(hash_str_jenkins_one_at_a_time_unittest, TestStress)
  ******************************************************************************/
 class hash_robert_jenkin_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(hash_robert_jenkin_unittest, TestHashSameNumberTest_1)
 {
@@ -257,6 +292,8 @@ TEST_F(hash_robert_jenkin_unittest, TestHashSameNumberTest_1)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(hash_robert_jenkin_unittest, TestHashSameNumberTest_2)
 {
   ASSERT_EQ(
@@ -264,6 +301,8 @@ TEST_F(hash_robert_jenkin_unittest, TestHashSameNumberTest_2)
     hash_robert_jenkin(9999)
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(hash_robert_jenkin_unittest, TestHashDifferentNumberTest)
 {
@@ -276,6 +315,8 @@ TEST_F(hash_robert_jenkin_unittest, TestHashDifferentNumberTest)
   }
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(hash_robert_jenkin_unittest, TestStress)
 {
   const unsigned long TOP = 500000;
@@ -287,3 +328,5 @@ TEST_F(hash_robert_jenkin_unittest, TestStress)
     set.insert(hash);
   }
 }
+
+// -----------------------------------------------------------------------------

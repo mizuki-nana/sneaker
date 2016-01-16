@@ -23,11 +23,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/threading/daemon_service.h"
 
 
+// -----------------------------------------------------------------------------
+
 sneaker::threading::daemon_service::daemon_service(bool wait_for_termination):
   wait_for_termination(wait_for_termination)
 {
   this->init();
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::threading::daemon_service::init()
@@ -36,10 +40,14 @@ sneaker::threading::daemon_service::init()
   pthread_attr_setdetachstate(&m_attr, PTHREAD_CREATE_JOINABLE);
 }
 
+// -----------------------------------------------------------------------------
+
 sneaker::threading::daemon_service::~daemon_service()
 {
   pthread_attr_destroy(&m_attr);
 }
+
+// -----------------------------------------------------------------------------
 
 bool
 sneaker::threading::daemon_service::start()
@@ -54,9 +62,13 @@ sneaker::threading::daemon_service::start()
   return created == 0;
 }
 
+// -----------------------------------------------------------------------------
+
 void*
 sneaker::threading::daemon_service::handler(void* instance)
 {
   reinterpret_cast<sneaker::threading::daemon_service*>(instance)->handle();
   return NULL;
 }
+
+// -----------------------------------------------------------------------------

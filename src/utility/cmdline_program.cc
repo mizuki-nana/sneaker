@@ -30,12 +30,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string>
 
 
+// -----------------------------------------------------------------------------
+
 sneaker::utility::cmdline_program::cmdline_program(const char* description)
   :
   m_description(description)
 {
   m_options.add_options()("help", "Print a help message and exit");
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::utility::cmdline_program::add_string_parameter(
@@ -45,6 +49,8 @@ sneaker::utility::cmdline_program::add_string_parameter(
     (name, boost::program_options::value<std::string>(res), description);
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::utility::cmdline_program::add_uint64_parameter(
   const char* name, const char* description, uint64_t* res)
@@ -52,6 +58,8 @@ sneaker::utility::cmdline_program::add_uint64_parameter(
   m_options.add_options()
     (name, boost::program_options::value<uint64_t>(res), description);
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::utility::cmdline_program::add_uint32_parameter(
@@ -61,6 +69,8 @@ sneaker::utility::cmdline_program::add_uint32_parameter(
     (name, boost::program_options::value<uint32_t>(res), description);
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::utility::cmdline_program::add_float_parameter(
   const char* name, const char* description, float* res)
@@ -69,12 +79,16 @@ sneaker::utility::cmdline_program::add_float_parameter(
     (name, boost::program_options::value<float>(res), description);
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::utility::cmdline_program::add_positional_parameter(
   const char* name, int n)
 {
   m_positionals.add(name, n);
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::utility::cmdline_program::add_boolean_parameter(
@@ -84,11 +98,15 @@ sneaker::utility::cmdline_program::add_boolean_parameter(
   m_boolean_params.push_back(boolean_option(name, res));
 }
 
+// -----------------------------------------------------------------------------
+
 bool
 sneaker::utility::cmdline_program::option_provided(const char* name) const
 {
   return m_opts_map.count(name) > 0;
 }
+
+// -----------------------------------------------------------------------------
 
 int
 sneaker::utility::cmdline_program::run(int argc, char** argv)
@@ -145,3 +163,5 @@ sneaker::utility::cmdline_program::run(int argc, char** argv)
 
   return -1;
 }
+
+// -----------------------------------------------------------------------------

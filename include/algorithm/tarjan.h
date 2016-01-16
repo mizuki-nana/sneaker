@@ -220,10 +220,12 @@ private:
   strongly_connected_component_list m_components;
 };
 
+// -----------------------------------------------------------------------------
 
 template<class T>
 using _MyType = typename sneaker::algorithm::tarjan<T>;
 
+// -----------------------------------------------------------------------------
 
 template<class T>
 typename _MyType<T>::strongly_connected_component_list
@@ -239,6 +241,8 @@ sneaker::algorithm::tarjan<T>::get_components(std::list<vertex*>& graph)
 
   return m_components;
 }
+
+// -----------------------------------------------------------------------------
 
 template<class T>
 void
@@ -287,6 +291,8 @@ sneaker::algorithm::tarjan<T>::strong_connect(vertex* vtx)
     m_components.add(scc);
   }
 }
+
+// -----------------------------------------------------------------------------
 
 
 } /* end namespace algorithm */

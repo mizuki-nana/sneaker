@@ -34,6 +34,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <cstring>
 
 
+// -----------------------------------------------------------------------------
+
 class queue_unittest : public ::testing::Test {
 protected:
   virtual void SetUp() {
@@ -49,6 +51,7 @@ protected:
   queue_t m_queue;
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(queue_unittest, TestCreation)
 {
@@ -56,6 +59,8 @@ TEST_F(queue_unittest, TestCreation)
   ASSERT_EQ(0, queue_size(m_queue));
   assert(queue_pop(m_queue) == NULL);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(queue_unittest, TestPushAndPop1)
 {
@@ -77,6 +82,8 @@ TEST_F(queue_unittest, TestPushAndPop1)
 
   ASSERT_EQ(0, queue_size(m_queue));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(queue_unittest, TestPushAndPop2)
 {
@@ -115,6 +122,8 @@ TEST_F(queue_unittest, TestPushAndPop2)
   ASSERT_EQ(0, queue_size(m_queue));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(queue_unittest, TestPushAndPop3)
 {
   const char *fruits[26] = {
@@ -143,3 +152,5 @@ TEST_F(queue_unittest, TestPushAndPop3)
   ASSERT_EQ(0, queue_size(m_queue));
   assert(queue_pop(m_queue) == NULL);
 }
+
+// -----------------------------------------------------------------------------

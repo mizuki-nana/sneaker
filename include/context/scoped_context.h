@@ -36,6 +36,8 @@ namespace sneaker {
 namespace context {
 
 
+// -----------------------------------------------------------------------------
+
 template<class F, class... Args>
 void scoped_context(
   sneaker::context::context_manager* mngr, F func, Args... args)
@@ -53,6 +55,7 @@ void scoped_context(
   mngr->__exit__();
 }
 
+// -----------------------------------------------------------------------------
 
 template<class F, class... Args>
 void nested_context(
@@ -80,6 +83,8 @@ void nested_context(
     }
   );
 }
+
+// -----------------------------------------------------------------------------
 
 
 } /* end namespace context */

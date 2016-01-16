@@ -33,6 +33,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <vector>
 
 
+// -----------------------------------------------------------------------------
+
 class cmdline_program_unittest : public ::testing::Test
 {
 public:
@@ -117,6 +119,7 @@ public:
   };
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(cmdline_program_unittest, TestRun)
 {
@@ -154,3 +157,5 @@ TEST_F(cmdline_program_unittest, TestRun)
 
   ASSERT_EQ(0, res);
 }
+
+// -----------------------------------------------------------------------------

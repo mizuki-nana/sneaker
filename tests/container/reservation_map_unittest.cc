@@ -34,6 +34,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <cassert>
 
 
+// -----------------------------------------------------------------------------
+
 class reservation_unittest : public ::testing::Test {
 public:
   typedef class fixture {
@@ -61,11 +63,14 @@ protected:
   sneaker::container::reservation_map<T> m_reservation_map;
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(reservation_unittest, TestInitialization)
 {
   ASSERT_EQ(0, this->m_reservation_map.size());
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(reservation_unittest, TestMemberTestOnInvalidKeys)
 {
@@ -81,6 +86,8 @@ TEST_F(reservation_unittest, TestMemberTestOnInvalidKeys)
   ASSERT_FALSE(this->m_reservation_map.get(invalid_id_2, NULL));
   ASSERT_FALSE(this->m_reservation_map.get(invalid_id_3, NULL));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(reservation_unittest, TestReservationsSuccessfulOnValidKeys)
 {
@@ -115,6 +122,8 @@ TEST_F(reservation_unittest, TestReservationsSuccessfulOnValidKeys)
   ASSERT_EQ(expected_value_3, actual_value_3);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(reservation_unittest, TestReserveAndUnreserve)
 {
   reservation_unittest::T expected_value(100);
@@ -138,12 +147,16 @@ TEST_F(reservation_unittest, TestReserveAndUnreserve)
   ASSERT_EQ(0, invalid_value.i);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(reservation_unittest, TestUnrserveOnInvalidKey)
 {
   sneaker::container::reservation_map<reservation_unittest::T>::token_t invalid_id = generate_token();
 
   ASSERT_FALSE(this->m_reservation_map.unreserve(invalid_id));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(reservation_unittest, TestClear)
 {
@@ -165,3 +178,5 @@ TEST_F(reservation_unittest, TestClear)
 
   ASSERT_EQ(0, this->m_reservation_map.size());
 }
+
+// -----------------------------------------------------------------------------

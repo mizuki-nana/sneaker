@@ -31,10 +31,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdlib.h>
 
 
+// -----------------------------------------------------------------------------
+
 #define DEFAULT_VECTOR_INITIAL_CAPACITY 4
+
+// -----------------------------------------------------------------------------
 
 #define VECTOR_MAX_CAPACITY ((int)UINT_MAX/sizeof(void*))
 
+// -----------------------------------------------------------------------------
 
 struct __sneaker_vector_s {
   void** content;
@@ -42,6 +47,7 @@ struct __sneaker_vector_s {
   size_t capacity;
 };
 
+// -----------------------------------------------------------------------------
 
 /*
  * Expand the capacity of the vector, if the specified
@@ -88,12 +94,16 @@ _vector_ensure_capacity(vector_t vector, size_t capacity)
   return 1;
 }
 
+// -----------------------------------------------------------------------------
+
 static
 inline void _vector_check_bound(vector_t vector, int index)
 {
   assert(vector);
   assert(index >= 0 && index < vector->size);
 }
+
+// -----------------------------------------------------------------------------
 
 vector_t vector_create()
 {
@@ -115,6 +125,8 @@ vector_t vector_create()
   return vector;
 }
 
+// -----------------------------------------------------------------------------
+
 void vector_free(vector_t *vector)
 {
   vector_t _vector = *vector;
@@ -125,6 +137,8 @@ void vector_free(vector_t *vector)
 
   *vector = _vector;
 }
+
+// -----------------------------------------------------------------------------
 
 int
 vector_append(vector_t vector, void* ptr)
@@ -142,6 +156,8 @@ vector_append(vector_t vector, void* ptr)
   return 1;
 }
 
+// -----------------------------------------------------------------------------
+
 void*
 vector_get(vector_t vector, int index)
 {
@@ -151,6 +167,8 @@ vector_get(vector_t vector, int index)
 
   return vector->content[index];
 }
+
+// -----------------------------------------------------------------------------
 
 void*
 vector_remove(vector_t vector, int index)
@@ -176,6 +194,8 @@ vector_remove(vector_t vector, int index)
   return ptr;
 }
 
+// -----------------------------------------------------------------------------
+
 void*
 vector_set(vector_t vector, int index, void* ptr)
 {
@@ -189,6 +209,8 @@ vector_set(vector_t vector, int index, void* ptr)
   return old;
 }
 
+// -----------------------------------------------------------------------------
+
 int
 vector_size(vector_t vector)
 {
@@ -196,9 +218,13 @@ vector_size(vector_t vector)
   return vector->size;
 }
 
+// -----------------------------------------------------------------------------
+
 const void**
 vector_content(vector_t vector)
 {
   assert(vector);
   return (const void**)vector->content;
 }
+
+// -----------------------------------------------------------------------------

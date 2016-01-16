@@ -111,6 +111,8 @@ namespace sneaker {
 namespace json {
 
 
+// -----------------------------------------------------------------------------
+
 class json_validation_error : public std::invalid_argument {
 public:
   explicit json_validation_error(const std::string& what_arg):
@@ -119,6 +121,7 @@ public:
     std::invalid_argument(what_arg) {}
 };
 
+// -----------------------------------------------------------------------------
 
 class json_schema {
 public:
@@ -132,6 +135,8 @@ private:
   static void validate_enum(const JSON&, const JSON::object&, const JSON::object&) throw(json_validation_error);
   static void validate_definitions(const JSON&, const JSON::object&, const JSON::object&) throw(json_validation_error);
 };
+
+// -----------------------------------------------------------------------------
 
 
 } /* end namespace json */

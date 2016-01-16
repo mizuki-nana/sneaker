@@ -30,8 +30,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <iostream>
 
 
+// -----------------------------------------------------------------------------
+
 using namespace sneaker::utility;
 
+// -----------------------------------------------------------------------------
 
 class stack_trace_unittest : public ::testing::Test
 {
@@ -42,9 +45,12 @@ protected:
   }
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(stack_trace_unittest, TestPrintStackTrace)
 {
   test_print_stack_trace();
   std::cout << "(output above expected)" << std::endl;
 }
+
+// -----------------------------------------------------------------------------

@@ -30,6 +30,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string.h>
 
 
+// -----------------------------------------------------------------------------
+
 static
 char* _itoa_base(int value, char *str, int base)
 {
@@ -65,6 +67,7 @@ char* _itoa_base(int value, char *str, int base)
   return str;
 }
 
+// -----------------------------------------------------------------------------
 
 char*
 itoa(int value, char *str, int base)
@@ -117,6 +120,8 @@ itoa(int value, char *str, int base)
 
   return str;
 }
+
+// -----------------------------------------------------------------------------
 
 int
 atoi(const char *str)
@@ -174,3 +179,5 @@ atoi(const char *str)
 
   return (int)val;
 }
+
+// -----------------------------------------------------------------------------

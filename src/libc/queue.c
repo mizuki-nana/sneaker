@@ -31,12 +31,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdlib.h>
 
 
+// -----------------------------------------------------------------------------
+
 struct __sneaker_queue_s {
   singly_node_t head;      /* pop at head */
   singly_node_t tail;      /* push at tail */
   size_t size;
 };
 
+// -----------------------------------------------------------------------------
 
 queue_t queue_create()
 {
@@ -54,11 +57,15 @@ queue_t queue_create()
   return queue;
 }
 
+// -----------------------------------------------------------------------------
+
 size_t queue_size(queue_t queue)
 {
   assert(queue);
   return queue->size;
 }
+
+// -----------------------------------------------------------------------------
 
 void* queue_front(queue_t queue)
 {
@@ -67,12 +74,16 @@ void* queue_front(queue_t queue)
   return queue->head->value;
 }
 
+// -----------------------------------------------------------------------------
+
 void* queue_back(queue_t queue)
 {
   assert(queue);
   RETURN_VAL_IF_NULL(queue->tail, NULL);
   return queue->tail->value;
 }
+
+// -----------------------------------------------------------------------------
 
 int queue_push(queue_t queue, void *val, size_t size)
 {
@@ -109,6 +120,8 @@ int queue_push(queue_t queue, void *val, size_t size)
   return 1;
 }
 
+// -----------------------------------------------------------------------------
+
 void* queue_pop(queue_t queue)
 {
   assert(queue);
@@ -133,6 +146,8 @@ void* queue_pop(queue_t queue)
   return val;
 }
 
+// -----------------------------------------------------------------------------
+
 void queue_free(queue_t *queue)
 {
   queue_t _queue = *queue;
@@ -150,3 +165,5 @@ void queue_free(queue_t *queue)
 
   *queue = _queue;
 }
+
+// -----------------------------------------------------------------------------

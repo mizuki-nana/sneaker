@@ -33,8 +33,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <cstddef>
 
 
+// -----------------------------------------------------------------------------
+
 class bitmap_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(bitmap_unittest, TestCreationFailsWithInvalidDimensions)
 {
@@ -49,6 +52,8 @@ TEST_F(bitmap_unittest, TestCreationFailsWithInvalidDimensions)
   bitmap = bitmap_create(0, 0);
   assert(bitmap == NULL);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(bitmap_unittest, TestCreationSuccessful)
 {
@@ -65,6 +70,8 @@ TEST_F(bitmap_unittest, TestCreationSuccessful)
   bitmap_free(&bitmap);
   assert(bitmap == NULL);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(bitmap_unittest, TestSetBitFailsWithWrongBit1)
 {
@@ -86,6 +93,8 @@ TEST_F(bitmap_unittest, TestSetBitFailsWithWrongBit1)
   assert(bitmap == NULL);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(bitmap_unittest, TestSetBitFailsWithWrongBit2)
 {
   bitmap_t bitmap = NULL;
@@ -105,6 +114,8 @@ TEST_F(bitmap_unittest, TestSetBitFailsWithWrongBit2)
   bitmap_free(&bitmap);
   assert(bitmap == NULL);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(bitmap_unittest, TestSetBitSuccessful)
 {
@@ -128,6 +139,8 @@ TEST_F(bitmap_unittest, TestSetBitSuccessful)
   bitmap_free(&bitmap);
   assert(bitmap == NULL);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(bitmap_unittest, TestBitmapSetAndClearBit1)
 {
@@ -163,6 +176,8 @@ TEST_F(bitmap_unittest, TestBitmapSetAndClearBit1)
   bitmap_free(&bitmap);
   assert(bitmap == NULL);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(bitmap_unittest, TestBitmapSetAndClearBit2)
 {
@@ -228,6 +243,8 @@ TEST_F(bitmap_unittest, TestBitmapSetAndClearBit2)
   bitmap_free(&bitmap);
   assert(bitmap == NULL);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(bitmap_unittest, TestBitmapSetAndClearBit3)
 {
@@ -323,3 +340,5 @@ TEST_F(bitmap_unittest, TestBitmapSetAndClearBit3)
   bitmap_free(&bitmap);
   assert(bitmap == NULL);
 }
+
+// -----------------------------------------------------------------------------

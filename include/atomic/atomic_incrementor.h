@@ -55,6 +55,7 @@ protected:
   std::atomic<T> m_value;
 };
 
+// -----------------------------------------------------------------------------
 
 namespace {
 
@@ -63,6 +64,7 @@ using _MyType = typename sneaker::atomic::atomic_incrementor<T, UPPER_LIMIT>;
 
 } /* end namespace */
 
+// -----------------------------------------------------------------------------
 
 template<class T, T UPPER_LIMIT>
 sneaker::atomic::atomic_incrementor<T, UPPER_LIMIT>::atomic_incrementor():
@@ -71,12 +73,16 @@ sneaker::atomic::atomic_incrementor<T, UPPER_LIMIT>::atomic_incrementor():
   // Do nothing here.
 }
 
+// -----------------------------------------------------------------------------
+
 template<class T, T UPPER_LIMIT>
 sneaker::atomic::atomic_incrementor<T, UPPER_LIMIT>::atomic_incrementor(T value):
   m_value(value)
 {
   // Do nothing here.
 }
+
+// -----------------------------------------------------------------------------
 
 template<class T, T UPPER_LIMIT>
 sneaker::atomic::atomic_incrementor<T, UPPER_LIMIT>::atomic_incrementor(
@@ -85,6 +91,8 @@ sneaker::atomic::atomic_incrementor<T, UPPER_LIMIT>::atomic_incrementor(
   m_value = static_cast<T>(other.m_value);
 }
 
+// -----------------------------------------------------------------------------
+
 template<class T, T UPPER_LIMIT>
 _MyType<T, UPPER_LIMIT>&
 sneaker::atomic::atomic_incrementor<T, UPPER_LIMIT>::operator=(const T& value)
@@ -92,6 +100,8 @@ sneaker::atomic::atomic_incrementor<T, UPPER_LIMIT>::operator=(const T& value)
   m_value = value;
   return *this;
 }
+
+// -----------------------------------------------------------------------------
 
 template<class T, T UPPER_LIMIT>
 _MyType<T, UPPER_LIMIT>&
@@ -110,11 +120,15 @@ sneaker::atomic::atomic_incrementor<T, UPPER_LIMIT>::operator++()
   return *this;
 }
 
+// -----------------------------------------------------------------------------
+
 template<class T, T UPPER_LIMIT>
 sneaker::atomic::atomic_incrementor<T, UPPER_LIMIT>::operator T() const
 {
   return this->m_value.load();
 }
+
+// -----------------------------------------------------------------------------
 
 template<class T, T UPPER_LIMIT>
 bool
@@ -123,12 +137,16 @@ sneaker::atomic::atomic_incrementor<T, UPPER_LIMIT>::operator==(const T& other) 
   return this->m_value == other;
 }
 
+// -----------------------------------------------------------------------------
+
 template<class T, T UPPER_LIMIT>
 bool
 sneaker::atomic::atomic_incrementor<T, UPPER_LIMIT>::operator!=(const T& other) const
 {
   return !(*this == other);
 }
+
+// -----------------------------------------------------------------------------
 
 
 } /* end namespace atomic */

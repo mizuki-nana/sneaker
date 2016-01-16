@@ -36,6 +36,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string>
 
 
+// -----------------------------------------------------------------------------
+
 namespace generic_cache_unittest_fixture {
   std::map<char*, char*> truth_map;
 
@@ -60,6 +62,7 @@ namespace generic_cache_unittest_fixture {
   }
 } /* end namespace generic_cache_unittest_fixture */
 
+// -----------------------------------------------------------------------------
 
 class generic_cache_unittest : public ::testing::Test {
 protected:
@@ -95,6 +98,7 @@ protected:
   sneaker::cache::generic_cache<K, T, bool(*)(K, T*), bool(*)(K, T*)> * m_cache;
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(generic_cache_unittest, TestInitialization)
 {
@@ -102,6 +106,8 @@ TEST_F(generic_cache_unittest, TestInitialization)
   assert(m_cache->empty());
   assert(m_cache->size() == 0);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(generic_cache_unittest, TestInsertAndFindOneItem)
 {
@@ -122,6 +128,8 @@ TEST_F(generic_cache_unittest, TestInsertAndFindOneItem)
   assert(item_);
   ASSERT_STREQ(item, item_);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(generic_cache_unittest, TestPutAndFindMultipleItems)
 {
@@ -162,6 +170,8 @@ TEST_F(generic_cache_unittest, TestPutAndFindMultipleItems)
   res = m_cache->member(item3); ASSERT_EQ(false, res);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(generic_cache_unittest, TestPutWithTheSameKey)
 {
   bool res;
@@ -183,6 +193,8 @@ TEST_F(generic_cache_unittest, TestPutWithTheSameKey)
 
   this->check_item_destroyed(item);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(generic_cache_unittest, TestPutWithUpdate)
 {
@@ -212,6 +224,8 @@ TEST_F(generic_cache_unittest, TestPutWithUpdate)
   ASSERT_NE(item_old, item_new);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(generic_cache_unittest, TestEraseOnNonExistentKey)
 {
   bool res;
@@ -233,6 +247,8 @@ TEST_F(generic_cache_unittest, TestEraseOnNonExistentKey)
 
   ASSERT_EQ(0, m_cache->size());
 }
+
+// -----------------------------------------------------------------------------
 
 
 #endif /* SNEAKER_GENERIC_CACHE_UNITTEST */

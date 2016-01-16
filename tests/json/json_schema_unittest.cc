@@ -38,9 +38,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <vector>
 
 
+// -----------------------------------------------------------------------------
+
 using boost::format;
 using namespace sneaker::json;
 
+// -----------------------------------------------------------------------------
 
 class json_schema_unittest : public ::testing::Test {
 protected:
@@ -64,6 +67,7 @@ protected:
   }
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_unittest, TestEmptySchemaOnEmptyJSON)
 {
@@ -73,9 +77,11 @@ TEST_F(json_schema_unittest, TestEmptySchemaOnEmptyJSON)
   this->validate_and_check_result(data, schema);
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_null_type_unittest : public json_schema_unittest {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_null_type_unittest, TestValidationSuccessful)
 {
@@ -94,9 +100,11 @@ TEST_F(json_schema_null_type_unittest, TestValidationSuccessful)
   this->validate_and_check_result(data, schema);
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_boolean_type_unittest : public json_schema_unittest {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_boolean_type_unittest, TestValidationSuccessful)
 {
@@ -115,9 +123,11 @@ TEST_F(json_schema_boolean_type_unittest, TestValidationSuccessful)
   this->validate_and_check_result(data, schema);
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_integer_type_unittest : public json_schema_unittest {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_integer_type_unittest, TestValidationSuccessful)
 {
@@ -136,6 +146,8 @@ TEST_F(json_schema_integer_type_unittest, TestValidationSuccessful)
   this->validate_and_check_result(data, schema);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_integer_type_unittest, TestMultileOf)
 {
   JSON data = sneaker::json::parse("[10]");
@@ -153,6 +165,8 @@ TEST_F(json_schema_integer_type_unittest, TestMultileOf)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_integer_type_unittest, TestViolatingMultipleOf)
 {
@@ -176,6 +190,8 @@ TEST_F(json_schema_integer_type_unittest, TestViolatingMultipleOf)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_integer_type_unittest, TestMaximum)
 {
   JSON data = sneaker::json::parse("[10]");
@@ -193,6 +209,8 @@ TEST_F(json_schema_integer_type_unittest, TestMaximum)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_integer_type_unittest, TestViolatingMaximum)
 {
@@ -215,6 +233,8 @@ TEST_F(json_schema_integer_type_unittest, TestViolatingMaximum)
     "Integer value 10 exceeds the maximum value of 9"
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_integer_type_unittest, TestViolatingExclusiveMaximum)
 {
@@ -239,6 +259,8 @@ TEST_F(json_schema_integer_type_unittest, TestViolatingExclusiveMaximum)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_integer_type_unittest, TestMinimum)
 {
   JSON data = sneaker::json::parse("[10]");
@@ -256,6 +278,8 @@ TEST_F(json_schema_integer_type_unittest, TestMinimum)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_integer_type_unittest, TestViolatingMinimum)
 {
@@ -278,6 +302,8 @@ TEST_F(json_schema_integer_type_unittest, TestViolatingMinimum)
     "Integer value 10 is less than the minimum value of 11"
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_integer_type_unittest, TestViolatingExclusiveMinimum)
 {
@@ -302,9 +328,11 @@ TEST_F(json_schema_integer_type_unittest, TestViolatingExclusiveMinimum)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_string_type_unittest : public json_schema_unittest {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_string_type_unittest, TestValidationSuccessful)
 {
@@ -323,6 +351,8 @@ TEST_F(json_schema_string_type_unittest, TestValidationSuccessful)
   this->validate_and_check_result(data, schema);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_string_type_unittest, TestMaxLength)
 {
   JSON data = sneaker::json::parse("[\"Hello world\"]");
@@ -340,6 +370,8 @@ TEST_F(json_schema_string_type_unittest, TestMaxLength)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_string_type_unittest, TestViolatingMaxLength)
 {
@@ -363,6 +395,8 @@ TEST_F(json_schema_string_type_unittest, TestViolatingMaxLength)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_string_type_unittest, TestMinLength)
 {
   JSON data = sneaker::json::parse("[\"Hello world\"]");
@@ -380,6 +414,8 @@ TEST_F(json_schema_string_type_unittest, TestMinLength)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_string_type_unittest, TestViolatingMinLength)
 {
@@ -403,6 +439,8 @@ TEST_F(json_schema_string_type_unittest, TestViolatingMinLength)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_string_type_unittest, TestPattern)
 {
   JSON data = sneaker::json::parse("[\"subject\"]");
@@ -420,6 +458,8 @@ TEST_F(json_schema_string_type_unittest, TestPattern)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_string_type_unittest, TestViolatingPatternMatching)
 {
@@ -443,9 +483,11 @@ TEST_F(json_schema_string_type_unittest, TestViolatingPatternMatching)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_array_type_unittest : public json_schema_unittest {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_array_type_unittest, TestValidationSuccessful)
 {
@@ -469,6 +511,8 @@ TEST_F(json_schema_array_type_unittest, TestValidationSuccessful)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_array_type_unittest, TestValidationFailed)
 {
@@ -497,6 +541,8 @@ TEST_F(json_schema_array_type_unittest, TestValidationFailed)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_array_type_unittest, TestValidationWithItemsBeingSchemaObject)
 {
   JSON data = sneaker::json::parse("[1, 2, 3]");
@@ -511,6 +557,8 @@ TEST_F(json_schema_array_type_unittest, TestValidationWithItemsBeingSchemaObject
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_array_type_unittest, TestValidationFailedWithItemsBeingSchemaObject)
 {
@@ -531,6 +579,8 @@ TEST_F(json_schema_array_type_unittest, TestValidationFailedWithItemsBeingSchema
     "Invalid type for \"Hello world\""
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_array_type_unittest, TestAdditionalItems)
 {
@@ -555,6 +605,8 @@ TEST_F(json_schema_array_type_unittest, TestAdditionalItems)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_array_type_unittest, TesViolatingAdditionalItems)
 {
@@ -584,6 +636,8 @@ TEST_F(json_schema_array_type_unittest, TesViolatingAdditionalItems)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_array_type_unittest, TestMaxItems)
 {
   JSON data = sneaker::json::parse("[1, \"Hello world\", {}]");
@@ -607,6 +661,8 @@ TEST_F(json_schema_array_type_unittest, TestMaxItems)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_array_type_unittest, TestViolatingMaxItems)
 {
@@ -636,6 +692,8 @@ TEST_F(json_schema_array_type_unittest, TestViolatingMaxItems)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_array_type_unittest, TestMinItems)
 {
   JSON data = sneaker::json::parse("[1, \"Hello world\", {}]");
@@ -659,6 +717,8 @@ TEST_F(json_schema_array_type_unittest, TestMinItems)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_array_type_unittest, TestViolatingMinItems)
 {
@@ -688,6 +748,8 @@ TEST_F(json_schema_array_type_unittest, TestViolatingMinItems)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_array_type_unittest, TestUniqueItems)
 {
   JSON data = sneaker::json::parse("[1, \"Hello world\", {}]");
@@ -711,6 +773,8 @@ TEST_F(json_schema_array_type_unittest, TestUniqueItems)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_array_type_unittest, TestViolatingUniqueItems)
 {
@@ -740,9 +804,11 @@ TEST_F(json_schema_array_type_unittest, TestViolatingUniqueItems)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_object_type_unittest : public json_schema_unittest {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_object_type_unittest, TestValidationSuccessful)
 {
@@ -772,6 +838,8 @@ TEST_F(json_schema_object_type_unittest, TestValidationSuccessful)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_object_type_unittest, TestValidationSuccessfulWithAdditionalProperties)
 {
@@ -804,6 +872,8 @@ TEST_F(json_schema_object_type_unittest, TestValidationSuccessfulWithAdditionalP
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_object_type_unittest, TestValidationFailsWithAdditionalProperties)
 {
@@ -840,6 +910,8 @@ TEST_F(json_schema_object_type_unittest, TestValidationFailsWithAdditionalProper
     "Properties [favorite color, favorite food] are invalid in object {\"age\": 24, \"favorite color\": \"red\", \"favorite food\": \"sushi\", \"my favorite\": true, \"name\": \"Tomiko Van\"}"
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_object_type_unittest, TestValidationFailsWithAdditionalProperties2)
 {
@@ -880,6 +952,8 @@ TEST_F(json_schema_object_type_unittest, TestValidationFailsWithAdditionalProper
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_object_type_unittest, TestValidationSuccessfulWithAdditionalPropertiesAndPatternProperties)
 {
   JSON data = sneaker::json::parse(
@@ -919,6 +993,8 @@ TEST_F(json_schema_object_type_unittest, TestValidationSuccessfulWithAdditionalP
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_object_type_unittest, TestValidationFailedWithInvalidField)
 {
@@ -963,6 +1039,8 @@ TEST_F(json_schema_object_type_unittest, TestValidationFailedWithInvalidField)
     "Invalid type for \"true\""
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_object_type_unittest, TestValidationFailedWithExtraProperty)
 {
@@ -1009,6 +1087,8 @@ TEST_F(json_schema_object_type_unittest, TestValidationFailedWithExtraProperty)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_object_type_unittest, TestValidationFailedWithInvalidRegexMatchedField)
 {
   JSON data = sneaker::json::parse(
@@ -1053,6 +1133,8 @@ TEST_F(json_schema_object_type_unittest, TestValidationFailedWithInvalidRegexMat
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_object_type_unittest, TestMaxProperties)
 {
   JSON data = sneaker::json::parse(
@@ -1082,6 +1164,8 @@ TEST_F(json_schema_object_type_unittest, TestMaxProperties)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_object_type_unittest, TestViolatingMaxProperties)
 {
@@ -1118,6 +1202,8 @@ TEST_F(json_schema_object_type_unittest, TestViolatingMaxProperties)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_object_type_unittest, TestMinProperties)
 {
   JSON data = sneaker::json::parse(
@@ -1147,6 +1233,8 @@ TEST_F(json_schema_object_type_unittest, TestMinProperties)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_object_type_unittest, TestViolatingMinProperties)
 {
@@ -1183,6 +1271,8 @@ TEST_F(json_schema_object_type_unittest, TestViolatingMinProperties)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_object_type_unittest, TestRequired)
 {
   JSON data = sneaker::json::parse(
@@ -1214,6 +1304,8 @@ TEST_F(json_schema_object_type_unittest, TestRequired)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_object_type_unittest, TestMissingRequired)
 {
@@ -1251,6 +1343,8 @@ TEST_F(json_schema_object_type_unittest, TestMissingRequired)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_object_type_unittest, TestPropertyDependencies)
 {
   JSON data = sneaker::json::parse(
@@ -1281,6 +1375,8 @@ TEST_F(json_schema_object_type_unittest, TestPropertyDependencies)
   this->validate_and_check_result(data, schema);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_object_type_unittest, TestMissingPropertyDependencies)
 {
   JSON data = sneaker::json::parse(
@@ -1310,6 +1406,8 @@ TEST_F(json_schema_object_type_unittest, TestMissingPropertyDependencies)
     "Expected property name cannot be found in object {\"age\": 24}"
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_object_type_unittest, TestSchemaDependencies)
 {
@@ -1342,6 +1440,8 @@ TEST_F(json_schema_object_type_unittest, TestSchemaDependencies)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_object_type_unittest, TestInvalidSchemaDependencies)
 {
@@ -1379,20 +1479,24 @@ TEST_F(json_schema_object_type_unittest, TestInvalidSchemaDependencies)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_keyword_unittest : public json_schema_unittest {
 protected:
   static const JSON data;
 };
 
+// -----------------------------------------------------------------------------
 
 const JSON json_schema_keyword_unittest::data = sneaker::json::parse(
   "[\"Hello world\"]"
 );
 
+// -----------------------------------------------------------------------------
 
 class json_schema_allOf_keyword_unittest : public json_schema_keyword_unittest {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_allOf_keyword_unittest, TestValidationSuccessful)
 {
@@ -1412,6 +1516,8 @@ TEST_F(json_schema_allOf_keyword_unittest, TestValidationSuccessful)
 
   this->validate_and_check_result(json_schema_keyword_unittest::data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_allOf_keyword_unittest, TestValidationFailed)
 {
@@ -1436,9 +1542,11 @@ TEST_F(json_schema_allOf_keyword_unittest, TestValidationFailed)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_anyOf_keyword_unittest : public json_schema_keyword_unittest {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_anyOf_keyword_unittest, TestValidationSuccessful)
 {
@@ -1459,6 +1567,8 @@ TEST_F(json_schema_anyOf_keyword_unittest, TestValidationSuccessful)
 
   this->validate_and_check_result(json_schema_keyword_unittest::data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_anyOf_keyword_unittest, TestValidationFailed)
 {
@@ -1484,9 +1594,11 @@ TEST_F(json_schema_anyOf_keyword_unittest, TestValidationFailed)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_oneOf_keyword_unittest : public json_schema_keyword_unittest {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_oneOf_keyword_unittest, TestValiationSuccessful)
 {
@@ -1508,6 +1620,8 @@ TEST_F(json_schema_oneOf_keyword_unittest, TestValiationSuccessful)
   this->validate_and_check_result(json_schema_keyword_unittest::data, schema);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_oneOf_keyword_unittest, TestValiationFailedWithNoSubschemas)
 {
   JSON schema = sneaker::json::parse(
@@ -1527,6 +1641,8 @@ TEST_F(json_schema_oneOf_keyword_unittest, TestValiationFailedWithNoSubschemas)
     "Object \"Hello world\" is invalid under less or more than one sub-schemas"
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_oneOf_keyword_unittest, TestValiationFailedWithNoMatchingSchemas)
 {
@@ -1552,6 +1668,8 @@ TEST_F(json_schema_oneOf_keyword_unittest, TestValiationFailedWithNoMatchingSche
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_oneOf_keyword_unittest, TestValiationFailedWithAllMatchingSchemas)
 {
   JSON schema = sneaker::json::parse(
@@ -1576,9 +1694,11 @@ TEST_F(json_schema_oneOf_keyword_unittest, TestValiationFailedWithAllMatchingSch
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_not_keyword_unittest : public json_schema_keyword_unittest {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_not_keyword_unittest, TestValidationSuccessful)
 {
@@ -1595,6 +1715,8 @@ TEST_F(json_schema_not_keyword_unittest, TestValidationSuccessful)
 
   this->validate_and_check_result(json_schema_keyword_unittest::data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_not_keyword_unittest, TestValidationFailed)
 {
@@ -1617,9 +1739,11 @@ TEST_F(json_schema_not_keyword_unittest, TestValidationFailed)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_enum_keyword_unittest : public json_schema_keyword_unittest {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_enum_keyword_unittest, TestValidationSuccessful)
 {
@@ -1640,6 +1764,8 @@ TEST_F(json_schema_enum_keyword_unittest, TestValidationSuccessful)
 
   this->validate_and_check_result(json_schema_keyword_unittest::data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_enum_keyword_unittest, TestValidationFailed)
 {
@@ -1665,12 +1791,14 @@ TEST_F(json_schema_enum_keyword_unittest, TestValidationFailed)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_ref_unittest : public json_schema_unittest {
 protected:
   static const JSON schema;
 };
 
+// -----------------------------------------------------------------------------
 
 const JSON json_schema_ref_unittest::schema = sneaker::json::parse(
   "{"
@@ -1688,6 +1816,7 @@ const JSON json_schema_ref_unittest::schema = sneaker::json::parse(
   "}"
 );
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_ref_unittest, TestValidationSuccessful)
 {
@@ -1697,6 +1826,8 @@ TEST_F(json_schema_ref_unittest, TestValidationSuccessful)
 
   this->validate_and_check_result(data, json_schema_ref_unittest::schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_ref_unittest, TestValidationFailedExpectedly)
 {
@@ -1710,6 +1841,8 @@ TEST_F(json_schema_ref_unittest, TestValidationFailedExpectedly)
     "Invalid type for \"A\""
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_ref_unittest, TestValidationFailsWithInvalidRefPath)
 {
@@ -1738,6 +1871,8 @@ TEST_F(json_schema_ref_unittest, TestValidationFailsWithInvalidRefPath)
     "Invalid $ref path (sub path: helloWorld/positiveInteger)"
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_ref_unittest, TestRecursiveValidationSuccessful)
 {
@@ -1776,6 +1911,8 @@ TEST_F(json_schema_ref_unittest, TestRecursiveValidationSuccessful)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_ref_unittest, TestRecursiveValidationFailed)
 {
@@ -1819,6 +1956,8 @@ TEST_F(json_schema_ref_unittest, TestRecursiveValidationFailed)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_ref_unittest, TestRecursiveDefinitionToTopLevel)
 {
   JSON data = sneaker::json::parse(
@@ -1840,15 +1979,18 @@ TEST_F(json_schema_ref_unittest, TestRecursiveDefinitionToTopLevel)
   this->validate_and_check_result(data, schema);
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_semantic_format_unittest : public json_schema_unittest {};
 
+// -----------------------------------------------------------------------------
 
 class json_schema_datetime_format_unittest : public json_schema_semantic_format_unittest {
 public:
   static const JSON schema;
 };
 
+// -----------------------------------------------------------------------------
 
 const JSON json_schema_datetime_format_unittest::schema = sneaker::json::parse(
   "{"
@@ -1862,6 +2004,7 @@ const JSON json_schema_datetime_format_unittest::schema = sneaker::json::parse(
   "}"
 );
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_datetime_format_unittest, TestValidDatetimeFormat)
 {
@@ -1873,6 +2016,8 @@ TEST_F(json_schema_datetime_format_unittest, TestValidDatetimeFormat)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_datetime_format_unittest, TestInvalidDatetimeFormat)
 {
@@ -1888,6 +2033,8 @@ TEST_F(json_schema_datetime_format_unittest, TestInvalidDatetimeFormat)
     "Invalid data in date-time format: \"01/05/2014-12:12:12\""
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_datetime_format_unittest, TestInvalidDataType)
 {
@@ -1916,12 +2063,14 @@ TEST_F(json_schema_datetime_format_unittest, TestInvalidDataType)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_email_format_unittest : public json_schema_semantic_format_unittest {
 public:
   static const JSON schema;
 };
 
+// -----------------------------------------------------------------------------
 
 const JSON json_schema_email_format_unittest::schema = sneaker::json::parse(
   "{"
@@ -1935,6 +2084,7 @@ const JSON json_schema_email_format_unittest::schema = sneaker::json::parse(
   "}"
 );
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_email_format_unittest, TestValidEmailFormat)
 {
@@ -1946,6 +2096,8 @@ TEST_F(json_schema_email_format_unittest, TestValidEmailFormat)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_email_format_unittest, TestInvalidEmailFormat)
 {
@@ -1961,6 +2113,8 @@ TEST_F(json_schema_email_format_unittest, TestInvalidEmailFormat)
     "Invalid data in email format: \"Hello@@World.net\""
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_email_format_unittest, TestInvalidDataType)
 {
@@ -1989,12 +2143,14 @@ TEST_F(json_schema_email_format_unittest, TestInvalidDataType)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_hostname_format_unittest : public json_schema_semantic_format_unittest {
 public:
   static const JSON schema;
 };
 
+// -----------------------------------------------------------------------------
 
 const JSON json_schema_hostname_format_unittest::schema = sneaker::json::parse(
   "{"
@@ -2008,6 +2164,7 @@ const JSON json_schema_hostname_format_unittest::schema = sneaker::json::parse(
   "}"
 );
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_hostname_format_unittest, TestValidHostnameFormat)
 {
@@ -2019,6 +2176,8 @@ TEST_F(json_schema_hostname_format_unittest, TestValidHostnameFormat)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_hostname_format_unittest, TestInvalidHostnameFormat)
 {
@@ -2034,6 +2193,8 @@ TEST_F(json_schema_hostname_format_unittest, TestInvalidHostnameFormat)
     "Invalid data in hostname format: \"mydomain@com\""
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_hostname_format_unittest, TestInvalidDataType)
 {
@@ -2062,12 +2223,14 @@ TEST_F(json_schema_hostname_format_unittest, TestInvalidDataType)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_ipv4_format_unittest : public json_schema_semantic_format_unittest {
 public:
   static const JSON schema;
 };
 
+// -----------------------------------------------------------------------------
 
 const JSON json_schema_ipv4_format_unittest::schema = sneaker::json::parse(
   "{"
@@ -2081,6 +2244,7 @@ const JSON json_schema_ipv4_format_unittest::schema = sneaker::json::parse(
   "}"
 );
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_ipv4_format_unittest, TestValidIpv4Format)
 {
@@ -2092,6 +2256,8 @@ TEST_F(json_schema_ipv4_format_unittest, TestValidIpv4Format)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_ipv4_format_unittest, TestInvalidIpv4Format)
 {
@@ -2107,6 +2273,8 @@ TEST_F(json_schema_ipv4_format_unittest, TestInvalidIpv4Format)
     "Invalid data in ipv4 format: \"2001:db8:0:1234:0:567:8:1\""
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_ipv4_format_unittest, TestInvalidDataType)
 {
@@ -2135,12 +2303,14 @@ TEST_F(json_schema_ipv4_format_unittest, TestInvalidDataType)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_ipv6_format_unittest : public json_schema_semantic_format_unittest {
 public:
   static const JSON schema;
 };
 
+// -----------------------------------------------------------------------------
 
 const JSON json_schema_ipv6_format_unittest::schema = sneaker::json::parse(
   "{"
@@ -2154,6 +2324,7 @@ const JSON json_schema_ipv6_format_unittest::schema = sneaker::json::parse(
   "}"
 );
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_ipv6_format_unittest, TestValidIpv6Format)
 {
@@ -2165,6 +2336,8 @@ TEST_F(json_schema_ipv6_format_unittest, TestValidIpv6Format)
 
   this->validate_and_check_result(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_ipv6_format_unittest, TestInvalidIpv6Format)
 {
@@ -2180,6 +2353,8 @@ TEST_F(json_schema_ipv6_format_unittest, TestInvalidIpv6Format)
     "Invalid data in ipv6 format: \"172.16.254.1\""
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_ipv6_format_unittest, TestInvalidDataType)
 {
@@ -2208,6 +2383,7 @@ TEST_F(json_schema_ipv6_format_unittest, TestInvalidDataType)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class json_schema_uri_format_unittest : public json_schema_semantic_format_unittest {
 public:
@@ -2215,6 +2391,7 @@ public:
   static const std::list<std::string> VALID_URIs;
 };
 
+// -----------------------------------------------------------------------------
 
 const JSON json_schema_uri_format_unittest::schema = sneaker::json::parse(
   "{"
@@ -2228,6 +2405,7 @@ const JSON json_schema_uri_format_unittest::schema = sneaker::json::parse(
   "}"
 );
 
+// -----------------------------------------------------------------------------
 
 const std::list<std::string> json_schema_uri_format_unittest::VALID_URIs {
   // Typical examples
@@ -2267,6 +2445,7 @@ const std::list<std::string> json_schema_uri_format_unittest::VALID_URIs {
   "http:g",
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_uri_format_unittest, TestValidURIFormat)
 {
@@ -2285,6 +2464,8 @@ TEST_F(json_schema_uri_format_unittest, TestValidURIFormat)
   }
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_schema_uri_format_unittest, TestInvalidURIFormat)
 {
   JSON data = sneaker::json::parse(
@@ -2299,6 +2480,8 @@ TEST_F(json_schema_uri_format_unittest, TestInvalidURIFormat)
     "Invalid data in uri format: \"hello world\""
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_schema_uri_format_unittest, TestInvalidDataType)
 {
@@ -2326,3 +2509,5 @@ TEST_F(json_schema_uri_format_unittest, TestInvalidDataType)
     "Invalid semantic format \"uri\" for data: {}"
   );
 }
+
+// -----------------------------------------------------------------------------

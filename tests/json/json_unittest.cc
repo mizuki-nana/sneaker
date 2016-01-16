@@ -36,11 +36,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <vector>
 
 
+// -----------------------------------------------------------------------------
+
 using namespace sneaker::json;
 
+// -----------------------------------------------------------------------------
 
 class json_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_unittest, TestEmptyInitialization)
 {
@@ -48,6 +52,8 @@ TEST_F(json_unittest, TestEmptyInitialization)
 
   ASSERT_EQ(std::string("null"), json.dump());
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_unittest, TestInitializationByList)
 {
@@ -64,6 +70,8 @@ TEST_F(json_unittest, TestInitializationByList)
   ASSERT_EQ(j3, j1);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_unittest, TestInitializationByMap)
 {
   std::map<std::string, std::string> m1 { { "k1", "v1" }, { "k2", "v2" } };
@@ -75,9 +83,11 @@ TEST_F(json_unittest, TestInitializationByMap)
   ASSERT_EQ(j1, j2);
 }
 
+// -----------------------------------------------------------------------------
 
 class json_parse_unittest : public json_unittest {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_parse_unittest, TestParseSimpleJSON)
 {
@@ -101,6 +111,8 @@ TEST_F(json_parse_unittest, TestParseSimpleJSON)
   ASSERT_EQ(false, json["k3"][3].bool_value());
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_parse_unittest, TestParseUnicodeEscape)
 {
   const std::string str =
@@ -115,6 +127,8 @@ TEST_F(json_parse_unittest, TestParseUnicodeEscape)
   ASSERT_EQ(0, memcmp(json[0].string_value().data(), utf8, sizeof(utf8)));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_parse_unittest, TestParseNonAsciiCharacters)
 {
   // This test current fails.
@@ -126,6 +140,7 @@ TEST_F(json_parse_unittest, TestParseNonAsciiCharacters)
   */
 }
 
+// -----------------------------------------------------------------------------
 
 class json_parse_failure_unittest : public json_parse_unittest {
 protected:
@@ -148,6 +163,7 @@ protected:
   }
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithoutOuterListOrObjectLayer)
 {
@@ -157,6 +173,8 @@ TEST_F(json_parse_failure_unittest, TestParseJsonWithoutOuterListOrObjectLayer)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_parse_failure_unittest, TestParseJsonWithInvalidBooleanValue)
 {
   parse_and_assert_error(
@@ -164,6 +182,8 @@ TEST_F(json_parse_failure_unittest, TestParseJsonWithInvalidBooleanValue)
     "Expected value, got 'T' (84)"
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithMultipleAdjacentJsonObjects)
 {
@@ -173,6 +193,8 @@ TEST_F(json_parse_failure_unittest, TestParseJsonWithMultipleAdjacentJsonObjects
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_parse_failure_unittest, TestParseJsonWithMismatchingBrackets)
 {
   parse_and_assert_error(
@@ -180,6 +202,8 @@ TEST_F(json_parse_failure_unittest, TestParseJsonWithMismatchingBrackets)
     "Expected '\"' in object, got ']' (93)"
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithMissingColon)
 {
@@ -189,6 +213,8 @@ TEST_F(json_parse_failure_unittest, TestParseJsonWithMissingColon)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_parse_failure_unittest, TestParseJsonWithTrailingWhitespaces)
 {
   parse_and_assert_error(
@@ -196,6 +222,8 @@ TEST_F(json_parse_failure_unittest, TestParseJsonWithTrailingWhitespaces)
     "Expected '\"' in object, got '[' (91)"
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithMissingQuote)
 {
@@ -205,6 +233,8 @@ TEST_F(json_parse_failure_unittest, TestParseJsonWithMissingQuote)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_parse_failure_unittest, TestParseJsonWithExtraQuote)
 {
   parse_and_assert_error(
@@ -212,6 +242,8 @@ TEST_F(json_parse_failure_unittest, TestParseJsonWithExtraQuote)
     "Expected ',' in object, got '\"' (34)"
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithExtraCommaInArray)
 {
@@ -221,6 +253,8 @@ TEST_F(json_parse_failure_unittest, TestParseJsonWithExtraCommaInArray)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_parse_failure_unittest, TestParseJsonWithInvalidNumber)
 {
   parse_and_assert_error(
@@ -228,6 +262,8 @@ TEST_F(json_parse_failure_unittest, TestParseJsonWithInvalidNumber)
     "At least one digit required in fractional part"
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithLeadingZeros)
 {
@@ -237,6 +273,8 @@ TEST_F(json_parse_failure_unittest, TestParseJsonWithLeadingZeros)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_parse_failure_unittest, TestParseJsonWithNoDigitInFraction)
 {
   parse_and_assert_error(
@@ -245,12 +283,16 @@ TEST_F(json_parse_failure_unittest, TestParseJsonWithNoDigitInFraction)
   );
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_parse_failure_unittest, TestParseJsonWithInvalidExponent)
 {
   parse_and_assert_error(
     "[0.0E]",
     "At least one digit required in exponent");
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_parse_failure_unittest, TestParseJsonWithInvalidEscapedString)
 {
@@ -260,6 +302,7 @@ TEST_F(json_parse_failure_unittest, TestParseJsonWithInvalidEscapedString)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class json_serialization_unittest : public json_unittest {
 public:
@@ -289,6 +332,7 @@ public:
   };
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(json_serialization_unittest, TestSimpleNumberSerialization)
 {
@@ -299,6 +343,8 @@ TEST_F(json_serialization_unittest, TestSimpleNumberSerialization)
   ASSERT_EQ(std::string(""), json.string_value());
   ASSERT_EQ(std::string("68"), json.dump());
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_serialization_unittest, TestSimpleBooleanSerialization)
 {
@@ -320,6 +366,8 @@ TEST_F(json_serialization_unittest, TestSimpleNullptrSerialization)
   ASSERT_EQ(std::string("null"), json.dump());
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_serialization_unittest, TestSimpleStringSerialization)
 {
   sneaker::json::JSON json("Hello world");
@@ -329,6 +377,8 @@ TEST_F(json_serialization_unittest, TestSimpleStringSerialization)
   ASSERT_EQ(std::string("Hello world"), json.string_value());
   ASSERT_EQ(std::string("\"Hello world\""), json.dump());
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_serialization_unittest, TestSimpleArraySerialization)
 {
@@ -340,6 +390,8 @@ TEST_F(json_serialization_unittest, TestSimpleArraySerialization)
   ASSERT_EQ(std::string("[]"), json.dump());
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_serialization_unittest, TestSimpleObjectSerialization)
 {
   sneaker::json::JSON json = sneaker::json::JSON::object();
@@ -349,6 +401,8 @@ TEST_F(json_serialization_unittest, TestSimpleObjectSerialization)
   ASSERT_EQ(std::string(""), json.string_value());
   ASSERT_EQ(std::string("{}"), json.dump());
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_serialization_unittest, TestComplexSerialization)
 {
@@ -369,6 +423,8 @@ TEST_F(json_serialization_unittest, TestComplexSerialization)
   ASSERT_EQ(serialized, json.dump());
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(json_serialization_unittest, TestClassObjectToJsonArraySerialization)
 {
   std::vector<Point> points = { { 1, 2 }, { 10, 20 }, { 100, 200 } };
@@ -378,6 +434,8 @@ TEST_F(json_serialization_unittest, TestClassObjectToJsonArraySerialization)
 
   ASSERT_EQ(expected_json, actual_json);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(json_serialization_unittest, TestClassObjectToJsonObjectSerialization)
 {
@@ -393,3 +451,5 @@ TEST_F(json_serialization_unittest, TestClassObjectToJsonObjectSerialization)
 
   ASSERT_EQ(expected_json, actual_json);
 }
+
+// -----------------------------------------------------------------------------

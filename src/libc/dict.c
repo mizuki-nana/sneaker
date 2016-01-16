@@ -33,13 +33,17 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string.h>
 
 
+// -----------------------------------------------------------------------------
+
 #define DICT_DEFAULT_CAPACITY 16
 
+// -----------------------------------------------------------------------------
 
 struct __sneaker_dict_s {
   hashmap_t hashmap;
 };
 
+// -----------------------------------------------------------------------------
 
 static
 inline int _dict_keycmpfunc(void* key1, void* key2)
@@ -53,11 +57,15 @@ inline int _dict_keycmpfunc(void* key1, void* key2)
   return strcmp(_key1, _key2) == 0;
 }
 
+// -----------------------------------------------------------------------------
+
 static
 inline unsigned long int _dict_hashfunc(void* key)
 {
   return linear_horners_rule_str_hash((c_str)key);
 }
+
+// -----------------------------------------------------------------------------
 
 dict_t dict_create()
 {
@@ -84,11 +92,15 @@ dict_t dict_create()
   return dict;
 }
 
+// -----------------------------------------------------------------------------
+
 size_t dict_size(dict_t dict)
 {
   assert(dict);
   return hashmap_size(dict->hashmap);
 }
+
+// -----------------------------------------------------------------------------
 
 void dict_free(dict_t *dict)
 {
@@ -103,6 +115,8 @@ void dict_free(dict_t *dict)
   *dict = _dict;
 }
 
+// -----------------------------------------------------------------------------
+
 void* dict_put(dict_t dict, const char *key, void* val)
 {
   assert(dict);
@@ -112,6 +126,8 @@ void* dict_put(dict_t dict, const char *key, void* val)
   return hashmap_put(dict->hashmap, (c_str)key, val);
 }
 
+// -----------------------------------------------------------------------------
+
 void* dict_get(dict_t dict, const char *key)
 {
   assert(dict);
@@ -119,3 +135,5 @@ void* dict_get(dict_t dict, const char *key)
 
   return hashmap_get(dict->hashmap, (c_str)key);
 }
+
+// -----------------------------------------------------------------------------

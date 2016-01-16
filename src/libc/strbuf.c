@@ -31,11 +31,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdlib.h>
 
 
+// -----------------------------------------------------------------------------
+
 #define DEFAULT_STRBUF_INITIAL_ALLOC 1024
 
+// -----------------------------------------------------------------------------
 
 static const size_t _strbuf_alloc_size = DEFAULT_STRBUF_INITIAL_ALLOC;
 
+// -----------------------------------------------------------------------------
 
 struct __sneaker_strbuf_s {
   c_str c_str;
@@ -43,6 +47,7 @@ struct __sneaker_strbuf_s {
   size_t size;
 };
 
+// -----------------------------------------------------------------------------
 
 static
 void _strbuf_init(strbuf_t *strbuf, size_t min_len)
@@ -72,6 +77,8 @@ void _strbuf_init(strbuf_t *strbuf, size_t min_len)
   *strbuf = _strbuf;
 }
 
+// -----------------------------------------------------------------------------
+
 static
 void _strbuf_allocate_more(strbuf_t *strbuf, size_t len)
 {
@@ -97,6 +104,8 @@ void _strbuf_allocate_more(strbuf_t *strbuf, size_t len)
   *strbuf = _strbuf;
 }
 
+// -----------------------------------------------------------------------------
+
 strbuf_t strbuf_create()
 {
   strbuf_t strbuf = NULL;
@@ -115,6 +124,8 @@ strbuf_t strbuf_create()
   return strbuf;
 }
 
+// -----------------------------------------------------------------------------
+
 void
 strbuf_free(strbuf_t *strbuf)
 {
@@ -131,6 +142,8 @@ strbuf_free(strbuf_t *strbuf)
   *strbuf = _strbuf;
 }
 
+// -----------------------------------------------------------------------------
+
 void
 strbuf_empty(strbuf_t strbuf)
 {
@@ -143,12 +156,16 @@ strbuf_empty(strbuf_t strbuf)
   _strbuf_init(&strbuf, _strbuf_alloc_size);
 }
 
+// -----------------------------------------------------------------------------
+
 size_t
 strbuf_len(strbuf_t strbuf)
 {
   assert(strbuf);
   return strbuf->size;
 }
+
+// -----------------------------------------------------------------------------
 
 const c_str
 strbuf_cstr(strbuf_t strbuf)
@@ -157,12 +174,16 @@ strbuf_cstr(strbuf_t strbuf)
   return (const c_str)strbuf->c_str;
 }
 
+// -----------------------------------------------------------------------------
+
 size_t
 strbuf_capacity(strbuf_t strbuf)
 {
   assert(strbuf);
   return strbuf->capacity;
 }
+
+// -----------------------------------------------------------------------------
 
 int
 strbuf_append(strbuf_t strbuf, const c_str in_str)
@@ -187,3 +208,5 @@ strbuf_append(strbuf_t strbuf, const c_str in_str)
 
   return 1;
 }
+
+// -----------------------------------------------------------------------------

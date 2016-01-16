@@ -34,6 +34,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string>
 
 
+// -----------------------------------------------------------------------------
+
 class vector_unittest : public ::testing::Test {
 protected:
   virtual void SetUp() {
@@ -49,12 +51,15 @@ protected:
   vector_t m_vector;
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(vector_unittest, TestCreation)
 {
   assert(m_vector);
   ASSERT_EQ(0, vector_size(m_vector));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(vector_unittest, TestAppendAndGet)
 {
@@ -76,6 +81,8 @@ TEST_F(vector_unittest, TestAppendAndGet)
   ASSERT_EQ(10, vector_size(m_vector));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(vector_unittest, TestAppendAndRemove)
 {
   int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -95,6 +102,8 @@ TEST_F(vector_unittest, TestAppendAndRemove)
 
   ASSERT_EQ(0, vector_size(m_vector));
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(vector_unittest, TestRemove)
 {
@@ -142,6 +151,8 @@ TEST_F(vector_unittest, TestRemove)
   }
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(vector_unittest, TestRemoveAndSet)
 {
   int odds[] = {1,3,5,7,9};
@@ -171,3 +182,5 @@ TEST_F(vector_unittest, TestRemoveAndSet)
 
   ASSERT_EQ(0, vector_size(m_vector));
 }
+
+// -----------------------------------------------------------------------------

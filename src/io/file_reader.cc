@@ -27,10 +27,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <sstream>
 
 
+// -----------------------------------------------------------------------------
+
 sneaker::io::file_reader::file_reader()
 {
   // Do nothing here.
 }
+
+// -----------------------------------------------------------------------------
 
 sneaker::io::file_reader::file_reader(
   const char* path
@@ -39,11 +43,15 @@ sneaker::io::file_reader::file_reader(
   assert(this->file_path());
 }
 
+// -----------------------------------------------------------------------------
+
 const char*
 sneaker::io::file_reader::file_path() const
 {
   return this->m_path.c_str();
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::io::file_reader::set_path(const char* path)
@@ -51,6 +59,8 @@ sneaker::io::file_reader::set_path(const char* path)
   assert(path);
   this->m_path = path;
 }
+
+// -----------------------------------------------------------------------------
 
 bool
 sneaker::io::file_reader::read_file(char** p) const
@@ -74,3 +84,5 @@ sneaker::io::file_reader::read_file(char** p) const
 
   return true;
 }
+
+// -----------------------------------------------------------------------------

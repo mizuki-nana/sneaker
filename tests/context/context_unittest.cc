@@ -32,11 +32,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <vector>
 
 
+// -----------------------------------------------------------------------------
+
 using namespace sneaker::context;
 
+// -----------------------------------------------------------------------------
 
 class context_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 class scoped_context_unittest : public context_unittest {
 public:
@@ -55,6 +59,7 @@ public:
   };
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(scoped_context_unittest, TestDummyContextManager)
 {
@@ -76,6 +81,8 @@ TEST_F(scoped_context_unittest, TestDummyContextManager)
   ASSERT_EQ(false, mngr.truthy);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(scoped_context_unittest, TestExceptionInContext)
 {
   scoped_context_unittest::dummy_context_manager mngr;
@@ -92,6 +99,7 @@ TEST_F(scoped_context_unittest, TestExceptionInContext)
   );
 }
 
+// -----------------------------------------------------------------------------
 
 class nested_context_unittest : public context_unittest {
 public:
@@ -109,9 +117,11 @@ public:
   };
 };
 
+// -----------------------------------------------------------------------------
 
 int nested_context_unittest::count = 0;
 
+// -----------------------------------------------------------------------------
 
 TEST_F(nested_context_unittest, TestNestedManager)
 {
@@ -131,6 +141,8 @@ TEST_F(nested_context_unittest, TestNestedManager)
   ASSERT_EQ(0, nested_context_unittest::count);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(nested_context_unittest, TestExceptionInContext)
 {
   ASSERT_NO_THROW(
@@ -148,3 +160,5 @@ TEST_F(nested_context_unittest, TestExceptionInContext)
     }
   );
 }
+
+// -----------------------------------------------------------------------------

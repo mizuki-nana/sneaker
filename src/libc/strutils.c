@@ -27,6 +27,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/libc/strutils.h"
 
 
+// -----------------------------------------------------------------------------
+
 char* strtoupper(char *s)
 {
   RETURN_VAL_IF_NULL(s, NULL);
@@ -41,6 +43,8 @@ char* strtoupper(char *s)
   return s;
 }
 
+// -----------------------------------------------------------------------------
+
 char* strtolower(char *s)
 {
   RETURN_VAL_IF_NULL(s, NULL);
@@ -54,6 +58,8 @@ char* strtolower(char *s)
   return s;
 }
 
+// -----------------------------------------------------------------------------
+
 char* strtrim(char *s)
 {
   RETURN_VAL_IF_NULL(s, NULL);
@@ -63,6 +69,8 @@ char* strtrim(char *s)
   while (*s && isspace(*s)) *s = '\0', ++s;
   return s;
 }
+
+// -----------------------------------------------------------------------------
 
 char* strcpy_hard(char *dst, const char *src)
 {
@@ -84,6 +92,8 @@ char* strcpy_hard(char *dst, const char *src)
   return dst;
 }
 
+// -----------------------------------------------------------------------------
+
 char* strncpy_safe(char *dst, const char *src, size_t size)
 {
   RETURN_VAL_IF_NULL(dst, NULL);
@@ -93,6 +103,8 @@ char* strncpy_safe(char *dst, const char *src, size_t size)
 
   return strncpy(dst, src, outlen);
 }
+
+// -----------------------------------------------------------------------------
 
 size_t strlcpy2(char *dst, const char *src, size_t size)
 {
@@ -120,3 +132,5 @@ size_t strlcpy2(char *dst, const char *src, size_t size)
 
   return s - src - 1;
 }
+
+// -----------------------------------------------------------------------------

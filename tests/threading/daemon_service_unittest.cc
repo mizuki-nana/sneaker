@@ -29,6 +29,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/testing/testing.h"
 
 
+// -----------------------------------------------------------------------------
+
 class dummy_daemon_service : public sneaker::threading::daemon_service {
 public:
   dummy_daemon_service(int num, bool wait_for_termination=false):
@@ -49,9 +51,11 @@ private:
   int m_num;
 };
 
+// -----------------------------------------------------------------------------
 
 class daemon_service_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 TEST_F(daemon_service_unittest, TestRunDaemonAsynchronously)
 {
@@ -66,6 +70,8 @@ TEST_F(daemon_service_unittest, TestRunDaemonAsynchronously)
   ASSERT_EQ(5 + 1, dummy_daemon.num());
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(daemon_service_unittest, TestRunDaemonSynchronously)
 {
   dummy_daemon_service dummy_daemon(5, true);
@@ -75,3 +81,5 @@ TEST_F(daemon_service_unittest, TestRunDaemonSynchronously)
 
   ASSERT_EQ(5 + 1, dummy_daemon.num());
 }
+
+// -----------------------------------------------------------------------------

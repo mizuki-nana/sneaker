@@ -36,8 +36,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string.h>
 
 
+// -----------------------------------------------------------------------------
+
 #define GOLDEN_PRIME 1237
 
+// -----------------------------------------------------------------------------
 
 unsigned long int linear_horners_rule_str_hash(const char * str)
 {
@@ -55,6 +58,8 @@ unsigned long int linear_horners_rule_str_hash(const char * str)
   return h;
 }
 
+// -----------------------------------------------------------------------------
+
 unsigned long int hash32shift(unsigned int key)
 {
   key = (key << 15) - key - 1;
@@ -66,6 +71,8 @@ unsigned long int hash32shift(unsigned int key)
 
   return (unsigned long int)key;
 }
+
+// -----------------------------------------------------------------------------
 
 unsigned long int hash64shift(unsigned long key)
 {
@@ -79,6 +86,8 @@ unsigned long int hash64shift(unsigned long key)
 
   return (unsigned long int)key;
 }
+
+// -----------------------------------------------------------------------------
 
 unsigned long int hash_str_jenkins_one_at_a_time(const char * str)
 {
@@ -100,6 +109,8 @@ unsigned long int hash_str_jenkins_one_at_a_time(const char * str)
   return hash;
 }
 
+// -----------------------------------------------------------------------------
+
 unsigned long int hash_robert_jenkin(unsigned int k)
 {
   k = (k + 0x7ed55d16) + (k << 12);
@@ -111,3 +122,5 @@ unsigned long int hash_robert_jenkin(unsigned int k)
 
   return (unsigned long int)k;
 }
+
+// -----------------------------------------------------------------------------

@@ -35,6 +35,8 @@ namespace sneaker {
 namespace functional {
 
 
+// -----------------------------------------------------------------------------
+
 template<class R, class... Args>
 class retry: public sneaker::functional::function<R, Args...> {
 public:
@@ -58,6 +60,8 @@ public:
     return this->m_func(args...);
   }
 };
+
+// -----------------------------------------------------------------------------
 
 
 } /* end namespace functional */

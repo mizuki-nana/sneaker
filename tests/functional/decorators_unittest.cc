@@ -33,11 +33,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string>
 
 
+// -----------------------------------------------------------------------------
+
 using namespace sneaker::functional;
 
+// -----------------------------------------------------------------------------
 
 class decorators_unittest : public ::testing::Test {};
 
+// -----------------------------------------------------------------------------
 
 class retry_decorator_unittest : public decorators_unittest {
 public:
@@ -48,9 +52,11 @@ public:
   static int counter;
 };
 
+// -----------------------------------------------------------------------------
 
 int retry_decorator_unittest::counter = 0;
 
+// -----------------------------------------------------------------------------
 
 TEST_F(retry_decorator_unittest, TestRetrySuccessful)
 {
@@ -74,6 +80,8 @@ TEST_F(retry_decorator_unittest, TestRetrySuccessful)
 
   ASSERT_EQ(MAX_RETRY, retry_decorator_unittest::counter);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(retry_decorator_unittest, TestExceptionOnOverRetryLimit)
 {
@@ -108,6 +116,8 @@ TEST_F(retry_decorator_unittest, TestExceptionOnOverRetryLimit)
   ASSERT_EQ(RETRY_LIMIT + 1, retry_decorator_unittest::counter);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(retry_decorator_unittest, TestDecoratorChaining)
 {
   retry<std::string> inner = []() -> std::string {
@@ -121,6 +131,8 @@ TEST_F(retry_decorator_unittest, TestDecoratorChaining)
 
   ASSERT_EQ(expected_result, actual_result);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(retry_decorator_unittest, TestDecoratorChaining2)
 {
@@ -137,3 +149,5 @@ TEST_F(retry_decorator_unittest, TestDecoratorChaining2)
 
   ASSERT_EQ(expected_result, actual_result);
 }
+
+// -----------------------------------------------------------------------------

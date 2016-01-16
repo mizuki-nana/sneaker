@@ -30,8 +30,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <list>
 
 
+// -----------------------------------------------------------------------------
+
 using namespace sneaker::algorithm;
 
+// -----------------------------------------------------------------------------
 
 class tarjan_unittest : public ::testing::Test {
 public:
@@ -57,6 +60,7 @@ public:
   }
 };
 
+// -----------------------------------------------------------------------------
 
 TEST_F(tarjan_unittest, TestEmptyGraph)
 {
@@ -69,6 +73,8 @@ TEST_F(tarjan_unittest, TestEmptyGraph)
 
   this->detect_cycle_and_assert_results(vertices, 0, 0, 0);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(tarjan_unittest, TestSingleVertex)
 {
@@ -83,6 +89,8 @@ TEST_F(tarjan_unittest, TestSingleVertex)
 
   this->detect_cycle_and_assert_results(vertices, 1, 1, 0);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(tarjan_unittest, TestSingleEdge)
 {
@@ -102,6 +110,8 @@ TEST_F(tarjan_unittest, TestSingleEdge)
 
   this->detect_cycle_and_assert_results(vertices, 2, 2, 0);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(tarjan_unittest, TestLinearEdges)
 {
@@ -125,6 +135,8 @@ TEST_F(tarjan_unittest, TestLinearEdges)
   this->detect_cycle_and_assert_results(vertices, 3, 3, 0);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(tarjan_unittest, TestSimpleCycle)
 {
   /* Tests the following object graph:
@@ -146,6 +158,8 @@ TEST_F(tarjan_unittest, TestSimpleCycle)
 
   this->detect_cycle_and_assert_results(vertices, 1, 0, 1);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(tarjan_unittest, TestSimpleCycle2)
 {
@@ -171,6 +185,8 @@ TEST_F(tarjan_unittest, TestSimpleCycle2)
 
   this->detect_cycle_and_assert_results(vertices, 1, 0, 1);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(tarjan_unittest, TestTwoIsolatedCycles)
 {
@@ -209,6 +225,8 @@ TEST_F(tarjan_unittest, TestTwoIsolatedCycles)
   this->detect_cycle_and_assert_results(vertices, 2, 0, 2);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(tarjan_unittest, TestCycleWithInwardStub)
 {
   /* Tests the following object graph:
@@ -237,6 +255,8 @@ TEST_F(tarjan_unittest, TestCycleWithInwardStub)
   this->detect_cycle_and_assert_results(vertices, 2, 1, 1);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(tarjan_unittest, TestCycleWithOutwardStub)
 {
   /* Tests the following object graph:
@@ -264,6 +284,8 @@ TEST_F(tarjan_unittest, TestCycleWithOutwardStub)
 
   this->detect_cycle_and_assert_results(vertices, 2, 1, 1);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(tarjan_unittest, TestNestedCycles)
 {
@@ -300,6 +322,8 @@ TEST_F(tarjan_unittest, TestNestedCycles)
   this->detect_cycle_and_assert_results(vertices, 1, 0, 1);
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(tarjan_unittest, TestAdjacentCycles)
 {
   /* Tests the following object graph:
@@ -331,3 +355,5 @@ TEST_F(tarjan_unittest, TestAdjacentCycles)
 
   this->detect_cycle_and_assert_results(vertices, 1, 0, 1);
 }
+
+// -----------------------------------------------------------------------------

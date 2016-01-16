@@ -52,6 +52,8 @@ namespace json {
 namespace json_schema_internal {
 
 
+// -----------------------------------------------------------------------------
+
 /* Spec:
  * http://json-schema.org/latest/json-schema-core.html#anchor8
  */
@@ -65,6 +67,7 @@ enum json_type_enum {
   STRING
 };
 
+// -----------------------------------------------------------------------------
 
 class json_primitive_type_validator {
 public:
@@ -78,6 +81,7 @@ protected:
   void validate_semantic_format(const JSON&, const JSON&) const;
 };
 
+// -----------------------------------------------------------------------------
 
 class json_array_type_validator : public json_primitive_type_validator {
 public:
@@ -101,6 +105,7 @@ private:
     const JSON::array&, const JSON::object&, const JSON::object&) const;
 };
 
+// -----------------------------------------------------------------------------
 
 class json_boolean_type_validator : public json_primitive_type_validator {
 public:
@@ -111,6 +116,7 @@ public:
   void validate(const JSON&, const JSON&, const JSON::object&) const;
 };
 
+// -----------------------------------------------------------------------------
 
 class json_integer_type_validator : public json_primitive_type_validator {
 public:
@@ -131,6 +137,7 @@ private:
     const int&, const JSON::object&, const JSON::object&) const;
 };
 
+// -----------------------------------------------------------------------------
 
 class json_number_type_validator : public json_primitive_type_validator {
 public:
@@ -151,6 +158,7 @@ private:
     const double&, const JSON::object&, const JSON::object&) const;
 };
 
+// -----------------------------------------------------------------------------
 
 class json_null_type_validator : public json_primitive_type_validator {
 public:
@@ -161,6 +169,7 @@ public:
   void validate(const JSON&, const JSON&, const JSON::object&) const;
 };
 
+// -----------------------------------------------------------------------------
 
 class json_object_type_validator : public json_primitive_type_validator {
 public:
@@ -187,6 +196,7 @@ private:
     const JSON::object&, const JSON::object&, const JSON::object&) const;
 };
 
+// -----------------------------------------------------------------------------
 
 class json_string_type_validator : public json_primitive_type_validator {
 public:
@@ -207,11 +217,13 @@ private:
     const JSON::string&, const JSON::object&, const JSON::object&) const;
 };
 
+// -----------------------------------------------------------------------------
 
 struct json_validator_wrapper {
   const json_primitive_type_validator* validator;
 };
 
+// -----------------------------------------------------------------------------
 
 class json_validator_meta {
 public:
@@ -223,6 +235,7 @@ private:
   static const map_type type_to_validator_map;
 };
 
+// -----------------------------------------------------------------------------
 
 const json_validator_meta::map_type json_validator_meta::type_to_validator_map {
   { "array",    { .validator=new json_array_type_validator()   } },
@@ -234,6 +247,7 @@ const json_validator_meta::map_type json_validator_meta::type_to_validator_map {
   { "string",   { .validator=new json_string_type_validator()  } },
 };
 
+// -----------------------------------------------------------------------------
 
 class json_schema_keyword_validator {
 public:
@@ -241,6 +255,7 @@ public:
     const JSON&, const JSON::object&, const JSON::object&) const = 0;
 };
 
+// -----------------------------------------------------------------------------
 
 class json_schema_allOf_keyword_validator : public json_schema_keyword_validator {
 public:
@@ -298,12 +313,14 @@ const json_schema_keyword_validator_meta::map_type json_schema_keyword_validator
   { "enum",   { .validator=new json_schema_enum_keyword_validator()  } },
 };
 
+// -----------------------------------------------------------------------------
 
 class json_schema_ref_validator {
 public:
   void validate(const JSON&, const JSON&, const JSON::object&) const;
 };
 
+// -----------------------------------------------------------------------------
 
 class json_schema_semantic_format_validator {
 public:
@@ -311,6 +328,7 @@ public:
   virtual void validate(const JSON&, const JSON&) const = 0;
 };
 
+// -----------------------------------------------------------------------------
 
 class json_schema_datetime_format_validator : public json_schema_semantic_format_validator {
 public:
@@ -321,6 +339,7 @@ public:
   void validate(const JSON&, const JSON&) const throw(json_validation_error);
 };
 
+// -----------------------------------------------------------------------------
 
 class json_schema_email_format_validator : public json_schema_semantic_format_validator {
 public:
@@ -331,6 +350,7 @@ public:
   void validate(const JSON&, const JSON&) const throw(json_validation_error);
 };
 
+// -----------------------------------------------------------------------------
 
 class json_schema_hostname_format_validator : public json_schema_semantic_format_validator {
 public:
@@ -341,6 +361,7 @@ public:
   void validate(const JSON&, const JSON&) const throw(json_validation_error);
 };
 
+// -----------------------------------------------------------------------------
 
 class json_schema_ipv4_format_validator : public json_schema_semantic_format_validator {
 public:
@@ -351,6 +372,7 @@ public:
   void validate(const JSON&, const JSON&) const throw(json_validation_error);
 };
 
+// -----------------------------------------------------------------------------
 
 class json_schema_ipv6_format_validator : public json_schema_semantic_format_validator {
 public:
@@ -361,6 +383,7 @@ public:
   void validate(const JSON&, const JSON&) const throw(json_validation_error);
 };
 
+// -----------------------------------------------------------------------------
 
 class json_schema_uri_format_validator : public json_schema_semantic_format_validator {
 public:
@@ -371,11 +394,13 @@ public:
   void validate(const JSON&, const JSON&) const throw(json_validation_error);
 };
 
+// -----------------------------------------------------------------------------
 
 struct json_schema_semantic_format_validator_wrapper {
   const json_schema_semantic_format_validator* validator;
 };
 
+// -----------------------------------------------------------------------------
 
 class json_schema_semantic_format_validator_meta {
 public:
@@ -384,6 +409,7 @@ public:
   static const map_type format_to_validator_map;
 };
 
+// -----------------------------------------------------------------------------
 
 const json_schema_semantic_format_validator_meta::map_type json_schema_semantic_format_validator_meta::format_to_validator_map {
   { "date-time",  { .validator=new json_schema_datetime_format_validator() } },
@@ -394,14 +420,19 @@ const json_schema_semantic_format_validator_meta::map_type json_schema_semantic_
   { "uri",        { .validator=new json_schema_uri_format_validator()      } },
 };
 
+// -----------------------------------------------------------------------------
 
 void validate(const JSON&, const JSON&, const JSON::object&) throw(json_validation_error);
 
+// -----------------------------------------------------------------------------
 
 JSON::object _get_ref(JSON::object, std::list<std::string>&) throw(json_validation_error);
 
+// -----------------------------------------------------------------------------
 
 JSON::object get_ref(JSON::object, JSON::string) throw(json_validation_error);
+
+// -----------------------------------------------------------------------------
 
 
 } /* end namespace json_schema_internal */
@@ -416,9 +447,11 @@ JSON::object get_ref(JSON::object, JSON::string) throw(json_validation_error);
 using boost::format;
 using namespace sneaker::json;
 
+// -----------------------------------------------------------------------------
 
 const std::string REF_PATH_DELIMITER = "/";
 
+// -----------------------------------------------------------------------------
 
 const sneaker::json::json_schema_internal::json_primitive_type_validator*
 sneaker::json::json_schema_internal::json_validator_meta::get_validator(
@@ -432,6 +465,8 @@ sneaker::json::json_schema_internal::json_validator_meta::get_validator(
   return type_to_validator_map.at(type).validator;
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_schema::validate(
   const JSON& data, const JSON& schema) throw(json_validation_error)
@@ -441,6 +476,8 @@ sneaker::json::json_schema::validate(
   sneaker::json::json_schema_internal::validate(
     data, schema.object_items(), original_schema);
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::validate(
@@ -478,6 +515,8 @@ sneaker::json::json_schema_internal::validate(
   }
 }
 
+// -----------------------------------------------------------------------------
+
 JSON::object
 sneaker::json::json_schema_internal::_get_ref(
   JSON::object schema_object, std::list<std::string>& sections) throw(json_validation_error)
@@ -510,6 +549,8 @@ sneaker::json::json_schema_internal::_get_ref(
   return sneaker::json::json_schema_internal::_get_ref(inner_schema, sections);
 }
 
+// -----------------------------------------------------------------------------
+
 JSON::object
 sneaker::json::json_schema_internal::get_ref(
   JSON::object schema_object, JSON::string ref_path) throw(json_validation_error)
@@ -520,6 +561,8 @@ sneaker::json::json_schema_internal::get_ref(
 
   return sneaker::json::json_schema_internal::_get_ref(schema_object, sections);
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_schema_allOf_keyword_validator::validate(
@@ -549,6 +592,8 @@ sneaker::json::json_schema_internal::json_schema_allOf_keyword_validator::valida
     );
   }
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_schema_anyOf_keyword_validator::validate(
@@ -582,6 +627,8 @@ sneaker::json::json_schema_internal::json_schema_anyOf_keyword_validator::valida
   }
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_schema_internal::json_schema_oneOf_keyword_validator::validate(
   const JSON& data,
@@ -613,6 +660,8 @@ sneaker::json::json_schema_internal::json_schema_oneOf_keyword_validator::valida
   }
 } 
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_schema_internal::json_schema_not_keyword_validator::validate(
   const JSON& data,
@@ -639,6 +688,8 @@ sneaker::json::json_schema_internal::json_schema_not_keyword_validator::validate
     );
   }
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_schema_enum_keyword_validator::validate(
@@ -672,6 +723,8 @@ sneaker::json::json_schema_internal::json_schema_enum_keyword_validator::validat
   }
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_schema_internal::json_schema_ref_validator::validate(
   const JSON& data, const JSON& schema, const JSON::object& original_schema) const
@@ -686,6 +739,8 @@ sneaker::json::json_schema_internal::json_schema_ref_validator::validate(
 
   sneaker::json::json_schema_internal::validate(data, ref_schema, original_schema);
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_schema_datetime_format_validator::validate(
@@ -722,6 +777,8 @@ sneaker::json::json_schema_internal::json_schema_datetime_format_validator::vali
     );
   }
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_schema_email_format_validator::validate(
@@ -832,6 +889,8 @@ sneaker::json::json_schema_internal::json_schema_email_format_validator::validat
   }
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_schema_internal::json_schema_hostname_format_validator::validate(
   const JSON& data, const JSON& schema) const throw(json_validation_error)
@@ -865,6 +924,8 @@ sneaker::json::json_schema_internal::json_schema_hostname_format_validator::vali
   }
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_schema_internal::json_schema_ipv4_format_validator::validate(
   const JSON& data, const JSON& schema) const throw(json_validation_error)
@@ -897,6 +958,8 @@ sneaker::json::json_schema_internal::json_schema_ipv4_format_validator::validate
   }
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_schema_internal::json_schema_ipv6_format_validator::validate(
   const JSON& data, const JSON& schema) const throw(json_validation_error)
@@ -928,6 +991,8 @@ sneaker::json::json_schema_internal::json_schema_ipv6_format_validator::validate
     );
   }
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_schema_uri_format_validator::validate(
@@ -963,6 +1028,8 @@ sneaker::json::json_schema_internal::json_schema_uri_format_validator::validate(
   }
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_schema::validate_definitions(
   const JSON& data,
@@ -976,6 +1043,8 @@ sneaker::json::json_schema::validate_definitions(
    */
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_schema_internal::json_primitive_type_validator::validate(
   const JSON& data, const JSON& schema) const
@@ -983,6 +1052,8 @@ sneaker::json::json_schema_internal::json_primitive_type_validator::validate(
   this->validate_type(data);
   this->validate_semantic_format(data, schema);
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_primitive_type_validator::validate_type(
@@ -994,6 +1065,8 @@ sneaker::json::json_schema_internal::json_primitive_type_validator::validate_typ
     );
   }
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_primitive_type_validator::validate_semantic_format(
@@ -1029,7 +1102,11 @@ sneaker::json::json_schema_internal::json_primitive_type_validator::validate_sem
   }
 }
 
+// -----------------------------------------------------------------------------
+
 /************************* json_array_type_validator **************************/
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_array_type_validator::validate(
@@ -1048,6 +1125,8 @@ sneaker::json::json_schema_internal::json_array_type_validator::validate(
   this->validate_minItems(json_array, schema_object, original_schema);
   this->validate_uniqueItems(json_array, schema_object, original_schema);
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_array_type_validator::validate_additionalItems_and_items(
@@ -1121,6 +1200,8 @@ sneaker::json::json_schema_internal::json_array_type_validator::validate_additio
   }
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_schema_internal::json_array_type_validator::validate_maxItems(
   const JSON::array& json_array,
@@ -1147,6 +1228,8 @@ sneaker::json::json_schema_internal::json_array_type_validator::validate_maxItem
   }
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_schema_internal::json_array_type_validator::validate_minItems(
   const JSON::array& json_array,
@@ -1172,6 +1255,8 @@ sneaker::json::json_schema_internal::json_array_type_validator::validate_minItem
     );
   }
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_array_type_validator::validate_uniqueItems(
@@ -1204,6 +1289,8 @@ sneaker::json::json_schema_internal::json_array_type_validator::validate_uniqueI
   }
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_schema_internal::json_boolean_type_validator::validate(
   const JSON& data, const JSON& schema, const JSON::object& original_schema) const
@@ -1211,7 +1298,11 @@ sneaker::json::json_schema_internal::json_boolean_type_validator::validate(
   json_primitive_type_validator::validate(data, schema);
 }
 
+// -----------------------------------------------------------------------------
+
 /************************ json_integer_type_validator *************************/
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_integer_type_validator::validate(
@@ -1229,6 +1320,8 @@ sneaker::json::json_schema_internal::json_integer_type_validator::validate(
   this->validate_maximum_and_exclusiveMaximum(int_value, schema_object, original_schema);
   this->validate_minimum_and_exclusiveMinimum(int_value, schema_object, original_schema);
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_integer_type_validator::validate_multipleOf(
@@ -1257,6 +1350,8 @@ sneaker::json::json_schema_internal::json_integer_type_validator::validate_multi
     );
   }
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_integer_type_validator::validate_maximum_and_exclusiveMaximum(
@@ -1297,6 +1392,8 @@ sneaker::json::json_schema_internal::json_integer_type_validator::validate_maxim
   }
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_schema_internal::json_integer_type_validator::validate_minimum_and_exclusiveMinimum(
   const int& int_value,
@@ -1336,7 +1433,11 @@ sneaker::json::json_schema_internal::json_integer_type_validator::validate_minim
   }
 }
 
+// -----------------------------------------------------------------------------
+
 /************************* json_number_type_validator *************************/
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_number_type_validator::validate(
@@ -1351,6 +1452,8 @@ sneaker::json::json_schema_internal::json_number_type_validator::validate(
   this->validate_maximum_and_exclusiveMaximum(number_value, schema_object, original_schema);
   this->validate_minimum_and_exclusiveMinimum(number_value, schema_object, original_schema);
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_number_type_validator::validate_multipleOf(
@@ -1379,6 +1482,8 @@ sneaker::json::json_schema_internal::json_number_type_validator::validate_multip
     );
   }
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_number_type_validator::validate_maximum_and_exclusiveMaximum(
@@ -1419,6 +1524,8 @@ sneaker::json::json_schema_internal::json_number_type_validator::validate_maximu
   }
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_schema_internal::json_number_type_validator::validate_minimum_and_exclusiveMinimum(
   const double& number_value,
@@ -1458,7 +1565,11 @@ sneaker::json::json_schema_internal::json_number_type_validator::validate_minimu
   }
 }
 
+// -----------------------------------------------------------------------------
+
 /************************** json_null_type_validator **************************/
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_null_type_validator::validate(
@@ -1467,7 +1578,11 @@ sneaker::json::json_schema_internal::json_null_type_validator::validate(
   json_primitive_type_validator::validate(data, schema);
 }
 
+// -----------------------------------------------------------------------------
+
 /************************* json_object_type_validator *************************/
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_object_type_validator::validate(
@@ -1487,6 +1602,8 @@ sneaker::json::json_schema_internal::json_object_type_validator::validate(
   this->validate_properties(object_value, schema_object, original_schema);
   this->validate_dependencies(object_value, schema_object, original_schema);
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_object_type_validator::validate_maxProperties(
@@ -1514,6 +1631,8 @@ sneaker::json::json_schema_internal::json_object_type_validator::validate_maxPro
   }
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_schema_internal::json_object_type_validator::validate_minProperties(
   const JSON::object& object_value,
@@ -1539,6 +1658,8 @@ sneaker::json::json_schema_internal::json_object_type_validator::validate_minPro
     );
   }
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_object_type_validator::validate_required(
@@ -1570,6 +1691,8 @@ sneaker::json::json_schema_internal::json_object_type_validator::validate_requir
     }
   }
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_object_type_validator::validate_properties(
@@ -1706,6 +1829,8 @@ sneaker::json::json_schema_internal::json_object_type_validator::validate_proper
   }
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_schema_internal::json_object_type_validator::validate_dependencies(
   const JSON::object& object_value,
@@ -1760,7 +1885,11 @@ sneaker::json::json_schema_internal::json_object_type_validator::validate_depend
   }
 }
 
+// -----------------------------------------------------------------------------
+
 /************************* json_string_type_validator *************************/
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_string_type_validator::validate(
@@ -1778,6 +1907,8 @@ sneaker::json::json_schema_internal::json_string_type_validator::validate(
   this->validate_minLength(string_value, schema_object, original_schema);
   this->validate_pattern(string_value, schema_object, original_schema);
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_string_type_validator::validate_maxLength(
@@ -1805,6 +1936,8 @@ sneaker::json::json_schema_internal::json_string_type_validator::validate_maxLen
   }
 }
 
+// -----------------------------------------------------------------------------
+
 void
 sneaker::json::json_schema_internal::json_string_type_validator::validate_minLength(
   const JSON::string& string_value,
@@ -1830,6 +1963,8 @@ sneaker::json::json_schema_internal::json_string_type_validator::validate_minLen
     );
   }
 }
+
+// -----------------------------------------------------------------------------
 
 void
 sneaker::json::json_schema_internal::json_string_type_validator::validate_pattern(
@@ -1863,3 +1998,5 @@ sneaker::json::json_schema_internal::json_string_type_validator::validate_patter
     );
   }
 }
+
+// -----------------------------------------------------------------------------

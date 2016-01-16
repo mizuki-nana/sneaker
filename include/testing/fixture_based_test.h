@@ -56,6 +56,7 @@ protected:
   FixtureTeardownHandler m_teardown_handler;
 };
 
+// -----------------------------------------------------------------------------
 
 template<class T>
 sneaker::testing::fixture_based_test<T>::fixture_based_test(
@@ -65,12 +66,16 @@ sneaker::testing::fixture_based_test<T>::fixture_based_test(
 {
 }
 
+// -----------------------------------------------------------------------------
+
 template<class T>
 void
 sneaker::testing::fixture_based_test<T>::add_fixture(T fixture)
 {
   m_fixtures.push_back(fixture);
 }
+
+// -----------------------------------------------------------------------------
 
 template<class T>
 void
@@ -81,6 +86,8 @@ sneaker::testing::fixture_based_test<T>::TearDown()
     m_teardown_handler(static_cast<T>(*itr));
   }
 }
+
+// -----------------------------------------------------------------------------
 
 
 } /* end namespace testing */

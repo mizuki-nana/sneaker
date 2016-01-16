@@ -25,11 +25,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <math.h>
 
 
+// -----------------------------------------------------------------------------
+
 unsigned int
 nearest_exp2_ceil(unsigned int num)
 {
   return exp2(ceil(log2(num)));
 }
+
+// -----------------------------------------------------------------------------
 
 unsigned int
 nearest_exp2_floor(unsigned int num)
@@ -43,3 +47,5 @@ nearest_exp2_floor(unsigned int num)
 
   return exp2(floor(log_2));
 }
+
+// -----------------------------------------------------------------------------

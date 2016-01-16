@@ -34,6 +34,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <cstring>
 
 
+// -----------------------------------------------------------------------------
+
 class strbuf_unittest : public ::testing::Test {
 protected:
   virtual void SetUp() {
@@ -53,6 +55,7 @@ protected:
   strbuf_t m_strubuf;
 };
 
+// -----------------------------------------------------------------------------
 
 void
 strbuf_unittest::test_empty()
@@ -61,6 +64,8 @@ strbuf_unittest::test_empty()
   ASSERT_EQ(0, strbuf_len(m_strubuf));
   ASSERT_LE(0, strbuf_capacity(m_strubuf));
 }
+
+// -----------------------------------------------------------------------------
 
 void
 strbuf_unittest::test_append(const c_str text)
@@ -73,6 +78,8 @@ strbuf_unittest::test_append(const c_str text)
   ASSERT_STREQ(text, strbuf_cstr(m_strubuf));
   ASSERT_LE(0, strbuf_capacity(m_strubuf));
 }
+
+// -----------------------------------------------------------------------------
 
 void
 strbuf_unittest::test_append(
@@ -91,6 +98,7 @@ strbuf_unittest::test_append(
   }
 }
 
+// -----------------------------------------------------------------------------
 
 TEST_F(strbuf_unittest, TestCreation)
 {
@@ -99,11 +107,15 @@ TEST_F(strbuf_unittest, TestCreation)
   ASSERT_STREQ("", strbuf_cstr(m_strubuf));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(strbuf_unittest, TestAppend1)
 {
   char text[] = "Testing strbuf";
   this->test_append(text);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(strbuf_unittest, TestStrbufAppend2)
 {
@@ -116,6 +128,8 @@ TEST_F(strbuf_unittest, TestStrbufAppend2)
     (const c_str)"5 km a day, keep the doctor away!"
   );
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(strbuf_unittest, TestStrbufAppend3)
 {
@@ -130,6 +144,8 @@ TEST_F(strbuf_unittest, TestStrbufAppend3)
 
   this->test_append(text2);
 }
+
+// -----------------------------------------------------------------------------
 
 TEST_F(strbuf_unittest, TestStrbufAppend4)
 {
@@ -160,6 +176,8 @@ TEST_F(strbuf_unittest, TestStrbufAppend4)
   ASSERT_EQ(size, strbuf_len(m_strubuf));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(strbuf_unittest, TestStrbufAppend5)
 {
   char text1[3000];
@@ -188,6 +206,8 @@ TEST_F(strbuf_unittest, TestStrbufAppend5)
   ASSERT_EQ(size, strbuf_len(m_strubuf));
 }
 
+// -----------------------------------------------------------------------------
+
 TEST_F(strbuf_unittest, TestEmpty)
 {
   char text[] = "Another test for strbuf";
@@ -210,3 +230,5 @@ TEST_F(strbuf_unittest, TestEmpty)
   ASSERT_EQ(strlen(text2), strbuf_len(m_strubuf));
   ASSERT_LE(0, strbuf_capacity(m_strubuf));
 }
+
+// -----------------------------------------------------------------------------

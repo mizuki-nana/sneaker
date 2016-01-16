@@ -31,11 +31,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdlib.h>
 
 
+// -----------------------------------------------------------------------------
+
 struct __sneaker_stack_s {
   singly_node_t top;
   size_t size;
 };
 
+// -----------------------------------------------------------------------------
 
 stack_t stack_create()
 {
@@ -52,11 +55,15 @@ stack_t stack_create()
   return stack;
 }
 
+// -----------------------------------------------------------------------------
+
 size_t stack_size(stack_t stack)
 {
   assert(stack);
   return stack->size;
 }
+
+// -----------------------------------------------------------------------------
 
 void* stack_top(stack_t stack)
 {
@@ -64,6 +71,8 @@ void* stack_top(stack_t stack)
   RETURN_VAL_IF_NULL(stack->top, NULL);
   return stack->top->value;
 }
+
+// -----------------------------------------------------------------------------
 
 int stack_push(stack_t stack, void *val, size_t size)
 {
@@ -96,6 +105,8 @@ int stack_push(stack_t stack, void *val, size_t size)
   return 1;
 }
 
+// -----------------------------------------------------------------------------
+
 void* stack_pop(stack_t stack) 
 {
   assert(stack);
@@ -115,6 +126,8 @@ void* stack_pop(stack_t stack)
   return val;
 }
 
+// -----------------------------------------------------------------------------
+
 void stack_free(stack_t *stack)
 {
   stack_t _stack = *stack;
@@ -131,3 +144,5 @@ void stack_free(stack_t *stack)
 
   *stack = _stack;
 }
+
+// -----------------------------------------------------------------------------
