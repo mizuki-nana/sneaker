@@ -47,6 +47,22 @@ cmdline_program::cmdline_program(const char* description)
 
 // -----------------------------------------------------------------------------
 
+int
+cmdline_program::do_run()
+{
+  return 0;
+}
+
+// -----------------------------------------------------------------------------
+
+bool
+cmdline_program::check_parameters() const
+{
+  return true;
+}
+
+// -----------------------------------------------------------------------------
+
 void
 cmdline_program::add_string_parameter(
   const char* name, const char* description, std::string* res)

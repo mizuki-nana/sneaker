@@ -43,9 +43,22 @@ public:
 protected:
   explicit cmdline_program(const char*);
 
-  virtual int do_run() = 0;
+  /**
+   * Runs the program, and returns the return value of the program.
+   *
+   * Default implementation does nothing, and is intended to be overriden
+   * in subclasses.
+   */
+  int do_run();
 
-  virtual bool check_parameters() const = 0;
+  /**
+   * Checks the parameters passed to the program, and returns a boolean
+   * indicating if the parameters are valid.
+   *
+   * Default implementation does nothing, and is intended to be overriden
+   * in subclasses.
+   */
+  bool check_parameters() const;
 
   void add_string_parameter(const char*, const char*, std::string*);
 
