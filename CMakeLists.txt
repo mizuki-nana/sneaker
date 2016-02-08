@@ -1,17 +1,19 @@
+#!/bin/bash
+#
 # The MIT License (MIT)
-
-# Copyright (c) 2014 Yanzheng Li
-
+#
+# Copyright (c) 2016 Yanzheng Li
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy of
 # this software and associated documentation files (the "Software"), to deal in
 # the Software without restriction, including without limitation the rights to
 # use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
 # the Software, and to permit persons to whom the Software is furnished to do so,
 # subject to the following conditions:
-
+#
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
-
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
 # FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -19,25 +21,35 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-CC=cc
-CXX=c++
-CFLAGS=-Wall -std=c++11 -DGTEST_HAS_TR1_TUPLE=0
-LFLAGS=-lgtest -lpthread
-
-LIBGTEST=/usr/lib/libgtest.a
-TESTING=../../src/testing/testing.a
-
-LIBRARIES=$(LIBGTEST) $(TESTING)
-
-INPUTS=function_unittest
-
-OUTPUTS=function_unittest.test
+cmake_minimum_required(VERSION 2.6)
 
 
-all:
-	-for f in $(INPUTS); do $(CXX) $(CFLAGS) $(LIBRARIES) $$f.cc $(LFLAGS) -o $$f.test; done
+# Project.
+project (sneaker C CXX)
 
 
-.PHONY: clean
-clean:
-	-for f in $(OUTPUTS); do rm -f $$f; done;
+# Compilers.
+set(CMAKE_C_COMPILER "clang")
+set(CMAKE_CXX_COMPILER "clang++")
+
+
+# Paths.
+SET(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
+SET(TESTS_DIR ${PROJECT_SOURCE_DIR}/tests)
+
+
+# Packages.
+find_package(Boost 1.55 REQUIRED COMPONENTS
+    program_options
+    filesystem
+    regex
+    )
+
+
+# General compiler flags.
+set(CMAKE_CXX_FLAGS "-Wall -std=c++11")
+
+
+# Sub-directories.
+ADD_SUBDIRECTORY(${SRC_DIR})
+ADD_SUBDIRECTORY(${TESTS_DIR})

@@ -40,9 +40,9 @@ struct __sneaker_stack_s {
 
 // -----------------------------------------------------------------------------
 
-stack_t stack_create()
+sstack_t stack_create()
 {
-  stack_t stack = MALLOC(struct __sneaker_stack_s);
+  sstack_t stack = MALLOC(struct __sneaker_stack_s);
 
   if (stack == NULL) {
     errno = ENOMEM;
@@ -57,7 +57,7 @@ stack_t stack_create()
 
 // -----------------------------------------------------------------------------
 
-size_t stack_size(stack_t stack)
+size_t stack_size(sstack_t stack)
 {
   assert(stack);
   return stack->size;
@@ -65,7 +65,7 @@ size_t stack_size(stack_t stack)
 
 // -----------------------------------------------------------------------------
 
-void* stack_top(stack_t stack)
+void* sstack_top(sstack_t stack)
 {
   assert(stack);
   RETURN_VAL_IF_NULL(stack->top, NULL);
@@ -74,7 +74,7 @@ void* stack_top(stack_t stack)
 
 // -----------------------------------------------------------------------------
 
-int stack_push(stack_t stack, void *val, size_t size)
+int stack_push(sstack_t stack, void *val, size_t size)
 {
   assert(stack);
 
@@ -107,7 +107,7 @@ int stack_push(stack_t stack, void *val, size_t size)
 
 // -----------------------------------------------------------------------------
 
-void* stack_pop(stack_t stack) 
+void* stack_pop(sstack_t stack) 
 {
   assert(stack);
 
@@ -128,9 +128,9 @@ void* stack_pop(stack_t stack)
 
 // -----------------------------------------------------------------------------
 
-void stack_free(stack_t *stack)
+void stack_free(sstack_t *stack)
 {
-  stack_t _stack = *stack;
+  sstack_t _stack = *stack;
   assert(_stack);
 
   while (stack_size(_stack) > 0) {

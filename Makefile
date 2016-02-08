@@ -22,19 +22,19 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # Top level Makefile.
+#
+# This Makefile is used to build the entire project, including bootstrapping
+# CMake to build from source.
+
 
 VERSION=v0.2.8
 
-AR=ar
-ARFLAGS=rvs
-CPFLAGS=-vr
 
 INCLUDE=./include
 SRC=./src
-TESTS=./tests
+BIN=./bin
 DOCS=./docs
-DOCUMENTATION=./documentation
-SUBDIRS=$(SRC) $(TESTS)
+DOCS_BUILD=$(DOCS)/_build
 
 GTEST_DIR=./libs/gtest-1.6.0
 GTEST_BUILD=./libs/gtest_build
@@ -45,17 +45,18 @@ GTEST_STATIC_LIB_PATH=$(GTEST_BUILD)/$(GTEST_STATIC_LIB)
 GTEST_STATIC_LIB_TARGET_DIR=/usr/lib
 
 LIBSNEAKER=libsneaker
-LIBSNEAKER_A=libsneaker.a
+LIBSNEAKER_A=$(LIBSNEAKER).a
 LIBSNEAKER_GZIP=$(LIBSNEAKER)-$(VERSION).tar.gz
-
-### Environment variables ###
-export GTEST_COLOR=true
 
 
 .PHONY: all
-all: src
-	@find $(SRC) -name "*.o" | xargs $(AR) $(ARFLAGS) $(LIBSNEAKER_A)
-	@echo "\033[35mGenerated $(LIBSNEAKER_A)"
+all: gtest src docs
+
+
+.PHONY: src
+src:
+	mkdir -p $(BIN)
+	cd $(BIN); cmake ../ && make
 
 
 .PHONY: gtest
@@ -70,40 +71,25 @@ gtest:
 	rm -rf $(GTEST_BUILD)
 
 
-.PHONY: src
-src:
-	@$(MAKE) -C $(SRC) all
-
-
-.PHONY: test
-test:
-	@$(MAKE) -C $(TESTS) all
-	@echo "\033[32mGoing to run all tests...\033[39m";
-	@-for dir in $(TESTS); do (find $$dir -type f -name "*.test" -exec '{}' \;); done
-	@echo "\033[32mTests run completed...\033[39m";
-
-
 .PHONY: docs
 docs:
-	@$(MAKE) -C $(DOCS) html
-	@mkdir -p $(DOCUMENTATION) && cp -R docs/_build/* $(DOCUMENTATION)/
+	$(MAKE) -C $(DOCS) html
+	mkdir -p $(BIN)/$(DOCS)/ && cp -R $(DOCS_BUILD)/html $(BIN)/$(DOCS)/
 
 
 .PHONY: clean
 clean:
-	@-for dir in $(SUBDIRS); do ($(MAKE) -C $$dir clean;); done
-	@-for dir in $(TESTS); do ($(MAKE) -C $$dir clean;); done
-	@rm -rf ./$(LIBSNEAKER_A)
-	@rm -rf $(DOCUMENTATION)
+	rm -rf $(BIN)
+	rm -rf $(DOCS_BUILD)
 
 
 .PHONY: install
 install: docs
 	@echo "\033[32mInstalling $(VERSION)...\033[39m";
 	@sudo mkdir -p /usr/local/include/sneaker
-	@sudo cp -vr include/* /usr/local/include/sneaker
-	@sudo cp -vr $(LIBSNEAKER_A) /usr/local/lib/
-	@tar -zcvf $(LIBSNEAKER_GZIP) $(INCLUDE) $(SRC) $(TESTS) LICENSE Makefile README.md ./*.png
+	@sudo cp -vr $(INCLUDE)/* /usr/local/include/sneaker
+	@sudo cp -vr $(BIN)/$(SRC)/$(LIBSNEAKER_A) /usr/local/lib/
+	@tar -zcvf $(BIN)/$(LIBSNEAKER_GZIP) $(INCLUDE) $(SRC) $(TESTS) LICENSE Makefile README.md ./*.png
 	@echo "\033[32mInstall complete...\033[39m";
 	@echo "\033[32mHeader files: \033[35m/usr/local/include/sneaker/\033[39m";
 	@echo "\033[32mStatic lib: \033[35m/usr/local/lib/libsneaker.a\033[39m";
@@ -115,5 +101,4 @@ uninstall:
 	@sudo rm -rf /usr/local/include/sneaker
 	@sudo rm -rf /usr/local/lib/libsneaker.a
 	@rm -rf ./*.tar.gz
-	@rm -rf ./$(LIBSNEAKER)
 	@echo "\033[32mUninstalling complete.\033[39m";

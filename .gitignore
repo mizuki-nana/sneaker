@@ -19,3 +19,7 @@
 *.plist
 *.DS_Store
 *.swp
+
+# Build directories.
+bin/
+docs/_build/
