@@ -39,13 +39,10 @@ management and function decorators, which are all prevalent features in Python.
 * `testing` - _testing utilities_
 
 
-## Get started
+## Get Started
 
-Build binary
+Build project
 <br/>`make`
-
-Run all tests
-<br/>`make test`
 
 Install
 <br/>`make install`
