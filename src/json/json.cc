@@ -62,7 +62,7 @@ public:
 
 template<JSON::Type tag, typename T>
 class json_value_core : public json_value {
-protected:
+public:
   json_value_core(const T& value) : m_value(value) {}
   json_value_core(T&& value) : m_value(std::move(value)) {}
 
@@ -101,12 +101,12 @@ public:
     return value();
   }
 
-  virtual bool equals(const json_value& other) const {
-    return value() == other.number_value();
+  virtual bool equals(const json_value* other) const {
+    return value() == other->number_value();
   }
 
-  virtual bool less(const json_value& other) const {
-    return value() < other.number_value();
+  virtual bool less(const json_value* other) const {
+    return value() < other->number_value();
   }
 
   void dump(std::string& out) const {
@@ -130,12 +130,12 @@ public:
     return value();
   }
 
-  virtual bool equals(const json_value& other) const {
-    return value() == other.number_value();
+  virtual bool equals(const json_value* other) const {
+    return value() == other->number_value();
   }
 
-  virtual bool less(const json_value& other) const {
-    return value() < other.number_value();
+  virtual bool less(const json_value* other) const {
+    return value() < other->number_value();
   }
 
   void dump(std::string &out) const {
