@@ -28,27 +28,48 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../include/testing/testing.h"
 
 #include <cstdio>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <string>
 
+
+// -----------------------------------------------------------------------------
+
+namespace {
+
+const static std::string CONTENT("Hello world!!!\n");
+
+} /* end anonymous namespace */
 
 // -----------------------------------------------------------------------------
 
 class file_reader_unittest : public ::testing::Test {
 public:
+  file_reader_unittest()
+    :
+    ::testing::Test(),
+    m_file_path()
+  {
+    char buf[10] = {0};
+    sprintf(buf, "__temp__%d.txt", rand() % 10);
+    m_file_path.assign(buf);
+  }
+
   virtual void SetUp() {
-    m_temp_file.open(m_file_path);
-    m_temp_file << m_content;
-    m_temp_file.close();
+    std::ofstream ofs(m_file_path);
+    if (ofs.good())
+    {
+      ofs << CONTENT;
+    }
+    ofs.close();
   }
 
   virtual void TearDown() {
-    remove(m_file_path);
+    remove(m_file_path.c_str());
   }
 
-  const char* m_file_path = "./__temp__.txt";
-  const char* m_content = "Hello world!!!\n";
-  std::ofstream m_temp_file;
+  std::string m_file_path;
 };
 
 // -----------------------------------------------------------------------------
@@ -65,20 +86,20 @@ TEST_F(file_reader_unittest, TestInitialization)
 
 TEST_F(file_reader_unittest, TestInitializationWithFilePath)
 {
-  sneaker::io::file_reader reader(m_file_path);
+  sneaker::io::file_reader reader(m_file_path.c_str());
   const char* actual_file_path = reader.file_path();
 
-  ASSERT_STREQ(m_file_path, actual_file_path);
+  ASSERT_STREQ(m_file_path.c_str(), actual_file_path);
 }
 
 // -----------------------------------------------------------------------------
 
 TEST_F(file_reader_unittest, TestSetPath)
 {
-  sneaker::io::file_reader reader(m_file_path);
+  sneaker::io::file_reader reader(m_file_path.c_str());
   const char* actual_file_path = reader.file_path();
 
-  ASSERT_STREQ(m_file_path, actual_file_path);
+  ASSERT_STREQ(m_file_path.c_str(), actual_file_path);
 
   const char* new_path = "./hello_world.txt";
 
@@ -91,11 +112,9 @@ TEST_F(file_reader_unittest, TestSetPath)
 
 // -----------------------------------------------------------------------------
 
-// TODO: [SNEAKER-101] Fix `file_reader_unittest.TestReadFile` unit test case
-#if 0
 TEST_F(file_reader_unittest, TestReadFile)
 {
-  sneaker::io::file_reader reader(m_file_path);
+  sneaker::io::file_reader reader(m_file_path.c_str());
 
   char* content_read = nullptr;
 
@@ -103,9 +122,8 @@ TEST_F(file_reader_unittest, TestReadFile)
 
   ASSERT_EQ(true, res);
   ASSERT_NE(nullptr, content_read);
-  ASSERT_STREQ(m_content, content_read);
+  ASSERT_STREQ(CONTENT.c_str(), content_read);
 }
-#endif
 
 // -----------------------------------------------------------------------------
 
