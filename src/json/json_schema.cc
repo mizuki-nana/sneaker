@@ -43,6 +43,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <sys/types.h>
 
 
+#if defined(__clang__) and __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wc99-extensions"
+#endif
+
+
 namespace sneaker {
 
 
@@ -71,6 +77,8 @@ enum json_type_enum {
 
 class json_primitive_type_validator {
 public:
+  virtual ~json_primitive_type_validator();
+
   virtual JSON::Type primitive_type() const = 0;
 
   virtual void validate(const JSON&, const JSON&, const JSON::object&) const = 0;
@@ -80,6 +88,13 @@ protected:
   void validate_type(const JSON&) const;
   void validate_semantic_format(const JSON&, const JSON&) const;
 };
+
+// -----------------------------------------------------------------------------
+
+json_primitive_type_validator::~json_primitive_type_validator()
+{
+  // Do nothing here.
+}
 
 // -----------------------------------------------------------------------------
 
@@ -251,44 +266,53 @@ const json_validator_meta::map_type json_validator_meta::type_to_validator_map {
 
 class json_schema_keyword_validator {
 public:
+  virtual ~json_schema_keyword_validator();
+
   virtual void validate(
     const JSON&, const JSON::object&, const JSON::object&) const = 0;
 };
 
 // -----------------------------------------------------------------------------
 
+json_schema_keyword_validator::~json_schema_keyword_validator()
+{
+  // Do nothing here.
+}
+
+// -----------------------------------------------------------------------------
+
 class json_schema_allOf_keyword_validator : public json_schema_keyword_validator {
 public:
   virtual void validate(
-    const JSON&, const JSON::object&, const JSON::object&) const throw(json_validation_error);
+    const JSON&, const JSON::object&, const JSON::object&) const;
 };
 
 
 class json_schema_anyOf_keyword_validator : public json_schema_keyword_validator {
 public:
   virtual void validate(
-    const JSON&, const JSON::object&, const JSON::object&) const throw(json_validation_error);
+    const JSON&, const JSON::object&, const JSON::object&) const;
 };
 
 
 class json_schema_oneOf_keyword_validator : public json_schema_keyword_validator {
 public:
   virtual void validate(
-    const JSON&, const JSON::object&, const JSON::object&) const throw(json_validation_error);
+    const JSON&, const JSON::object&, const JSON::object&) const;
 };
 
 
 class json_schema_not_keyword_validator : public json_schema_keyword_validator {
 public:
   virtual void validate(
-    const JSON&, const JSON::object&, const JSON::object&) const throw(json_validation_error);
+    const JSON&, const JSON::object&, const JSON::object&) const;
 };
 
 
 class json_schema_enum_keyword_validator : public json_schema_keyword_validator {
 public:
   virtual void validate(
-    const JSON&, const JSON::object&, const JSON::object&) const throw(json_validation_error);
+    const JSON&, const JSON::object&, const JSON::object&) const;
 };
 
 
@@ -324,9 +348,18 @@ public:
 
 class json_schema_semantic_format_validator {
 public:
+  virtual ~json_schema_semantic_format_validator();
+
   virtual JSON::Type target_type() const = 0;
   virtual void validate(const JSON&, const JSON&) const = 0;
 };
+
+// -----------------------------------------------------------------------------
+
+json_schema_semantic_format_validator::~json_schema_semantic_format_validator()
+{
+  // Do nothing here.
+}
 
 // -----------------------------------------------------------------------------
 
@@ -336,7 +369,7 @@ public:
     return JSON::Type::STRING;
   }
 
-  void validate(const JSON&, const JSON&) const throw(json_validation_error);
+  void validate(const JSON&, const JSON&) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -347,7 +380,7 @@ public:
     return JSON::Type::STRING;
   }
 
-  void validate(const JSON&, const JSON&) const throw(json_validation_error);
+  void validate(const JSON&, const JSON&) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -358,7 +391,7 @@ public:
     return JSON::Type::STRING;
   }
 
-  void validate(const JSON&, const JSON&) const throw(json_validation_error);
+  void validate(const JSON&, const JSON&) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -369,7 +402,7 @@ public:
     return JSON::Type::STRING;
   }
 
-  void validate(const JSON&, const JSON&) const throw(json_validation_error);
+  void validate(const JSON&, const JSON&) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -380,7 +413,7 @@ public:
     return JSON::Type::STRING;
   }
 
-  void validate(const JSON&, const JSON&) const throw(json_validation_error);
+  void validate(const JSON&, const JSON&) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -391,7 +424,7 @@ public:
     return JSON::Type::STRING;
   }
 
-  void validate(const JSON&, const JSON&) const throw(json_validation_error);
+  void validate(const JSON&, const JSON&) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -422,15 +455,15 @@ const json_schema_semantic_format_validator_meta::map_type json_schema_semantic_
 
 // -----------------------------------------------------------------------------
 
-void validate(const JSON&, const JSON&, const JSON::object&) throw(json_validation_error);
+void validate(const JSON&, const JSON&, const JSON::object&);
 
 // -----------------------------------------------------------------------------
 
-JSON::object _get_ref(JSON::object, std::list<std::string>&) throw(json_validation_error);
+JSON::object _get_ref(JSON::object, std::list<std::string>&);
 
 // -----------------------------------------------------------------------------
 
-JSON::object get_ref(JSON::object, JSON::string) throw(json_validation_error);
+JSON::object get_ref(JSON::object, JSON::string);
 
 // -----------------------------------------------------------------------------
 
@@ -464,7 +497,7 @@ json_schema_internal::json_validator_meta::get_validator(
 
 void
 json_schema::validate(
-  const JSON& data, const JSON& schema) throw(json_validation_error)
+  const JSON& data, const JSON& schema)
 {
   const JSON::object original_schema = schema.object_items();
 
@@ -478,7 +511,7 @@ void
 json_schema_internal::validate(
   const JSON& data,
   const JSON& schema,
-  const JSON::object& original_schema) throw(json_validation_error)
+  const JSON::object& original_schema)
 {
   const JSON::object& schema_object = schema.object_items();
 
@@ -514,7 +547,7 @@ json_schema_internal::validate(
 
 JSON::object
 json_schema_internal::_get_ref(
-  JSON::object schema_object, std::list<std::string>& sections) throw(json_validation_error)
+  JSON::object schema_object, std::list<std::string>& sections)
 {
   if (sections.empty()) {
     return schema_object;
@@ -548,7 +581,7 @@ json_schema_internal::_get_ref(
 
 JSON::object
 json_schema_internal::get_ref(
-  JSON::object schema_object, JSON::string ref_path) throw(json_validation_error)
+  JSON::object schema_object, JSON::string ref_path)
 {
   std::string raw_ref_path = static_cast<std::string>(ref_path);
   std::list<std::string> sections;
@@ -563,7 +596,7 @@ void
 json_schema_internal::json_schema_allOf_keyword_validator::validate(
   const JSON& data,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const throw(json_validation_error)
+  const JSON::object& original_schema) const
 {
   const JSON::array& schemas = schema_object.at("allOf").array_items();
 
@@ -594,7 +627,7 @@ void
 json_schema_internal::json_schema_anyOf_keyword_validator::validate(
   const JSON& data,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const throw(json_validation_error)
+  const JSON::object& original_schema) const
 {
   const JSON::array& schemas = schema_object.at("anyOf").array_items();
 
@@ -628,7 +661,7 @@ void
 json_schema_internal::json_schema_oneOf_keyword_validator::validate(
   const JSON& data,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const throw(json_validation_error)
+  const JSON::object& original_schema) const
 {
   const JSON::array& schemas = schema_object.at("oneOf").array_items();
 
@@ -661,7 +694,7 @@ void
 json_schema_internal::json_schema_not_keyword_validator::validate(
   const JSON& data,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const throw(json_validation_error)
+  const JSON::object& original_schema) const
 {
   const JSON::object& schema = schema_object.at("not").object_items();
 
@@ -690,7 +723,7 @@ void
 json_schema_internal::json_schema_enum_keyword_validator::validate(
   const JSON& data,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const throw(json_validation_error)
+  const JSON::object& /* original_schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor76
@@ -739,7 +772,7 @@ json_schema_internal::json_schema_ref_validator::validate(
 
 void
 json_schema_internal::json_schema_datetime_format_validator::validate(
-  const JSON& data, const JSON& schema) const throw(json_validation_error)
+  const JSON& data, const JSON& /* schema */) const
 {
   /*
    * The value of the `date-time` format must be the Internet Date/Time Format.
@@ -753,10 +786,10 @@ json_schema_internal::json_schema_datetime_format_validator::validate(
   const JSON::string& format_value = data.string_value();
   const std::string datetime_str = static_cast<std::string>(format_value);
 
-  auto validate = [](const std::string& datetime_str) -> bool {
+  auto validate = [](const std::string& datetime_str_value) -> bool {
     const char* format = "%Y-%m-%dT%H:%M:%S";
     struct tm tm;
-    char* res = strptime(datetime_str.c_str(), format, &tm);
+    char* res = strptime(datetime_str_value.c_str(), format, &tm);
     return res != NULL;
   };
 
@@ -777,7 +810,7 @@ json_schema_internal::json_schema_datetime_format_validator::validate(
 
 void
 json_schema_internal::json_schema_email_format_validator::validate(
-  const JSON& data, const JSON& schema) const throw(json_validation_error)
+  const JSON& data, const JSON& /* schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor111
@@ -791,8 +824,8 @@ json_schema_internal::json_schema_email_format_validator::validate(
   /* Email address validation implementation from:
    * http://www.oreillynet.com/network/excerpt/spcookbook_chap03/index3.html
    */
-  auto validate = [](const std::string& email_str) -> bool {
-    const char* address = email_str.c_str();
+  auto validate = [](const std::string& email_str_value) -> bool {
+    const char* address = email_str_value.c_str();
     int count = 0;
     const char *c, *domain;
     static const char *rfc822_specials = "()<>@,;:\\\"[]";
@@ -888,7 +921,7 @@ json_schema_internal::json_schema_email_format_validator::validate(
 
 void
 json_schema_internal::json_schema_hostname_format_validator::validate(
-  const JSON& data, const JSON& schema) const throw(json_validation_error)
+  const JSON& data, const JSON& /* schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor114
@@ -899,10 +932,9 @@ json_schema_internal::json_schema_hostname_format_validator::validate(
   const JSON::string& format_value = data.string_value();
   const std::string hostname = static_cast<std::string>(format_value);
 
-  auto validate = [](const std::string& hostname) -> bool {
+  auto validate = [](const std::string& hostname_value) -> bool {
     struct addrinfo *result;
-    int error;
-    error = getaddrinfo(hostname.c_str(), NULL, NULL, &result);
+    const int error = getaddrinfo(hostname_value.c_str(), NULL, NULL, &result);
     return error == 0;
   };
 
@@ -923,7 +955,7 @@ json_schema_internal::json_schema_hostname_format_validator::validate(
 
 void
 json_schema_internal::json_schema_ipv4_format_validator::validate(
-  const JSON& data, const JSON& schema) const throw(json_validation_error)
+  const JSON& data, const JSON& /* schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor117
@@ -934,9 +966,10 @@ json_schema_internal::json_schema_ipv4_format_validator::validate(
   const JSON::string& format_value = data.string_value();
   const std::string ipv4_address = static_cast<std::string>(format_value);
 
-  auto validate = [](const std::string& ipv4_address) -> bool {
+  auto validate = [](const std::string& ipv4_address_value) -> bool {
     boost::system::error_code ec;
-    auto parsed_address = boost::asio::ip::address::from_string(ipv4_address, ec);
+    const auto parsed_address =
+      boost::asio::ip::address::from_string(ipv4_address_value, ec);
     return bool(ec == 0 && parsed_address.is_v4());
   };
 
@@ -957,7 +990,7 @@ json_schema_internal::json_schema_ipv4_format_validator::validate(
 
 void
 json_schema_internal::json_schema_ipv6_format_validator::validate(
-  const JSON& data, const JSON& schema) const throw(json_validation_error)
+  const JSON& data, const JSON& /* schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor120
@@ -968,9 +1001,10 @@ json_schema_internal::json_schema_ipv6_format_validator::validate(
   const JSON::string& format_value = data.string_value();
   const std::string ipv4_address = static_cast<std::string>(format_value);
 
-  auto validate = [](const std::string& ipv4_address) -> bool {
+  auto validate = [](const std::string& ipv4_address_value) -> bool {
     boost::system::error_code ec;
-    auto parsed_address = boost::asio::ip::address::from_string(ipv4_address, ec);
+    const auto parsed_address =
+      boost::asio::ip::address::from_string(ipv4_address_value, ec);
     return bool(ec == 0 && parsed_address.is_v6());
   };
 
@@ -991,7 +1025,7 @@ json_schema_internal::json_schema_ipv6_format_validator::validate(
 
 void
 json_schema_internal::json_schema_uri_format_validator::validate(
-  const JSON& data, const JSON& schema) const throw(json_validation_error)
+  const JSON& data, const JSON& /* schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor123
@@ -1005,10 +1039,10 @@ json_schema_internal::json_schema_uri_format_validator::validate(
   const JSON::string& format_value = data.string_value();
   const std::string uri = static_cast<std::string>(format_value);
 
-  auto validate = [](const std::string& uri) -> bool {
+  auto validate = [](const std::string& uri_value) -> bool {
     const std::string re_str = "^(?:[A-Za-z][A-Za-z0-9+\\-.]*:(?:\\/\\/(?:(?:[A-Za-z0-9\\-._~!$&'()*+,;=:]|%[0-9A-Fa-f]{2})*@)?(?:\\[(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){6}|::(?:[0-9A-Fa-f]{1,4}:){5}|(?:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,1}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){3}|(?:(?:[0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){2}|(?:(?:[0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}:|(?:(?:[0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})?::)(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})?::)|[Vv][0-9A-Fa-f]+\\.[A-Za-z0-9\\-._~!$&'()*+,;=:]+)\\]|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Za-z0-9\\-._~!$&'()*+,;=]|%[0-9A-Fa-f]{2})*)(?::[0-9]*)?(?:\\/(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|\\/(?:(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\\/(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*)?|(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\\/(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|)(?:\\?(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@\\/?]|%[0-9A-Fa-f]{2})*)?(?:\\#(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@\\/?]|%[0-9A-Fa-f]{2})*)?|(?:\\/\\/(?:(?:[A-Za-z0-9\\-._~!$&'()*+,;=:]|%[0-9A-Fa-f]{2})*@)?(?:\\[(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){6}|::(?:[0-9A-Fa-f]{1,4}:){5}|(?:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,1}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){3}|(?:(?:[0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){2}|(?:(?:[0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}:|(?:(?:[0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})?::)(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})?::)|[Vv][0-9A-Fa-f]+\\.[A-Za-z0-9\\-._~!$&'()*+,;=:]+)\\]|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Za-z0-9\\-._~!$&'()*+,;=]|%[0-9A-Fa-f]{2})*)(?::[0-9]*)?(?:\\/(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|\\/(?:(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\\/(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*)?|(?:[A-Za-z0-9\\-._~!$&'()*+,;=@]|%[0-9A-Fa-f]{2})+(?:\\/(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|)(?:\\?(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@\\/?]|%[0-9A-Fa-f]{2})*)?(?:\\#(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@\\/?]|%[0-9A-Fa-f]{2})*)?)$";
     boost::regex re(re_str);
-    return boost::regex_match(uri, re);
+    return boost::regex_match(uri_value, re);
   };
 
   bool valid = validate(uri);
@@ -1027,9 +1061,9 @@ json_schema_internal::json_schema_uri_format_validator::validate(
 
 void
 json_schema::validate_definitions(
-  const JSON& data,
-  const JSON::object& schema_object,
-  const JSON::object& original_schema) throw(json_validation_error)
+  const JSON& /* data */,
+  const JSON::object& /* schema_object */,
+  const JSON::object& /* original_schema */)
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor94
@@ -1153,10 +1187,10 @@ json_schema_internal::json_array_type_validator::validate_additionalItems_and_it
   const JSON::array& items = schema_object.at("items").array_items();
 
   if (schema_object.find("additionalItems") != schema_object.end()) {
-    const JSON& inner = schema_object.at("additionalItems");
+    const JSON& additional_items_json = schema_object.at("additionalItems");
 
-    if (inner.type() == JSON::Type::BOOL) {
-      bool additional_items_boolean = inner.bool_value();
+    if (additional_items_json.type() == JSON::Type::BOOL) {
+      bool additional_items_boolean = additional_items_json.bool_value();
 
       if (!additional_items_boolean && json_array.size() > items.size()) {
         throw json_validation_error(
@@ -1201,7 +1235,7 @@ void
 json_schema_internal::json_array_type_validator::validate_maxItems(
   const JSON::array& json_array,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const
+  const JSON::object& /* original_schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor42
@@ -1229,7 +1263,7 @@ void
 json_schema_internal::json_array_type_validator::validate_minItems(
   const JSON::array& json_array,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const
+  const JSON::object& /* original_schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor45
@@ -1257,7 +1291,7 @@ void
 json_schema_internal::json_array_type_validator::validate_uniqueItems(
   const JSON::array& json_array,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const
+  const JSON::object& /* original_schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor49
@@ -1288,7 +1322,7 @@ json_schema_internal::json_array_type_validator::validate_uniqueItems(
 
 void
 json_schema_internal::json_boolean_type_validator::validate(
-  const JSON& data, const JSON& schema, const JSON::object& original_schema) const
+  const JSON& data, const JSON& schema, const JSON::object& /* original_schema */) const
 {
   json_primitive_type_validator::validate(data, schema);
 }
@@ -1322,7 +1356,7 @@ void
 json_schema_internal::json_integer_type_validator::validate_multipleOf(
   const int& int_value,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const
+  const JSON::object& /* original_schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor14
@@ -1352,7 +1386,7 @@ void
 json_schema_internal::json_integer_type_validator::validate_maximum_and_exclusiveMaximum(
   const int& int_value,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const
+  const JSON::object& /* original_schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor17
@@ -1393,7 +1427,7 @@ void
 json_schema_internal::json_integer_type_validator::validate_minimum_and_exclusiveMinimum(
   const int& int_value,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const
+  const JSON::object& /* original_schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor21
@@ -1454,7 +1488,7 @@ void
 json_schema_internal::json_number_type_validator::validate_multipleOf(
   const double& number_value,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const
+  const JSON::object& /* original_schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor14
@@ -1484,7 +1518,7 @@ void
 json_schema_internal::json_number_type_validator::validate_maximum_and_exclusiveMaximum(
   const double& number_value,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const
+  const JSON::object& /* original_schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor17
@@ -1509,6 +1543,7 @@ json_schema_internal::json_number_type_validator::validate_maximum_and_exclusive
       )
     );
   } else if (exclusiveMaximum && number_value == maximum_value) {
+    // TODO: [SNEAKER-111] Use more robust floating-point equality checks
     throw json_validation_error(
       str(
         format(
@@ -1525,7 +1560,7 @@ void
 json_schema_internal::json_number_type_validator::validate_minimum_and_exclusiveMinimum(
   const double& number_value,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const
+  const JSON::object& /* original_schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor21
@@ -1550,6 +1585,7 @@ json_schema_internal::json_number_type_validator::validate_minimum_and_exclusive
       )
     );
   } else if (exclusiveMinimum && number_value == minimum_value) {
+    // TODO: [SNEAKER-111] Use more robust floating-point equality checks
     throw json_validation_error(
       str(
         format(
@@ -1568,7 +1604,7 @@ json_schema_internal::json_number_type_validator::validate_minimum_and_exclusive
 
 void
 json_schema_internal::json_null_type_validator::validate(
-  const JSON& data, const JSON& schema, const JSON::object& original_schema) const
+  const JSON& data, const JSON& schema, const JSON::object& /* original_schema */) const
 {
   json_primitive_type_validator::validate(data, schema);
 }
@@ -1604,7 +1640,7 @@ void
 json_schema_internal::json_object_type_validator::validate_maxProperties(
   const JSON::object& object_value,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const
+  const JSON::object& /* original_schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor54
@@ -1632,7 +1668,7 @@ void
 json_schema_internal::json_object_type_validator::validate_minProperties(
   const JSON::object& object_value,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const
+  const JSON::object& /* original_schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor57
@@ -1660,7 +1696,7 @@ void
 json_schema_internal::json_object_type_validator::validate_required(
   const JSON::object& object_value,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const
+  const JSON::object& /* original_schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor61
@@ -1860,8 +1896,8 @@ json_schema_internal::json_object_type_validator::validate_dependencies(
       // Property dependency
       const JSON::array& dependency_array = dependency.array_items();
 
-      for (auto itr = dependency_array.begin(); itr != dependency_array.end(); ++itr) {
-        const JSON& dependency_item = static_cast<const JSON>(*itr);
+      for (auto ary_itr = dependency_array.begin(); ary_itr != dependency_array.end(); ++ary_itr) {
+        const JSON& dependency_item = static_cast<const JSON>(*ary_itr);
 
         const JSON::string& dependency_field = dependency_item.string_value();
 
@@ -1909,7 +1945,7 @@ void
 json_schema_internal::json_string_type_validator::validate_maxLength(
   const JSON::string& string_value,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const
+  const JSON::object& /* original_schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor26
@@ -1937,7 +1973,7 @@ void
 json_schema_internal::json_string_type_validator::validate_minLength(
   const JSON::string& string_value,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const
+  const JSON::object& /* original_schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor29
@@ -1965,7 +2001,7 @@ void
 json_schema_internal::json_string_type_validator::validate_pattern(
   const JSON::string& string_value,
   const JSON::object& schema_object,
-  const JSON::object& original_schema) const
+  const JSON::object& /* original_schema */) const
 {
   /* Spec:
    * http://json-schema.org/latest/json-schema-validation.html#anchor33
@@ -2001,3 +2037,8 @@ json_schema_internal::json_string_type_validator::validate_pattern(
 
 
 } /* end namespace sneaker */
+
+
+#if defined(__clang__) and __clang__
+  #pragma clang diagnostic pop
+#endif

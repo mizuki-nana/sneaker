@@ -31,6 +31,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string>
 
 
+#if defined(__clang__) and __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wshift-sign-overflow"
+#endif
+
+
 // -----------------------------------------------------------------------------
 
 /*******************************************************************************
@@ -233,7 +239,7 @@ void
 set_nth_bit_unittest::test(int bit, int expected_value)
 {
   int val = 0;
-  set_nth_bit(&val, bit);
+  set_nth_bit(&val, static_cast<char>(bit));
   EXPECT_EQ(expected_value, val);
 }
 
@@ -295,7 +301,7 @@ public:
 void
 clear_nth_bit_unittest::test(int value, int bit, int expected_value)
 {
-  clear_nth_bit(&value, bit);
+  clear_nth_bit(&value, static_cast<char>(bit));
   EXPECT_EQ(expected_value, value);
 }
 
@@ -478,7 +484,7 @@ TEST_F(set_nth_bit_uint32_unittest, TestSet16thBit)
 
 TEST_F(set_nth_bit_uint32_unittest, TestSet32thBit)
 {
-  test(32, (1 << 31));
+  test(32, (1u << 31));
 }
 
 // -----------------------------------------------------------------------------
@@ -541,7 +547,7 @@ TEST_F(clear_nth_bit_uint32_unittest, TestClear16thBit)
 
 TEST_F(clear_nth_bit_uint32_unittest, TestClear32thBit)
 {
-  test((1 << 31), 32);
+  test((1u << 31), 32);
 }
 
 // -----------------------------------------------------------------------------
@@ -612,7 +618,7 @@ TEST_F(is_bit_set_uint32_unittest, TestSetOn16thBit)
 
 TEST_F(is_bit_set_uint32_unittest, TestSetOn32thBit)
 {
-  uint32_t val = 1 << 31;
+  uint32_t val = 1u << 31;
   EXPECT_FALSE(is_bit_set_uint32(val, 1));
   EXPECT_FALSE(is_bit_set_uint32(val, 2));
   EXPECT_FALSE(is_bit_set_uint32(val, 4));
@@ -879,8 +885,7 @@ TEST_F(generate_text_unittest, TestPassZeroMinAndMax)
 
 TEST_F(generate_text_unittest, TestPassNonZeroLenAndZeroMax)
 {
-  int i;
-  for (i = 1; i <= 5000; i++) {
+  for (size_t i = 1; i <= 5000; ++i) {
     char *text = generate_text(i, 0);
     assert(text);
     ASSERT_EQ(i, strlen(text));
@@ -892,8 +897,7 @@ TEST_F(generate_text_unittest, TestPassNonZeroLenAndZeroMax)
 
 TEST_F(generate_text_unittest, TestPassZeroLenAndNonZeroMax)
 {
-  int i;
-  for (i = 1; i <= 5000; i++) {
+  for (size_t i = 1; i <= 5000; ++i) {
     char *text = generate_text(0, i);
     assert(text);
     ASSERT_GE(i, strlen(text));
@@ -920,3 +924,7 @@ TEST_F(generate_loremipsum_unittest, TestGenerateLoremIpsum)
 }
 
 // -----------------------------------------------------------------------------
+
+#if defined(__clang__) and __clang__
+  #pragma clang diagnostic pop
+#endif

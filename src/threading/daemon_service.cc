@@ -31,8 +31,9 @@ namespace threading {
 
 // -----------------------------------------------------------------------------
 
-daemon_service::daemon_service(bool wait_for_termination):
-  wait_for_termination(wait_for_termination)
+daemon_service::daemon_service(bool wait_for_termination)
+  :
+  m_wait_for_termination(wait_for_termination)
 {
   this->init();
 }
@@ -60,7 +61,7 @@ daemon_service::start()
 {
   int created = pthread_create(&m_thread_id, &m_attr, handler, (void*)this);
 
-  if (wait_for_termination) {
+  if (m_wait_for_termination) {
     void* res = NULL;
     created = pthread_join(m_thread_id, &res);
   }

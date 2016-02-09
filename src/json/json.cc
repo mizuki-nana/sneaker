@@ -34,6 +34,8 @@ namespace sneaker {
 namespace json {
 
 
+// -----------------------------------------------------------------------------
+
 class json_value {
 public:
   friend class JSON;
@@ -74,18 +76,35 @@ public:
     return tag;
   }
 
-  virtual bool equals(const json_value* other) const {
-    return value() == reinterpret_cast<const json_value_core<tag, T>*>(other)->value();
-  }
+  virtual bool equals(const json_value* other) const;
 
-  virtual bool less(const json_value* other) const {
-    return value() < reinterpret_cast<const json_value_core<tag, T>*>(other)->value();
-  }
+  virtual bool less(const json_value* other) const;
 
   virtual void dump(std::string& out) const = 0;
 
   const T m_value;
 };
+
+// -----------------------------------------------------------------------------
+
+/* virtual */
+template<JSON::Type tag, typename T>
+bool
+json_value_core<tag, T>::equals(const json_value* other) const
+{
+  // TODO: [SNEAKER-111] Use more robust floating-point equality checks
+  return value() == reinterpret_cast<const json_value_core<tag, T>*>(other)->value();
+}
+
+// -----------------------------------------------------------------------------
+
+/* virtual */
+template<JSON::Type tag, typename T>
+bool
+json_value_core<tag, T>::less(const json_value* other) const
+{
+  return value() < reinterpret_cast<const json_value_core<tag, T>*>(other)->value();
+}
 
 // -----------------------------------------------------------------------------
 
@@ -98,16 +117,12 @@ public:
   }
 
   int int_value() const {
-    return value();
+    return static_cast<int>(value());
   }
 
-  virtual bool equals(const json_value* other) const {
-    return value() == other->number_value();
-  }
+  virtual bool equals(const json_value* other) const;
 
-  virtual bool less(const json_value* other) const {
-    return value() < other->number_value();
-  }
+  virtual bool less(const json_value* other) const;
 
   void dump(std::string& out) const {
     char buf[32];
@@ -118,9 +133,28 @@ public:
 
 // -----------------------------------------------------------------------------
 
+/* virtual */
+bool
+json_double::equals(const json_value* other) const
+{
+  // TODO: [SNEAKER-111] Use more robust floating-point equality checks
+  return number_value() == other->number_value();
+}
+
+// -----------------------------------------------------------------------------
+
+/* virtual */
+bool
+json_double::less(const json_value* other) const
+{
+  return number_value() < other->number_value();
+}
+
+// -----------------------------------------------------------------------------
+
 class json_int final : public json_value_core<JSON::Type::NUMBER, int> {
 public:
-  json_int(double value) : json_value_core(value) {}
+  json_int(int value) : json_value_core(value) {}
 
   double number_value() const {
     return value();
@@ -130,13 +164,9 @@ public:
     return value();
   }
 
-  virtual bool equals(const json_value* other) const {
-    return value() == other->number_value();
-  }
+  virtual bool equals(const json_value* other) const;
 
-  virtual bool less(const json_value* other) const {
-    return value() < other->number_value();
-  }
+  virtual bool less(const json_value* other) const;
 
   void dump(std::string &out) const {
     char buf[32];
@@ -144,6 +174,25 @@ public:
     out += buf;
   }
 };
+
+// -----------------------------------------------------------------------------
+
+/* virtual */
+bool
+json_int::equals(const json_value* other) const
+{
+  // TODO: [SNEAKER-111] Use more robust floating-point equality checks
+  return value() == other->number_value();
+}
+
+// -----------------------------------------------------------------------------
+
+/* virtual */
+bool
+json_int::less(const json_value* other) const
+{
+  return value() < other->number_value();
+}
 
 // -----------------------------------------------------------------------------
 
@@ -155,10 +204,17 @@ public:
     return value();
   }
 
-  void dump(std::string& out) const {
-    out += value() ? "true" : "false";
-  }
+  virtual void dump(std::string& out) const;
 };
+
+// -----------------------------------------------------------------------------
+
+/* virtual */
+void
+json_boolean::dump(std::string& out) const
+{
+  out += value() ? "true" : "false";
+}
 
 // -----------------------------------------------------------------------------
 
@@ -171,9 +227,7 @@ public:
     return m_value;
   }
 
-  void dump(std::string& out) const {
-    json_string::dump(value(), out);
-  }
+  virtual void dump(std::string& out) const;
 
   static void dump(const std::string& value, std::string& out) {
     out += '"';
@@ -213,6 +267,15 @@ public:
     out += '"';
   }
 };
+
+// -----------------------------------------------------------------------------
+
+/* virtual */
+void
+json_string::dump(std::string& out) const
+{
+  json_string::dump(value(), out);
+}
 
 // -----------------------------------------------------------------------------
 
@@ -286,10 +349,17 @@ class json_null final : public json_value_core<JSON::Type::NUL, JSON::null> {
 public:
   json_null() : json_value_core(nullptr) {}
 
-  void dump(std::string& out) const {
-    out += "null";
-  }
+  virtual void dump(std::string& out) const;
 };
+
+// -----------------------------------------------------------------------------
+
+/* virtual */
+void
+json_null::dump(std::string& out) const
+{
+  out += "null";
+}
 
 // -----------------------------------------------------------------------------
 
@@ -302,6 +372,10 @@ struct Statics {
   const JSON::object empty_map;
   Statics() {}
 };
+
+const Statics& statics();
+
+const JSON& static_null();
 
 // -----------------------------------------------------------------------------
 
@@ -321,7 +395,8 @@ const JSON& static_null()
 
 // -----------------------------------------------------------------------------
 
-JSON::JSON() noexcept :
+JSON::JSON()
+  :
   m_ptr(statics().null)
 {
   // Do nothing here.
@@ -329,7 +404,8 @@ JSON::JSON() noexcept :
 
 // -----------------------------------------------------------------------------
 
-JSON::JSON(null) noexcept :
+JSON::JSON(null)
+  :
   m_ptr(statics().null)
 {
   // Do nothing here.
@@ -337,7 +413,8 @@ JSON::JSON(null) noexcept :
 
 // -----------------------------------------------------------------------------
 
-JSON::JSON(double value) noexcept :
+JSON::JSON(double value)
+  :
   m_ptr(std::make_shared<json_double>(value))
 {
   // Do nothing here.
@@ -345,7 +422,8 @@ JSON::JSON(double value) noexcept :
 
 // -----------------------------------------------------------------------------
 
-JSON::JSON(int value) noexcept :
+JSON::JSON(int value)
+  :
   m_ptr(std::make_shared<json_int>(value))
 {
   // Do nothing here.
@@ -353,7 +431,8 @@ JSON::JSON(int value) noexcept :
 
 // -----------------------------------------------------------------------------
 
-JSON::JSON(bool value) noexcept :
+JSON::JSON(bool value)
+  :
   m_ptr(value ? statics().t : statics().f)
 {
   // Do nothing here.
@@ -361,7 +440,8 @@ JSON::JSON(bool value) noexcept :
 
 // -----------------------------------------------------------------------------
 
-JSON::JSON(const string& value) noexcept:
+JSON::JSON(const string& value)
+  :
   m_ptr(std::make_shared<json_string>(value))
 {
   // Do nothing here.
@@ -369,7 +449,8 @@ JSON::JSON(const string& value) noexcept:
 
 // -----------------------------------------------------------------------------
 
-JSON::JSON(string&& value) noexcept :
+JSON::JSON(string&& value)
+  :
   m_ptr(std::make_shared<json_string>(std::move(value)))
 {
   // Do nothing here.
@@ -377,7 +458,8 @@ JSON::JSON(string&& value) noexcept :
 
 // -----------------------------------------------------------------------------
 
-JSON::JSON(const char * value) noexcept :
+JSON::JSON(const char * value)
+  :
   m_ptr(std::make_shared<json_string>(value))
 {
   // Do nothing here.
@@ -385,7 +467,8 @@ JSON::JSON(const char * value) noexcept :
 
 // -----------------------------------------------------------------------------
 
-JSON::JSON(const array & value) noexcept :
+JSON::JSON(const array & value)
+  :
   m_ptr(std::make_shared<json_array>(value))
 {
   // Do nothing here.
@@ -393,7 +476,8 @@ JSON::JSON(const array & value) noexcept :
 
 // -----------------------------------------------------------------------------
 
-JSON::JSON(array&& value) noexcept :
+JSON::JSON(array&& value)
+  :
   m_ptr(std::make_shared<json_array>(std::move(value)))
 {
   // Do nothing here.
@@ -401,7 +485,8 @@ JSON::JSON(array&& value) noexcept :
 
 // -----------------------------------------------------------------------------
 
-JSON::JSON(const object& value) noexcept :
+JSON::JSON(const object& value)
+  :
   m_ptr(std::make_shared<json_object>(value))
 {
   // Do nothing here.
@@ -409,7 +494,8 @@ JSON::JSON(const object& value) noexcept :
 
 // -----------------------------------------------------------------------------
 
-JSON::JSON(object&& value) noexcept :
+JSON::JSON(object&& value)
+  :
   m_ptr(std::make_shared<json_object>(std::move(value)))
 {
   // Do nothing here.
@@ -612,7 +698,7 @@ json_value::object_items() const
 // -----------------------------------------------------------------------------
 
 const JSON&
-json_value::operator[](size_t i) const
+json_value::operator[](size_t /* i */) const
 {
   return static_null();
 }
@@ -620,7 +706,7 @@ json_value::operator[](size_t i) const
 // -----------------------------------------------------------------------------
 
 const JSON&
-json_value::operator[](const std::string& key) const
+json_value::operator[](const std::string& /* key */) const
 {
   return static_null();
 }
@@ -649,7 +735,7 @@ json_object::operator[](const std::string& key) const
 // -----------------------------------------------------------------------------
 
 JSON
-parse(const std::string& in) throw(invalid_json_error)
+parse(const std::string& in)
 {
   std::string err;
   json_parser parser { in, 0, err, false };

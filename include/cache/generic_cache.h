@@ -61,8 +61,8 @@ private:
 
   void check_invariance() const;
 
-  CreateHandler create_handler;
-  DestroyHandler destroy_handler;
+  CreateHandler m_create_handler;
+  DestroyHandler m_destroy_handler;
   std::map<K, T> m_map;
 };
 
@@ -71,10 +71,10 @@ private:
 template<class K, class T, class CreateHandler, class DestroyHandler>
 generic_cache<K, T, CreateHandler, DestroyHandler>::generic_cache(
   CreateHandler create_handler,
-  DestroyHandler destroy_handler
-):
-  create_handler(create_handler),
-  destroy_handler(destroy_handler),
+  DestroyHandler destroy_handler)
+  :
+  m_create_handler(create_handler),
+  m_destroy_handler(destroy_handler),
   m_map(std::map<K, T>())
 {
   this->check_invariance();
@@ -94,8 +94,8 @@ template<class K, class T, class CreateHandler, class DestroyHandler>
 void
 generic_cache<K, T, CreateHandler, DestroyHandler>::check_invariance() const
 {
-  assert(this->create_handler);
-  assert(this->destroy_handler);
+  assert(m_create_handler);
+  assert(m_destroy_handler);
 }
 
 // -----------------------------------------------------------------------------
@@ -166,7 +166,7 @@ generic_cache<K, T, CreateHandler, DestroyHandler>::put(K key, bool forceUpdate)
 
   T ptr = nullptr;
 
-  bool res = create_handler(key, &ptr);
+  bool res = m_create_handler(key, &ptr);
 
   if (ptr == nullptr || !res) {
     return false;
@@ -240,7 +240,7 @@ generic_cache<K, T, CreateHandler, DestroyHandler>::_erase(K key)
     return false;
   }
 
-  bool res = destroy_handler(key, &ptr);
+  bool res = m_destroy_handler(key, &ptr);
 
   return res;
 }

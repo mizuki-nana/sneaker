@@ -94,9 +94,9 @@ public:
 
   class vertex {
     public:
-      explicit vertex(): m_index(-1), m_lowlink(0) {};
+      explicit vertex(): m_index(-1), m_lowlink(0) {}
 
-      explicit vertex(T value): m_value(value), m_index(-1), m_lowlink(0) {};
+      explicit vertex(T value): m_value(value), m_index(-1), m_lowlink(0) {}
 
       using _Enumerable = typename std::list<vertex*>;
 
@@ -163,7 +163,7 @@ public:
         m_collection.push_back(scc);
       }
 
-      int size() const {
+      size_t size() const {
         return m_collection.size();
       }
 
@@ -250,14 +250,14 @@ tarjan<T>::strong_connect(vertex* vtx)
 
   m_stack.push_back(vtx);
 
-  for (auto itr = vtx->begin(); itr != vtx->end(); ++itr) {
-    vertex* w = static_cast<vertex*>(*itr);
+  for (auto vtx_itr = vtx->begin(); vtx_itr != vtx->end(); ++vtx_itr) {
+    vertex* w = static_cast<vertex*>(*vtx_itr);
 
     if (w->index() < 0) {
       this->strong_connect(w);
       vtx->set_lowlink(std::min(vtx->lowlink(), w->lowlink()));
     } else {
-      auto itr = std::find_if (
+      auto itr_ = std::find_if (
         m_stack.begin(),
         m_stack.end(),
         [&w](vertex* vtx_) {
@@ -265,12 +265,12 @@ tarjan<T>::strong_connect(vertex* vtx)
         }
       );
 
-      if (itr != m_stack.end()) {
+      if (itr_ != m_stack.end()) {
         vtx->set_lowlink(std::min(vtx->lowlink(), w->index()));
       }
     }
 
-    *itr = w;
+    *vtx_itr = w;
   };
 
   if (vtx->lowlink() == vtx->index()) {

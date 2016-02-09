@@ -173,6 +173,12 @@ class atomic_incrementor_atomicity_test : public atomic_incrementor_unittest {
 public:
   struct arg {
     sneaker::atomic::atomic_incrementor<int, INT_MAX>* ptr;
+
+    arg(sneaker::atomic::atomic_incrementor<int, INT_MAX>* ptr_)
+      :
+      ptr(ptr_)
+    {
+    }
   };
 
   static void* increment(void* ptr) {
@@ -207,9 +213,7 @@ TEST_F(atomic_incrementor_atomicity_test, TestAtomicity)
   pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
   for (int i = 0; i < NUM_THREADS; ++i) {
-    struct atomic_incrementor_atomicity_test::arg arg = {
-      .ptr = &incrementor
-    };
+    struct atomic_incrementor_atomicity_test::arg arg(&incrementor);
 
     int res = pthread_create(
       &threads[i], &attr, atomic_incrementor_atomicity_test::increment, (void*)(&arg));

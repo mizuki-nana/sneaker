@@ -26,6 +26,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <execinfo.h>
 #include <ostream>
 #include <string>
+#include <vector>
 
 
 namespace sneaker {
@@ -43,10 +44,10 @@ stack_trace::print_stack_trace(
   unsigned int frames_num = max_frames + 1;
 
   // Array for storing stack trace data.
-  void* addrlist[frames_num];
+  std::vector<void*> addrlist(frames_num);
 
   // Retrieve current stack addresses.
-  int addrlen = backtrace(addrlist, frames_num);
+  int addrlen = backtrace(addrlist.data(), static_cast<int>(frames_num));
 
   if (!addrlen)
   {
@@ -55,7 +56,7 @@ stack_trace::print_stack_trace(
 
   // Resolve addresses into strings containing "filename(function+address)"
   // Note: This array must be freed.
-  char** symbollist = backtrace_symbols(addrlist, addrlen);
+  char** symbollist = backtrace_symbols(addrlist.data(), addrlen);
 
   if (!symbollist)
   {

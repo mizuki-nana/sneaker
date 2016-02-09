@@ -41,7 +41,6 @@ public:
   };
 
   inline explicit object_traits();
-  inline ~object_traits();
 
   template<typename U>
   inline explicit object_traits(object_traits<U> const&);
@@ -61,14 +60,6 @@ public:
 
 template<typename T>
 object_traits<T>::object_traits()
-{
-  // Do nothing here.
-}
-
-// -----------------------------------------------------------------------------
-
-template<typename T>
-object_traits<T>::~object_traits()
 {
   // Do nothing here.
 }

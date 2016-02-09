@@ -55,3 +55,4 @@ void stack_free(sstack_t *stack);
 
 
 #endif /* SNEAKER_STACK_H_ */
+

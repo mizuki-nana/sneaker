@@ -47,3 +47,4 @@ unsigned int nearest_exp2_floor(unsigned int);
 
 
 #endif /* SNEAKER_MATH_H_ */
+

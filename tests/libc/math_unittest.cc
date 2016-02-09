@@ -36,7 +36,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 class nearest_exp2_ceil_unittest : public ::testing::Test {
 public:
-  void test(int input_value, int expected_value) {
+  void test(unsigned int input_value, unsigned int expected_value) {
     ASSERT_EQ(expected_value, nearest_exp2_ceil(input_value));
   }
 };
@@ -69,7 +69,7 @@ TEST_F(nearest_exp2_ceil_unittest, TestOn2ToThePowerOf20)
  ******************************************************************************/
 class nearest_exp2_floor_unittest : public ::testing::Test {
 public:
-  void test(int input_value, int expected_value) {
+  void test(unsigned int input_value, unsigned int expected_value) {
     ASSERT_EQ(expected_value, nearest_exp2_floor(input_value));
   }
 };

@@ -23,9 +23,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for `generic_cache` in sneaker/cache/generic_cache.h */
 
-#ifndef SNEAKER_GENERIC_CACHE_UNITTEST
-#define SNEAKER_GENERIC_CACHE_UNITTEST
-
+// TODO: [SNEAKER-110] Clean up `tests/cache/generic_cache_unittest.cc`
 
 #include "../../include/cache/generic_cache.h"
 
@@ -38,11 +36,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 // -----------------------------------------------------------------------------
 
-namespace generic_cache_unittest_fixture {
-  std::map<char*, char*> truth_map;
-
+namespace generic_cache_unittest_fixture
+{
   typedef char* K;
   typedef char* T;
+
+  static std::map<K, T> truth_map;
+
+  // Forward declarations.
+  bool CreateHandler(K key, T* value);
+  bool DestroyHandler(K key, T* value);
 
   bool CreateHandler(K key, T* value)
   {
@@ -54,7 +57,7 @@ namespace generic_cache_unittest_fixture {
     return true;
   }
 
-  bool DestroyHandler(K key, T* value)
+  bool DestroyHandler(K key, T* /* value */)
   {
     truth_map.erase(key);
 
@@ -249,9 +252,3 @@ TEST_F(generic_cache_unittest, TestEraseOnNonExistentKey)
 }
 
 // -----------------------------------------------------------------------------
-
-
-#endif /* SNEAKER_GENERIC_CACHE_UNITTEST */
-
-
-#undef SNEAKER_GENERIC_CACHE_UNITTEST

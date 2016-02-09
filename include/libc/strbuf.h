@@ -46,7 +46,7 @@ void strbuf_empty(strbuf_t strbuf);
 
 size_t strbuf_len(strbuf_t strbuf);
 
-const c_str strbuf_cstr(strbuf_t strbuf);
+c_str strbuf_cstr(strbuf_t strbuf);
 
 size_t strbuf_capacity(strbuf_t strbuf);
 
@@ -59,3 +59,4 @@ int strbuf_append(strbuf_t strbuf, const c_str in_str);
 
 
 #endif /* SNEAKER_STRBUF_H_ */
+

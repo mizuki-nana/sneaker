@@ -40,7 +40,7 @@ class reservation_unittest : public ::testing::Test {
 public:
   typedef class fixture {
   public:
-    explicit fixture(int i) : i(i)
+    explicit fixture(int i_) : i(i_)
     {
     }
 

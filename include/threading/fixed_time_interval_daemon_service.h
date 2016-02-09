@@ -23,10 +23,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef SNEAKER_FIXED_TIME_INTERVAL_DAEMON_SERVICE_H_
 #define SNEAKER_FIXED_TIME_INTERVAL_DAEMON_SERVICE_H_
 
-#include <limits.h>
+#include "daemon_service.h"
+
 #include <boost/asio.hpp>
 #include <boost/system/error_code.hpp>
-#include "daemon_service.h"
+
+#include <limits.h>
 
 
 typedef void(*ExternalHandler)(void*);
@@ -40,7 +42,7 @@ namespace threading {
 
 class fixed_time_interval_daemon_service : public daemon_service {
 public:
-  fixed_time_interval_daemon_service(uint32_t, ExternalHandler, bool=false, int32_t=UINT_MAX);
+  fixed_time_interval_daemon_service(uint32_t, ExternalHandler, bool=false, int32_t=INT_MAX);
   ~fixed_time_interval_daemon_service();
 
   size_t interval() const;

@@ -167,7 +167,7 @@ strbuf_len(strbuf_t strbuf)
 
 // -----------------------------------------------------------------------------
 
-const c_str
+c_str
 strbuf_cstr(strbuf_t strbuf)
 {
   assert(strbuf);

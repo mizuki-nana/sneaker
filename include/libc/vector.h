@@ -57,3 +57,4 @@ const void** vector_content(vector_t vector);
 
 
 #endif /* SNEAKER_VECTOR_H_ */
+

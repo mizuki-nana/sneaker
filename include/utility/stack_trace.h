@@ -39,10 +39,10 @@ public:
 };
 
 
-}; /* end namespace utility */
+} /* end namespace utility */
 
 
-}; /* end namespace sneaker */
+} /* end namespace sneaker */
 
 
 #endif /* SNEAKER_STACK_TRACE_H_ */

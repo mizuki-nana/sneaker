@@ -47,7 +47,7 @@ public:
 
   template<class ExceptionType, uint32_t N>
   R operator() (Args... args) const {
-    for (int i = 0; i < N; ++i) {
+    for (size_t i = 0; i < N; ++i) {
       try {
         return this->m_func(args...);
       } catch(const ExceptionType&) {

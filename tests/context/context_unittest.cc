@@ -69,9 +69,9 @@ TEST_F(scoped_context_unittest, TestDummyContextManager)
 
   scoped_context(
     &mngr,
-    [](context_manager *mngr, bool expected_truthy) {
+    [](context_manager *mngr_, bool expected_truthy) {
       scoped_context_unittest::dummy_context_manager *_mngr = \
-        static_cast<scoped_context_unittest::dummy_context_manager*>(mngr);
+        static_cast<scoped_context_unittest::dummy_context_manager*>(mngr_);
 
       ASSERT_EQ(expected_truthy, _mngr->truthy);
     },
@@ -91,7 +91,7 @@ TEST_F(scoped_context_unittest, TestExceptionInContext)
     {
       sneaker::context::scoped_context(
         &mngr,
-        [](context_manager *mngr) {
+        [](context_manager* /* mngr_ */) {
           throw std::runtime_error("Helle world!");
         }
       );
@@ -133,7 +133,7 @@ TEST_F(nested_context_unittest, TestNestedManager)
       new dummy_context_manager(),
       new dummy_context_manager()
     },
-    [](std::vector<context_manager*>& context_managers) {
+    [](std::vector<context_manager*>& /* context_managers */) {
       ASSERT_EQ(3, nested_context_unittest::count);
     }
   );
@@ -153,7 +153,7 @@ TEST_F(nested_context_unittest, TestExceptionInContext)
           new dummy_context_manager(),
           new dummy_context_manager()
         },
-        [](std::vector<context_manager*>& context_managers) {
+        [](std::vector<context_manager*>& /* context_managers */) {
           throw std::runtime_error("Helle world!");
         }
       );

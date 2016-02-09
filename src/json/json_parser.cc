@@ -83,7 +83,7 @@ json_parser::get_next_token()
   consume_whitespace();
 
   if (i == str.size()) {
-    return fail("Unexpected end of input", 0);
+    return static_cast<char>(fail("Unexpected end of input", 0));
   }
 
   return str[i++];
@@ -99,19 +99,19 @@ json_parser::encode_utf8(long pt, std::string& out)
   }
 
   if (pt < 0x80) {
-    out += pt;
+    out += static_cast<char>(pt);
   } else if (pt < 0x800) {
-    out += (pt >> 6) | 0xC0;
-    out += (pt & 0x3F) | 0x80;
+    out += static_cast<char>((pt >> 6)) | 0xC0;
+    out += static_cast<char>((pt & 0x3F)) | 0x80;
   } else if (pt < 0x10000) {
-    out += (pt >> 12) | 0xE0;
-    out += ((pt >> 6) & 0x3F) | 0x80;
-    out += (pt & 0x3F) | 0x80;
+    out += static_cast<char>((pt >> 12)) | 0xE0;
+    out += static_cast<char>(static_cast<char>(pt >> 6) & 0x3F) | 0x80;
+    out += static_cast<char>((pt & 0x3F)) | 0x80;
   } else {
-    out += (pt >> 18) | 0xF0;
-    out += ((pt >> 12) & 0x3F) | 0x80;
-    out += ((pt >> 6) & 0x3F) | 0x80;
-    out += (pt & 0x3F) | 0x80;
+    out += static_cast<char>((pt >> 18)) | 0xF0;
+    out += static_cast<char>((static_cast<char>((pt >> 12)) & 0x3F)) | 0x80;
+    out += static_cast<char>((static_cast<char>((pt >> 6)) & 0x3F)) | 0x80;
+    out += static_cast<char>((pt & 0x3F)) | 0x80;
   }
 }
 
@@ -237,7 +237,7 @@ json_parser::parse_string()
       // Extract 4-byte escape sequence.
       std::string esc = str.substr(i, 4);
 
-      for (int j = 0; j < 4; j++) {
+      for (size_t j = 0; j < 4; j++) {
         if (!in_range(esc[j], 'a', 'f') && !in_range(esc[j], 'A', 'F') && !in_range(esc[j], '0', '9')) {
           return fail("Bad \\u escape: " + esc, "");
         }

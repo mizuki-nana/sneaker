@@ -43,8 +43,7 @@ public:
 
   atomic_incrementor<T, UPPER_LIMIT>& operator=(const T&);
 
-  atomic_incrementor<T, UPPER_LIMIT>& operator++()
-    throw(std::overflow_error, std::underflow_error);
+  atomic_incrementor<T, UPPER_LIMIT>& operator++();
 
   operator T() const;
 
@@ -97,7 +96,6 @@ atomic_incrementor<T, UPPER_LIMIT>::operator=(const T& value)
 template<class T, T UPPER_LIMIT>
 atomic_incrementor<T, UPPER_LIMIT>&
 atomic_incrementor<T, UPPER_LIMIT>::operator++()
-  throw(std::overflow_error, std::underflow_error)
 {
   T current_value = m_value;
   m_value++;

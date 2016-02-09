@@ -33,6 +33,9 @@ namespace context {
 
 
 class context_manager {
+public:
+  virtual ~context_manager() {}
+
 protected:
   virtual void __enter__() = 0;
   virtual void __exit__() = 0;

@@ -198,7 +198,7 @@ TEST_F(function_as_call_unittest, TestInvokeAsync)
 
 class function_as_action_unittest : public function_unittest_base {
 public:
-  static void func(const char* name, const int num, char*dst) {
+  static void func(const char* name, const int num, char* dst) {
     sprintf(dst, "My name is %s and my favorite number is %d.", name, num);
   }
 
@@ -211,17 +211,17 @@ public:
 
 protected:
   virtual void SetUp() {
-    dst = (char*)malloc(50);
+    m_dst = (char*)malloc(50);
   }
 
   virtual void TearDown() {
-    free(dst);
-    dst = NULL;
+    free(m_dst);
+    m_dst = NULL;
   }
 
-  const char * name = "Jimmy";
-  const int num = 8;
-  char * dst = NULL;
+  const char * m_name = "Jimmy";
+  const int m_num = 8;
+  char * m_dst = NULL;
 };
 
 // -----------------------------------------------------------------------------
@@ -234,9 +234,9 @@ TEST_F(function_as_action_unittest, TestInitializationFromLambdaAndCall)
     }
   );
 
-  func(name, num, dst);
+  func(m_name, m_num, m_dst);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 TEST_F(function_as_action_unittest, TestInitializationFromLambdaAndCall2)
@@ -247,9 +247,9 @@ TEST_F(function_as_action_unittest, TestInitializationFromLambdaAndCall2)
     return function_as_action_unittest::func(name, num, dst);
   };
 
-  func(name, num, dst);
+  func(m_name, m_num, m_dst);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 // -----------------------------------------------------------------------------
@@ -258,9 +258,9 @@ TEST_F(function_as_action_unittest, TestInitializationFromStaticFunctionAndCall)
 {
   function<void, const char*, const int, char*> func = function_as_action_unittest::func;
 
-  func(name, num, dst);
+  func(m_name, m_num, m_dst);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 // -----------------------------------------------------------------------------
@@ -275,9 +275,9 @@ TEST_F(function_as_action_unittest, TestExplicitConversionFromLambdaToStdFunctio
 
   std::function<void(const char*, const int, char*)> f = func;
 
-  f(name, num, dst);
+  f(m_name, m_num, m_dst);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 // -----------------------------------------------------------------------------
@@ -288,9 +288,9 @@ TEST_F(function_as_action_unittest, TestExplicitConvertionFromStaticFunctionToSt
 
   std::function<void(const char*, const int, char*)> f = func;
 
-  f(name, num, dst);
+  f(m_name, m_num, m_dst);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 // -----------------------------------------------------------------------------
@@ -301,9 +301,9 @@ TEST_F(function_as_action_unittest, TestConversionFromStaticFunctionToFunctionPo
 
   void(*f)(const char*, const int, char*) = func;
 
-  f(name, num, dst);
+  f(m_name, m_num, m_dst);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 // -----------------------------------------------------------------------------
@@ -318,9 +318,9 @@ TEST_F(function_as_action_unittest, TestConversionFromLambdaToFunctionPointer)
 
   void(*f)(const char*, const int, char*) = func;
 
-  f(name, num, dst);
+  f(m_name, m_num, m_dst);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 // -----------------------------------------------------------------------------
@@ -331,9 +331,9 @@ TEST_F(function_as_action_unittest, TestCopyConstructor)
 
   function<void, const char*, const int, char*> copied = func;
 
-  copied(name, num, dst);
+  copied(m_name, m_num, m_dst);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 // -----------------------------------------------------------------------------
@@ -342,11 +342,11 @@ TEST_F(function_as_action_unittest, TestInvokeAsync)
 {
   function<void, const char*, const int, char*> func = function_as_action_unittest::func;
 
-  func.invoke_async(name, num, dst);
+  func.invoke_async(m_name, m_num, m_dst);
 
   sleep(1);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 // -----------------------------------------------------------------------------
@@ -768,9 +768,9 @@ TEST_F(action_unittest, TestInitializationFromLambdaAndCall)
     }
   );
 
-  func(name, num, dst);
+  func(m_name, m_num, m_dst);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 // -----------------------------------------------------------------------------
@@ -783,9 +783,9 @@ TEST_F(action_unittest, TestInitializationFromLambdaAndCall2)
     return action_unittest::func(name, num, dst);
   };
 
-  func(name, num, dst);
+  func(m_name, m_num, m_dst);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 // -----------------------------------------------------------------------------
@@ -794,9 +794,9 @@ TEST_F(action_unittest, TestInitializationFromStaticFunctionAndCall)
 {
   action<const char*, const int, char*> func = action_unittest::func;
 
-  func(name, num, dst);
+  func(m_name, m_num, m_dst);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 // -----------------------------------------------------------------------------
@@ -811,9 +811,9 @@ TEST_F(action_unittest, TestExplicitConversionFromLambdaToStdFunction)
 
   std::function<void(const char*, const int, char*)> f = func;
 
-  f(name, num, dst);
+  f(m_name, m_num, m_dst);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 // -----------------------------------------------------------------------------
@@ -824,9 +824,9 @@ TEST_F(action_unittest, TestExplicitConvertionFromStaticFunctionToStdFunction)
 
   std::function<void(const char*, const int, char*)> f = func;
 
-  f(name, num, dst);
+  f(m_name, m_num, m_dst);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 // -----------------------------------------------------------------------------
@@ -837,9 +837,9 @@ TEST_F(action_unittest, TestConversionFromStaticFunctionToFunctionPointer)
 
   void(*f)(const char*, const int, char*) = func;
 
-  f(name, num, dst);
+  f(m_name, m_num, m_dst);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 // -----------------------------------------------------------------------------
@@ -854,9 +854,9 @@ TEST_F(action_unittest, TestConversionFromLambdaToFunctionPointer)
 
   void(*f)(const char*, const int, char*) = func;
 
-  f(name, num, dst);
+  f(m_name, m_num, m_dst);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 // -----------------------------------------------------------------------------
@@ -867,9 +867,9 @@ TEST_F(action_unittest, TestCopyConstructor)
 
   action<const char*, const int, char*> copied = func;
 
-  copied(name, num, dst);
+  copied(m_name, m_num, m_dst);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 // -----------------------------------------------------------------------------
@@ -878,11 +878,11 @@ TEST_F(action_unittest, TestInvokeAsync)
 {
   action<const char*, const int, char*> func = action_unittest::func;
 
-  func.invoke_async(name, num, dst);
+  func.invoke_async(m_name, m_num, m_dst);
 
   sleep(1);
 
-  test_call(dst);
+  test_call(m_dst);
 }
 
 // -----------------------------------------------------------------------------

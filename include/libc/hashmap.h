@@ -85,3 +85,4 @@ int hashmap_equal(hashmap_t, hashmap_t);
 
 
 #endif /* SNEAKER_HASHMAP_H_ */
+

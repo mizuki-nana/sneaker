@@ -62,6 +62,12 @@ ADD_EXECUTABLE(run_tests
     )
 
 
+# Override unit test compilations with `-Wno-weak-vtables` compiler flag,
+# as classes inherited from `::testing::Test` do not have out-of-line virtual
+# member functions.
+SET_TARGET_PROPERTIES(run_tests PROPERTIES COMPILE_FLAGS "-Wno-weak-vtables")
+
+
 # Platform specific compiler flags.
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
   target_compile_definitions(run_tests -arch x86_64)

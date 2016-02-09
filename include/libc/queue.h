@@ -56,3 +56,4 @@ void queue_free(queue_t *queue);
 
 
 #endif /* SNEAKER_QUEUE_H_ */
+

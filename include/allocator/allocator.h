@@ -27,6 +27,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "object_traits.h"
 
 
+#if defined(__clang__) and __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wdeprecated"
+#endif
+
+
 namespace sneaker {
 
 
@@ -55,7 +61,6 @@ public:
   };
 
   inline explicit allocator();
-  inline ~allocator();
 
   inline allocator(allocator const& rhs);
 
@@ -70,14 +75,6 @@ public:
 
 template<typename T, typename Policy, typename Traits>
 allocator<T, Policy, Traits>::allocator()
-{
-  // Do nothing here.
-}
-
-// -----------------------------------------------------------------------------
-
-template<typename T, typename Policy, typename Traits>
-allocator<T, Policy, Traits>::~allocator()
 {
   // Do nothing here.
 }
@@ -169,3 +166,8 @@ inline bool operator!=(allocator<T, P, Tr> const& lhs, other_allocator const& rh
 
 
 #endif /* SNEAKER_ALLOCATOR_H_ */
+
+
+#if defined(__clang__) and __clang__
+  #pragma clang diagnostic pop
+#endif

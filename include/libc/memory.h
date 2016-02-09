@@ -159,3 +159,4 @@ extern "C" {
 
 
 #endif /* SNEAKER_MEMORY_H_ */
+

@@ -27,6 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "../../include/testing/testing.h"
 
+#include <array>
 #include <cstdint>
 #include <limits>
 #include <string>
@@ -63,13 +64,16 @@ public:
         add_boolean_parameter("boolean", "a dummy boolean", &m_boolean);
       }
 
-      virtual int do_run()
+      /** Overrides `cmdline_program::do_run()` */
+      int do_run()
       {
         return 0;
       }
 
-      virtual bool check_parameters() const
+      /** Overrides `cmdline_program::check_parameters()` */
+      bool check_parameters() const
       {
+        // TODO: [SNEAKER-111] Use more robust floating-point equality checks
         return (
           m_expected_input == m_input &&
           m_expected_output == m_output &&
@@ -125,10 +129,10 @@ TEST_F(cmdline_program_unittest, TestRun)
 {
   dummy_cmdline_program dummy_program;
 
-  const std::string expected_input = "some input";
-  const std::string expected_output = "some output";
+  const std::string expected_input("some input");
+  const std::string expected_output("some output");
   const uint32_t expected_number = 32;
-  const float expected_float = 3.14;
+  const float expected_float = 3.14f;
   const bool expected_boolean = true;
 
   dummy_program.set_expected_input(expected_input);
@@ -137,11 +141,8 @@ TEST_F(cmdline_program_unittest, TestRun)
   dummy_program.set_expected_float(expected_float);
   dummy_program.set_expected_boolean(expected_boolean);
 
-  int argc = 9;
-  char** argv = nullptr;
-
-  argv = (char* [])
-  {
+  const int argc = 9;
+  std::array<char*, 9> argv {{
     (char*)"dummy_program",
     (char*)expected_input.c_str(),
     (char*)"--output",
@@ -151,9 +152,9 @@ TEST_F(cmdline_program_unittest, TestRun)
     (char*)"--float",
     (char*)"3.14",
     (char*)"--boolean",
-  };
+  }};
 
-  int res = dummy_program.run(argc, argv);
+  const int res = dummy_program.run(argc, argv.data());
 
   ASSERT_EQ(0, res);
 }

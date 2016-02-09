@@ -26,6 +26,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "../../include/threading/fixed_time_interval_daemon_service.h"
 
+#include "../../include/libc/assert.h"
 #include "../../include/testing/testing.h"
 
 #include <iostream>
@@ -57,6 +58,7 @@ public:
   }
 
   static void DummyHandler(void* arg) {
+    ASSERT(arg);
     std::cout << '.';
     fixed_time_interval_daemon_service_unittest::increment();
   }

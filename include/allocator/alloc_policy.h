@@ -28,6 +28,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <type_traits>
 
 
+#if defined(__clang__) and __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wdeprecated"
+#endif
+
+
 namespace sneaker {
 
 
@@ -52,7 +58,6 @@ public:
   };
 
   inline explicit standard_alloc_policy();
-  inline ~standard_alloc_policy();
 
   inline explicit standard_alloc_policy(standard_alloc_policy const&);
 
@@ -69,14 +74,6 @@ public:
 
 template<typename T>
 standard_alloc_policy<T>::standard_alloc_policy()
-{
-  // Do nothing here.
-}
-
-// -----------------------------------------------------------------------------
-
-template<typename T>
-standard_alloc_policy<T>::~standard_alloc_policy()
 {
   // Do nothing here.
 }
@@ -174,3 +171,8 @@ inline bool operator!=(
 
 
 #endif /* SNEAKER_STANDARD_ALLOC_POLICY_H_ */
+
+
+#if defined(__clang__) and __clang__
+  #pragma clang diagnostic pop
+#endif

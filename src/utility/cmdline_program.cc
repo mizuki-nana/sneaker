@@ -154,7 +154,7 @@ cmdline_program::run(int argc, char** argv)
     }
 
     // Set boolean parameters.
-    for (auto i = 0; i < m_boolean_params.size(); ++i)
+    for (size_t i = 0; i < m_boolean_params.size(); ++i)
     {
       *m_boolean_params[i].res = option_provided(m_boolean_params[i].name);
     }

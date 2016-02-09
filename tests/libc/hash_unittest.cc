@@ -99,7 +99,7 @@ TEST_F(linear_horners_rule_str_hash_unittest, TestHashSameString_2)
 TEST_F(linear_horners_rule_str_hash_unittest, TestStress)
 {
   const int TOP = 100000;
-  std::unordered_set<int> set(TOP);
+  std::unordered_set<unsigned long int> set(TOP);
 
   for (int i = 0; i < TOP; i++) {
     char buf[10];
@@ -149,10 +149,10 @@ TEST_F(hash32shift_unittest, TestHashOnDifferentKey)
 
 TEST_F(hash32shift_unittest, TestStress)
 {
-  const int TOP = 500000;
-  std::unordered_set<int> set(TOP);
+  const unsigned int TOP = 500000;
+  std::unordered_set<unsigned long int> set(TOP);
 
-  for (int i = 0; i < TOP; i++) {
+  for (unsigned int i = 0; i < TOP; i++) {
     unsigned long int hash = hash32shift(i);
     ASSERT_EQ(set.end(), set.find(hash));
     set.insert(hash);
@@ -306,11 +306,10 @@ TEST_F(hash_robert_jenkin_unittest, TestHashSameNumberTest_2)
 
 TEST_F(hash_robert_jenkin_unittest, TestHashDifferentNumberTest)
 {
-  int i;
-  for (i = 0; i < 499; i++) {
+  for (unsigned int i = 0; i < 499; i++) {
     ASSERT_NE(
       hash_robert_jenkin(i),
-      hash_robert_jenkin(i*i+1)
+      hash_robert_jenkin(i * i + 1)
     );
   }
 }
@@ -322,7 +321,7 @@ TEST_F(hash_robert_jenkin_unittest, TestStress)
   const unsigned long TOP = 500000;
   std::unordered_set<unsigned long> set(TOP);
 
-  for (unsigned long i = 0; i < TOP; i++) {
+  for (unsigned int i = 0; i < TOP; i++) {
     unsigned long int hash = hash_robert_jenkin(i);
     ASSERT_EQ(set.end(), set.find(hash));
     set.insert(hash);

@@ -102,9 +102,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdexcept>
 
 
-using namespace sneaker::json;
-
-
 namespace sneaker {
 
 
@@ -113,27 +110,21 @@ namespace json {
 
 // -----------------------------------------------------------------------------
 
-class json_validation_error : public std::invalid_argument {
-public:
-  explicit json_validation_error(const std::string& what_arg):
-    std::invalid_argument(what_arg) {}
-  explicit json_validation_error(const char* what_arg):
-    std::invalid_argument(what_arg) {}
-};
+typedef std::invalid_argument json_validation_error;
 
 // -----------------------------------------------------------------------------
 
 class json_schema {
 public:
-  static void validate(const JSON&, const JSON&) throw(json_validation_error);
+  static void validate(const JSON&, const JSON&);
 
 private:
-  static void validate_allOf(const JSON&, const JSON::object&, const JSON::object&) throw(json_validation_error);
-  static void validate_anyOf(const JSON&, const JSON::object&, const JSON::object&) throw(json_validation_error);
-  static void validate_oneOf(const JSON&, const JSON::object&, const JSON::object&) throw(json_validation_error);
-  static void validate_not(const JSON&, const JSON::object&, const JSON::object&) throw(json_validation_error);
-  static void validate_enum(const JSON&, const JSON::object&, const JSON::object&) throw(json_validation_error);
-  static void validate_definitions(const JSON&, const JSON::object&, const JSON::object&) throw(json_validation_error);
+  static void validate_allOf(const JSON&, const JSON::object&, const JSON::object&);
+  static void validate_anyOf(const JSON&, const JSON::object&, const JSON::object&);
+  static void validate_oneOf(const JSON&, const JSON::object&, const JSON::object&);
+  static void validate_not(const JSON&, const JSON::object&, const JSON::object&);
+  static void validate_enum(const JSON&, const JSON::object&, const JSON::object&);
+  static void validate_definitions(const JSON&, const JSON::object&, const JSON::object&);
 };
 
 // -----------------------------------------------------------------------------

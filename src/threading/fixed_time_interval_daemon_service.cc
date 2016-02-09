@@ -122,7 +122,7 @@ fixed_time_interval_daemon_service::stop() {
 
 void
 fixed_time_interval_daemon_service::tick_handler(
-  const boost::system::error_code& e,
+  const boost::system::error_code& /* e */,
   boost::asio::deadline_timer* t,
   fixed_time_interval_daemon_service* daemon_service
 )
@@ -132,7 +132,8 @@ fixed_time_interval_daemon_service::tick_handler(
   }
 
   t->expires_from_now(
-    boost::posix_time::milliseconds(daemon_service->interval())
+    boost::posix_time::milliseconds(
+      static_cast<boost::int64_t>(daemon_service->interval()))
   );
 
   t->async_wait(
@@ -147,8 +148,8 @@ fixed_time_interval_daemon_service::tick_handler(
 
 void
 fixed_time_interval_daemon_service::dummy_tick_handler(
-  const boost::system::error_code& e,
-  boost::asio::deadline_timer* t,
+  const boost::system::error_code& /* e */,
+  boost::asio::deadline_timer* /* t */,
   long)
 {
   // Do nothing here.

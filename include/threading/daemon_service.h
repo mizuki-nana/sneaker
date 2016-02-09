@@ -50,7 +50,7 @@ protected:
 private:
   void init();
 
-  bool wait_for_termination;
+  bool m_wait_for_termination;
 };
 
 

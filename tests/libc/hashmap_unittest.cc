@@ -36,11 +36,18 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 // -----------------------------------------------------------------------------
 
+/** Forward declarations. */
+unsigned long int simple_hash(c_str s);
+unsigned long int hashfunc(void *key);
+int keycmpfunc(void *key1, void *key2);
+
+// -----------------------------------------------------------------------------
+
 unsigned long int simple_hash(c_str s) {
   unsigned long int h = 0;
 
   for (size_t i = 0; i < strlen(s); i++) {
-    h = 127 * h + s[i];
+    h = 127 * h + static_cast<unsigned long int>(s[i]);
   }
 
   return h;
@@ -57,7 +64,7 @@ unsigned long int hashfunc(void *key) {
 // -----------------------------------------------------------------------------
 
 int keycmpfunc(void *key1, void *key2) {
-  return strcmp((c_str)key1, (c_str)key2) == 0;  
+  return strcmp((c_str)key1, (c_str)key2) == 0;
 }
 
 // -----------------------------------------------------------------------------

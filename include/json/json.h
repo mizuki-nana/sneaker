@@ -104,20 +104,11 @@ namespace json {
 // Forward declaration of `sneaker::json::json_value`.
 class json_value;
 
+// -----------------------------------------------------------------------------
 
-class invalid_json_error : public std::invalid_argument {
-public:
-  explicit invalid_json_error(const std::string& what_arg):
-    std::invalid_argument(what_arg)
-  {
-  }
+typedef std::invalid_argument invalid_json_error;
 
-  explicit invalid_json_error(const char* what_arg):
-    std::invalid_argument(what_arg)
-  {
-  }
-};
-
+// -----------------------------------------------------------------------------
 
 class JSON {
 public:
@@ -135,18 +126,18 @@ public:
   typedef std::map<JSON::string, JSON> object;
   typedef std::nullptr_t null;
 
-  JSON() noexcept;
-  JSON(null) noexcept;
-  JSON(double) noexcept;
-  JSON(int) noexcept;
-  JSON(bool) noexcept;
-  JSON(const string&) noexcept;
-  JSON(string&&) noexcept;
-  JSON(const char *) noexcept;
-  JSON(const array&) noexcept;
-  JSON(array&&) noexcept;
-  JSON(const object&) noexcept;
-  JSON(object&&) noexcept;
+  JSON();
+  JSON(null);
+  JSON(double);
+  JSON(int);
+  JSON(bool);
+  JSON(const string&);
+  JSON(string&&);
+  JSON(const char *);
+  JSON(const array&);
+  JSON(array&&);
+  JSON(const object&);
+  JSON(object&&);
 
   /* Implicit constructor: anything with a to_json() function. */
   template<class T, class = decltype(&T::to_json)>
@@ -204,7 +195,7 @@ private:
 
 // -----------------------------------------------------------------------------
 
-JSON parse(const std::string& in) throw(invalid_json_error);
+JSON parse(const std::string& in);
 
 // -----------------------------------------------------------------------------
 
