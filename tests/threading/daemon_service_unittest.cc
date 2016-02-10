@@ -24,9 +24,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /* Unit test for `sneaker::threading::daemon_service`
  * defined in include/threading/daemon_service.h */
 
-#include "../../include/threading/daemon_service.h"
+#include "threading/daemon_service.h"
 
-#include "../../include/testing/testing.h"
+#include "testing/testing.h"
 
 
 // -----------------------------------------------------------------------------

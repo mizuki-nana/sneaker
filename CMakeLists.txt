@@ -34,6 +34,7 @@ set(CMAKE_CXX_COMPILER "clang++")
 
 
 # Paths.
+include_directories("${CMAKE_SOURCE_DIR}/include/")
 SET(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
 SET(TESTS_DIR ${PROJECT_SOURCE_DIR}/tests)
 

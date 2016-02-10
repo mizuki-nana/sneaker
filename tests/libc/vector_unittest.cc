@@ -23,11 +23,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for `vector_t` defined in sneaker/libc/vector.h */
 
-#include "../../include/libc/vector.h"
+#include "libc/vector.h"
 
-#include "../../include/libc/memory.h"
-#include "../../include/libc/utils.h"
-#include "../../include/testing/testing.h"
+#include "libc/memory.h"
+#include "libc/utils.h"
+#include "testing/testing.h"
 
 #include <cassert>
 #include <climits>

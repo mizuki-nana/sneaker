@@ -23,9 +23,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for definitions in sneaker/allocator/allocator.h */
 
-#include "../../include/allocator/allocator.h"
+#include "allocator/allocator.h"
 
-#include "../../include/testing/testing.h"
+#include "testing/testing.h"
 
 #include <cassert>
 #include <climits>

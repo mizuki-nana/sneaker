@@ -20,11 +20,11 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-#include "../../include/libc/queue.h"
+#include "libc/queue.h"
 
-#include "../../include/libc/common.h"
-#include "../../include/libc/memory.h"
-#include "../../include/libc/utils.h"
+#include "libc/common.h"
+#include "libc/memory.h"
+#include "libc/utils.h"
 
 #include <assert.h>
 #include <errno.h>

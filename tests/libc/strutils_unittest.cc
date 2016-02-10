@@ -23,9 +23,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for functions defined in sneaker/libc/strutils.h */
 
-#include "../../include/libc/strutils.h"
+#include "libc/strutils.h"
 
-#include "../../include/testing/testing.h"
+#include "testing/testing.h"
 
 #include <cstring>
 

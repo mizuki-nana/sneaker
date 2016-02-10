@@ -23,9 +23,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for functions defined in sneaker/libc/math.h */
 
-#include "../../include/libc/math.h"
+#include "libc/math.h"
 
-#include "../../include/testing/testing.h"
+#include "testing/testing.h"
 
 
 // -----------------------------------------------------------------------------

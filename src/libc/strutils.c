@@ -22,9 +22,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 #include <ctype.h>
 #include <stdlib.h>
-#include "../../include/libc/utils.h"
-#include "../../include/libc/memory.h"
-#include "../../include/libc/strutils.h"
+#include "libc/utils.h"
+#include "libc/memory.h"
+#include "libc/strutils.h"
 
 
 // -----------------------------------------------------------------------------

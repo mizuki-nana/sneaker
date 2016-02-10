@@ -23,11 +23,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for `strbuf_t` defined in sneaker/libc/strbuf.h */
 
-#include "../../include/libc/strbuf.h"
+#include "libc/strbuf.h"
 
-#include "../../include/libc/c_str.h"
-#include "../../include/libc/memory.h"
-#include "../../include/testing/testing.h"
+#include "libc/c_str.h"
+#include "libc/memory.h"
+#include "testing/testing.h"
 
 #include <cassert>
 #include <climits>

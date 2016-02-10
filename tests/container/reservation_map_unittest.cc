@@ -25,9 +25,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * sneaker/container/m_reservation_map.h
  */
 
-#include "../../include/container/reservation_map.h"
+#include "container/reservation_map.h"
 
-#include "../../include/testing/testing.h"
+#include "testing/testing.h"
 
 #include <boost/uuid/uuid.hpp>
 

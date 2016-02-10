@@ -24,10 +24,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /* Unit test for `sneaker::threading::fixed_time_interval_daemon_service`
  * defined in include/threading/fixed_time_interval_daemon_service.h */
 
-#include "../../include/threading/fixed_time_interval_daemon_service.h"
+#include "threading/fixed_time_interval_daemon_service.h"
 
-#include "../../include/libc/assert.h"
-#include "../../include/testing/testing.h"
+#include "libc/assert.h"
+#include "testing/testing.h"
 
 #include <iostream>
 

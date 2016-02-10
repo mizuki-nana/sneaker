@@ -23,9 +23,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit tests for functions in sneaker/libc/hash.h */
 
-#include "../../include/libc/hash.h"
+#include "libc/hash.h"
 
-#include "../../include/testing/testing.h"
+#include "testing/testing.h"
 
 #include <unordered_set>
 

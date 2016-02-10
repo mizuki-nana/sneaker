@@ -23,9 +23,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for `sneaker::io::file_reader` defined in sneaker/io/file_reader.h */
 
-#include "../../include/io/file_reader.h"
+#include "io/file_reader.h"
 
-#include "../../include/testing/testing.h"
+#include "testing/testing.h"
 
 #include <cstdio>
 #include <cstdlib>

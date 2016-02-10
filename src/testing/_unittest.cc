@@ -26,7 +26,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * Any executable tests compiled must be linked with this file.
  */
 
-#include "../../include/testing/_unittest.h"
+#include "testing/_unittest.h"
 
 
 using ::testing::EmptyTestEventListener;

@@ -28,9 +28,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * http://www.burtleburtle.net/bob/hash/doobs.html
  */
 
-#include "../../include/libc/hash.h"
+#include "libc/hash.h"
 
-#include "../../include/libc/utils.h"
+#include "libc/utils.h"
 
 #include <stddef.h>
 #include <string.h>

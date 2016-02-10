@@ -20,10 +20,10 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-#include "../../include/libc/utils.h"
+#include "libc/utils.h"
 
-#include "../../include/libc/assert.h"
-#include "../../include/libc/c_str.h"
+#include "libc/assert.h"
+#include "libc/c_str.h"
 
 #include <stdlib.h>
 #include <stdint.h>

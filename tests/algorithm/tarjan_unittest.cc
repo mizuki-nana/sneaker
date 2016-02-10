@@ -23,9 +23,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for definitions in sneaker/algorithm/tarjan.h */
 
-#include "../../include/algorithm/tarjan.h"
+#include "algorithm/tarjan.h"
 
-#include "../../include/testing/testing.h"
+#include "testing/testing.h"
 
 #include <list>
 

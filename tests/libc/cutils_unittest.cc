@@ -25,11 +25,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 // This has to come before `cutils.h` because the declarations in it duplicate
 // their standard library equivalents.
-#include "../../include/testing/testing.h"
+#include "testing/testing.h"
 
-#include "../../include/libc/cutils.h"
+#include "libc/cutils.h"
 
-#include "../../include/libc/memory.h"
+#include "libc/memory.h"
 
 #include <cassert>
 #include <climits>

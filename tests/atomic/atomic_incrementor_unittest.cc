@@ -23,9 +23,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for definitions in sneaker/atomic/atomic_incrementor.h */
 
-#include "../../include/atomic/atomic_incrementor.h"
+#include "atomic/atomic_incrementor.h"
 
-#include "../../include/testing/testing.h"
+#include "testing/testing.h"
 
 #include <climits>
 #include <iostream>

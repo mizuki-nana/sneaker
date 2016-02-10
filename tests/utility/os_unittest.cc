@@ -23,9 +23,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit tests for definitions defined in sneaker/utility/os.h */
 
-#include "../../include/utility/os.h"
+#include "utility/os.h"
 
-#include "../../include/testing/testing.h"
+#include "testing/testing.h"
 
 #include <iostream>
 

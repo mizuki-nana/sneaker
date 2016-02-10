@@ -23,11 +23,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for `queue_t` defined in sneaker/libc/queue.h */
 
-#include "../../include/libc/queue.h"
+#include "libc/queue.h"
 
-#include "../../include/libc/memory.h"
-#include "../../include/libc/utils.h"
-#include "../../include/testing/testing.h"
+#include "libc/memory.h"
+#include "libc/utils.h"
+#include "testing/testing.h"
 
 #include <cassert>
 #include <climits>

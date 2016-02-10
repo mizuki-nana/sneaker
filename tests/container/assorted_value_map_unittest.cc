@@ -25,9 +25,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * defined in sneaker/container/assorted_value_map.h
  */
 
-#include "../../include/container/assorted_value_map.h"
+#include "container/assorted_value_map.h"
 
-#include "../../include/testing/testing.h"
+#include "testing/testing.h"
 
 #include <functional>
 #include <memory>

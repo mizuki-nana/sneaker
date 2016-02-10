@@ -23,10 +23,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for context management framework. */
 
-#include "../../include/context/context_manager.h"
-#include "../../include/context/scoped_context.h"
+#include "context/context_manager.h"
+#include "context/scoped_context.h"
 
-#include "../../include/testing/testing.h"
+#include "testing/testing.h"
 
 #include <stdexcept>
 #include <vector>

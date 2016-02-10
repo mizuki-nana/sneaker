@@ -24,9 +24,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /* Unit test for `sneaker::container::unordered_assorted_value_map<K, ValueTypes...>`
  * defined in sneaker/container/unordered_assorted_value_map.h */
 
-#include "../../include/container/unordered_assorted_value_map.h"
+#include "container/unordered_assorted_value_map.h"
 
-#include "../../include/testing/testing.h"
+#include "testing/testing.h"
 
 #include <functional>
 #include <memory>

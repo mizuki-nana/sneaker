@@ -23,10 +23,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit tests for definitions defined in sneaker/json/json.h */
 
-#include "../../include/json/json.h"
+#include "json/json.h"
 
-#include "../../include/json/json_parser.h"
-#include "../../include/testing/testing.h"
+#include "json/json_parser.h"
+#include "testing/testing.h"
 
 #include <cstring>
 #include <list>

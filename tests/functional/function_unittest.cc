@@ -23,9 +23,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit tests for definitions defined in sneaker/functional/function.h */
 
-#include "../../include/functional/function.h"
+#include "functional/function.h"
 
-#include "../../include/testing/testing.h"
+#include "testing/testing.h"
 
 #include <functional>
 #include <stdio.h>

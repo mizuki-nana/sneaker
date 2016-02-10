@@ -23,12 +23,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for `hashmap_t` defined in sneaker/libc/hashmap.h */
 
-#include "../../include/libc/hashmap.h"
+#include "libc/hashmap.h"
 
-#include "../../include/libc/c_str.h"
-#include "../../include/libc/hash.h"
-#include "../../include/libc/utils.h"
-#include "../../include/testing/testing.h"
+#include "libc/c_str.h"
+#include "libc/hash.h"
+#include "libc/utils.h"
+#include "testing/testing.h"
 
 #include <cassert>
 #include <unordered_map>

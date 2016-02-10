@@ -25,9 +25,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 // TODO: [SNEAKER-110] Clean up `tests/cache/generic_cache_unittest.cc`
 
-#include "../../include/cache/generic_cache.h"
+#include "cache/generic_cache.h"
 
-#include "../../include/testing/testing.h"
+#include "testing/testing.h"
 
 #include <cassert>
 #include <map>

@@ -23,9 +23,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Unit test for `uuid128_t` defined in sneaker/libc/uuid.h */
 
-#include "../../include/libc/uuid.h"
+#include "libc/uuid.h"
 
-#include "../../include/testing/testing.h"
+#include "testing/testing.h"
 
 #include <climits>
 #include <set>
