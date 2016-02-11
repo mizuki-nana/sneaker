@@ -21,6 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 #include "json/json_schema.h"
+#include "utility/util.numeric.h"
 
 #include <boost/algorithm/string.hpp>
 #include <boost/asio.hpp>
@@ -1542,8 +1543,7 @@ json_schema_internal::json_number_type_validator::validate_maximum_and_exclusive
         ) % number_value % maximum_value
       )
     );
-  } else if (exclusiveMaximum && number_value == maximum_value) {
-    // TODO: [SNEAKER-111] Use more robust floating-point equality checks
+  } else if (exclusiveMaximum && utility::floats_equal(number_value, maximum_value)) {
     throw json_validation_error(
       str(
         format(
@@ -1584,8 +1584,7 @@ json_schema_internal::json_number_type_validator::validate_minimum_and_exclusive
         ) % number_value % minimum_value
       )
     );
-  } else if (exclusiveMinimum && number_value == minimum_value) {
-    // TODO: [SNEAKER-111] Use more robust floating-point equality checks
+  } else if (exclusiveMinimum && utility::floats_equal(number_value, minimum_value)) {
     throw json_validation_error(
       str(
         format(

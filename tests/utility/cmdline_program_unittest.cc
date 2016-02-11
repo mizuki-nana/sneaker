@@ -24,6 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /* Unit tests for definitions defined in sneaker/utility/cmdline_program.h */
 
 #include "utility/cmdline_program.h"
+#include "utility/util.numeric.h"
 
 #include "testing/testing.h"
 
@@ -73,12 +74,11 @@ public:
       /** Overrides `cmdline_program::check_parameters()` */
       bool check_parameters() const
       {
-        // TODO: [SNEAKER-111] Use more robust floating-point equality checks
         return (
           m_expected_input == m_input &&
           m_expected_output == m_output &&
           m_expected_number == m_number &&
-          m_expected_float == m_float &&
+          sneaker::utility::floats_equal(m_expected_float, m_float) &&
           m_expected_boolean == m_boolean
         );
       }

@@ -48,7 +48,7 @@ find_package(Boost 1.55 REQUIRED COMPONENTS
 
 
 # General compiler flags.
-set(CMAKE_CXX_FLAGS "-std=c++11 -Weverything -Wno-global-constructors -Wno-c++98-compat -Wno-padded -Wno-exit-time-destructors -Wno-float-equal")
+set(CMAKE_CXX_FLAGS "-std=c++11 -Weverything -Wno-global-constructors -Wno-c++98-compat -Wno-padded -Wno-exit-time-destructors")
 
 
 # Sub-directories.

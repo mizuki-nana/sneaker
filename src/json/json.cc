@@ -23,8 +23,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "json/json.h"
 
 #include "json/json_parser.h"
+#include "utility/util.numeric.h"
 
 #include <initializer_list>
+#include <type_traits>
 #include <utility>
 
 
@@ -65,6 +67,8 @@ public:
 template<JSON::Type tag, typename T>
 class json_value_core : public json_value {
 public:
+  typedef T intrinsic_type;
+
   json_value_core(const T& value) : m_value(value) {}
   json_value_core(T&& value) : m_value(std::move(value)) {}
 
@@ -87,13 +91,29 @@ public:
 
 // -----------------------------------------------------------------------------
 
+template<typename T>
+bool
+values_equal(const T& lhs, const T& rhs)
+{
+  return lhs == rhs;
+}
+
+template<>
+bool
+values_equal(const double& lhs, const double& rhs)
+{
+  return utility::floats_equal(lhs, rhs);
+}
+
+// -----------------------------------------------------------------------------
+
 /* virtual */
 template<JSON::Type tag, typename T>
 bool
 json_value_core<tag, T>::equals(const json_value* other) const
 {
-  // TODO: [SNEAKER-111] Use more robust floating-point equality checks
-  return value() == reinterpret_cast<const json_value_core<tag, T>*>(other)->value();
+  return values_equal(
+    value(), reinterpret_cast<const json_value_core<tag, T>*>(other)->value());
 }
 
 // -----------------------------------------------------------------------------
@@ -137,8 +157,7 @@ public:
 bool
 json_double::equals(const json_value* other) const
 {
-  // TODO: [SNEAKER-111] Use more robust floating-point equality checks
-  return number_value() == other->number_value();
+  return utility::floats_equal(number_value(), other->number_value());
 }
 
 // -----------------------------------------------------------------------------
@@ -181,8 +200,8 @@ public:
 bool
 json_int::equals(const json_value* other) const
 {
-  // TODO: [SNEAKER-111] Use more robust floating-point equality checks
-  return value() == other->number_value();
+  return utility::floats_equal(
+    static_cast<double>(value()), other->number_value());
 }
 
 // -----------------------------------------------------------------------------
