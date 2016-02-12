@@ -70,7 +70,7 @@ SET_TARGET_PROPERTIES(run_tests PROPERTIES COMPILE_FLAGS "-Wno-weak-vtables")
 
 # Platform specific compiler flags.
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
-  target_compile_definitions(run_tests -arch x86_64)
+  target_compile_options(run_tests PRIVATE -arch x86_64)
 endif()
 
 

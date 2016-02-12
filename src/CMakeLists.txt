@@ -52,5 +52,5 @@ add_library(sneaker
 
 # Platform specific compiler flags.
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
-  target_compile_definitions(sneaker -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0)
+  target_compile_options(sneaker PRIVATE -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0)
 endif()
