@@ -23,6 +23,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "io/file_reader.h"
 
 #include <cassert>
+#include <cstring>
 #include <fstream>
 #include <sstream>
 
@@ -42,11 +43,10 @@ file_reader::file_reader()
 
 // -----------------------------------------------------------------------------
 
-file_reader::file_reader(
-  const char* path
-) : m_path(path)
+file_reader::file_reader(const char* path)
+  : m_path(path)
 {
-  assert(this->file_path());
+  assert(file_path());
 }
 
 // -----------------------------------------------------------------------------
@@ -54,7 +54,7 @@ file_reader::file_reader(
 const char*
 file_reader::file_path() const
 {
-  return this->m_path.c_str();
+  return m_path.c_str();
 }
 
 // -----------------------------------------------------------------------------
@@ -63,7 +63,7 @@ void
 file_reader::set_path(const char* path)
 {
   assert(path);
-  this->m_path = path;
+  m_path = path;
 }
 
 // -----------------------------------------------------------------------------
@@ -71,11 +71,13 @@ file_reader::set_path(const char* path)
 bool
 file_reader::read_file(char** p) const
 {
-  if (!this->file_path()) {
+  assert(p);
+
+  if (!file_path()) {
     return  false;
   }
 
-  std::ifstream file(this->file_path());
+  std::ifstream file(file_path());
 
   if (file.fail()) {
     return false;
@@ -85,8 +87,21 @@ file_reader::read_file(char** p) const
   buffer << file.rdbuf();
   file.close();
 
-  std::string str = buffer.str();
-  *p = (char*)str.c_str();
+  const auto& str = buffer.str();
+
+  if (! (*p) ) {
+    *p = reinterpret_cast<char*>(malloc(str.size() + 1));
+  }
+
+  if (! (*p) ) {
+    return false;
+  }
+
+  *p = strcpy(*p, str.c_str());
+
+  if (! (*p) ) {
+    return false;
+  }
 
   return true;
 }
