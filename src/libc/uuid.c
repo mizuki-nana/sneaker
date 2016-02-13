@@ -28,7 +28,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <assert.h>
 #include <limits.h>
 #include <string.h>
-#include <time.h>
+#include <sys/time.h>
 
 
 // -----------------------------------------------------------------------------
@@ -36,9 +36,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 uuid128_t uuid_create()
 {
   uuid128_t uuid;
-
-  time_t t;
-  uint64_t ll;
 
   unsigned int   u1 = 0;
   unsigned int   u2 = 0;
@@ -48,6 +45,7 @@ uuid128_t uuid_create()
 
   int size = sizeof(u1) + sizeof(u2) + sizeof(u3) + sizeof(u4) + sizeof(u5);
 
+  // TODO: [SNEAKER-114] Change runtime assertions to static assertions
   assert(size == 16);
 
   char offsets[] = {
@@ -58,12 +56,14 @@ uuid128_t uuid_create()
     sizeof(u4)
   };
 
-  t = time(NULL);
-  ll = (uint64_t)t;
+  struct timeval tv;
+  gettimeofday(&tv, NULL);
 
-  u1 = (ll & 0xFFFF0000) >> 16;
-  u2 = ll & 0xFFFF;
-  u3 = rand_top(UINT_MAX);
+  const unsigned long long ll = (unsigned long long)(tv.tv_usec);
+
+  u1 = ll & 0xFFFF;
+  u2 = (ll & 0xFFFF0000) >> 31;
+  u3 = rand_top(INT_MAX);
   u4 = (unsigned short)rand_top(USHRT_MAX);
   u5 = (unsigned short)rand_top(USHRT_MAX);
 

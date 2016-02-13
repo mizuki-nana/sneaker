@@ -87,23 +87,22 @@ TEST_F(uuid_unittest, TestCreateAndHash)
 
 // -----------------------------------------------------------------------------
 
-// TODO: [SNEAKER-97] UUID unique unit test fails
-#if 0
 TEST_F(uuid_unittest, TestUniqueness)
 {
   std::set<__uint128_t> hashes;
 
-  int limit = 100000;
+  const size_t limit = 5000000;
 
-  ASSERT_LT(limit, hashes.max_size());
+  ASSERT_LE(limit, hashes.max_size());
 
-  for (int i = 0; i < limit; i++) {
+  size_t i = 0;
+  for (; i < limit; ++i) {
     __uint128_t hash = uuid_create_and_hash();
     hashes.insert(hash);
   }
+  ASSERT_EQ(limit, i);
 
   ASSERT_EQ(limit, hashes.size());
 }
-#endif
 
 // -----------------------------------------------------------------------------
