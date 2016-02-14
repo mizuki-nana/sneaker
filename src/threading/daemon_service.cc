@@ -59,7 +59,7 @@ daemon_service::~daemon_service()
 bool
 daemon_service::start()
 {
-  int created = pthread_create(&m_thread_id, &m_attr, handler, (void*)this);
+  int created = pthread_create(&m_thread_id, &m_attr, handler, reinterpret_cast<void*>(this));
 
   if (m_wait_for_termination) {
     void* res = NULL;

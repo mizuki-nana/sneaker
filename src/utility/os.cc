@@ -81,6 +81,27 @@ get_process_mem_usage(uint64_t* vm_peak, uint64_t* vm_size,
   }
 
   stat_stream.close();
+#else
+  // TODO: [SNEAKER-99] Port memory query utility functions to work on OS X
+  if (vm_peak)
+  {
+    *vm_peak = 0;
+  }
+
+  if (vm_size)
+  {
+    *vm_size = 0;
+  }
+
+  if (vm_hwm)
+  {
+    *vm_hwm = 0;
+  }
+
+  if (vm_rss)
+  {
+    *vm_rss = 0;
+  }
 #endif
 }
 

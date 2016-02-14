@@ -141,7 +141,7 @@ json_parser::parse_number()
   }
 
   if (str[i] != '.' && str[i] != 'e' && str[i] != 'E' &&
-    (i - start_pos) <= (size_t)std::numeric_limits<int>::digits10)
+    (i - start_pos) <= static_cast<size_t>(std::numeric_limits<int>::digits10))
   {
     return std::atoi(str.c_str() + start_pos);
   }
@@ -432,7 +432,7 @@ json_parser::esc(char c)
 {
   char buf[12];
 
-  if ((uint8_t)c >= 0x20 && (uint8_t)c <= 0x7f) {
+  if (static_cast<uint8_t>(c) >= 0x20 && static_cast<uint8_t>(c) <= 0x7f) {
     snprintf(buf, sizeof buf, "'%c' (%d)", c, c);
   } else {
     snprintf(buf, sizeof buf, "(%d)", c);
