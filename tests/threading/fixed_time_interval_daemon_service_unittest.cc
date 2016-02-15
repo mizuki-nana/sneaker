@@ -73,28 +73,6 @@ size_t fixed_time_interval_daemon_service_unittest::count_ = 0;
 
 // -----------------------------------------------------------------------------
 
-// TODO: [SNEAKER-105] Fix `fixed_time_interval_daemon_service_unittest.TestRunDaemonAsynchronously` failure
-#if 0
-TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonAsynchronously)
-{
-  /* Tests that a daemon which runs on a background thread indefinitely,
-   * and pokes the foreground threading at an interval of 20 milli-seconds.
-   *
-   * When the foreground thread finishes, a.k.a when the daemon goes out of
-   * scope and gets destroyed, the background thread should terminate.
-   */
-  fixed_time_interval_daemon_service daemon_service(
-    20, fixed_time_interval_daemon_service_unittest::DummyHandler);
-
-  bool res = daemon_service.start();
-  ASSERT_EQ(true, res);
-}
-#endif
-
-// -----------------------------------------------------------------------------
-
-// TODO: [SNEAKER-104] Fix ` fixed_time_interval_daemon_service_unittest.TestRunDaemonSynchronously` unit test case failure
-#if 0
 TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonSynchronously)
 {
   /* Tests that a daemon which runs on a background thread, and pokes the
@@ -111,6 +89,25 @@ TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonSynchronously)
   ASSERT_EQ(5, fixed_time_interval_daemon_service_unittest::count());
 
   std::cout << '\n';
+}
+
+// -----------------------------------------------------------------------------
+
+// TODO: [SNEAKER-105] Fix `fixed_time_interval_daemon_service_unittest.TestRunDaemonAsynchronously` failure
+#if 0
+TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonAsynchronously)
+{
+  /* Tests that a daemon which runs on a background thread indefinitely,
+   * and pokes the foreground threading at an interval of 20 milli-seconds.
+   *
+   * When the foreground thread finishes, a.k.a when the daemon goes out of
+   * scope and gets destroyed, the background thread should terminate.
+   */
+  fixed_time_interval_daemon_service daemon_service(
+    20, fixed_time_interval_daemon_service_unittest::DummyHandler);
+
+  bool res = daemon_service.start();
+  ASSERT_EQ(true, res);
 }
 #endif
 

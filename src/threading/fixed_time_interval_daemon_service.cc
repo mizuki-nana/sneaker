@@ -25,6 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/system/error_code.hpp>
 
 #include <cassert>
 
@@ -111,10 +112,14 @@ fixed_time_interval_daemon_service::can_continue() const
 // -----------------------------------------------------------------------------
 
 void
-fixed_time_interval_daemon_service::stop() {
-  m_timer.expires_from_now(boost::posix_time::milliseconds(1));
+fixed_time_interval_daemon_service::stop()
+{
   m_timer.wait();
-  m_timer.cancel();
+
+  using namespace boost::system;
+  auto err = errc::make_error_code(errc::operation_canceled);
+  m_timer.cancel(err);
+
   m_io_service.stop();
 }
 
@@ -122,11 +127,16 @@ fixed_time_interval_daemon_service::stop() {
 
 void
 fixed_time_interval_daemon_service::tick_handler(
-  const boost::system::error_code& /* e */,
+  const boost::system::error_code& err,
   boost::asio::deadline_timer* t,
   fixed_time_interval_daemon_service* daemon_service
 )
 {
+  if (err.value() != boost::system::errc::success)
+  {
+    return;
+  }
+
   if (!daemon_service->can_continue()) {
     return;
   }
