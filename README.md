@@ -1,7 +1,7 @@
 sneaker
 =======
 
-![logo](https://raw.github.com/yanzhengli/sneaker/dev/logo_128x128.png)
+![logo](https://raw.github.com/yanzhengli/sneaker/dev/resources/logo_128x128.png)
 
 [![Build Status](https://api.travis-ci.org/yanzhengli/sneaker.png)](https://travis-ci.org/yanzhengli/sneaker)
 
