@@ -22,6 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 #include "libc/uuid.h"
 
+#include "libc/assert.h"
 #include "libc/hash.h"
 #include "libc/utils.h"
 
@@ -43,10 +44,8 @@ uuid128_t uuid_create()
   unsigned short u4 = 0;
   unsigned short u5 = 0;
 
-  int size = sizeof(u1) + sizeof(u2) + sizeof(u3) + sizeof(u4) + sizeof(u5);
-
-  // TODO: [SNEAKER-114] Change runtime assertions to static assertions
-  assert(size == 16);
+  STATIC_ASSERT(
+    sizeof(u1) + sizeof(u2) + sizeof(u3) + sizeof(u4) + sizeof(u5) == 16u);
 
   char offsets[] = {
     0,

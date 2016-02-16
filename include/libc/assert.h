@@ -21,7 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* General assertions */
+/** Static and dynamic assertion utilities. */
 
 #ifndef SNEAKER_ASSERT_H_
 #define SNEAKER_ASSERT_H_
@@ -55,6 +55,19 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       }                                                                        \
     } while (0)
 #endif
+
+// -----------------------------------------------------------------------------
+
+#define STATIC_ASSERT__(cond, line) \
+  typedef char static_assert_line_##line[(!!(cond)) * 2 - 1]
+
+// -----------------------------------------------------------------------------
+
+#define STATIC_ASSERT_(cond, line) STATIC_ASSERT__( (cond), line )
+
+// -----------------------------------------------------------------------------
+
+#define STATIC_ASSERT(cond) STATIC_ASSERT_( (cond) , __LINE__ )
 
 // -----------------------------------------------------------------------------
 
