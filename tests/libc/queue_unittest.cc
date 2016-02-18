@@ -33,18 +33,26 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <climits>
 #include <cstring>
 
-// TODO: [SNEAKER-115] Fix queue unit tests
-#if 0
+
 // -----------------------------------------------------------------------------
 
 class queue_unittest : public ::testing::Test {
 protected:
+  queue_unittest()
+    :
+    ::testing::Test(),
+    m_queue(NULL)
+  {
+  }
+
   virtual void SetUp() {
     m_queue = queue_create();
     assert(m_queue);
+    assert(0 == queue_size(m_queue));
   }
 
   virtual void TearDown() {
+    assert(0 == queue_size(m_queue));
     queue_free(&m_queue);
     assert(m_queue == NULL);
   }
@@ -77,6 +85,7 @@ TEST_F(queue_unittest, TestPushAndPop1)
     int *p = (int*)queue_pop(m_queue);
     int val = DEREF_VOID(int, p);
     ASSERT_EQ(numbers[i], val);
+    ASSERT_EQ(10 - i - 1, queue_size(m_queue));
   }
 
   assert(queue_pop(m_queue) == NULL);
@@ -102,6 +111,7 @@ TEST_F(queue_unittest, TestPushAndPop2)
     int *p = (int*)queue_pop(m_queue);
     int val = DEREF_VOID(int, p);
     ASSERT_EQ(odds[i], val);
+    ASSERT_EQ(5 - i - 1, queue_size(m_queue));
   }
 
   assert(queue_pop(m_queue) == NULL);
@@ -117,6 +127,7 @@ TEST_F(queue_unittest, TestPushAndPop2)
     int *p = (int*)queue_pop(m_queue);
     int val = DEREF_VOID(int, p);
     ASSERT_EQ(evens[i], val);
+    ASSERT_EQ(5 - i - 1, queue_size(m_queue));
   }
 
   assert(queue_pop(m_queue) == NULL);
@@ -155,4 +166,3 @@ TEST_F(queue_unittest, TestPushAndPop3)
 }
 
 // -----------------------------------------------------------------------------
-#endif // #if 0
