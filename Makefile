@@ -54,8 +54,9 @@ LIBSNEAKER_GZIP=$(LIBSNEAKER)-$(VERSION).tar.gz
 
 CMAKE=`which cmake`
 
-LIB_INSTALL_PATH=/usr/local/lib
-HEADER_INSTALL_PATH=/usr/local/include/sneaker
+LIB_INSTALL_DIR=/usr/local/lib
+LIB_INSTALL_PATH=$(LIB_INSTALL_DIR)/libsneaker.a
+HEADER_INSTALL_PATH=/usr/local/include/sneaker/
 
 
 .PHONY: all
@@ -95,13 +96,14 @@ clean:
 .PHONY: install
 install: docs
 	@echo "\033[32mInstalling $(VERSION)...\033[39m";
-	@sudo mkdir -p $(HEADER_INSTALL_PATH)
-	@sudo cp -vr $(INCLUDE)/* $(HEADER_INSTALL_PATH)
-	@sudo cp -vr $(BIN)/$(SRC)/$(LIBSNEAKER_A) $(LIB_INSTALL_PATH)
-	@tar -zcvf $(BIN)/$(LIBSNEAKER_GZIP) $(INCLUDE) $(SRC) $(TESTS) $(RESOURCES) LICENSE Makefile README.md
+	sudo mkdir -p $(HEADER_INSTALL_PATH)
+	sudo cp -vr $(INCLUDE)/* $(HEADER_INSTALL_PATH)
+	sudo mkdir -p $(LIB_INSTALL_DIR)
+	sudo cp -vr $(BIN)/$(SRC)/$(LIBSNEAKER_A) $(LIB_INSTALL_PATH)
+	tar -zcvf $(BIN)/$(LIBSNEAKER_GZIP) $(INCLUDE) $(SRC) $(TESTS) $(RESOURCES) LICENSE Makefile README.md
 	@echo "\033[32mInstall complete...\033[39m";
-	@echo "\033[32mHeader files: \033[35m$(HEADER_INSTALL_PATH)/\033[39m";
-	@echo "\033[32mStatic lib: \033[35m$(LIB_INSTALL_PATH)/libsneaker.a\033[39m";
+	@echo "\033[32mHeader files: \033[35m$(HEADER_INSTALL_PATH)\033[39m";
+	@echo "\033[32mStatic lib: \033[35m$(LIB_INSTALL_PATH)\033[39m";
 
 
 .PHONY: uninstall
