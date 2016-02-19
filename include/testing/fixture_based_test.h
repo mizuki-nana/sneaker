@@ -29,7 +29,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef SNEAKER_FIXTURE_BASED_TEST_H_
 #define SNEAKER_FIXTURE_BASED_TEST_H_
 
-#include "_unittest.h"
+#include <gtest/gtest.h>
 
 #include <vector>
 

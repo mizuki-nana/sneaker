@@ -21,12 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/*
- * Program entry point for all test files.
- * Any executable tests compiled must be linked with this file.
- */
-
-#include "testing/_unittest.h"
+#include <gtest/gtest.h>
 
 
 using ::testing::EmptyTestEventListener;

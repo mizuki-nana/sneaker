@@ -26,7 +26,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef _TESTING_
 #define _TESTING_
 
-#include "_unittest.h"
 #include "fixture_based_test.h"
 
 #endif /* _TESTING_ */

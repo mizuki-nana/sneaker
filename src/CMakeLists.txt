@@ -41,7 +41,6 @@ add_library(sneaker
     libc/utils.c
     libc/uuid.c
     libc/vector.c
-    testing/_unittest.cc
     threading/daemon_service.cc
     threading/fixed_time_interval_daemon_service.cc
     utility/cmdline_program.cc

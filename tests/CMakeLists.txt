@@ -59,6 +59,7 @@ ADD_EXECUTABLE(run_tests
     utility/cmdline_program_unittest.cc
     utility/os_unittest.cc
     utility/stack_trace_unittest.cc
+    main.cc
     )
 
 
