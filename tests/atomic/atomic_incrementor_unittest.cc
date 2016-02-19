@@ -21,6 +21,10 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
+// NOTE: [SNEAKER-129] Disable flaky unit tests on OS X builds
+#ifdef __linux__
+
+
 /* Unit test for definitions in sneaker/atomic/atomic_incrementor.h */
 
 #include "atomic/atomic_incrementor.h"
@@ -234,3 +238,6 @@ TEST_F(atomic_incrementor_atomicity_test, TestAtomicity)
 }
 
 // -----------------------------------------------------------------------------
+
+
+#endif // #ifdef __linux__

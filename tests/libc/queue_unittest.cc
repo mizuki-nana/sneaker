@@ -21,6 +21,10 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
+// NOTE: [SNEAKER-129] Disable flaky unit tests on OS X builds
+#ifdef __linux__
+
+
 /* Unit test for `queue_t` defined in sneaker/libc/queue.h */
 
 #include "libc/queue.h"
@@ -166,3 +170,6 @@ TEST_F(queue_unittest, TestPushAndPop3)
 }
 
 // -----------------------------------------------------------------------------
+
+
+#endif // #ifdef __linux__
