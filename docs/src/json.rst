@@ -75,7 +75,7 @@ Here is an example of parsing a JSON blob into its corresponding data object.
 Header file: `sneaker/json/json.h`
 
 
-.. cpp:function:: sneaker::json::parse(const std::string& in) throw(invalid_json_error)
+.. cpp:function:: sneaker::json::parse(const std::string& in)
 ---------------------------------------------------------------------------------------
 
   Top level function for parsing a JSON blob and returns the deserialized
@@ -112,62 +112,62 @@ Header file: `sneaker/json/json.h`
 
     The underlying JSON object type.
 
-  .. cpp:function:: JSON() noexcept
+  .. cpp:function:: JSON()
     :noindex:
 
     Default constructor.
 
-  .. cpp:function:: JSON(null) noexcept
+  .. cpp:function:: JSON(null)
     :noindex:
 
     Constructor.
 
-  .. cpp:function:: JSON(double) noexcept
+  .. cpp:function:: JSON(double)
     :noindex:
 
     Constructor.
 
-  .. cpp:function:: JSON(int) noexcept
+  .. cpp:function:: JSON(int)
     :noindex:
 
     Constructor.
 
-  .. cpp::function:: JSON(bool) noexcept
+  .. cpp::function:: JSON(bool)
     :noindex:
 
     Constructor.
 
-  .. cpp:function:: JSON(const string&) noexcept
+  .. cpp:function:: JSON(const string&)
     :noindex:
 
     Constructor.
 
-  .. cpp:function:: JSON(string&&) noexcept
+  .. cpp:function:: JSON(string&&)
     :noindex:
 
     Constructor.
 
-  .. cpp:function:: JSON(const char*) noexcept
+  .. cpp:function:: JSON(const char*)
     :noindex:
 
     Constructor.
 
-  .. cpp:function:: JSON(const array&) noexcept
+  .. cpp:function:: JSON(const array&)
     :noindex:
 
     Constructor.
 
-  .. cpp:function:: JSON(array&&) noexcept
+  .. cpp:function:: JSON(array&&)
     :noindex:
 
     Constructor.
 
-  .. cpp:function:: JSON(const object&) noexcept
+  .. cpp:function:: JSON(const object&)
     :noindex:
 
     Constructor.
 
-  .. cpp:function:: JSON(object&&) noexcept
+  .. cpp:function:: JSON(object&&)
     :noindex:
 
     Constructor.
@@ -397,8 +397,8 @@ Example:
   Error thrown when parsing an JSON schema validation fails.
 
 
-.. cpp:function:: sneaker::json::json_schema::validate(const JSON&, const JSON&) throw(json_validation_error)
--------------------------------------------------------------------------------------------------------------
+.. cpp:function:: sneaker::json::json_schema::validate(const JSON&, const JSON&)
+--------------------------------------------------------------------------------
 
   Interface for validating a JSON blob with a specified JSON schema. The first
   argument is the JSON blob to be validated, and the second argument is the

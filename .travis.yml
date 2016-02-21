@@ -25,6 +25,8 @@ install:
   - if [[ "$TRAVIS_OS_NAME" == 'osx' ]]; then brew update; fi
   - if [[ "$TRAVIS_OS_NAME" == 'osx' ]]; then brew install boost155; fi
   - if [[ "$TRAVIS_OS_NAME" == 'osx' ]]; then sudo pip install sphinx; fi
+  - sudo pip install --upgrade pip
+  - sudo pip install sphinx_rtd_theme
 
 script:
   - make

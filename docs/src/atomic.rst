@@ -38,7 +38,7 @@ Header file: `sneaker/atomic/atomic_incrementor.h`
 
     Assignment operator.
 
-  .. cpp:function:: atomic_incrementor<T, UPPER_LIMIT>& operator++() throw(std::overflow_error, std::underflow_error)
+  .. cpp:function:: atomic_incrementor<T, UPPER_LIMIT>& operator++()
     :noindex:
 
     Pre-increment operator.

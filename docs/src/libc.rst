@@ -5,6 +5,30 @@ C Utilities
 
 Types, functions and data structures in C.
 
+Assertions
+==========
+
+Various utilities for dynamic and static assertions.
+
+Header file: `sneaker/libc/assert.h`
+
+.. c:function:: ASSERT(expr)
+
+  Asserts that `expr` evaluates to a truthy value during runtime.
+  Aborts the program if the assertion fails, along with print out
+  the line number and file name of where the assertion failed.
+
+.. c:function:: ASSERT_STREQ(str1, str2)
+
+  Asserts that both specified strings `str1` and `str2` are equal.
+  Aborts the program if the assertion fails, along with print out
+  the line number and file name of where the assertion failed.
+
+.. c:function:: STATIC_ASSERT(cond)
+
+  Asserts that the specified expression `cond` evaluates to a truthy
+  value during compilation. Compilation fails if the assertion fails.
+
 
 Array
 =====
@@ -470,44 +494,44 @@ A FILO storage container.
 
 Header file: `sneaker/libc/stack.h`
 
-.. c:type:: stack_t
+.. c:type:: sstack_t
 -------------------
 
-  .. c:function:: stack_t stack_create()
+  .. c:function:: sstack_t stack_create()
     :noindex:
 
-    Creates an instance of `stack_t` using dynamically allocated memory.
+    Creates an instance of `sstack_t` using dynamically allocated memory.
 
-  .. c:function:: size_t stack_size(stack_t)
+  .. c:function:: size_t stack_size(sstack_t)
     :noindex:
 
-    Returns the number of elements in the `stack_t` instance specified.
+    Returns the number of elements in the `sstack_t` instance specified.
 
-  .. c:function:: void* stack_top(stack_t)
+  .. c:function:: void* sstack_top(sstack_t)
     :noindex:
 
-    Gets the element pointer at the top of the `stack_t` instance provided.
+    Gets the element pointer at the top of the `sstack_t` instance provided.
     Returns `NULL` if the stack is empty.
 
-  .. c:function:: int stack_push(stack_t, void*, size_t)
+  .. c:function:: int stack_push(sstack_t, void*, size_t)
     :noindex:
 
-    Pushes an element pointer to the top of the `stack_t` instance specified as
+    Pushes an element pointer to the top of the `sstack_t` instance specified as
     the first argument. The second argument is a pointer that points to the
     value to be pushed onto the stack, and the third argument is the size of
     the value to be pushed, in number of bytes. Returns `-1` if the push failed,
     `1` if successful.
 
-  .. c:function:: void* stack_pop(stack_t)
+  .. c:function:: void* stack_pop(sstack_t)
     :noindex:
 
-    Pops the element pointer at the top of the `stack_t` instance specified and
+    Pops the element pointer at the top of the `sstack_t` instance specified and
     returns it. If the stack is empty, `NULL` is returned.
 
   .. c:function:: void stack_free(stack*)
     :noindex:
 
-    Frees memory from the pointer of an instance of `stack_t` specified.
+    Frees memory from the pointer of an instance of `sstack_t` specified.
 
 
 String Buffer
@@ -643,6 +667,18 @@ Header file: `sneaker/libc/utils.h`
 .. c:function:: int is_bit_set_uint32(uint32_t, char)
 
   32-bit version of :c:func:`is_bit_set`.
+
+.. c:function:: void set_nth_bit_uint8(uint8_t *val, char bit)
+
+  8-bit version of :c:func:`set_nth_bit`.
+
+.. c:function:: void clear_nth_bit_uint8(uint8_t *val, char bit)
+
+  8-bit version of :c:func:`clear_nth_bit`.
+
+.. c:function:: int is_bit_set_uint8(uint8_t val, char bit)
+
+  8-bit version of :c:func:`is_bit_set`.
 
 .. c:function:: int rand_top(int)
 

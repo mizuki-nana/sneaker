@@ -27,7 +27,7 @@
 # CMake to build from source.
 
 
-VERSION=v0.2.8
+VERSION=v0.2.9
 
 
 INCLUDE=./include

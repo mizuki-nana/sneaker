@@ -151,7 +151,7 @@ Header file: `sneaker/algorithm/tarjan.h`
 
       Adds a strongly connected component list to the collection.
 
-    .. cpp:function:: int size() const
+    .. cpp:function:: size_t size() const
       :noindex:
 
       Returns the number of strongly connected components in the graph.

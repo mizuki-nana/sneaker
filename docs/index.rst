@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-sneaker v0.2.8 documentation
+sneaker v0.2.9 documentation
 ============================
 
 Overview
@@ -31,11 +31,9 @@ management and function decorators, which are all prevalent features in Python.
 Get Started
 -----------
 
-1 Build binary
+1 Build project
    `make`
-2 Run all tests
-   `make test`
-3 Install
+2 Install
    `make install`
 
 
@@ -56,6 +54,7 @@ Content
    src/json
    src/threading
    src/algorithm
+   src/utility
    src/testing
 
 
