@@ -3,7 +3,8 @@ sneaker
 
 ![logo](https://raw.github.com/yanzhengli/sneaker/dev/resources/logo_128x128.png)
 
-[![Build Status](https://api.travis-ci.org/yanzhengli/sneaker.png)](https://travis-ci.org/yanzhengli/sneaker)
+[![Build status](https://api.travis-ci.org/yanzhengli/sneaker.png)](https://travis-ci.org/yanzhengli/sneaker)
+[![Docs build status](https://readthedocs.org/projects/sneaker/badge/?version=latest)](https://readthedocs.org/projects/sneaker/)
 
 
 Sneaker is a collection of modern and versatile C++ components that are useful
@@ -53,7 +54,8 @@ Install
 
 
 ## Documentation
-[Link](http://www.libsneaker.org/documentation/)
+* [Web version](https://sneaker.readthedocs.org/en/latest/)
+* [PDF version](https://media.readthedocs.org/pdf/sneaker/latest/sneaker.pdf)
 
 
 ## Compilation Environments
