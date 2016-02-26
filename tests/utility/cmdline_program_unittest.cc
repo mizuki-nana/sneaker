@@ -28,6 +28,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "testing/testing.h"
 
+#include <boost/format.hpp>
+
 #include <array>
 #include <cstdint>
 #include <limits>
@@ -55,7 +57,8 @@ public:
         m_expected_output("--"),
         m_expected_number(std::numeric_limits<uint32_t>::max()),
         m_expected_float(std::numeric_limits<float>::max()),
-        m_expected_boolean(true)
+        m_expected_boolean(true),
+        m_result()
       {
         add_positional_parameter("input", 1);
         add_string_parameter("input", "a dummy input file", &m_input);
@@ -63,24 +66,6 @@ public:
         add_uint32_parameter("number", "a dummy number", &m_number);
         add_float_parameter("float", "a dummy floating point number", &m_float);
         add_boolean_parameter("boolean", "a dummy boolean", &m_boolean);
-      }
-
-      /** Overrides `cmdline_program::do_run()` */
-      int do_run()
-      {
-        return 0;
-      }
-
-      /** Overrides `cmdline_program::check_parameters()` */
-      bool check_parameters() const
-      {
-        return (
-          m_expected_input == m_input &&
-          m_expected_output == m_output &&
-          m_expected_number == m_number &&
-          sneaker::utility::floats_equal(m_expected_float, m_float) &&
-          m_expected_boolean == m_boolean
-        );
       }
 
       void set_expected_input(const std::string& expected_input)
@@ -108,7 +93,31 @@ public:
         m_expected_boolean = expected_boolean;
       }
 
+      std::string result() const
+      {
+        return m_result;
+      }
+
     private:
+      /** Overrides `cmdline_program::do_run()` */
+      virtual int do_run()
+      {
+        m_result.assign(str(boost::format("%lu - %.2f - %d") % m_number % m_float % m_boolean));
+        return !!m_result.empty();
+      }
+
+      /** Overrides `cmdline_program::check_parameters()` */
+      bool check_parameters() const
+      {
+        return (
+          m_expected_input == m_input &&
+          m_expected_output == m_output &&
+          m_expected_number == m_number &&
+          sneaker::utility::floats_equal(m_expected_float, m_float) &&
+          m_expected_boolean == m_boolean
+        );
+      }
+
       std::string m_input;
       std::string m_output;
       uint32_t m_number;
@@ -120,6 +129,8 @@ public:
       uint32_t m_expected_number;
       float m_expected_float;
       bool m_expected_boolean;
+
+      std::string m_result;
   };
 };
 
@@ -157,6 +168,11 @@ TEST_F(cmdline_program_unittest, TestRun)
   const int res = dummy_program.run(argc, argv.data());
 
   ASSERT_EQ(0, res);
+
+  const std::string expected_result("32 - 3.14 - 1");
+  const std::string actual_result(dummy_program.result());
+
+  ASSERT_EQ(expected_result, actual_result);
 }
 
 // -----------------------------------------------------------------------------

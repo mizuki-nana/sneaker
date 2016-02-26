@@ -43,22 +43,7 @@ public:
 protected:
   explicit cmdline_program(const char*);
 
-  /**
-   * Runs the program, and returns the return value of the program.
-   *
-   * Default implementation does nothing, and is intended to be overriden
-   * in subclasses.
-   */
-  int do_run();
-
-  /**
-   * Checks the parameters passed to the program, and returns a boolean
-   * indicating if the parameters are valid.
-   *
-   * Default implementation does nothing, and is intended to be overriden
-   * in subclasses.
-   */
-  bool check_parameters() const;
+  virtual ~cmdline_program();
 
   void add_string_parameter(const char*, const char*, std::string*);
 
@@ -80,6 +65,18 @@ protected:
   }
 
   bool option_provided(const char*) const;
+
+private:
+  /**
+   * Runs the program, and returns the return value of the program.
+   */
+  virtual int do_run() = 0;
+
+  /**
+   * Checks the parameters passed to the program, and returns a boolean
+   * indicating if the parameters are valid.
+   */
+  virtual bool check_parameters() const = 0;
 
 private:
   typedef struct boolean_option

@@ -47,18 +47,9 @@ cmdline_program::cmdline_program(const char* description)
 
 // -----------------------------------------------------------------------------
 
-int
-cmdline_program::do_run()
+/* virtual */
+cmdline_program::~cmdline_program()
 {
-  return 0;
-}
-
-// -----------------------------------------------------------------------------
-
-bool
-cmdline_program::check_parameters() const
-{
-  return true;
 }
 
 // -----------------------------------------------------------------------------
