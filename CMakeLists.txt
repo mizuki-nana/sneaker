@@ -28,9 +28,19 @@ cmake_minimum_required(VERSION 2.6)
 project (sneaker C CXX)
 
 
+# Release mode.
+set(CMAKE_BUILD_TYPE Release ... FORCE)
+
+
 # Compilers.
 set(CMAKE_C_COMPILER "clang")
 set(CMAKE_CXX_COMPILER "clang++")
+
+
+# Linker options.
+# Suppressing passing -rdynamic.
+set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
+set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
 
 
 # Paths.
