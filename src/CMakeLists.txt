@@ -46,7 +46,10 @@ add_library(sneaker
     utility/cmdline_program.cc
     utility/os.cc
     utility/stack_trace.cc
-)
+    )
+
+
+set_target_properties(sneaker PROPERTIES COMPILE_FLAGS "-O3")
 
 
 # Platform specific compiler flags.
