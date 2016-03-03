@@ -20,33 +20,36 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-#ifndef SNEAKER_UTIL_NUMERIC_H__
-#define SNEAKER_UTIL_NUMERIC_H__
 
-#include <cmath>
+/* Unit tests for definitions defined in sneaker/utility/util.numeric.h */
 
+#include "utility/util.numeric.h"
 
-namespace sneaker {
-
-
-namespace utility {
+#include "testing/testing.h"
 
 
-#define EPSILON(x) 1e-##x
+// -----------------------------------------------------------------------------
 
+using namespace sneaker::utility;
 
-template<typename T>
-bool
-floats_equal(T lhs, T rhs, T tolerance=static_cast<T>(EPSILON(4)))
+// -----------------------------------------------------------------------------
+
+class util_numeric_unittest : public ::testing::Test {};
+
+// -----------------------------------------------------------------------------
+
+TEST_F(util_numeric_unittest, TestFloatsEqualWithDefaultTolerance)
 {
-  return std::fabs(lhs - rhs) < tolerance;
+    ASSERT_TRUE(floats_equal(1.0, 1.0001));
+    ASSERT_FALSE(floats_equal(1.0, 2.0));
 }
 
+// -----------------------------------------------------------------------------
 
-} /* end namespace utility */
+TEST_F(util_numeric_unittest, TestFloatsEqualWithCustomTolerance)
+{
+    ASSERT_FALSE(floats_equal(1.0, 1.0001, 0.0000001));
+    ASSERT_TRUE(floats_equal(1.0, 1.05, 0.06));
+}
 
-
-} /* end namespace sneaker */
-
-
-#endif /* SNEAKER_UTIL_NUMERIC_H__ */
+// -----------------------------------------------------------------------------

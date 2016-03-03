@@ -806,6 +806,39 @@ TEST_F(json_schema_array_type_unittest, TestViolatingUniqueItems)
 
 // -----------------------------------------------------------------------------
 
+TEST_F(json_schema_array_type_unittest, TestNestedArray)
+{
+  JSON data = sneaker::json::parse("[ [ 5 ] ]");
+  JSON schema = sneaker::json::parse(
+    "{"
+      "\"type\": \"array\","
+      "\"items\": {"
+        "\"type\": \"array\","
+        "\"items\": ["
+          "{"
+            "\"type\": \"integer\","
+            "\"enum\": ["
+              "0,"
+              "1,"
+              "2,"
+              "3,"
+              "4"
+            "]"
+          "}"
+        "]"
+      "}"
+    "}"
+  );
+
+  validate_and_check_result(
+    data,
+    schema,
+    "Object 5 is invalid under the defined enum values"
+  );
+}
+
+// -----------------------------------------------------------------------------
+
 class json_schema_object_type_unittest : public json_schema_unittest {};
 
 // -----------------------------------------------------------------------------
