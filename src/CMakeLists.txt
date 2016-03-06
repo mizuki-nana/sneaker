@@ -65,6 +65,9 @@ endif()
 add_library(sneaker_dbg ${SRC})
 
 
+set_target_properties(sneaker_dbg PROPERTIES COMPILE_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
+
+
 # Platform specific compiler flags.
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
   target_compile_options(sneaker_dbg PRIVATE -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0)

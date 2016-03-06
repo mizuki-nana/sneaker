@@ -5,6 +5,7 @@ sneaker
 
 [![Build status](https://api.travis-ci.org/yanzhengli/sneaker.png)](https://travis-ci.org/yanzhengli/sneaker)
 [![Docs build status](https://readthedocs.org/projects/sneaker/badge/?version=latest)](https://readthedocs.org/projects/sneaker/)
+[![Coverage Status](https://coveralls.io/repos/github/yanzhengli/sneaker/badge.svg?branch=dev)](https://coveralls.io/github/yanzhengli/sneaker?branch=dev)
 
 
 Sneaker is a collection of modern and versatile C++ components that are useful
