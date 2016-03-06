@@ -22,8 +22,7 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-# Library `sneaker`.
-add_library(sneaker
+set(SRC
     io/file_reader.cc
     json/json.cc
     json/json_parser.cc
@@ -49,10 +48,24 @@ add_library(sneaker
     )
 
 
+### Library `sneaker`.
+add_library(sneaker ${SRC})
+
+
 set_target_properties(sneaker PROPERTIES COMPILE_FLAGS "-O3")
 
 
 # Platform specific compiler flags.
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
   target_compile_options(sneaker PRIVATE -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0)
+endif()
+
+
+### Library `sneaker_dbg`.
+add_library(sneaker_dbg ${SRC})
+
+
+# Platform specific compiler flags.
+if (${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+  target_compile_options(sneaker_dbg PRIVATE -arch x86_64 -DGTEST_HAS_TR1_TUPLE=0)
 endif()

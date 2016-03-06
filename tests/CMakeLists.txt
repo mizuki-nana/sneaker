@@ -79,7 +79,7 @@ endif()
 # Platform specific linker flags.
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     TARGET_LINK_LIBRARIES(run_tests
-        sneaker
+        sneaker_dbg
         gtest
         pthread
         boost_system
@@ -89,7 +89,7 @@ endif()
 
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     TARGET_LINK_LIBRARIES(run_tests
-        sneaker
+        sneaker_dbg
         gtest
         pthread
         boost_system-mt
