@@ -114,11 +114,10 @@ fixed_time_interval_daemon_service::can_continue() const
 void
 fixed_time_interval_daemon_service::stop()
 {
-  m_timer.wait();
-
   using namespace boost::system;
   auto err = errc::make_error_code(errc::operation_canceled);
   m_timer.cancel(err);
+  m_timer.wait();
 
   m_io_service.stop();
 }
