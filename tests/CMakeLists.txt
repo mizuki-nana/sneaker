@@ -103,5 +103,11 @@ endif()
 
 
 # Run tests.
+if(RUN_TESTS_ONCE)
+    set(GTEST_REPEAT 1)
+else()
+    set(GTEST_REPEAT 3)
+endif()
+
 add_custom_command(TARGET run_tests POST_BUILD COMMAND
-    ./run_tests --gtest_color=yes --gtest_shuffle --gtest_repeat=3)
+    ./run_tests --gtest_color=yes --gtest_shuffle --gtest_repeat=${GTEST_REPEAT})

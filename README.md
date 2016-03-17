@@ -43,11 +43,13 @@ management and function decorators, which are all prevalent features in Python.
 
 ## Get Started
 
-Build project
-<br/>`make`
+Steps to build from source and install library:
 
-Install
-<br/>`make install`
+1. Build project
+> `make`
+
+2. Install
+> `make install`
 
 
 ## Version

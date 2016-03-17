@@ -63,6 +63,11 @@ LIB_DBG_INSTALL_PATH=$(LIB_INSTALL_DIR)/$(LIBSNEAKER_DBG_A)
 HEADER_INSTALL_PATH=/usr/local/include/sneaker/
 
 
+ifeq ($(fast), 1)
+	BUILD_TARGET_CMAKE_ARGS=-DRUN_TESTS_ONCE=ON
+endif
+
+
 .PHONY: all
 all: gtest src docs
 
@@ -70,7 +75,7 @@ all: gtest src docs
 .PHONY: src
 src:
 	mkdir -p $(BIN)
-	cd $(BIN); cmake ../ && make
+	cd $(BIN); cmake $(BUILD_TARGET_CMAKE_ARGS) ../ && make
 
 
 .PHONY: gtest

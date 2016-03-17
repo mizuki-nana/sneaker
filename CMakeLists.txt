@@ -28,6 +28,10 @@ cmake_minimum_required(VERSION 2.6)
 project (sneaker C CXX)
 
 
+# Options.
+option(RUN_TESTS_ONCE "Run unit test suite once" OFF)
+
+
 # Release mode.
 set(CMAKE_BUILD_TYPE Release ... FORCE)
 
