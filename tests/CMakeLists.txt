@@ -54,6 +54,7 @@ ADD_EXECUTABLE(run_tests
     libc/utils_unittest.cc
     libc/uuid_unittest.cc
     libc/vector_unittest.cc
+    logging/logger_unittest.cc
     threading/daemon_service_unittest.cc
     threading/fixed_time_interval_daemon_service_unittest.cc
     utility/cmdline_program_unittest.cc

@@ -40,6 +40,8 @@ set(SRC
     libc/utils.c
     libc/uuid.c
     libc/vector.c
+    logging/log_scheme.impl.cc
+    logging/defaults.cc
     threading/daemon_service.cc
     threading/fixed_time_interval_daemon_service.cc
     utility/cmdline_program.cc
