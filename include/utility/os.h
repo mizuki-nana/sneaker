@@ -37,14 +37,20 @@ namespace utility {
 /**
  * Get the memory usages of the current process, in number of kilo bytes.
  *
- * vm_peak: Peak virtual memory size.
+ * Supported platforms:
+ *  - Linux
+ *  - OS X
+ *
+ * vm_peak: Peak virtual memory size (currently not supported on OS X).
  * vm_size: Virtual memory size.
- * vm_hwm: Peak resident set size ("high water mark").
+ * vm_hwm: Peak resident set size ("high water mark") (currently not supported on OS X).
  * vm_rss: Resident set size.
  *
  * References:
  *  - http://man7.org/linux/man-pages/man5/proc.5.html
  *      Search for: /proc/[pid]/status
+ *  - http://stackoverflow.com/questions/63166/how-to-determine-cpu-and-memory-consumption-from-inside-a-process
+ *  	Scroll down to the "Mac OS X" section.
  */
 void
 get_process_mem_usage(uint64_t* vm_peak, uint64_t* vm_size,

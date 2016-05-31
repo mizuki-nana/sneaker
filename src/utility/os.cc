@@ -22,10 +22,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 #include "utility/os.h"
 
+#ifdef __linux__
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <sstream>
+#endif
+
+#ifdef __APPLE__
+#include <mach/mach.h>
+#endif
 
 
 namespace sneaker {
@@ -36,6 +42,7 @@ namespace utility {
 
 // -----------------------------------------------------------------------------
 
+#ifdef __linux__
 template<typename StreamType, typename ValueType>
 void
 parse(const std::string& line, const std::string& key, ValueType* value)
@@ -43,14 +50,15 @@ parse(const std::string& line, const std::string& key, ValueType* value)
   StreamType stream(line.substr(key.size()));
   stream >> *value;
 }
+#endif
 
 // -----------------------------------------------------------------------------
 
-void
-get_process_mem_usage(uint64_t* vm_peak, uint64_t* vm_size,
+#ifdef __linux__
+static
+void get_process_mem_usage_linux(uint64_t* vm_peak, uint64_t* vm_size,
   uint64_t* vm_hwm, uint64_t* vm_rss)
 {
-#ifdef __linux__
   static const std::string VM_PEAK_KEY("VmPeak:");
   static const std::string VM_SIZE_KEY("VmSize:");
   static const std::string VM_HWM_KEY("VmHWM:");
@@ -81,27 +89,46 @@ get_process_mem_usage(uint64_t* vm_peak, uint64_t* vm_size,
   }
 
   stat_stream.close();
-#else
-  // TODO: [SNEAKER-99] Port memory query utility functions to work on OS X
-  if (vm_peak)
-  {
-    *vm_peak = 0;
-  }
+}
+#endif
 
-  if (vm_size)
-  {
-    *vm_size = 0;
-  }
+// -----------------------------------------------------------------------------
 
-  if (vm_hwm)
-  {
-    *vm_hwm = 0;
-  }
+#ifdef __APPLE__
+static
+void get_process_mem_usage_osx(uint64_t* /* vm_peak */, uint64_t* vm_size,
+  uint64_t* /* vm_hwm */, uint64_t* vm_rss)
+{
+  struct task_basic_info t_info;
+  mach_msg_type_number_t t_info_count = TASK_BASIC_INFO_COUNT;
 
-  if (vm_rss)
+  if (KERN_SUCCESS == task_info(mach_task_self(),
+                              TASK_BASIC_INFO, reinterpret_cast<task_info_t>(&t_info), 
+                              &t_info_count))
   {
-    *vm_rss = 0;
+    if (vm_size)
+    {
+      *vm_size = t_info.virtual_size / 1024;
+    }
+
+    if (vm_rss)
+    {
+      *vm_rss = t_info.resident_size / 1024;
+    }
   }
+}
+#endif
+
+// -----------------------------------------------------------------------------
+
+void
+get_process_mem_usage(uint64_t* vm_peak, uint64_t* vm_size,
+  uint64_t* vm_hwm, uint64_t* vm_rss)
+{
+#ifdef __linux__
+  get_process_mem_usage_linux(vm_peak, vm_size, vm_hwm, vm_rss);
+#elif defined(__APPLE__)
+  get_process_mem_usage_osx(vm_peak, vm_size, vm_hwm, vm_rss);
 #endif
 }
 
