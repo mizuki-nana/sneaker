@@ -30,6 +30,7 @@ install:
   - sudo pip install cpp-coveralls
 
 script:
+  - make gtest
   - make
 
 after_success:

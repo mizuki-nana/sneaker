@@ -39,9 +39,10 @@ DOCS_BUILD=$(DOCS)/_build
 ROOT_DIR=$(shell pwd)
 
 GTEST=gtest
-GTEST_DIR=./libs/gtest-1.6.0
+GTEST_SHA=c99458533a9b4c743ed51537e25989ea55944908 # googletest 1.7.0
+GTEST_DIR=./libs/googletest
 GTEST_BUILD=./$(BIN)/$(GTEST)
-GTEST_INCLUDE_DIR=./libs/gtest-1.6.0/include/gtest
+GTEST_INCLUDE_DIR=$(GTEST_DIR)/include/gtest
 GTEST_INCLUDE_TARGET_DIR=/usr/local/include/
 GTEST_STATIC_LIB=libgtest.a
 GTEST_STATIC_LIB_PATH=$(GTEST_BUILD)/$(GTEST_STATIC_LIB)
@@ -69,7 +70,7 @@ endif
 
 
 .PHONY: all
-all: gtest src docs
+all: src docs
 
 
 .PHONY: src
@@ -83,7 +84,7 @@ gtest:
 	git submodule sync
 	git submodule update --init
 	mkdir -p $(GTEST_BUILD)
-	cd $(ROOT_DIR)/$(GTEST_DIR)
+	cd $(ROOT_DIR)/$(GTEST_DIR) && git fetch origin && git checkout $(GTEST_SHA)
 	cd $(ROOT_DIR)/$(GTEST_BUILD) && $(CMAKE) $(ROOT_DIR)/$(GTEST_DIR)
 	cd $(ROOT_DIR)/$(GTEST_BUILD) && $(MAKE)
 	sudo cp -rf $(GTEST_INCLUDE_DIR) $(GTEST_INCLUDE_TARGET_DIR)
