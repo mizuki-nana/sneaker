@@ -30,7 +30,6 @@ LINK_DIRECTORIES(${PROJECT_SOURCE_DIR}/src/)
 ADD_EXECUTABLE(run_tests
     algorithm/tarjan_unittest.cc
     allocator/allocator_unittest.cc
-    atomic/atomic_incrementor_unittest.cc
     cache/generic_cache_unittest.cc
     container/assorted_value_map_unittest.cc
     container/reservation_map_unittest.cc
@@ -55,6 +54,7 @@ ADD_EXECUTABLE(run_tests
     libc/uuid_unittest.cc
     libc/vector_unittest.cc
     logging/logger_unittest.cc
+    threading/atomic_unittest.cc
     threading/daemon_service_unittest.cc
     threading/fixed_time_interval_daemon_service_unittest.cc
     utility/cmdline_program_unittest.cc

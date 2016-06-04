@@ -20,44 +20,56 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-#ifndef SNEAKER_ATOMIC_INCREMENTOR_H_
-#define SNEAKER_ATOMIC_INCREMENTOR_H_
 
+/**
+ * Wrapper class around `std::atomic<T>` with a templated maximum value.
+ */
+
+#ifndef SNEAKER_ATOMIC_H_
+#define SNEAKER_ATOMIC_H_
+
+#include <algorithm>
 #include <atomic>
-#include <stdexcept>
+#include <type_traits>
 
 
 namespace sneaker {
 
 
-namespace atomic {
+namespace threading {
 
 
 template<class T, T UPPER_LIMIT>
-class atomic_incrementor {
+class atomic
+{
 public:
-  atomic_incrementor();
-  atomic_incrementor(T);
+  atomic();
+  atomic(T);
 
-  atomic_incrementor(const atomic_incrementor<T, UPPER_LIMIT>&);
+  atomic(const atomic<T, UPPER_LIMIT>&);
 
-  atomic_incrementor<T, UPPER_LIMIT>& operator=(const T&);
+  atomic<T, UPPER_LIMIT>& operator=(const T&);
 
-  atomic_incrementor<T, UPPER_LIMIT>& operator++();
+  template<class U, U UPPER_LIMIT_2>
+  atomic& operator=(const atomic<U, UPPER_LIMIT_2>&);
+
+  atomic<T, UPPER_LIMIT>& operator++();
+
+  atomic<T, UPPER_LIMIT> operator++(int);
+
+  T value() const;
 
   operator T() const;
 
-  bool operator==(const T&) const;
-  bool operator!=(const T&) const;
-
-protected:
+private:
   std::atomic<T> m_value;
 };
 
 // -----------------------------------------------------------------------------
 
 template<class T, T UPPER_LIMIT>
-atomic_incrementor<T, UPPER_LIMIT>::atomic_incrementor():
+atomic<T, UPPER_LIMIT>::atomic()
+  :
   m_value(0)
 {
   // Do nothing here.
@@ -66,26 +78,29 @@ atomic_incrementor<T, UPPER_LIMIT>::atomic_incrementor():
 // -----------------------------------------------------------------------------
 
 template<class T, T UPPER_LIMIT>
-atomic_incrementor<T, UPPER_LIMIT>::atomic_incrementor(T value):
+atomic<T, UPPER_LIMIT>::atomic(T value)
+  :
   m_value(value)
 {
-  // Do nothing here.
+  if (m_value > UPPER_LIMIT)
+  {
+    m_value = 0;
+  }
 }
 
 // -----------------------------------------------------------------------------
 
 template<class T, T UPPER_LIMIT>
-atomic_incrementor<T, UPPER_LIMIT>::atomic_incrementor(
-  const atomic_incrementor<T, UPPER_LIMIT>& other)
+atomic<T, UPPER_LIMIT>::atomic(const atomic<T, UPPER_LIMIT>& other)
 {
-  m_value = static_cast<T>(other.m_value);
+  m_value = other.m_value.load();
 }
 
 // -----------------------------------------------------------------------------
 
 template<class T, T UPPER_LIMIT>
-atomic_incrementor<T, UPPER_LIMIT>&
-atomic_incrementor<T, UPPER_LIMIT>::operator=(const T& value)
+atomic<T, UPPER_LIMIT>&
+atomic<T, UPPER_LIMIT>::operator=(const T& value)
 {
   m_value = value;
   return *this;
@@ -94,16 +109,15 @@ atomic_incrementor<T, UPPER_LIMIT>::operator=(const T& value)
 // -----------------------------------------------------------------------------
 
 template<class T, T UPPER_LIMIT>
-atomic_incrementor<T, UPPER_LIMIT>&
-atomic_incrementor<T, UPPER_LIMIT>::operator++()
+template<class U, U UPPER_LIMIT_2>
+atomic<T, UPPER_LIMIT>&
+atomic<T, UPPER_LIMIT>::operator=(const atomic<U, UPPER_LIMIT_2>& other)
 {
-  T current_value = m_value;
-  m_value++;
+  m_value = static_cast<T>(other.value());
 
-  if (m_value > UPPER_LIMIT) {
-    throw std::overflow_error("Overflow error occurred during increment");
-  } else if (m_value < current_value) {
-    throw std::underflow_error("Underflow error occurred during increment");
+  if (m_value > UPPER_LIMIT)
+  {
+    m_value = 0;
   }
 
   return *this;
@@ -112,36 +126,77 @@ atomic_incrementor<T, UPPER_LIMIT>::operator++()
 // -----------------------------------------------------------------------------
 
 template<class T, T UPPER_LIMIT>
-atomic_incrementor<T, UPPER_LIMIT>::operator T() const
+atomic<T, UPPER_LIMIT>&
+atomic<T, UPPER_LIMIT>::operator++()
 {
-  return this->m_value.load();
+  ++m_value;
+
+  if (m_value > UPPER_LIMIT)
+  {
+    m_value = 0;
+  }
+
+  return *this;
 }
 
 // -----------------------------------------------------------------------------
 
 template<class T, T UPPER_LIMIT>
-bool
-atomic_incrementor<T, UPPER_LIMIT>::operator==(const T& other) const
+atomic<T, UPPER_LIMIT>
+atomic<T, UPPER_LIMIT>::operator++(int)
 {
-  return this->m_value == other;
+  auto copy(*this);
+
+  this->operator++();
+
+  return copy;
 }
 
 // -----------------------------------------------------------------------------
 
 template<class T, T UPPER_LIMIT>
-bool
-atomic_incrementor<T, UPPER_LIMIT>::operator!=(const T& other) const
+T
+atomic<T, UPPER_LIMIT>::value() const
 {
-  return !(*this == other);
+  return m_value.load();
+}
+
+// -----------------------------------------------------------------------------
+
+template<class T, T UPPER_LIMIT>
+atomic<T, UPPER_LIMIT>::operator T() const
+{
+  return value();
+}
+
+// -----------------------------------------------------------------------------
+
+template<class T, T UPPER_LIMIT, class U, U UPPER_LIMIT_2>
+bool
+operator==(const atomic<T, UPPER_LIMIT> lhs,
+  const atomic<U, UPPER_LIMIT_2> rhs)
+{
+  return std::is_same<T, U>::value && UPPER_LIMIT == UPPER_LIMIT_2 &&
+    lhs.value() == rhs.value();
+}
+
+// -----------------------------------------------------------------------------
+
+template<class T, T UPPER_LIMIT, class U, U UPPER_LIMIT_2>
+bool
+operator!=(const atomic<T, UPPER_LIMIT>& lhs,
+  const atomic<U, UPPER_LIMIT_2>& rhs)
+{
+  return !operator==(lhs, rhs);
 }
 
 // -----------------------------------------------------------------------------
 
 
-} /* end namespace atomic */
+} /* end namespace threading */
 
 
 } /* end namespace sneaker */
 
 
-#endif /* SNEAKER_ATOMIC_INCREMENTOR_H_ */
+#endif /* SNEAKER_ATOMIC_H_ */

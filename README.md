@@ -33,7 +33,6 @@ _sneaker_ is consisted of the following major components:
 * [libc](https://github.com/yanzhengli/sneaker/tree/dev/include/libc) - C utilities
 * [algorithm](https://github.com/yanzhengli/sneaker/tree/dev/include/algorithm) - a collection of advanced algorithms
 * [allocator](https://github.com/yanzhengli/sneaker/tree/dev/include/allocator) - STL container allocator
-* [atomic](https://github.com/yanzhengli/sneaker/tree/dev/include/atomic) - utilities for atomic types
 * [cache](https://github.com/yanzhengli/sneaker/tree/dev/include/cache) - in-memory cache management
 * [container](https://github.com/yanzhengli/sneaker/tree/dev/include/container) - versatile data structures
 * [context](https://github.com/yanzhengli/sneaker/tree/dev/include/context) - context management
