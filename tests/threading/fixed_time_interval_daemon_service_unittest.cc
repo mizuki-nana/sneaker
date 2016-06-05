@@ -84,7 +84,7 @@ TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonSynchronously)
   fixed_time_interval_daemon_service daemon_service(
     20, fixed_time_interval_daemon_service_unittest::DummyHandler, true, 5);
 
-  bool res = daemon_service.start();
+  const bool res = daemon_service.start();
   ASSERT_EQ(true, res);
   ASSERT_EQ(5, fixed_time_interval_daemon_service_unittest::count());
 
@@ -93,8 +93,6 @@ TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonSynchronously)
 
 // -----------------------------------------------------------------------------
 
-// TODO: [SNEAKER-105] Fix `fixed_time_interval_daemon_service_unittest.TestRunDaemonAsynchronously` failure
-#if 0
 TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonAsynchronously)
 {
   /* Tests that a daemon which runs on a background thread indefinitely,
@@ -106,22 +104,23 @@ TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonAsynchronously)
   fixed_time_interval_daemon_service daemon_service(
     20, fixed_time_interval_daemon_service_unittest::DummyHandler);
 
-  bool res = daemon_service.start();
+  const bool res = daemon_service.start();
   ASSERT_EQ(true, res);
+
+  sleep(3);
+
+  std::cout << '\n';
 }
-#endif
 
 // -----------------------------------------------------------------------------
 
-// TODO: [SNEAKER-107] Fix `fixed_time_interval_daemon_service_unittest.TestRunDaemonAsynchronouslyIndefinitely` unit test case
-#if 0
 TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonAsynchronouslyIndefinitely)
 {
   /* Tests that a daemon which runs on a background thread, and pokes the
    * foreground thread indefinitely every 100 ms.
    *
-   * The daemon object should be destroyed on the stack before the 100ms interval
-   * finishes, and this tests it should not be an issue.
+   * The daemon object should be destroyed on the stack before the 100 ms
+   * interval finishes, and this tests it should not be an issue.
    *
    * See: [SNEAKER 90] Fix daemon service crash
    * https://github.com/yanzhengli/sneaker/pull/19/
@@ -129,11 +128,12 @@ TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonAsynchronouslyI
   fixed_time_interval_daemon_service daemon_service(
     100, fixed_time_interval_daemon_service_unittest::DummyHandler, false, -1);
 
-  bool res = daemon_service.start();
+  const bool res = daemon_service.start();
   ASSERT_EQ(true, res);
+
+  sleep(3);
 
   std::cout << '\n';
 }
-#endif
 
 // -----------------------------------------------------------------------------

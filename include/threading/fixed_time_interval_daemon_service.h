@@ -23,12 +23,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef SNEAKER_FIXED_TIME_INTERVAL_DAEMON_SERVICE_H_
 #define SNEAKER_FIXED_TIME_INTERVAL_DAEMON_SERVICE_H_
 
-#include "daemon_service.h"
-
-#include <boost/asio.hpp>
-#include <boost/system/error_code.hpp>
-
+#include <cstdint>
 #include <limits.h>
+#include <memory>
 
 
 typedef void(*ExternalHandler)(void*);
@@ -40,43 +37,22 @@ namespace sneaker {
 namespace threading {
 
 
-class fixed_time_interval_daemon_service : public daemon_service {
+class fixed_time_interval_daemon_service
+{
 public:
-  fixed_time_interval_daemon_service(uint32_t, ExternalHandler, bool=false, int32_t=INT_MAX);
-  ~fixed_time_interval_daemon_service();
+  fixed_time_interval_daemon_service(uint32_t, ExternalHandler,
+    bool=false, int32_t=INT_MAX);
+
+  virtual ~fixed_time_interval_daemon_service();
 
   size_t interval() const;
 
-protected:
-  virtual void handle();
-
-  static void tick_handler(
-    const boost::system::error_code&,
-    boost::asio::deadline_timer* t,
-    fixed_time_interval_daemon_service*
-  );
-
-  static void dummy_tick_handler(
-    const boost::system::error_code&,
-    boost::asio::deadline_timer* t,
-    long
-  );
-
-  void invoke_external_handler();
-
-  void increment_iteration_count();
-
-  bool can_continue() const;
-
-  void stop();
+  virtual bool start();
 
 private:
-  ExternalHandler m_external_handler;
-  uint32_t m_interval;
-  int32_t m_max_iterations;
-  uint32_t m_iteration_count;
-  boost::asio::io_service m_io_service;
-  boost::asio::deadline_timer m_timer;
+  class impl;
+
+  std::unique_ptr<impl> m_impl;
 };
 
 
