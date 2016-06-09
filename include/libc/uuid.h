@@ -48,9 +48,9 @@ typedef struct __sneaker_uuid_s uuid128_t;
 
 uuid128_t uuid_create();
 
-int uuid_compare(const uuid128_t, const uuid128_t);
+int uuid_compare(uuid128_t lhs, uuid128_t rhs);
 
-__uint128_t uuid_to_hash(const uuid128_t);
+__uint128_t uuid_to_hash(uuid128_t);
 
 __uint128_t uuid_create_and_hash();
 

@@ -39,8 +39,7 @@ namespace context {
 // -----------------------------------------------------------------------------
 
 template<class F, class... Args>
-void scoped_context(
-  context_manager* mngr, F func, Args... args)
+void scoped_context(context_manager* mngr, F func, Args... args)
 {
   assert(mngr);
 
@@ -58,8 +57,7 @@ void scoped_context(
 // -----------------------------------------------------------------------------
 
 template<class F, class... Args>
-void nested_context(
-  std::vector<context_manager*> mngrs, F func, Args... args)
+void nested_context(const std::vector<context_manager*>& mngrs, F func, Args... args)
 {
   std::for_each(
     mngrs.begin(),

@@ -32,15 +32,15 @@ extern "C" {
 #endif
 
 
-unsigned long int linear_horners_rule_str_hash(const char*);
+unsigned long int linear_horners_rule_str_hash(const char* str);
 
-unsigned long int hash32shift(unsigned int);
+unsigned long int hash32shift(unsigned int key);
 
-unsigned long int hash64shift(unsigned long);
+unsigned long int hash64shift(unsigned long key);
 
-unsigned long int hash_str_jenkins_one_at_a_time(const char*);
+unsigned long int hash_str_jenkins_one_at_a_time(const char* str);
 
-unsigned long int hash_robert_jenkin(unsigned int);
+unsigned long int hash_robert_jenkin(unsigned int k);
 
 
 #ifdef __cplusplus

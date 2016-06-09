@@ -32,13 +32,13 @@ extern "C" {
 /*
  * Computes the least largest exponent of base 2 that is closest to the input value.
  */
-unsigned int nearest_exp2_ceil(unsigned int);
+unsigned int nearest_exp2_ceil(unsigned int num);
 
 
 /*
  * Computes the most largest exponent of base 2 that is closest to the input value.
  */
-unsigned int nearest_exp2_floor(unsigned int);
+unsigned int nearest_exp2_floor(unsigned int num);
 
 
 #ifdef __cplusplus

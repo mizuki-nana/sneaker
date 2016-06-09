@@ -57,12 +57,12 @@ public:
     typedef standard_alloc_policy<U> other;
   };
 
-  inline explicit standard_alloc_policy();
+  standard_alloc_policy();
 
-  inline explicit standard_alloc_policy(standard_alloc_policy const&);
+  standard_alloc_policy(const standard_alloc_policy&);
 
   template<typename U>
-  inline explicit standard_alloc_policy(standard_alloc_policy<U> const&);
+  explicit standard_alloc_policy(const standard_alloc_policy<U>&);
 
   inline pointer allocate(size_type cnt, typename std::allocator<void>::const_pointer=0);
   inline void deallocate(pointer p, size_type);
@@ -81,8 +81,7 @@ standard_alloc_policy<T>::standard_alloc_policy()
 // -----------------------------------------------------------------------------
 
 template<typename T>
-standard_alloc_policy<T>::standard_alloc_policy(
-  standard_alloc_policy const&)
+standard_alloc_policy<T>::standard_alloc_policy(const standard_alloc_policy&)
 {
   // Do nothing here.
 }
@@ -91,8 +90,7 @@ standard_alloc_policy<T>::standard_alloc_policy(
 
 template<typename T>
 template<typename U>
-standard_alloc_policy<T>::standard_alloc_policy(
-  standard_alloc_policy<U> const&)
+standard_alloc_policy<T>::standard_alloc_policy(const standard_alloc_policy<U>&)
 {
   // Do nothing here.
 }
@@ -128,8 +126,8 @@ standard_alloc_policy<T>::max_size() const
 
 /* Equality operators. */
 template<typename T, typename T2>
-inline bool operator==(
-  standard_alloc_policy<T> const&, standard_alloc_policy<T2> const&)
+inline bool operator==(const standard_alloc_policy<T>&,
+  const standard_alloc_policy<T2>&)
 {
   return true;
 }
@@ -137,8 +135,8 @@ inline bool operator==(
 // -----------------------------------------------------------------------------
 
 template<typename T, typename T2>
-inline bool operator!=(
-  standard_alloc_policy<T> const& lhs, standard_alloc_policy<T2> const& rhs)
+inline bool operator!=(const standard_alloc_policy<T>& lhs,
+  const standard_alloc_policy<T2>& rhs)
 {
   return !(operator==(lhs, rhs));
 }
@@ -146,8 +144,7 @@ inline bool operator!=(
 // -----------------------------------------------------------------------------
 
 template<typename T, typename other_allocator>
-inline bool operator==(
-  standard_alloc_policy<T> const&, other_allocator const&)
+inline bool operator==(const standard_alloc_policy<T>&, const other_allocator&)
 {
   return false;
 }
@@ -155,8 +152,8 @@ inline bool operator==(
 // -----------------------------------------------------------------------------
 
 template<typename T, typename other_allocator>
-inline bool operator!=(
-  standard_alloc_policy<T> const& lhs, other_allocator const& rhs)
+inline bool operator!=(const standard_alloc_policy<T>& lhs,
+  const other_allocator& rhs)
 {
   return !(operator==(lhs, rhs));
 }

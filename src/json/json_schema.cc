@@ -82,12 +82,14 @@ public:
 
   virtual JSON::Type primitive_type() const = 0;
 
-  virtual void validate(const JSON&, const JSON&, const JSON::object&) const = 0;
-protected:
-  void validate(const JSON&, const JSON&) const;
+  virtual void validate(const JSON& data, const JSON& schema,
+    const JSON::object& original_schema) const = 0;
 
-  void validate_type(const JSON&) const;
-  void validate_semantic_format(const JSON&, const JSON&) const;
+protected:
+  void validate(const JSON& data, const JSON& schema) const;
+
+  void validate_type(const JSON& data) const;
+  void validate_semantic_format(const JSON& data, const JSON& schema) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -105,7 +107,8 @@ public:
     return JSON::Type::ARRAY;
   }
 
-  void validate(const JSON&, const JSON&, const JSON::object&) const;
+  void validate(const JSON& data, const JSON& schema,
+    const JSON::object& original_schema) const;
 
 private:
   void validate_additionalItems_and_items(
@@ -129,7 +132,8 @@ public:
     return JSON::Type::BOOL;
   }
 
-  void validate(const JSON&, const JSON&, const JSON::object&) const;
+  void validate(const JSON& data, const JSON& schema,
+    const JSON::object& original_schema) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -140,7 +144,8 @@ public:
     return JSON::Type::NUMBER;
   }
 
-  void validate(const JSON&, const JSON&, const JSON::object&) const;
+  void validate(const JSON& data, const JSON& schema,
+    const JSON::object& original_schema) const;
 
 private:
   void validate_multipleOf(
@@ -161,7 +166,8 @@ public:
     return JSON::Type::NUMBER;
   }
 
-  void validate(const JSON&, const JSON&, const JSON::object&) const;
+  void validate(const JSON& data, const JSON& schema,
+    const JSON::object& original_schema) const;
 
 private:
   void validate_multipleOf(
@@ -182,7 +188,8 @@ public:
     return JSON::Type::NUL;
   }
 
-  void validate(const JSON&, const JSON&, const JSON::object&) const;
+  void validate(const JSON& data, const JSON& schema,
+    const JSON::object& original_schema) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -193,7 +200,8 @@ public:
     return JSON::Type::OBJECT;
   }
 
-  void validate(const JSON&, const JSON&, const JSON::object&) const;
+  void validate(const JSON& data, const JSON& schema,
+    const JSON::object& original_schema) const;
 
 private:
   void validate_maxProperties(
@@ -220,7 +228,8 @@ public:
     return JSON::Type::STRING;
   }
 
-  void validate(const JSON&, const JSON&, const JSON::object&) const;
+  void validate(const JSON& data, const JSON& schema,
+    const JSON::object& original_schema) const;
 
 private:
   void validate_maxLength(
@@ -269,8 +278,8 @@ class json_schema_keyword_validator {
 public:
   virtual ~json_schema_keyword_validator();
 
-  virtual void validate(
-    const JSON&, const JSON::object&, const JSON::object&) const = 0;
+  virtual void validate(const JSON& data, const JSON::object& schema_object,
+    const JSON::object& original_schema) const = 0;
 };
 
 // -----------------------------------------------------------------------------
@@ -284,43 +293,49 @@ json_schema_keyword_validator::~json_schema_keyword_validator()
 
 class json_schema_allOf_keyword_validator : public json_schema_keyword_validator {
 public:
-  virtual void validate(
-    const JSON&, const JSON::object&, const JSON::object&) const;
+  virtual void validate(const JSON& data, const JSON::object& schema_object,
+    const JSON::object& original_schema) const;
 };
 
+// -----------------------------------------------------------------------------
 
 class json_schema_anyOf_keyword_validator : public json_schema_keyword_validator {
 public:
-  virtual void validate(
-    const JSON&, const JSON::object&, const JSON::object&) const;
+  virtual void validate(const JSON& data, const JSON::object& schema_object,
+    const JSON::object& original_schema) const;
 };
 
+// -----------------------------------------------------------------------------
 
 class json_schema_oneOf_keyword_validator : public json_schema_keyword_validator {
 public:
-  virtual void validate(
-    const JSON&, const JSON::object&, const JSON::object&) const;
+  virtual void validate(const JSON& data, const JSON::object& schema_object,
+    const JSON::object& original_schema) const;
 };
 
+// -----------------------------------------------------------------------------
 
 class json_schema_not_keyword_validator : public json_schema_keyword_validator {
 public:
-  virtual void validate(
-    const JSON&, const JSON::object&, const JSON::object&) const;
+  virtual void validate(const JSON& data, const JSON::object& schema_object,
+    const JSON::object& original_schema) const;
 };
 
+// -----------------------------------------------------------------------------
 
 class json_schema_enum_keyword_validator : public json_schema_keyword_validator {
 public:
-  virtual void validate(
-    const JSON&, const JSON::object&, const JSON::object&) const;
+  virtual void validate(const JSON& data, const JSON::object& schema_object,
+    const JSON::object& original_schema) const;
 };
 
+// -----------------------------------------------------------------------------
 
 struct json_schema_keyword_validator_wrapper {
   const json_schema_keyword_validator* validator;
 };
 
+// -----------------------------------------------------------------------------
 
 class json_schema_keyword_validator_meta {
 public:
@@ -329,6 +344,7 @@ public:
   static const map_type keyword_to_validator_map;
 };
 
+// -----------------------------------------------------------------------------
 
 const json_schema_keyword_validator_meta::map_type json_schema_keyword_validator_meta::keyword_to_validator_map {
   { "allOf",  { .validator=new json_schema_allOf_keyword_validator() } },
@@ -342,7 +358,8 @@ const json_schema_keyword_validator_meta::map_type json_schema_keyword_validator
 
 class json_schema_ref_validator {
 public:
-  void validate(const JSON&, const JSON&, const JSON::object&) const;
+  void validate(const JSON& data, const JSON& schema,
+    const JSON::object& original_schema) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -352,7 +369,7 @@ public:
   virtual ~json_schema_semantic_format_validator();
 
   virtual JSON::Type target_type() const = 0;
-  virtual void validate(const JSON&, const JSON&) const = 0;
+  virtual void validate(const JSON& data, const JSON& schema) const = 0;
 };
 
 // -----------------------------------------------------------------------------
@@ -370,7 +387,7 @@ public:
     return JSON::Type::STRING;
   }
 
-  void validate(const JSON&, const JSON&) const;
+  void validate(const JSON& data, const JSON& schema) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -381,7 +398,7 @@ public:
     return JSON::Type::STRING;
   }
 
-  void validate(const JSON&, const JSON&) const;
+  void validate(const JSON& data, const JSON& schema) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -392,7 +409,7 @@ public:
     return JSON::Type::STRING;
   }
 
-  void validate(const JSON&, const JSON&) const;
+  void validate(const JSON& data, const JSON& schema) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -403,7 +420,7 @@ public:
     return JSON::Type::STRING;
   }
 
-  void validate(const JSON&, const JSON&) const;
+  void validate(const JSON& data, const JSON& schema) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -414,7 +431,7 @@ public:
     return JSON::Type::STRING;
   }
 
-  void validate(const JSON&, const JSON&) const;
+  void validate(const JSON& data, const JSON& schema) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -425,7 +442,7 @@ public:
     return JSON::Type::STRING;
   }
 
-  void validate(const JSON&, const JSON&) const;
+  void validate(const JSON& data, const JSON& schema) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -456,15 +473,18 @@ const json_schema_semantic_format_validator_meta::map_type json_schema_semantic_
 
 // -----------------------------------------------------------------------------
 
-void validate(const JSON&, const JSON&, const JSON::object&);
+void
+validate(const JSON& data, const JSON& schema, const JSON::object& original_schema);
 
 // -----------------------------------------------------------------------------
 
-JSON::object _get_ref(JSON::object, std::list<std::string>&);
+JSON::object
+_get_ref(JSON::object schema_object, std::list<std::string>& sections);
 
 // -----------------------------------------------------------------------------
 
-JSON::object get_ref(JSON::object, JSON::string);
+JSON::object
+get_ref(JSON::object schema_object, JSON::string ref_path);
 
 // -----------------------------------------------------------------------------
 
@@ -483,8 +503,7 @@ const std::string REF_PATH_DELIMITER = "/";
 // -----------------------------------------------------------------------------
 
 const json_schema_internal::json_primitive_type_validator*
-json_schema_internal::json_validator_meta::get_validator(
-  const std::string& type)
+json_schema_internal::json_validator_meta::get_validator(const std::string& type)
 {
   if (type_to_validator_map.find(type) == type_to_validator_map.end()) {
     throw std::runtime_error(
@@ -497,8 +516,7 @@ json_schema_internal::json_validator_meta::get_validator(
 // -----------------------------------------------------------------------------
 
 void
-json_schema::validate(
-  const JSON& data, const JSON& schema)
+json_schema::validate(const JSON& data, const JSON& schema)
 {
   const JSON::object original_schema = schema.object_items();
 
@@ -1079,8 +1097,8 @@ void
 json_schema_internal::json_primitive_type_validator::validate(
   const JSON& data, const JSON& schema) const
 {
-  this->validate_type(data);
-  this->validate_semantic_format(data, schema);
+  validate_type(data);
+  validate_semantic_format(data, schema);
 }
 
 // -----------------------------------------------------------------------------
@@ -1089,7 +1107,7 @@ void
 json_schema_internal::json_primitive_type_validator::validate_type(
   const JSON& data) const
 {
-  if (data.type() != this->primitive_type()) {
+  if (data.type() != primitive_type()) {
     throw json_validation_error(
       str(format("Invalid type for %s") % data.dump())
     );
@@ -1150,10 +1168,10 @@ json_schema_internal::json_array_type_validator::validate(
   const JSON::array& json_array = data.array_items();
   const JSON::object& schema_object = const_cast<const JSON::object&>(schema.object_items());
 
-  this->validate_additionalItems_and_items(json_array, schema_object, original_schema);
-  this->validate_maxItems(json_array, schema_object, original_schema);
-  this->validate_minItems(json_array, schema_object, original_schema);
-  this->validate_uniqueItems(json_array, schema_object, original_schema);
+  validate_additionalItems_and_items(json_array, schema_object, original_schema);
+  validate_maxItems(json_array, schema_object, original_schema);
+  validate_minItems(json_array, schema_object, original_schema);
+  validate_uniqueItems(json_array, schema_object, original_schema);
 }
 
 // -----------------------------------------------------------------------------
@@ -1346,9 +1364,9 @@ json_schema_internal::json_integer_type_validator::validate(
   int int_value = data.int_value();
   const JSON::object& schema_object = const_cast<const JSON::object&>(schema.object_items());
 
-  this->validate_multipleOf(int_value, schema_object, original_schema);
-  this->validate_maximum_and_exclusiveMaximum(int_value, schema_object, original_schema);
-  this->validate_minimum_and_exclusiveMinimum(int_value, schema_object, original_schema);
+  validate_multipleOf(int_value, schema_object, original_schema);
+  validate_maximum_and_exclusiveMaximum(int_value, schema_object, original_schema);
+  validate_minimum_and_exclusiveMinimum(int_value, schema_object, original_schema);
 }
 
 // -----------------------------------------------------------------------------
@@ -1478,9 +1496,9 @@ json_schema_internal::json_number_type_validator::validate(
   double number_value = data.number_value();
   const JSON::object& schema_object = const_cast<const JSON::object&>(schema.object_items());
 
-  this->validate_multipleOf(number_value, schema_object, original_schema);
-  this->validate_maximum_and_exclusiveMaximum(number_value, schema_object, original_schema);
-  this->validate_minimum_and_exclusiveMinimum(number_value, schema_object, original_schema);
+  validate_multipleOf(number_value, schema_object, original_schema);
+  validate_maximum_and_exclusiveMaximum(number_value, schema_object, original_schema);
+  validate_minimum_and_exclusiveMinimum(number_value, schema_object, original_schema);
 }
 
 // -----------------------------------------------------------------------------
@@ -1626,11 +1644,11 @@ json_schema_internal::json_object_type_validator::validate(
   const JSON::object& object_value = data.object_items();
   const JSON::object& schema_object = schema.object_items();
 
-  this->validate_maxProperties(object_value, schema_object, original_schema);
-  this->validate_minProperties(object_value, schema_object, original_schema);
-  this->validate_required(object_value, schema_object, original_schema);
-  this->validate_properties(object_value, schema_object, original_schema);
-  this->validate_dependencies(object_value, schema_object, original_schema);
+  validate_maxProperties(object_value, schema_object, original_schema);
+  validate_minProperties(object_value, schema_object, original_schema);
+  validate_required(object_value, schema_object, original_schema);
+  validate_properties(object_value, schema_object, original_schema);
+  validate_dependencies(object_value, schema_object, original_schema);
 }
 
 // -----------------------------------------------------------------------------
@@ -1933,9 +1951,9 @@ json_schema_internal::json_string_type_validator::validate(
   const JSON::string& string_value = data.string_value();
   const JSON::object& schema_object = schema.object_items();
 
-  this->validate_maxLength(string_value, schema_object, original_schema);
-  this->validate_minLength(string_value, schema_object, original_schema);
-  this->validate_pattern(string_value, schema_object, original_schema);
+  validate_maxLength(string_value, schema_object, original_schema);
+  validate_minLength(string_value, schema_object, original_schema);
+  validate_pattern(string_value, schema_object, original_schema);
 }
 
 // -----------------------------------------------------------------------------

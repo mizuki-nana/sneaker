@@ -21,7 +21,8 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* This module provides an interface for validating JSON blobs using JSON
+/**
+ * This module provides an interface for validating JSON blobs using JSON
  * schemas.
  *
  * The validation mechanisms are implemented based on the JSON Schema Validation
@@ -116,15 +117,26 @@ typedef std::invalid_argument json_validation_error;
 
 class json_schema {
 public:
-  static void validate(const JSON&, const JSON&);
+  static void validate(const JSON& data, const JSON& schema);
 
 private:
-  static void validate_allOf(const JSON&, const JSON::object&, const JSON::object&);
-  static void validate_anyOf(const JSON&, const JSON::object&, const JSON::object&);
-  static void validate_oneOf(const JSON&, const JSON::object&, const JSON::object&);
-  static void validate_not(const JSON&, const JSON::object&, const JSON::object&);
-  static void validate_enum(const JSON&, const JSON::object&, const JSON::object&);
-  static void validate_definitions(const JSON&, const JSON::object&, const JSON::object&);
+  static void validate_allOf(const JSON& data,
+    const JSON::object& schema_object, const JSON::object& original_schema);
+
+  static void validate_anyOf(const JSON& data,
+    const JSON::object& schema_object, const JSON::object& original_schema);
+
+  static void validate_oneOf(const JSON& data,
+    const JSON::object& schema_object, const JSON::object& original_schema);
+
+  static void validate_not(const JSON& data,
+    const JSON::object& schema_object, const JSON::object& original_schema);
+
+  static void validate_enum(const JSON& data,
+    const JSON::object& schema_object, const JSON::object& original_schema);
+
+  static void validate_definitions(const JSON& data,
+    const JSON::object& schema_object, const JSON::object& original_schema);
 };
 
 // -----------------------------------------------------------------------------

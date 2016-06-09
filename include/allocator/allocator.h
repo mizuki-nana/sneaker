@@ -60,15 +60,15 @@ public:
       typename _Traits::template rebind<U>::other > other;
   };
 
-  inline explicit allocator();
+  allocator();
 
-  inline allocator(allocator const& rhs);
+  allocator(const allocator& rhs);
 
   template<typename U>
-  inline allocator(allocator<U> const&);
+  allocator(const allocator<U>&);
 
   template <typename U, typename P, typename T2>
-  inline allocator(allocator<U, P, T2> const& rhs);
+  allocator(const allocator<U, P, T2>& rhs);
 };
 
 // -----------------------------------------------------------------------------
@@ -82,7 +82,8 @@ allocator<T, Policy, Traits>::allocator()
 // -----------------------------------------------------------------------------
 
 template<typename T, typename Policy, typename Traits>
-allocator<T, Policy, Traits>::allocator(allocator const& rhs):
+allocator<T, Policy, Traits>::allocator(const allocator& rhs)
+  :
   Policy(rhs),
   Traits(rhs)
 {
@@ -93,7 +94,7 @@ allocator<T, Policy, Traits>::allocator(allocator const& rhs):
 
 template<typename T, typename Policy, typename Traits>
 template<typename U>
-allocator<T, Policy, Traits>::allocator(allocator<U> const&)
+allocator<T, Policy, Traits>::allocator(const allocator<U>&)
 {
   // Do nothing here.
 }
@@ -102,7 +103,8 @@ allocator<T, Policy, Traits>::allocator(allocator<U> const&)
 
 template<typename T, typename Policy, typename Traits>
 template <typename U, typename P, typename T2>
-allocator<T, Policy, Traits>::allocator(allocator<U, P, T2> const& rhs):
+allocator<T, Policy, Traits>::allocator(const allocator<U, P, T2>& rhs)
+  :
   Policy(rhs),
   Traits(rhs)
 {
@@ -113,7 +115,8 @@ allocator<T, Policy, Traits>::allocator(allocator<U, P, T2> const& rhs):
 
 /* Equality operators. */
 template<typename T, typename P, typename Tr>
-inline bool operator==(allocator<T, P, Tr> const& lhs, allocator<T, P, Tr> const& rhs)
+inline bool operator==(const allocator<T, P, Tr>& lhs,
+  const allocator<T, P, Tr>& rhs)
 {
   return operator==(static_cast<P>(lhs), static_cast<P>(rhs));
 }
@@ -121,7 +124,8 @@ inline bool operator==(allocator<T, P, Tr> const& lhs, allocator<T, P, Tr> const
 // -----------------------------------------------------------------------------
 
 template<typename T, typename P, typename Tr, typename T2, typename P2, typename Tr2>
-inline bool operator==(allocator<T, P, Tr> const& lhs, allocator<T2, P2, Tr2> const& rhs)
+inline bool operator==(const allocator<T, P, Tr>& lhs,
+  const allocator<T2, P2, Tr2>& rhs)
 {
   return operator==(static_cast<P>(lhs), static_cast<P2>(rhs));
 }
@@ -129,7 +133,8 @@ inline bool operator==(allocator<T, P, Tr> const& lhs, allocator<T2, P2, Tr2> co
 // -----------------------------------------------------------------------------
 
 template<typename T, typename P, typename Tr, typename other_allocator>
-inline bool operator==(allocator<T, P, Tr> const& lhs, other_allocator const& rhs)
+inline bool operator==(const allocator<T, P, Tr>& lhs,
+  const other_allocator& rhs)
 {
   return operator==(static_cast<P>(lhs), rhs);
 }
@@ -137,7 +142,7 @@ inline bool operator==(allocator<T, P, Tr> const& lhs, other_allocator const& rh
 // -----------------------------------------------------------------------------
 
 template<typename T, typename P, typename Tr>
-inline bool operator!=(allocator<T, P, Tr> const& lhs, allocator<T, P, Tr> const& rhs)
+inline bool operator!=(const allocator<T, P, Tr>& lhs, allocator<T, P, Tr> const& rhs)
 {
   return !operator==(lhs, rhs);
 }
@@ -145,13 +150,17 @@ inline bool operator!=(allocator<T, P, Tr> const& lhs, allocator<T, P, Tr> const
 // -----------------------------------------------------------------------------
 
 template<typename T, typename P, typename Tr, typename T2, typename P2, typename Tr2>
-inline bool operator!=(allocator<T, P, Tr> const& lhs, allocator<T2, P2, Tr2> const& rhs)
+inline bool operator!=(allocator<T, P, Tr> const& lhs,
+  const allocator<T2, P2, Tr2>& rhs)
 {
   return !operator==(lhs, rhs);
 }
 
+// -----------------------------------------------------------------------------
+
 template<typename T, typename P, typename Tr, typename other_allocator>
-inline bool operator!=(allocator<T, P, Tr> const& lhs, other_allocator const& rhs)
+inline bool operator!=(const allocator<T, P, Tr>& lhs,
+  const other_allocator& rhs)
 {
   return !operator==(lhs, rhs);
 }

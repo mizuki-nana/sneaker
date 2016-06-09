@@ -41,11 +41,11 @@ protected:
   virtual void __exit__() = 0;
 
   template<class F, class... Args>
-  friend void scoped_context(context_manager*, F, Args...);
+  friend void scoped_context(context_manager* mngr, F func, Args... args);
 
   template<class F, class... Args>
   friend void nested_context(
-    std::vector<sneaker::context::context_manager*>, F, Args...);
+    const std::vector<sneaker::context::context_manager*>& mngrs, F func, Args... args);
 };
 
 

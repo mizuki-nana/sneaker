@@ -1,7 +1,7 @@
 /*******************************************************************************
 The MIT License (MIT)
 
-Copyright (c) 2014 Yanzheng Li
+Copyright (c) 2016 Yanzheng Li
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -44,39 +44,38 @@ typedef unsigned long int(*HashFunc)(void*);
 typedef int(*KeyCmpFunc)(void*, void*);
 
 
-hashmap_t hashmap_create(size_t, HashFunc, KeyCmpFunc);
+hashmap_t hashmap_create(size_t initial_capacity,
+  HashFunc hashfunc, KeyCmpFunc keycmpfunc);
 
-size_t hashmap_size(hashmap_t);
+size_t hashmap_size(hashmap_t hashmap);
 
-void hashmap_lock(hashmap_t);
+void hashmap_lock(hashmap_t hashmap);
 
-void hashmap_unlock(hashmap_t);
+void hashmap_unlock(hashmap_t hashmap);
 
-void hashmap_free(hashmap_t*);
+void hashmap_free(hashmap_t* hashmap_free);
 
-int hashmap_hash(void*, size_t);
+void* hashmap_put(hashmap_t hashmap, void* key, void* val);
 
-void* hashmap_put(hashmap_t, void*, void*);
+void* hashmap_get(hashmap_t hashmap, void* key);
 
-void* hashmap_get(hashmap_t, void*);
+int hashmap_contains_key(hashmap_t hashmap, void* key);
 
-int hashmap_contains_key(hashmap_t, void*);
+void* hashmap_remove(hashmap_t hashmap, void* key);
 
-void* hashmap_remove(hashmap_t, void*);
+void* hashmap_lookup(hashmap_t hashmap, int(*lookup)(void*, void*, void*), void* arg);
 
-void* hashmap_lookup(hashmap_t, int(*lookup)(void*, void*, void*), void*);
+void hashmap_iterate(hashmap_t hashmap, int(*callback)(void*, void*), int halt_on_fail);
 
-void hashmap_iterate(hashmap_t, int(*callback)(void*, void*), int);
+size_t hashmap_bucketcount(hashmap_t hashmap);
 
-size_t hashmap_bucketcount(hashmap_t);
+size_t hashmap_capacity(hashmap_t hashmap);
 
-size_t hashmap_capacity(hashmap_t);
+size_t hashmap_count_collisions(hashmap_t hashmap);
 
-size_t hashmap_count_collisions(hashmap_t);
+int hashmap_int_equals(void* key_a, void* key_b);
 
-int hashmap_int_equals(void*, void*);
-
-int hashmap_equal(hashmap_t, hashmap_t);
+int hashmap_equal(hashmap_t lhs, hashmap_t rhs);
 
 
 #ifdef __cplusplus

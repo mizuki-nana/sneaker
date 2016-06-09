@@ -38,12 +38,12 @@ namespace io {
 class file_reader {
 public:
   file_reader();
-  explicit file_reader(const char*);
+  explicit file_reader(const char* path);
 
   const char* file_path() const;
-  void set_path(const char*);
+  void set_path(const char* path);
 
-  bool read_file(char**) const;
+  bool read_file(char** p) const;
 
 protected:
   std::string m_path;

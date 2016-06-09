@@ -48,9 +48,9 @@ public:
 
   virtual JSON::Type type() const = 0;
 
-  virtual bool equals(const json_value*) const = 0;
-  virtual bool less(const json_value*) const = 0;
-  virtual void dump(std::string&) const = 0;
+  virtual bool equals(const json_value* other) const = 0;
+  virtual bool less(const json_value* other) const = 0;
+  virtual void dump(std::string& out) const = 0;
 
   virtual double number_value() const;
   virtual int int_value() const;
@@ -58,8 +58,8 @@ public:
   virtual const JSON::string& string_value() const;
   virtual const JSON::array& array_items() const;
   virtual const JSON::object& object_items() const;
-  virtual const JSON& operator[](size_t) const;
-  virtual const JSON& operator[](const std::string&) const;
+  virtual const JSON& operator[](size_t i) const;
+  virtual const JSON& operator[](const std::string& out) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -97,6 +97,8 @@ values_equal(const T& lhs, const T& rhs)
 {
   return lhs == rhs;
 }
+
+// -----------------------------------------------------------------------------
 
 template<>
 bool

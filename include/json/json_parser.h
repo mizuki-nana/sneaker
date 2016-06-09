@@ -49,24 +49,24 @@ private:
 
   JSON parse_json(uint32_t depth);
 
-  std::string esc(char);
+  std::string esc(char c);
 
-  JSON fail(std::string&&);
+  JSON fail(std::string&& msg);
 
   template<typename T>
-  T fail(std::string&&, const T);
+  T fail(std::string&& msg, const T err_ret);
 
   char get_next_token();
 
-  void encode_utf8(long, std::string&);
+  void encode_utf8(long pt, std::string& out);
 
   JSON parse_number();
 
   std::string parse_string();
 
-  JSON expect(const std::string&, JSON);
+  JSON expect(const std::string& expected, JSON res);
 
-  bool in_range(long, long, long);
+  bool in_range(long x, long lower, long upper);
 };
 
 

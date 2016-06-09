@@ -65,7 +65,8 @@ protected:
 // -----------------------------------------------------------------------------
 
 template<class R, class... Args>
-function<R, Args...>::function(_F func):
+function<R, Args...>::function(_F func)
+  :
   m_func(func)
 {
   assert(m_func);

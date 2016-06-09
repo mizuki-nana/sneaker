@@ -45,17 +45,17 @@ protected:
 
   virtual ~cmdline_program();
 
-  void add_string_parameter(const char*, const char*, std::string*);
+  void add_string_parameter(const char* name, const char* description, std::string*);
 
-  void add_uint32_parameter(const char*, const char*, uint32_t*);
+  void add_uint32_parameter(const char* name, const char* description, uint32_t* res);
 
-  void add_uint64_parameter(const char*, const char*, uint64_t*);
+  void add_uint64_parameter(const char* name, const char* description, uint64_t* res);
 
-  void add_float_parameter(const char*, const char*, float*);
+  void add_float_parameter(const char* name, const char* description, float* res);
 
-  void add_positional_parameter(const char*, int);
+  void add_boolean_parameter(const char* name, const char* description, bool* res);
 
-  void add_boolean_parameter(const char*, const char*, bool*);
+  void add_positional_parameter(const char* name, int n);
 
   template<typename T>
   void add_array_parameter(const char* name, const char* desc, std::vector<T>* res)
@@ -64,7 +64,7 @@ protected:
       (name, boost::program_options::value<std::vector<T> >(res), desc);
   }
 
-  bool option_provided(const char*) const;
+  bool option_provided(const char* name) const;
 
 private:
   /**

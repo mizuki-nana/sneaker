@@ -133,7 +133,7 @@ TEST_F(nested_context_unittest, TestNestedManager)
       new dummy_context_manager(),
       new dummy_context_manager()
     },
-    [](std::vector<context_manager*>& /* context_managers */) {
+    [](const std::vector<context_manager*>& /* context_managers */) {
       ASSERT_EQ(3, nested_context_unittest::count);
     }
   );
@@ -153,7 +153,7 @@ TEST_F(nested_context_unittest, TestExceptionInContext)
           new dummy_context_manager(),
           new dummy_context_manager()
         },
-        [](std::vector<context_manager*>& /* context_managers */) {
+        [](const std::vector<context_manager*>& /* context_managers */) {
           throw std::runtime_error("Helle world!");
         }
       );

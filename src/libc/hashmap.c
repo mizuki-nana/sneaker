@@ -242,15 +242,15 @@ hashmap_entry_t _create_entry(void *key, unsigned long int hash, void *val)
 
 static
 inline int _equals_key(
-  void *keyA,
+  void *key_a,
   unsigned long int hashA,
-  void *keyB,
+  void *key_b,
   unsigned long int hashB,
   KeyCmpFunc keycmp
 )
 {
   RETURN_VAL_IF_EQ(hashA, hashB, 1);
-  return keycmp(keyA, keyB);
+  return keycmp(key_a, key_b);
 }
 
 // -----------------------------------------------------------------------------
@@ -442,7 +442,7 @@ void* hashmap_lookup(hashmap_t hashmap,
 // -----------------------------------------------------------------------------
 
 void hashmap_iterate(hashmap_t hashmap,
-    int(*callback)(void *key, void *value), int haltOnFail)
+    int(*callback)(void *key, void *value), int halt_on_fail)
 {
   assert(hashmap);
   assert(callback);
@@ -452,7 +452,7 @@ void hashmap_iterate(hashmap_t hashmap,
     hashmap_entry_t entry = hashmap->buckets[i];
     while (entry != NULL) {
       hashmap_entry_t next = entry->next;
-      if (!callback(entry->key, entry->value) && haltOnFail) {
+      if (!callback(entry->key, entry->value) && halt_on_fail) {
         return;
       }
       entry = next;
@@ -502,45 +502,45 @@ size_t hashmap_count_collisions(hashmap_t hashmap)
 // -----------------------------------------------------------------------------
 
 int
-hashmap_int_equals(void *keyA, void *keyB)
+hashmap_int_equals(void *key_a, void *key_b)
 {
-  assert(keyA);
-  assert(keyB);
+  assert(key_a);
+  assert(key_b);
 
-  int a = DEREF_VOID(int, keyA);
-  int b = DEREF_VOID(int, keyB);
+  int a = DEREF_VOID(int, key_a);
+  int b = DEREF_VOID(int, key_b);
 
   return a == b;
 }
 
 // -----------------------------------------------------------------------------
 
-int hashmap_equal(hashmap_t hashmap1, hashmap_t hashmap2)
+int hashmap_equal(hashmap_t lhs, hashmap_t rhs)
 {
-  assert(hashmap1);
-  assert(hashmap2);
+  assert(lhs);
+  assert(rhs);
 
-  if (hashmap_bucketcount(hashmap1) != hashmap_bucketcount(hashmap2)) {
+  if (hashmap_bucketcount(lhs) != hashmap_bucketcount(rhs)) {
     return 0;
   }
 
   int i;
-  for (i = 0; i < hashmap1->bucketCount; i++) {
-    hashmap_entry_t entry = hashmap1->buckets[i];
+  for (i = 0; i < lhs->bucketCount; i++) {
+    hashmap_entry_t entry = lhs->buckets[i];
     while (entry != NULL) {
       hashmap_entry_t next = entry->next;
-      if (hashmap_get(hashmap2, entry->key)==NULL) {
+      if (hashmap_get(rhs, entry->key)==NULL) {
         return 0;
       }
       entry = next;
     }
   } /* end of for-loop */
 
-  for (i = 0; i < hashmap2->bucketCount; i++) {
-    hashmap_entry_t entry = hashmap2->buckets[i];
+  for (i = 0; i < rhs->bucketCount; i++) {
+    hashmap_entry_t entry = rhs->buckets[i];
     while (entry != NULL) {
       hashmap_entry_t next = entry->next;
-      if (hashmap_get(hashmap1, entry->key)==NULL) {
+      if (hashmap_get(lhs, entry->key)==NULL) {
         return 0;
       }
       entry = next;

@@ -41,7 +41,9 @@ template<class R, class... Args>
 class retry: public sneaker::functional::function<R, Args...> {
 public:
   template<class Functor>
-  retry(Functor func) : sneaker::functional::function<R, Args...>(func)
+  retry(Functor func)
+    :
+    sneaker::functional::function<R, Args...>(func)
   {
   }
 

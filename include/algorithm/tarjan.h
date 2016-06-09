@@ -94,9 +94,9 @@ public:
 
   class vertex {
     public:
-      explicit vertex(): m_index(-1), m_lowlink(0) {}
+      vertex() : m_index(-1), m_lowlink(0) {}
 
-      explicit vertex(T value): m_value(value), m_index(-1), m_lowlink(0) {}
+      explicit vertex(T value) : m_value(value), m_index(-1), m_lowlink(0) {}
 
       using _Enumerable = typename std::list<vertex*>;
 
@@ -154,12 +154,12 @@ public:
 
   class strongly_connected_component_list {
     public:
-      explicit strongly_connected_component_list():
+      strongly_connected_component_list():
         m_collection(std::list<Enumerable>())
       {
       }
 
-      void add(Enumerable& scc) {
+      void add(const Enumerable& scc) {
         m_collection.push_back(scc);
       }
 
@@ -203,17 +203,18 @@ public:
       std::list<Enumerable> m_collection;
   }; /* end class strongly_connected_component_list */
 
-  explicit tarjan() :
+  tarjan()
+    :
     m_index(0),
     m_stack(std::list<vertex*>()),
     m_components(strongly_connected_component_list())
   {
   }
 
-  strongly_connected_component_list get_components(std::list<vertex*>&);
+  strongly_connected_component_list get_components(const std::list<vertex*>& graph);
 
 private:
-  void strong_connect(vertex*);
+  void strong_connect(vertex* vtx);
 
   int m_index;
   std::list<vertex*> m_stack;
@@ -224,14 +225,13 @@ private:
 
 template<class T>
 typename tarjan<T>::strongly_connected_component_list
-tarjan<T>::get_components(std::list<vertex*>& graph)
+tarjan<T>::get_components(const std::list<vertex*>& graph)
 {
   for (auto itr = graph.begin(); itr != graph.end(); ++itr) {
     vertex* vtx = static_cast<vertex*>(*itr);
     if (vtx->index() < 0) {
       this->strong_connect(vtx);
     }
-    *itr = vtx;
   };
 
   return m_components;
@@ -246,7 +246,7 @@ tarjan<T>::strong_connect(vertex* vtx)
   vtx->set_index(this->m_index);
   vtx->set_lowlink(this->m_index);
 
-  m_index++;
+  ++m_index;
 
   m_stack.push_back(vtx);
 

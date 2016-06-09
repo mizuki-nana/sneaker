@@ -42,25 +42,25 @@ public:
   typedef boost::uuids::uuid token_t;
   typedef boost::uuids::random_generator generator_type;
 
-  explicit reservation_map();
+  reservation_map();
   ~reservation_map();
 
   size_t size() const;
 
   token_t reserve();
 
-  bool member(token_t) const;
+  bool member(token_t id) const;
 
-  bool put(token_t, T);
+  bool put(token_t id, T value);
 
-  bool get(token_t, T*);
+  bool get(token_t id, T* ptr);
 
-  bool unreserve(token_t);
+  bool unreserve(token_t id);
 
   void clear();
 
 protected:
-  void reserve(token_t);
+  void reserve(token_t id);
 
   using token_set_type = typename std::set<token_t>;
   using map_type = typename std::map<token_t, T>;
@@ -73,10 +73,11 @@ protected:
 // -----------------------------------------------------------------------------
 
 template<class T>
-reservation_map<T>::reservation_map():
-  m_tokens(token_set_type()),
-  m_map(map_type()),
-  m_token_generator(generator_type())
+reservation_map<T>::reservation_map()
+  :
+  m_tokens(),
+  m_map(),
+  m_token_generator()
 {
   // Do nothing here.
 }
@@ -106,7 +107,7 @@ reservation_map<T>::reserve()
 {
   token_t id = m_token_generator();
 
-  this->reserve(id);
+  reserve(id);
 
   return static_cast<token_t>(id);
 }
@@ -115,8 +116,7 @@ reservation_map<T>::reserve()
 
 template<class T>
 void
-reservation_map<T>::reserve(
-  reservation_map<T>::token_t id)
+reservation_map<T>::reserve(reservation_map<T>::token_t id)
 {
   m_tokens.insert(id);
 }
@@ -125,8 +125,7 @@ reservation_map<T>::reserve(
 
 template<class T>
 bool
-reservation_map<T>::member(
-  reservation_map<T>::token_t id) const
+reservation_map<T>::member(reservation_map<T>::token_t id) const
 {
   typename token_set_type::const_iterator itr = m_tokens.find(id);
   return itr != m_tokens.cend();
@@ -136,16 +135,15 @@ reservation_map<T>::member(
 
 template<class T>
 bool
-reservation_map<T>::put(
-  reservation_map<T>::token_t id, T value)
+reservation_map<T>::put(reservation_map<T>::token_t id, T value)
 {
   if (!member(id)) {
     return false;
   }
 
-  typename token_set_type::iterator itr = this->m_tokens.find(id);
+  typename token_set_type::iterator itr = m_tokens.find(id);
 
-  if (itr == this->m_tokens.end()) {
+  if (itr == m_tokens.end()) {
     return false;
   }
 
@@ -158,16 +156,15 @@ reservation_map<T>::put(
 
 template<class T>
 bool
-reservation_map<T>::get(
-  reservation_map<T>::token_t id, T* ptr)
+reservation_map<T>::get(reservation_map<T>::token_t id, T* ptr)
 {
   if (!member(id)) {
     return false;
   }
 
-  typename map_type::iterator itr = this->m_map.find(id);
+  typename map_type::iterator itr = m_map.find(id);
 
-  if (itr == this->m_map.cend()) {
+  if (itr == m_map.cend()) {
     return false;
   }
 
@@ -182,15 +179,14 @@ reservation_map<T>::get(
 
 template<class T>
 bool
-reservation_map<T>::unreserve(
-  reservation_map<T>::token_t id)
+reservation_map<T>::unreserve(reservation_map<T>::token_t id)
 {
   if (!member(id)) {
     return false;
   }
 
-  this->m_tokens.erase(id);
-  this->m_map.erase(id);
+  m_tokens.erase(id);
+  m_map.erase(id);
 
   return true;
 }
@@ -201,8 +197,8 @@ template<class T>
 void
 reservation_map<T>::clear()
 {
-  this->m_tokens.clear();
-  this->m_map.clear();
+  m_tokens.clear();
+  m_map.clear();
 }
 
 // -----------------------------------------------------------------------------

@@ -21,7 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/*
+/**
  * `sneaker::container::assorted_value_map<K, ValueTypes...>` is an associative
  * container class where each set of multiple(zero or more) statically-typed
  * assorted values are associated to a single statically-typed key.
@@ -48,7 +48,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *  << fruits.get<char*, 0>("Apple") << fruits.get<int, 1>("Apple") << std::endl;
  * std::cout << "The reason, you ask?" << std:endl;
  * std::cout << "It's because: %s." << fruits.get<char*, 2>("Apple") << std::endl;
- **/
+ *
+ */
 
 #ifndef SNEAKER_ASSORTED_VALUE_MAP_H_
 #define SNEAKER_ASSORTED_VALUE_MAP_H_
@@ -86,11 +87,10 @@ public:
   using difference_type         = typename core_type::difference_type;
   using size_type               = typename core_type::size_type;
 
-  explicit assorted_value_map();
+  assorted_value_map();
   explicit assorted_value_map(const core_type&);
 
-  assorted_value_map(
-    const assorted_value_map<K, ValueTypes...>&);
+  assorted_value_map(const assorted_value_map<K, ValueTypes...>&);
 
   ~assorted_value_map();
 
@@ -98,8 +98,7 @@ public:
   static
   assorted_value_map<K, ValueTypes...> create() {
     return assorted_value_map<K, ValueTypes...>(
-      core_type(Compare(), Alloc())
-    );
+      core_type(Compare(), Alloc()));
   }
 
   template<class Compare, class Alloc>
@@ -108,8 +107,7 @@ public:
     const Compare& comparer, const Alloc& allocator)
   {
     return assorted_value_map<K, ValueTypes...>(
-      core_type(comparer, allocator)
-    );
+      core_type(comparer, allocator));
   }
 
   bool empty() const;
@@ -118,26 +116,26 @@ public:
 
   size_type max_size() const;
 
-  void insert(K, ValueTypes...);
+  void insert(K key, ValueTypes... values);
 
-  void erase(iterator);
-  size_type erase(const K&);
-  void erase(iterator, iterator);
+  void erase(iterator itr);
+  size_type erase(const K& key);
+  void erase(iterator first, iterator last);
 
-  void swap(assorted_value_map<K, ValueTypes...>&);
+  void swap(assorted_value_map<K, ValueTypes...>& other);
 
   void clear() noexcept;
 
-  mapped_type& at(K);
-  const mapped_type& at(K) const;
+  mapped_type& at(K key);
+  const mapped_type& at(K key) const;
 
   template<class A, size_t Index>
-  A get(K);
+  A get(K key);
 
   template<class A, size_t Index>
-  const A& get(K) const;
+  const A& get(K key) const;
 
-  mapped_type& operator[](const K&);
+  mapped_type& operator[](const K& key);
 
   iterator begin();
   const_iterator begin() const;
@@ -157,8 +155,8 @@ public:
   const_reverse_iterator crbegin() const noexcept;
   const_reverse_iterator crend() const noexcept;
 
-  iterator find(K);
-  const_iterator find(K) const;
+  iterator find(K key);
+  const_iterator find(K key) const;
 
 protected:
   core_type m_core;
@@ -168,7 +166,8 @@ protected:
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-assorted_value_map<K, ValueTypes...>::assorted_value_map():
+assorted_value_map<K, ValueTypes...>::assorted_value_map()
+  :
   m_core(core_type())
 {
   // Do nothing here.
@@ -177,18 +176,19 @@ assorted_value_map<K, ValueTypes...>::assorted_value_map():
 // -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
-assorted_value_map<K, ValueTypes...>::assorted_value_map(
-  const core_type& core
-) :
+assorted_value_map<K, ValueTypes...>::assorted_value_map(const core_type& core)
+  :
   m_core(core)
 {
   // Do nothing here.
 }
 
+// -----------------------------------------------------------------------------
+
 template<class K, class... ValueTypes>
 assorted_value_map<K, ValueTypes...>::assorted_value_map(
-  const assorted_value_map<K, ValueTypes...>& other
-) :
+  const assorted_value_map<K, ValueTypes...>& other)
+  :
   m_core(other.m_core)
 {
   // Do nothing here.
@@ -201,6 +201,8 @@ assorted_value_map<K, ValueTypes...>::~assorted_value_map()
 {
   // Do nothing here.
 }
+
+// -----------------------------------------------------------------------------
 
 template<class K, class... ValueTypes>
 bool
@@ -231,10 +233,7 @@ assorted_value_map<K, ValueTypes...>::max_size() const
 
 template<class K, class... ValueTypes>
 void
-assorted_value_map<K, ValueTypes...>::insert(
-  K key,
-  ValueTypes... values
-)
+assorted_value_map<K, ValueTypes...>::insert(K key, ValueTypes... values)
 {
   m_core.insert( value_type(key, mapped_type(values...)) );
 }
@@ -272,8 +271,7 @@ assorted_value_map<K, ValueTypes...>::erase(
 template<class K, class... ValueTypes>
 void
 assorted_value_map<K, ValueTypes...>::swap(
-  assorted_value_map<K, ValueTypes...>& other
-)
+  assorted_value_map<K, ValueTypes...>& other)
 {
   m_core.swap(other.m_core);
 }

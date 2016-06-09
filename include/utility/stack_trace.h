@@ -35,7 +35,7 @@ namespace utility {
 class stack_trace
 {
 public:
-  static void print_stack_trace(std::ostream&, unsigned int);
+  static void print_stack_trace(std::ostream& ost, unsigned int max_frames);
 };
 
 

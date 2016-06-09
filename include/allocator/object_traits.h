@@ -40,13 +40,13 @@ public:
     typedef object_traits<U> other;
   };
 
-  inline explicit object_traits();
+  object_traits();
 
   template<typename U>
-  inline explicit object_traits(object_traits<U> const&);
+  explicit object_traits(const object_traits<U>&);
 
   inline T* address(T& r);
-  inline T const* address(T const&r);
+  inline T const* address(const T& r);
 
   inline void construct(T* p, const T& t);
 
@@ -68,7 +68,7 @@ object_traits<T>::object_traits()
 
 template<typename T>
 template<typename U>
-object_traits<T>::object_traits(object_traits<U> const&)
+object_traits<T>::object_traits(const object_traits<U>&)
 {
   // Do nothing here.
 }
@@ -84,7 +84,7 @@ T* object_traits<T>::address(T& r)
 // -----------------------------------------------------------------------------
 
 template<typename T>
-T const* object_traits<T>::address(T const& r)
+T const* object_traits<T>::address(const T& r)
 {
   return &r;
 }

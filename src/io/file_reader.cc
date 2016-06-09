@@ -44,7 +44,8 @@ file_reader::file_reader()
 // -----------------------------------------------------------------------------
 
 file_reader::file_reader(const char* path)
-  : m_path(path)
+  :
+  m_path(path)
 {
   assert(file_path());
 }

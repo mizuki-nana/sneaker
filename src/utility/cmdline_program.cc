@@ -95,8 +95,7 @@ cmdline_program::add_float_parameter(
 // -----------------------------------------------------------------------------
 
 void
-cmdline_program::add_positional_parameter(
-  const char* name, int n)
+cmdline_program::add_positional_parameter(const char* name, int n)
 {
   m_positionals.add(name, n);
 }
@@ -130,8 +129,7 @@ cmdline_program::run(int argc, char** argv)
     boost::program_options::store(
       boost::program_options::command_line_parser(
         argc, argv).options(m_options).positional(m_positionals).run(),
-      m_opts_map
-    );
+      m_opts_map);
     boost::program_options::notify(m_opts_map);
 
     // Check if help is requested.

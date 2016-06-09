@@ -37,7 +37,7 @@ namespace cache {
 template<class K, class T, class CreateHandler, class DestroyHandler>
 class generic_cache {
 public:
-  explicit generic_cache(CreateHandler, DestroyHandler);
+  generic_cache(CreateHandler create_handler, DestroyHandler destroy_handler);
 
   ~generic_cache();
 
@@ -45,19 +45,19 @@ public:
 
   size_t size() const;
 
-  bool member(K) const;
+  bool member(K key) const;
 
-  bool get(K, T*);
+  bool get(K key, T* value);
 
-  bool put(K, bool=false);
+  bool put(K key, bool force_update=false);
 
-  bool erase(K);
+  bool erase(K key);
 
   void clear();
 
 private:
-  T find(K) const;
-  bool _erase(K);
+  T find(K key) const;
+  bool _erase(K key);
 
   void check_invariance() const;
 
@@ -75,9 +75,9 @@ generic_cache<K, T, CreateHandler, DestroyHandler>::generic_cache(
   :
   m_create_handler(create_handler),
   m_destroy_handler(destroy_handler),
-  m_map(std::map<K, T>())
+  m_map()
 {
-  this->check_invariance();
+  check_invariance();
 }
 
 // -----------------------------------------------------------------------------
@@ -85,7 +85,7 @@ generic_cache<K, T, CreateHandler, DestroyHandler>::generic_cache(
 template<class K, class T, class CreateHandler, class DestroyHandler>
 generic_cache<K, T, CreateHandler, DestroyHandler>::~generic_cache()
 {
-  this->clear();
+  clear();
 }
 
 // -----------------------------------------------------------------------------
@@ -138,7 +138,7 @@ generic_cache<K, T, CreateHandler, DestroyHandler>::get(K key, T* ptr)
     return true;
   }
 
-  bool res = this->put(key, true);
+  bool res = put(key, true);
 
   if (!res) {
     return false;
@@ -154,10 +154,10 @@ generic_cache<K, T, CreateHandler, DestroyHandler>::get(K key, T* ptr)
 
 template<class K, class T, class CreateHandler, class DestroyHandler>
 bool
-generic_cache<K, T, CreateHandler, DestroyHandler>::put(K key, bool forceUpdate)
+generic_cache<K, T, CreateHandler, DestroyHandler>::put(K key, bool force_update)
 {
   if (member(key)) {
-    if (!forceUpdate) {
+    if (!force_update) {
       return false;
     } else {
       m_map.erase(key);
@@ -183,7 +183,7 @@ template<class K, class T, class CreateHandler, class DestroyHandler>
 bool
 generic_cache<K, T, CreateHandler, DestroyHandler>::erase(K key)
 {
-  bool res = this->_erase(key);
+  bool res = _erase(key);
 
   if (!res) {
     return res;
@@ -234,7 +234,7 @@ generic_cache<K, T, CreateHandler, DestroyHandler>::_erase(K key)
 
   T ptr = nullptr;
 
-  this->get(key, &ptr);
+  get(key, &ptr);
 
   if (!ptr) {
     return false;

@@ -21,7 +21,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/*
+/**
  * Interfaces for JSON serialization and deserialization.
  *
  * This module provides a set of interfaces for interacting with raw JSON data,
@@ -83,10 +83,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *  };
  *
  *  std::cout << json.dump() << std::endl;
- * */
+ */
+
 #ifndef SNEAKER_JSON_H_
 #define SNEAKER_JSON_H_
-
 
 #include <map>
 #include <memory>
@@ -100,6 +100,8 @@ namespace sneaker {
 
 namespace json {
 
+
+// -----------------------------------------------------------------------------
 
 // Forward declaration of `sneaker::json::json_value`.
 class json_value;

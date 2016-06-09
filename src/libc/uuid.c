@@ -77,14 +77,14 @@ uuid128_t uuid_create()
 
 // -----------------------------------------------------------------------------
 
-int uuid_compare(uuid128_t uuid1, uuid128_t uuid2)
+int uuid_compare(uuid128_t lhs, uuid128_t rhs)
 {
-  return memcmp(uuid1.data, uuid2.data, sizeof(uuid1.data));
+  return memcmp(lhs.data, rhs.data, sizeof(uuid128_t));
 }
 
 // -----------------------------------------------------------------------------
 
-__uint128_t uuid_to_hash(const uuid128_t uuid)
+__uint128_t uuid_to_hash(uuid128_t uuid)
 {
   __uint128_t hash = 0;
   memcpy(&hash, uuid.data, sizeof(hash));

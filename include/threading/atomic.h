@@ -48,7 +48,7 @@ public:
 
   atomic(const atomic<T, UPPER_LIMIT>&);
 
-  atomic<T, UPPER_LIMIT>& operator=(const T&);
+  atomic<T, UPPER_LIMIT>& operator=(const T& value);
 
   template<class U, U UPPER_LIMIT_2>
   atomic& operator=(const atomic<U, UPPER_LIMIT_2>&);
