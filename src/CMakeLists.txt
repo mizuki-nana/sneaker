@@ -40,6 +40,7 @@ set(SRC
     libc/utils.c
     libc/uuid.c
     libc/vector.c
+    logging/logger_base.cc
     logging/log_scheme.impl.cc
     logging/defaults.cc
     threading/daemon_service.cc

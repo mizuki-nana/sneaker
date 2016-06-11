@@ -24,13 +24,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define SNEAKER_LOGGER_H_
 
 #include "exception_safety_tag.h"
+#include "logger_base.h"
 #include "log_level.h"
 #include "log_scheme.h"
 #include "thread_safety_tag.h"
 
 #include <cstdarg>
-#include <cstdio>
-#include <memory>
 #include <mutex>
 
 
@@ -40,95 +39,25 @@ namespace sneaker {
 namespace logging {
 
 
+// -----------------------------------------------------------------------------
+
 template<typename thread_safety_tag, typename exception_safety_tag>
-class logger
+class logger : protected logger_base
 {
 public:
   explicit logger(log_scheme* log_scheme);
 
   template<size_t LINE_SIZE=1024>
   void write(LogLevel log_lvl, const char* format, ...);
-
-private:
-  template<size_t LINE_SIZE>
-  void write_impl(LogLevel log_lvl, const char* format, va_list args);
-
-  void write_impl(LogLevel log_lvl, char* buf, size_t buf_size,
-    const char* format, va_list args);
-
-  std::unique_ptr<log_scheme> m_log_scheme;
 };
 
 // -----------------------------------------------------------------------------
 
 template<typename thread_safety_tag, typename exception_safety_tag>
-logger<thread_safety_tag, exception_safety_tag>::logger(
-  log_scheme* log_scheme_)
+logger<thread_safety_tag, exception_safety_tag>::logger(log_scheme* log_scheme)
   :
-  m_log_scheme(log_scheme_)
+  logger_base(log_scheme)
 {
-}
-
-// -----------------------------------------------------------------------------
-
-template<typename thread_safety_tag, typename exception_safety_tag>
-template<size_t LINE_SIZE>
-void
-logger<thread_safety_tag, exception_safety_tag>::write_impl(LogLevel log_lvl,
-  const char* format, va_list args)
-{
-  char buf[LINE_SIZE] = {0};
-  write_impl(log_lvl, buf, sizeof(buf), format, args);
-}
-
-// -----------------------------------------------------------------------------
-
-template<typename thread_safety_tag, typename exception_safety_tag>
-void
-logger<thread_safety_tag, exception_safety_tag>::write_impl(
-  LogLevel log_lvl, char* buf, size_t buf_size, const char* format, va_list args)
-{
-  static const char* log_lvl_names[] {
-    "DEBUG",
-    "INFO",
-    "WARN",
-    "ERROR",
-    "FATAL"
-  };
-
-  const char* log_lvl_name = log_lvl_names[static_cast<uint32_t>(log_lvl)];
-
-  int n = snprintf(buf, buf_size, "[%s] ", log_lvl_name);
-
-  if (n && static_cast<unsigned long>(n) < buf_size)
-  {
-    vsnprintf(buf + n, buf_size - static_cast<unsigned long>(n), format, args);
-
-    m_log_scheme->write(buf);
-  }
-}
-
-// -----------------------------------------------------------------------------
-
-template<>
-template<size_t LINE_SIZE>
-void
-logger<thread_safe_tag, exception_safe_tag>::write(LogLevel log_lvl,
-  const char* format, ...)
-{
-  static std::mutex mtx;
-  std::lock_guard<std::mutex> lock(mtx);
-
-  try
-  {
-    va_list args;
-    va_start(args, format);
-    write_impl<LINE_SIZE>(log_lvl, format, args);
-    va_end(args);
-  }
-  catch (...)
-  {
-  }
 }
 
 // -----------------------------------------------------------------------------
@@ -156,12 +85,9 @@ logger<thread_unsafe_tag, exception_safe_tag>::write(LogLevel log_lvl,
 template<>
 template<size_t LINE_SIZE>
 void
-logger<thread_safe_tag, exception_unsafe_tag>::write(LogLevel log_lvl,
+logger<thread_unsafe_tag, exception_unsafe_tag>::write(LogLevel log_lvl,
   const char* format, ...)
 {
-  static std::mutex mtx;
-  std::lock_guard<std::mutex> lock(mtx);
-
   va_list args;
   va_start(args, format);
   write_impl<LINE_SIZE>(log_lvl, format, args);
@@ -170,12 +96,56 @@ logger<thread_safe_tag, exception_unsafe_tag>::write(LogLevel log_lvl,
 
 // -----------------------------------------------------------------------------
 
+template<typename exception_safety_tag>
+class logger<thread_safe_tag, exception_safety_tag> : protected logger_base
+{
+public:
+  explicit logger(log_scheme* log_scheme)
+    :
+    logger_base(log_scheme),
+    m_mtx()
+  {
+  }
+
+  template<size_t LINE_SIZE=1024>
+  void write(LogLevel log_lvl, const char* format, ...);
+
+private:
+  std::mutex m_mtx;
+};
+
+// -----------------------------------------------------------------------------
+
 template<>
 template<size_t LINE_SIZE>
 void
-logger<thread_unsafe_tag, exception_unsafe_tag>::write(LogLevel log_lvl,
+logger<thread_safe_tag, exception_safe_tag>::write(LogLevel log_lvl,
   const char* format, ...)
 {
+  std::lock_guard<std::mutex> lock(m_mtx);
+
+  try
+  {
+    va_list args;
+    va_start(args, format);
+    write_impl<LINE_SIZE>(log_lvl, format, args);
+    va_end(args);
+  }
+  catch (...)
+  {
+  }
+}
+
+// -----------------------------------------------------------------------------
+
+template<>
+template<size_t LINE_SIZE>
+void
+logger<thread_safe_tag, exception_unsafe_tag>::write(LogLevel log_lvl,
+  const char* format, ...)
+{
+  std::lock_guard<std::mutex> lock(m_mtx);
+
   va_list args;
   va_start(args, format);
   write_impl<LINE_SIZE>(log_lvl, format, args);
