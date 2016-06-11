@@ -39,6 +39,8 @@ namespace logging {
 class stream_log_scheme : public log_scheme
 {
 public:
+  virtual ~stream_log_scheme();
+
   virtual void write(const char* msg);
 
 protected:

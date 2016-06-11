@@ -91,6 +91,15 @@ TEST_F(logger_simple_unittest, TestLogSimple5)
 
 // -----------------------------------------------------------------------------
 
+TEST_F(logger_simple_unittest, TestLogSimpleWithStderrLogScheme)
+{
+  logger<thread_safe_tag, exception_safe_tag> logger_(new stderr_log_scheme());
+  logger_.write<64>(LogLevel::LOG_LEVEL_DEBUG, "%s (%s line:%lu)",
+    "Logging with 64 characters to stderr", __FILE__, __LINE__);
+}
+
+// -----------------------------------------------------------------------------
+
 class file_logger_unittest : public logger_unittest {};
 
 // -----------------------------------------------------------------------------

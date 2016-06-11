@@ -56,6 +56,13 @@ stream_log_scheme::stream_log_scheme(std::ostream* ost)
 
 // -----------------------------------------------------------------------------
 
+/* virtual */
+stream_log_scheme::~stream_log_scheme()
+{
+}
+
+// -----------------------------------------------------------------------------
+
 void
 stream_log_scheme::write(const char* msg)
 {

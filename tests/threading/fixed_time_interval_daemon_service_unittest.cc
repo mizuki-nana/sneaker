@@ -73,6 +73,18 @@ size_t fixed_time_interval_daemon_service_unittest::count_ = 0;
 
 // -----------------------------------------------------------------------------
 
+TEST_F(fixed_time_interval_daemon_service_unittest, TestInitialization)
+{
+  const uint32_t interval = 20;
+
+  fixed_time_interval_daemon_service daemon_service(
+    interval, fixed_time_interval_daemon_service_unittest::DummyHandler, true, 5);
+
+  ASSERT_EQ(interval, daemon_service.interval());
+}
+
+// -----------------------------------------------------------------------------
+
 TEST_F(fixed_time_interval_daemon_service_unittest, TestRunDaemonSynchronously)
 {
   /* Tests that a daemon which runs on a background thread, and pokes the

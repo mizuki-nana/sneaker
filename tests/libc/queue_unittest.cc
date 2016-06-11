@@ -56,7 +56,6 @@ protected:
   }
 
   virtual void TearDown() {
-    assert(0 == queue_size(m_queue));
     queue_free(&m_queue);
     assert(m_queue == NULL);
   }
@@ -71,6 +70,30 @@ TEST_F(queue_unittest, TestCreation)
   assert(m_queue);
   ASSERT_EQ(0, queue_size(m_queue));
   assert(queue_pop(m_queue) == NULL);
+}
+
+// -----------------------------------------------------------------------------
+
+TEST_F(queue_unittest, TestCreateAndPush)
+{
+  assert(m_queue);
+  ASSERT_EQ(0, queue_size(m_queue));
+
+  int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+  for (size_t i = 0; i < 10; ++i) {
+    queue_push(m_queue, &numbers[i], sizeof(int));
+
+    void* front = queue_front(m_queue);
+    int front_val = DEREF_VOID(int, front);
+    ASSERT_EQ(numbers[0], front_val);
+
+
+    void* back = queue_back(m_queue);
+    int back_val = DEREF_VOID(int, back);
+
+    ASSERT_EQ(numbers[i], back_val);
+  }
 }
 
 // -----------------------------------------------------------------------------

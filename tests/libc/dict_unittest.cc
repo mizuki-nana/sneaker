@@ -42,7 +42,7 @@ protected:
     assert(m_dict);
   }
 
-  virtual void Teardown() {
+  virtual void TearDown() {
     dict_free(&m_dict);
     assert(m_dict == NULL);
   }

@@ -342,3 +342,38 @@ TEST_F(bitmap_unittest, TestBitmapSetAndClearBit3)
 }
 
 // -----------------------------------------------------------------------------
+
+TEST_F(bitmap_unittest, TestBitmapClear)
+{
+  bitmap_t bitmap = NULL;
+  size_t width = 2;
+  size_t height = 2;
+
+  bitmap = bitmap_create(width, height);
+  assert(bitmap);
+
+  ASSERT_EQ(width, bitmap_width(bitmap));
+  ASSERT_EQ(height, bitmap_height(bitmap));
+
+  ASSERT_EQ(1, bitmap_set_bit(bitmap, 0, 0));
+  ASSERT_EQ(1, bitmap_set_bit(bitmap, 1, 0));
+  ASSERT_EQ(1, bitmap_set_bit(bitmap, 0, 1));
+  ASSERT_EQ(1, bitmap_set_bit(bitmap, 1, 1));
+
+  ASSERT_EQ(1, bitmap_is_set(bitmap, 0, 0));
+  ASSERT_EQ(1, bitmap_is_set(bitmap, 1, 0));
+  ASSERT_EQ(1, bitmap_is_set(bitmap, 0, 1));
+  ASSERT_EQ(1, bitmap_is_set(bitmap, 1, 1));
+
+  bitmap_clear(bitmap);
+
+  ASSERT_EQ(0, bitmap_is_set(bitmap, 0, 0));
+  ASSERT_EQ(0, bitmap_is_set(bitmap, 1, 0));
+  ASSERT_EQ(0, bitmap_is_set(bitmap, 0, 1));
+  ASSERT_EQ(0, bitmap_is_set(bitmap, 1, 1));
+
+  bitmap_free(&bitmap);
+  assert(bitmap == NULL);
+}
+
+// -----------------------------------------------------------------------------

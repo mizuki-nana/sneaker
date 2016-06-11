@@ -828,9 +828,11 @@ class randf_top_unittest : public ::testing::Test {};
 
 TEST_F(randf_top_unittest, TestRandomness)
 {
-  int i;
-  for (i = 1.0f; i <= 5000.0f; i++) {
-    ASSERT_LE(rand_top(i), i);
+  double i;
+  for (i = 2.0; i <= 5000.0; i++) {
+    double val = randf_top(i);
+    ASSERT_LE(val, i);
+    ASSERT_GT(val, 1.0);
   }
 }
 

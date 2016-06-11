@@ -331,7 +331,7 @@ rand_range(int min, int max);
 
 /*
  * double
- * hex_randf_top(double max)
+ * randf_top(double max)
  *
  * Generated a pseudo-random floating number in the range between 1.0 and 'max'.
  */

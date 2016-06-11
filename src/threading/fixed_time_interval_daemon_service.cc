@@ -42,13 +42,6 @@ namespace threading {
 class fixed_time_interval_daemon_service::impl : public daemon_service
 {
 public:
-  enum ExecutionStatus
-  {
-    EXECUTION_STATUS_IDLE = 0x00,
-    EXECUTION_STATUS_STARTED = 0x01,
-    EXECUTION_STATUS_TERMINATED = 0x02
-  };
-
   impl(uint32_t interval,
        ExternalHandler external_handler,
        bool wait_for_termination,
@@ -56,13 +49,9 @@ public:
 
   size_t interval() const;
 
-  virtual bool start();
-
   void stop();
 
   bool can_continue() const;
-
-  bool terminated() const;
 
 protected:
   virtual void handle();
@@ -75,7 +64,6 @@ protected:
     fixed_time_interval_daemon_service::impl*);
 
 private:
-  ExecutionStatus m_status;
   ExternalHandler m_external_handler;
   uint32_t m_interval;
   int32_t m_max_iterations;
@@ -92,7 +80,6 @@ fixed_time_interval_daemon_service::impl::impl(uint32_t interval,
   int32_t max_iterations)
   :
   daemon_service(wait_for_termination),
-  m_status(EXECUTION_STATUS_IDLE),
   m_external_handler(external_handler),
   m_interval(interval),
   m_max_iterations(max_iterations),
@@ -114,23 +101,6 @@ fixed_time_interval_daemon_service::impl::interval() const
 
 // -----------------------------------------------------------------------------
 
-/* virtual */
-bool
-fixed_time_interval_daemon_service::impl::start()
-{
-  // Need to set status before `daemon_service::start()`.
-  m_status = EXECUTION_STATUS_STARTED;
-  bool res = daemon_service::start();
-
-  if (!res)
-  {
-    m_status = EXECUTION_STATUS_IDLE;
-  }
-
-  return res;
-}
-
-// -----------------------------------------------------------------------------
 void
 fixed_time_interval_daemon_service::impl::stop()
 {
@@ -151,14 +121,6 @@ fixed_time_interval_daemon_service::impl::can_continue() const
 {
   return m_max_iterations == -1 ||
     (static_cast<int32_t>(m_iteration_count) < m_max_iterations);
-}
-
-// -----------------------------------------------------------------------------
-
-bool
-fixed_time_interval_daemon_service::impl::terminated() const
-{
-  return m_status == EXECUTION_STATUS_TERMINATED;
 }
 
 // -----------------------------------------------------------------------------
@@ -194,13 +156,11 @@ fixed_time_interval_daemon_service::impl::tick_handler(
 
   if (err.value() != boost::system::errc::success)
   {
-    daemon_service->m_status = EXECUTION_STATUS_TERMINATED;
     return;
   }
 
   if (!daemon_service->can_continue())
   {
-    daemon_service->m_status = EXECUTION_STATUS_TERMINATED;
     return;
   }
 

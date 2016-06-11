@@ -64,15 +64,21 @@ TEST_F(vector_unittest, TestCreation)
 TEST_F(vector_unittest, TestAppendAndGet)
 {
   int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-  int i;
 
-  for (i = 0; i < 10; i++) {
+  for (size_t i = 0; i < 10; ++i) {
     vector_append(m_vector, &numbers[i]);
     ASSERT_EQ(i + 1, vector_size(m_vector));
   }
 
-  for (i = 0; i < 10; i++) {
-    void *p = vector_get(m_vector, i);
+  const void** data = vector_content(m_vector);
+
+  for (size_t i = 0; i < 10; ++i) {
+    int actual_value = DEREF_VOID(int, data[i]);
+    ASSERT_EQ(numbers[i], actual_value);
+  }
+
+  for (size_t i = 0; i < 10; ++i) {
+    void *p = vector_get(m_vector, (int)i);
     int val = DEREF_VOID(int, p);
     ASSERT_EQ(numbers[i], val);
     ASSERT_EQ(10, vector_size(m_vector));

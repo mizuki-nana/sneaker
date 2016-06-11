@@ -40,16 +40,16 @@ class util_numeric_unittest : public ::testing::Test {};
 
 TEST_F(util_numeric_unittest, TestFloatsEqualWithDefaultTolerance)
 {
-    ASSERT_TRUE(floats_equal(1.0, 1.0001));
-    ASSERT_FALSE(floats_equal(1.0, 2.0));
+  ASSERT_TRUE(floats_equal(1.0, 1.0001));
+  ASSERT_FALSE(floats_equal(1.0, 2.0));
 }
 
 // -----------------------------------------------------------------------------
 
 TEST_F(util_numeric_unittest, TestFloatsEqualWithCustomTolerance)
 {
-    ASSERT_FALSE(floats_equal(1.0, 1.0001, 0.0000001));
-    ASSERT_TRUE(floats_equal(1.0, 1.05, 0.06));
+  ASSERT_FALSE(floats_equal(1.0, 1.0001, 0.0000001));
+  ASSERT_TRUE(floats_equal(1.0, 1.05, 0.06));
 }
 
 // -----------------------------------------------------------------------------

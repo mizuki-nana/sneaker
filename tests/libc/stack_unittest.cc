@@ -62,6 +62,22 @@ TEST_F(stack_unittest, TestCreation)
 
 // -----------------------------------------------------------------------------
 
+TEST_F(stack_unittest, TestCreateAndPush)
+{
+  assert(m_stack);
+  ASSERT_EQ(0, stack_size(m_stack));
+
+  int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+  for (size_t i = 0; i < 10; i++) {
+    stack_push(m_stack, &numbers[i], sizeof(int));
+  }
+
+  ASSERT_EQ(10, stack_size(m_stack));
+}
+
+// -----------------------------------------------------------------------------
+
 TEST_F(stack_unittest, TestPushAndPop1)
 {
   int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -72,6 +88,10 @@ TEST_F(stack_unittest, TestPushAndPop1)
   }
 
   ASSERT_EQ(10, stack_size(m_stack));
+
+  int *ptr = (int*)sstack_top(m_stack);
+  int top_val = DEREF_VOID(int, ptr);
+  ASSERT_EQ(10, top_val);
 
   for (i = 9; i >= 0; i--) {
     int *p = (int*)stack_pop(m_stack);
