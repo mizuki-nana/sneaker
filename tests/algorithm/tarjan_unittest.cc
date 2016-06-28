@@ -27,7 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "testing/testing.h"
 
-#include <list>
+#include <vector>
 
 
 // -----------------------------------------------------------------------------
@@ -39,11 +39,10 @@ using namespace sneaker::algorithm;
 class tarjan_unittest : public ::testing::Test {
 public:
   void detect_cycle_and_assert_results(
-    std::list<tarjan<int>::vertex*>& vertices,
-    int expected_components,
-    int expected_independent_components,
-    int expected_cycles
-  )
+    const std::vector<tarjan<int>::vertex*>& vertices,
+    size_t expected_components,
+    size_t expected_independent_components,
+    size_t expected_cycles)
   {
     tarjan<int> algo;
     auto components = algo.get_components(vertices);
@@ -69,9 +68,9 @@ TEST_F(tarjan_unittest, TestEmptyGraph)
    *
    * ()
    */
-  std::list<tarjan<int>::vertex*> vertices;
+  std::vector<tarjan<int>::vertex*> vertices;
 
-  this->detect_cycle_and_assert_results(vertices, 0, 0, 0);
+  detect_cycle_and_assert_results(vertices, 0, 0, 0);
 }
 
 // -----------------------------------------------------------------------------
@@ -82,12 +81,12 @@ TEST_F(tarjan_unittest, TestSingleVertex)
    *
    * (1)
    */
-  std::list<tarjan<int>::vertex*> vertices;
+  std::vector<tarjan<int>::vertex*> vertices;
   tarjan<int>::vertex v1(1);
 
   vertices.push_back(&v1);
 
-  this->detect_cycle_and_assert_results(vertices, 1, 1, 0);
+  detect_cycle_and_assert_results(vertices, 1, 1, 0);
 }
 
 // -----------------------------------------------------------------------------
@@ -98,7 +97,7 @@ TEST_F(tarjan_unittest, TestSingleEdge)
    *
    * (1) -> (2)
    */
-  std::list<tarjan<int>::vertex*> vertices;
+  std::vector<tarjan<int>::vertex*> vertices;
 
   tarjan<int>::vertex v1(1);
   tarjan<int>::vertex v2(2);
@@ -108,7 +107,7 @@ TEST_F(tarjan_unittest, TestSingleEdge)
   vertices.push_back(&v1);
   vertices.push_back(&v2);
 
-  this->detect_cycle_and_assert_results(vertices, 2, 2, 0);
+  detect_cycle_and_assert_results(vertices, 2, 2, 0);
 }
 
 // -----------------------------------------------------------------------------
@@ -119,7 +118,7 @@ TEST_F(tarjan_unittest, TestLinearEdges)
    *
    * (1) -> (2) -> (3)
    */
-  std::list<tarjan<int>::vertex*> vertices;
+  std::vector<tarjan<int>::vertex*> vertices;
 
   tarjan<int>::vertex v1(1);
   tarjan<int>::vertex v2(2);
@@ -132,7 +131,7 @@ TEST_F(tarjan_unittest, TestLinearEdges)
   vertices.push_back(&v2);
   vertices.push_back(&v3);
 
-  this->detect_cycle_and_assert_results(vertices, 3, 3, 0);
+  detect_cycle_and_assert_results(vertices, 3, 3, 0);
 }
 
 // -----------------------------------------------------------------------------
@@ -145,7 +144,7 @@ TEST_F(tarjan_unittest, TestSimpleCycle)
    *  ^      |
    *  |______|
    */
-  std::list<tarjan<int>::vertex*> vertices;
+  std::vector<tarjan<int>::vertex*> vertices;
 
   tarjan<int>::vertex v1(1);
   tarjan<int>::vertex v2(2);
@@ -156,7 +155,7 @@ TEST_F(tarjan_unittest, TestSimpleCycle)
   vertices.push_back(&v1);
   vertices.push_back(&v2);
 
-  this->detect_cycle_and_assert_results(vertices, 1, 0, 1);
+  detect_cycle_and_assert_results(vertices, 1, 0, 1);
 }
 
 // -----------------------------------------------------------------------------
@@ -169,7 +168,7 @@ TEST_F(tarjan_unittest, TestSimpleCycle2)
    *  ^             |
    *  |_____________|
    */
-  std::list<tarjan<int>::vertex*> vertices;
+  std::vector<tarjan<int>::vertex*> vertices;
 
   tarjan<int>::vertex v1(1);
   tarjan<int>::vertex v2(2);
@@ -183,7 +182,7 @@ TEST_F(tarjan_unittest, TestSimpleCycle2)
   vertices.push_back(&v2);
   vertices.push_back(&v3);
 
-  this->detect_cycle_and_assert_results(vertices, 1, 0, 1);
+  detect_cycle_and_assert_results(vertices, 1, 0, 1);
 }
 
 // -----------------------------------------------------------------------------
@@ -196,7 +195,7 @@ TEST_F(tarjan_unittest, TestTwoIsolatedCycles)
    *  ^             |    ^             |
    *  |_____________|    |_____________|
    */
-  std::list<tarjan<int>::vertex*> vertices;
+  std::vector<tarjan<int>::vertex*> vertices;
 
   tarjan<int>::vertex v1(1);
   tarjan<int>::vertex v2(2);
@@ -222,7 +221,7 @@ TEST_F(tarjan_unittest, TestTwoIsolatedCycles)
   vertices.push_back(&v5);
   vertices.push_back(&v6);
 
-  this->detect_cycle_and_assert_results(vertices, 2, 0, 2);
+  detect_cycle_and_assert_results(vertices, 2, 0, 2);
 }
 
 // -----------------------------------------------------------------------------
@@ -235,7 +234,7 @@ TEST_F(tarjan_unittest, TestCycleWithInwardStub)
    *  ^             |
    *  |_____________|
    */
-  std::list<tarjan<int>::vertex*> vertices;
+  std::vector<tarjan<int>::vertex*> vertices;
 
   tarjan<int>::vertex v1(1);
   tarjan<int>::vertex v2(2);
@@ -252,7 +251,7 @@ TEST_F(tarjan_unittest, TestCycleWithInwardStub)
   vertices.push_back(&v3);
   vertices.push_back(&v4);
 
-  this->detect_cycle_and_assert_results(vertices, 2, 1, 1);
+  detect_cycle_and_assert_results(vertices, 2, 1, 1);
 }
 
 // -----------------------------------------------------------------------------
@@ -265,7 +264,7 @@ TEST_F(tarjan_unittest, TestCycleWithOutwardStub)
    *  ^             |
    *  |_____________|
    */
-  std::list<tarjan<int>::vertex*> vertices;
+  std::vector<tarjan<int>::vertex*> vertices;
 
   tarjan<int>::vertex v1(1);
   tarjan<int>::vertex v2(2);
@@ -282,7 +281,7 @@ TEST_F(tarjan_unittest, TestCycleWithOutwardStub)
   vertices.push_back(&v3);
   vertices.push_back(&v4);
 
-  this->detect_cycle_and_assert_results(vertices, 2, 1, 1);
+  detect_cycle_and_assert_results(vertices, 2, 1, 1);
 }
 
 // -----------------------------------------------------------------------------
@@ -297,7 +296,7 @@ TEST_F(tarjan_unittest, TestNestedCycles)
    *  |                    |
    *  |<------- (5) <------|
    */
-  std::list<tarjan<int>::vertex*> vertices;
+  std::vector<tarjan<int>::vertex*> vertices;
 
   tarjan<int>::vertex v1(1);
   tarjan<int>::vertex v2(2);
@@ -319,7 +318,7 @@ TEST_F(tarjan_unittest, TestNestedCycles)
   vertices.push_back(&v4);
   vertices.push_back(&v5);
 
-  this->detect_cycle_and_assert_results(vertices, 1, 0, 1);
+  detect_cycle_and_assert_results(vertices, 1, 0, 1);
 }
 
 // -----------------------------------------------------------------------------
@@ -332,7 +331,7 @@ TEST_F(tarjan_unittest, TestAdjacentCycles)
    *  ^            |^             |
    *  |____________||_____________|
    */
-  std::list<tarjan<int>::vertex*> vertices;
+  std::vector<tarjan<int>::vertex*> vertices;
 
   tarjan<int>::vertex v1(1);
   tarjan<int>::vertex v2(2);
@@ -353,7 +352,42 @@ TEST_F(tarjan_unittest, TestAdjacentCycles)
   vertices.push_back(&v4);
   vertices.push_back(&v5);
 
-  this->detect_cycle_and_assert_results(vertices, 1, 0, 1);
+  detect_cycle_and_assert_results(vertices, 1, 0, 1);
+}
+
+// -----------------------------------------------------------------------------
+
+TEST_F(tarjan_unittest, TestOverlappingCycles)
+{
+  /* Tests the following object graph:
+   *
+   * (1) -> (2) -> (3) -> (4) -> (5)
+   *  ^      ^      |            |
+   *  |      |______|____________|
+   *  |_____________|
+   */
+  std::vector<tarjan<int>::vertex*> vertices;
+
+  tarjan<int>::vertex v1(1);
+  tarjan<int>::vertex v2(2);
+  tarjan<int>::vertex v3(3);
+  tarjan<int>::vertex v4(4);
+  tarjan<int>::vertex v5(5);
+
+  v1.dependencies().push_back(&v2);
+  v2.dependencies().push_back(&v3);
+  v3.dependencies().push_back(&v1);
+  v3.dependencies().push_back(&v4);
+  v4.dependencies().push_back(&v5);
+  v5.dependencies().push_back(&v2);
+
+  vertices.push_back(&v1);
+  vertices.push_back(&v2);
+  vertices.push_back(&v3);
+  vertices.push_back(&v4);
+  vertices.push_back(&v5);
+
+  detect_cycle_and_assert_results(vertices, 1, 0, 1);
 }
 
 // -----------------------------------------------------------------------------

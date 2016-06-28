@@ -48,7 +48,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  *  using namespace sneaker::algorithm;
  *
- *  std::list<tarjan<int>::vertex*> vertices;
+ *  std::vector<tarjan<int>::vertex*> vertices;
  *
  *  tarjan<int>::vertex v1(1);
  *  tarjan<int>::vertex v2(2);
@@ -76,8 +76,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define SNEAKER_ALGORITHM_TARJAN_H_
 
 #include <algorithm>
-#include <list>
-#include <stack>
+#include <vector>
 
 
 namespace sneaker {
@@ -87,137 +86,149 @@ namespace algorithm {
 
 
 template<class T>
-class tarjan {
+class tarjan
+{
 public:
 
-  using Enumerable = typename std::list<T>;
+  using Enumerable = typename std::vector<T>;
 
-  class vertex {
-    public:
-      vertex() : m_index(-1), m_lowlink(0) {}
+  // Forward declaration of `sneaker::algorithm::tarjan<T>::vertex`.
+  class vertex;
 
-      explicit vertex(T value) : m_value(value), m_index(-1), m_lowlink(0) {}
+  using VerticesSet = typename std::vector<vertex*>;
 
-      using _Enumerable = typename std::list<vertex*>;
+  class vertex
+  {
+  public:
+    vertex()
+      :
+      m_index(-1),
+      m_lowlink(0)
+    {
+    }
 
-      using iterator = typename _Enumerable::iterator;
+    explicit vertex(T value)
+      :
+      m_value(value),
+      m_index(-1),
+      m_lowlink(0)
+    {
+    }
 
-      bool operator==(const vertex& other) {
-        return this->value() == other.value() &&
-          this->index() == other.index() &&
-          this->lowlink() == other.lowlink();
-      }
+    using iterator = typename VerticesSet::iterator;
 
-      bool operator!=(const vertex& other) {
-        return !(*this == other);
-      }
+    bool operator==(const vertex& other) {
+      return value() == other.value() &&
+        index() == other.index() &&
+        lowlink() == other.lowlink();
+    }
 
-      iterator begin() {
-        return m_dependencies.begin();
-      }
+    bool operator!=(const vertex& other) {
+      return !(*this == other);
+    }
 
-      iterator end() {
-        return m_dependencies.end();
-      }
+    iterator begin() {
+      return m_dependencies.begin();
+    }
 
-      int index() const {
-        return m_index;
-      }
+    iterator end() {
+      return m_dependencies.end();
+    }
 
-      int lowlink() const {
-        return m_lowlink;
-      }
+    int index() const {
+      return m_index;
+    }
 
-      T value() const {
-        return m_value;
-      }
+    int lowlink() const {
+      return m_lowlink;
+    }
 
-      void set_index(int index) {
-        m_index = index;
-      }
+    T value() const {
+      return m_value;
+    }
 
-      void set_lowlink(int lowlink) {
-        m_lowlink = lowlink;
-      }
+    void set_index(int index) {
+      m_index = index;
+    }
 
-      std::list<vertex*>& dependencies() {
-        return m_dependencies;
-      }
+    void set_lowlink(int lowlink) {
+      m_lowlink = lowlink;
+    }
 
-    private:
-      T m_value;
-      int m_index;
-      int m_lowlink;
-      _Enumerable m_dependencies;
+    VerticesSet& dependencies() {
+      return m_dependencies;
+    }
+
+  private:
+    T m_value;
+    int m_index;
+    int m_lowlink;
+    VerticesSet m_dependencies;
   }; /* end class vertex */
 
 
-  class strongly_connected_component_list {
-    public:
-      strongly_connected_component_list():
-        m_collection(std::list<Enumerable>())
-      {
-      }
+  class strongly_connected_component_list
+  {
+  public:
+    void add(const Enumerable& scc) {
+      m_collection.push_back(scc);
+    }
 
-      void add(const Enumerable& scc) {
-        m_collection.push_back(scc);
-      }
+    size_t size() const {
+      return m_collection.size();
+    }
 
-      size_t size() const {
-        return m_collection.size();
-      }
+    std::vector<Enumerable> independent_components() const {
+      std::vector<Enumerable> components;
 
-      std::list<Enumerable> independent_components() const {
-        std::list<Enumerable> components;
-
-        std::for_each(
-          m_collection.begin(),
-          m_collection.end(),
-          [&components](Enumerable vertices) {
-            if (vertices.size() <= 1) {
-              components.push_back(vertices);
-            }
+      std::for_each(
+        m_collection.begin(),
+        m_collection.end(),
+        [&components](const Enumerable& vertices) {
+          if (vertices.size() <= 1) {
+            components.push_back(vertices);
           }
-        );
+        }
+      );
 
-        return components;
-      }
+      return components;
+    }
 
-      std::list<Enumerable> cycles() const {
-        std::list<Enumerable> components;
+    std::vector<Enumerable> cycles() const {
+      std::vector<Enumerable> components;
 
-        std::for_each(
-          m_collection.begin(),
-          m_collection.end(),
-          [&components](Enumerable vertices) {
-            if (vertices.size() > 1) {
-              components.push_back(vertices);
-            }
+      std::for_each(
+        m_collection.begin(),
+        m_collection.end(),
+        [&components](const Enumerable& vertices) {
+          if (vertices.size() > 1) {
+            components.push_back(vertices);
           }
-        );
+        }
+      );
 
-        return components;
-      }
+      return components;
+    }
 
-    private:
-      std::list<Enumerable> m_collection;
+  private:
+    std::vector<Enumerable> m_collection;
   }; /* end class strongly_connected_component_list */
 
   tarjan()
     :
     m_index(0),
-    m_stack(std::list<vertex*>()),
-    m_components(strongly_connected_component_list())
+    m_stack(),
+    m_components()
   {
   }
 
-  strongly_connected_component_list get_components(const std::list<vertex*>& graph);
+  strongly_connected_component_list get_components(const VerticesSet& graph);
 
 private:
   void strong_connect(vertex* vtx);
 
   int m_index;
-  std::list<vertex*> m_stack;
+  std::vector<vertex*> m_stack;
   strongly_connected_component_list m_components;
 };
 
@@ -225,14 +236,13 @@ private:
 
 template<class T>
 typename tarjan<T>::strongly_connected_component_list
-tarjan<T>::get_components(const std::list<vertex*>& graph)
+tarjan<T>::get_components(const VerticesSet& graph)
 {
-  for (auto itr = graph.begin(); itr != graph.end(); ++itr) {
-    vertex* vtx = static_cast<vertex*>(*itr);
+  for (vertex* vtx : graph) {
     if (vtx->index() < 0) {
-      this->strong_connect(vtx);
+      strong_connect(vtx);
     }
-  };
+  }
 
   return m_components;
 }
@@ -243,34 +253,28 @@ template<class T>
 void
 tarjan<T>::strong_connect(vertex* vtx)
 {
-  vtx->set_index(this->m_index);
-  vtx->set_lowlink(this->m_index);
+  vtx->set_index(m_index);
+  vtx->set_lowlink(m_index);
 
   ++m_index;
 
   m_stack.push_back(vtx);
 
-  for (auto vtx_itr = vtx->begin(); vtx_itr != vtx->end(); ++vtx_itr) {
-    vertex* w = static_cast<vertex*>(*vtx_itr);
-
+  for (vertex* w : *vtx) {
     if (w->index() < 0) {
-      this->strong_connect(w);
+      strong_connect(w);
       vtx->set_lowlink(std::min(vtx->lowlink(), w->lowlink()));
     } else {
-      auto itr_ = std::find_if (
-        m_stack.begin(),
-        m_stack.end(),
+      auto itr = std::find_if(m_stack.begin(), m_stack.end(),
         [&w](vertex* vtx_) {
           return *vtx_ == *w;
         }
       );
 
-      if (itr_ != m_stack.end()) {
+      if (itr != m_stack.end()) {
         vtx->set_lowlink(std::min(vtx->lowlink(), w->index()));
       }
     }
-
-    *vtx_itr = w;
   };
 
   if (vtx->lowlink() == vtx->index()) {
