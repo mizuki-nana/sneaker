@@ -135,7 +135,7 @@ private:
   }
 
   template<typename ProxyType, typename T>
-  void write_separator_impl(ProxyType proxy, T value)
+  void write_separator_impl(ProxyType proxy, T /* value */)
   {
     m_ss << std::setfill('-') << std::setw(static_cast<int>(proxy.size())) << '-' << " | ";
   }
