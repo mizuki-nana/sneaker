@@ -46,6 +46,7 @@ set(SRC
     threading/daemon_service.cc
     threading/fixed_time_interval_daemon_service.cc
     utility/cmdline_program.cc
+    utility/io.cc
     utility/os.cc
     utility/stack_trace.cc
     )

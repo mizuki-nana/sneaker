@@ -58,6 +58,7 @@ ADD_EXECUTABLE(run_tests
     threading/daemon_service_unittest.cc
     threading/fixed_time_interval_daemon_service_unittest.cc
     utility/cmdline_program_unittest.cc
+    utility/io_unittest.cc
     utility/os_unittest.cc
     utility/stack_trace_unittest.cc
     utility/uniform_table_unittest.cc
