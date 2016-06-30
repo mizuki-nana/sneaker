@@ -40,7 +40,7 @@ namespace json {
 
 // -----------------------------------------------------------------------------
 
-const int json_parser::MAX_DEPTH = 200;
+const size_t json_parser::MAX_DEPTH = 200;
 
 // -----------------------------------------------------------------------------
 
@@ -141,9 +141,10 @@ json_parser::parse_number()
   }
 
   if (str[i] != '.' && str[i] != 'e' && str[i] != 'E' &&
-    (i - start_pos) <= static_cast<size_t>(std::numeric_limits<int>::digits10))
+    (i - start_pos - 1) <= static_cast<size_t>(std::numeric_limits<int64_t>::digits10))
   {
-    return std::atoi(str.c_str() + start_pos);
+    return JSON::from_int64(
+      static_cast<int64_t>(std::atoll(str.c_str() + start_pos)));
   }
 
   // Decimal part.
@@ -174,7 +175,7 @@ json_parser::parse_number()
     i++;
   }
 
-  return std::atof(str.c_str() + start_pos);
+  return JSON(std::atof(str.c_str() + start_pos));
 }
 
 // -----------------------------------------------------------------------------

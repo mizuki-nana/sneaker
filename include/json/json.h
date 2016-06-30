@@ -88,6 +88,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef SNEAKER_JSON_H_
 #define SNEAKER_JSON_H_
 
+#include <cstdint>
 #include <map>
 #include <memory>
 #include <stdexcept>
@@ -130,8 +131,8 @@ public:
 
   JSON();
   JSON(null);
-  JSON(double);
   JSON(int);
+  JSON(double);
   JSON(bool);
   JSON(const string&);
   JSON(string&&);
@@ -148,13 +149,13 @@ public:
   /* Implicit constructor: map-like objects (std::map, std::unordered_map, etc). */
   template<class M, typename std::enable_if<
     std::is_constructible<std::string, typename M::key_type>::value &&
-    std::is_constructible<JSON, typename M::mapped_type>::value, int>::type = 0
+    std::is_constructible<JSON, typename M::mapped_type>::value, int64_t>::type = 0
   >
   JSON(const M& m) : JSON(object(m.begin(), m.end())) {}
 
   /* Implicit constructor: vector-like objects (std::list, std::vector, std::set, etc). */
   template<class V, typename std::enable_if<
-    std::is_constructible<JSON, typename V::value_type>::value, int>::type = 0
+    std::is_constructible<JSON, typename V::value_type>::value, int64_t>::type = 0
   >
   JSON(const V& v) : JSON(array(v.begin(), v.end())) {}
 
@@ -172,7 +173,7 @@ public:
   bool is_object() const { return type() == OBJECT; }
 
   double number_value() const;
-  int int_value() const;
+  int64_t int_value() const;
   bool bool_value() const;
   const string& string_value() const;
   const array& array_items() const;
@@ -191,7 +192,11 @@ public:
 
   std::string dump() const;
 
+  static JSON from_int64(int64_t);
+
 private:
+  JSON(int64_t, char);
+
   std::shared_ptr<json_value> m_ptr;
 };
 

@@ -149,13 +149,13 @@ public:
 
 private:
   void validate_multipleOf(
-    const int&, const JSON::object&, const JSON::object&) const;
+    const int64_t, const JSON::object&, const JSON::object&) const;
 
   void validate_maximum_and_exclusiveMaximum(
-    const int&, const JSON::object&, const JSON::object&) const;
+    const int64_t, const JSON::object&, const JSON::object&) const;
 
   void validate_minimum_and_exclusiveMinimum(
-    const int&, const JSON::object&, const JSON::object&) const;
+    const int64_t, const JSON::object&, const JSON::object&) const;
 };
 
 // -----------------------------------------------------------------------------
@@ -1263,7 +1263,7 @@ json_schema_internal::json_array_type_validator::validate_maxItems(
     return;
   }
 
-  int max_items = schema_object.at("maxItems").int_value();
+  const int64_t max_items = schema_object.at("maxItems").int_value();
 
   if (json_array.size() > static_cast<JSON::array::size_type>(max_items)) {
     throw json_validation_error(
@@ -1291,7 +1291,7 @@ json_schema_internal::json_array_type_validator::validate_minItems(
     return;
   }
 
-  int min_items = schema_object.at("minItems").int_value();
+  const int64_t min_items = schema_object.at("minItems").int_value();
 
   if (json_array.size() < static_cast<JSON::array::size_type>(min_items)) {
     throw json_validation_error(
@@ -1361,7 +1361,7 @@ json_schema_internal::json_integer_type_validator::validate(
    */
   json_primitive_type_validator::validate(data, schema);
 
-  int int_value = data.int_value();
+  const int64_t int_value = data.int_value();
   const JSON::object& schema_object = const_cast<const JSON::object&>(schema.object_items());
 
   validate_multipleOf(int_value, schema_object, original_schema);
@@ -1373,7 +1373,7 @@ json_schema_internal::json_integer_type_validator::validate(
 
 void
 json_schema_internal::json_integer_type_validator::validate_multipleOf(
-  const int& int_value,
+  const int64_t int_value,
   const JSON::object& schema_object,
   const JSON::object& /* original_schema */) const
 {
@@ -1384,9 +1384,9 @@ json_schema_internal::json_integer_type_validator::validate_multipleOf(
     return;
   }
 
-  int multiple_of_value = schema_object.at("multipleOf").int_value();
+  const int64_t multiple_of_value = schema_object.at("multipleOf").int_value();
 
-  int remainder = int_value % multiple_of_value;
+  auto remainder = int_value % multiple_of_value;
 
   if (remainder != 0) {
     throw json_validation_error(
@@ -1403,7 +1403,7 @@ json_schema_internal::json_integer_type_validator::validate_multipleOf(
 
 void
 json_schema_internal::json_integer_type_validator::validate_maximum_and_exclusiveMaximum(
-  const int& int_value,
+  const int64_t int_value,
   const JSON::object& schema_object,
   const JSON::object& /* original_schema */) const
 {
@@ -1419,7 +1419,7 @@ json_schema_internal::json_integer_type_validator::validate_maximum_and_exclusiv
     exclusiveMaximum = schema_object.at("exclusiveMaximum").bool_value();
   }
 
-  int maximum_value = schema_object.at("maximum").int_value();
+  const int64_t maximum_value = schema_object.at("maximum").int_value();
 
   if (int_value > maximum_value) {
     throw json_validation_error(
@@ -1444,7 +1444,7 @@ json_schema_internal::json_integer_type_validator::validate_maximum_and_exclusiv
 
 void
 json_schema_internal::json_integer_type_validator::validate_minimum_and_exclusiveMinimum(
-  const int& int_value,
+  const int64_t int_value,
   const JSON::object& schema_object,
   const JSON::object& /* original_schema */) const
 {
@@ -1460,7 +1460,7 @@ json_schema_internal::json_integer_type_validator::validate_minimum_and_exclusiv
     exclusiveMinimum = schema_object.at("exclusiveMinimum").bool_value();
   }
 
-  int minimum_value = schema_object.at("minimum").int_value();
+  const int64_t minimum_value = schema_object.at("minimum").int_value();
 
   if (int_value < minimum_value) {
     throw json_validation_error(
@@ -1666,7 +1666,7 @@ json_schema_internal::json_object_type_validator::validate_maxProperties(
     return;
   }
 
-  int max_properties = schema_object.at("maxProperties").int_value();
+  const int64_t max_properties = schema_object.at("maxProperties").int_value();
 
   if (object_value.size() > static_cast<JSON::object::size_type>(max_properties)) {
     throw json_validation_error(
@@ -1694,7 +1694,7 @@ json_schema_internal::json_object_type_validator::validate_minProperties(
     return;
   }
 
-  int min_properties = schema_object.at("minProperties").int_value();
+  const int64_t min_properties = schema_object.at("minProperties").int_value();
 
   if (object_value.size() < static_cast<JSON::object::size_type>(min_properties)) {
     throw json_validation_error(
@@ -1971,7 +1971,7 @@ json_schema_internal::json_string_type_validator::validate_maxLength(
     return;
   }
 
-  int max_length = schema_object.at("maxLength").int_value();
+  const int64_t max_length = schema_object.at("maxLength").int_value();
 
   if (string_value.size() > static_cast<JSON::string::size_type>(max_length)) {
     throw json_validation_error(
@@ -1999,7 +1999,7 @@ json_schema_internal::json_string_type_validator::validate_minLength(
     return;
   }
 
-  int min_length = schema_object.at("minLength").int_value();
+  const int64_t min_length = schema_object.at("minLength").int_value();
 
   if (string_value.size() < static_cast<JSON::array::size_type>(min_length)) {
     throw json_validation_error(

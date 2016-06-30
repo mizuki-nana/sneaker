@@ -53,7 +53,7 @@ public:
   virtual void dump(std::string& out) const = 0;
 
   virtual double number_value() const;
-  virtual int int_value() const;
+  virtual int64_t int_value() const;
   virtual bool bool_value() const;
   virtual const JSON::string& string_value() const;
   virtual const JSON::array& array_items() const;
@@ -138,8 +138,8 @@ public:
     return value();
   }
 
-  int int_value() const {
-    return static_cast<int>(value());
+  int64_t int_value() const {
+    return static_cast<int64_t>(value());
   }
 
   virtual bool equals(const json_value* other) const;
@@ -173,15 +173,15 @@ json_double::less(const json_value* other) const
 
 // -----------------------------------------------------------------------------
 
-class json_int final : public json_value_core<JSON::Type::NUMBER, int> {
+class json_int final : public json_value_core<JSON::Type::NUMBER, int64_t> {
 public:
-  json_int(int value) : json_value_core(value) {}
+  json_int(int64_t value) : json_value_core(value) {}
 
   double number_value() const {
     return value();
   }
 
-  int int_value() const {
+  int64_t int_value() const {
     return value();
   }
 
@@ -191,7 +191,7 @@ public:
 
   void dump(std::string &out) const {
     char buf[32];
-    snprintf(buf, sizeof buf, "%d", value());
+    snprintf(buf, sizeof buf, "%ld", value());
     out += buf;
   }
 };
@@ -544,7 +544,7 @@ JSON::number_value() const
 
 // -----------------------------------------------------------------------------
 
-int
+int64_t
 JSON::int_value() const
 {
   return m_ptr->int_value();
@@ -682,7 +682,7 @@ json_value::number_value() const
 
 // -----------------------------------------------------------------------------
 
-int
+int64_t
 json_value::int_value() const
 {
   return 0;
@@ -771,6 +771,24 @@ parse(const std::string& in)
   }
 
   return result;
+}
+
+// -----------------------------------------------------------------------------
+
+JSON::JSON(int64_t value, char)
+  :
+  m_ptr(std::make_shared<json_int>(value))
+{
+  // Do nothing here.
+}
+
+// -----------------------------------------------------------------------------
+
+/* static */
+JSON
+JSON::from_int64(int64_t value)
+{
+  return JSON(value, '\0');
 }
 
 // -----------------------------------------------------------------------------

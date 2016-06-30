@@ -29,9 +29,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "testing/testing.h"
 
 #include <cstring>
+#include <limits>
 #include <list>
 #include <map>
 #include <set>
+#include <sstream>
 #include <unordered_map>
 #include <vector>
 
@@ -138,6 +140,42 @@ TEST_F(json_parse_unittest, TestParseNonAsciiCharacters)
 
   ASSERT_EQ(json_str, json.dump());
   */
+}
+
+// -----------------------------------------------------------------------------
+
+TEST_F(json_parse_unittest, TestMaxInteger)
+{
+  const auto max_int = std::numeric_limits<int64_t>::max();
+  std::stringstream ss;
+  ss << "[" << max_int << "]";
+
+  const std::string json_str = ss.str();
+  auto json = sneaker::json::parse(json_str);
+
+  ASSERT_EQ(max_int, json[0].int_value());
+
+  const auto parsed_max_int = sneaker::json::parse(json.dump())[0].int_value();
+
+  ASSERT_EQ(max_int, parsed_max_int);
+}
+
+// -----------------------------------------------------------------------------
+
+TEST_F(json_parse_unittest, TestMinInteger)
+{
+  const auto min_int = std::numeric_limits<int64_t>::min();
+  std::stringstream ss;
+  ss << "[" << min_int << "]";
+
+  const std::string json_str = ss.str();
+  auto json = sneaker::json::parse(json_str);
+
+  ASSERT_EQ(min_int, json[0].int_value());
+
+  const auto parsed_min_int = sneaker::json::parse(json.dump())[0].int_value();
+
+  ASSERT_EQ(min_int, parsed_min_int);
 }
 
 // -----------------------------------------------------------------------------

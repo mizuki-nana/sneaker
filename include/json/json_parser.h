@@ -25,6 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "json.h"
 
+#include <cstdlib>
 #include <string>
 
 
@@ -41,7 +42,7 @@ public:
   std::string &err;
   bool failed;
 
-  static const int MAX_DEPTH;
+  static const size_t MAX_DEPTH;
 
   JSON parse_json();
 private:
