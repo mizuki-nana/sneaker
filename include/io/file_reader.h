@@ -27,6 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define SNEAKER_FILE_READER_H_
 
 #include <string>
+#include <vector>
 
 
 namespace sneaker {
@@ -35,15 +36,18 @@ namespace sneaker {
 namespace io {
 
 
-class file_reader {
+class file_reader
+{
 public:
   file_reader();
   explicit file_reader(const char* path);
+  explicit file_reader(const std::string& path);
 
   const char* file_path() const;
   void set_path(const char* path);
 
-  bool read_file(char** p) const;
+  bool read(char** p, size_t* size_read=NULL) const;
+  bool read(std::vector<char>* buf, size_t* size_read=NULL) const;
 
 protected:
   std::string m_path;

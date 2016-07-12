@@ -29,8 +29,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <fstream>
-#include <iostream>
 #include <string>
 
 
@@ -38,7 +38,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace {
 
-const static std::string CONTENT("Hello world!!!\n");
+const static std::string CONTENT("Hello world!!!");
 
 } /* end anonymous namespace */
 
@@ -86,7 +86,7 @@ TEST_F(file_reader_unittest, TestInitialization)
 
 TEST_F(file_reader_unittest, TestInitializationWithFilePath)
 {
-  sneaker::io::file_reader reader(m_file_path.c_str());
+  sneaker::io::file_reader reader(m_file_path);
   const char* actual_file_path = reader.file_path();
 
   ASSERT_STREQ(m_file_path.c_str(), actual_file_path);
@@ -96,7 +96,7 @@ TEST_F(file_reader_unittest, TestInitializationWithFilePath)
 
 TEST_F(file_reader_unittest, TestSetPath)
 {
-  sneaker::io::file_reader reader(m_file_path.c_str());
+  sneaker::io::file_reader reader(m_file_path);
   const char* actual_file_path = reader.file_path();
 
   ASSERT_STREQ(m_file_path.c_str(), actual_file_path);
@@ -114,14 +114,18 @@ TEST_F(file_reader_unittest, TestSetPath)
 
 TEST_F(file_reader_unittest, TestReadFile)
 {
-  sneaker::io::file_reader reader(m_file_path.c_str());
+  sneaker::io::file_reader reader(m_file_path);
 
   char* content_read = nullptr;
+  size_t size_read = 0;
 
-  bool res = reader.read_file(&content_read);
+  bool res = reader.read(&content_read, &size_read);
 
   ASSERT_EQ(true, res);
   ASSERT_NE(nullptr, content_read);
+
+  ASSERT_EQ(CONTENT.size(), size_read);
+  ASSERT_EQ(strlen(CONTENT.c_str()), strlen(content_read));
   ASSERT_STREQ(CONTENT.c_str(), content_read);
 }
 
@@ -132,10 +136,78 @@ TEST_F(file_reader_unittest, TestReadFileUnsuccessful)
   sneaker::io::file_reader reader("!@#$^&*((");
   char* content_read = nullptr;
 
-  bool res = reader.read_file(&content_read);
+  bool res = reader.read(&content_read);
 
   ASSERT_EQ(false, res);
   ASSERT_EQ(nullptr, content_read);
+}
+
+// -----------------------------------------------------------------------------
+
+class file_reader_binary_unittest : public file_reader_unittest
+{
+public:
+  file_reader_binary_unittest()
+    :
+    file_reader_unittest(),
+    m_data(reinterpret_cast<long long>(&CONTENT))
+  {
+  }
+
+  virtual void SetUp() {
+    std::ofstream ofs(m_file_path, std::ios::binary);
+    if (ofs.good())
+    {
+      ofs << m_data;
+    }
+    ofs.close();
+  }
+
+  virtual void TearDown() {
+    remove(m_file_path.c_str());
+  }
+
+  long long m_data;
+};
+
+// -----------------------------------------------------------------------------
+
+TEST_F(file_reader_binary_unittest, TestReadBinaryContent)
+{
+  sneaker::io::file_reader reader(m_file_path);
+
+  char* content_read = nullptr;
+  size_t size_read = 0;
+
+  const bool res = reader.read(&content_read, &size_read);
+
+  ASSERT_EQ(true, res);
+  ASSERT_NE(nullptr, content_read);
+
+  std::stringstream expected_output_stream;
+  expected_output_stream << m_data;
+
+  std::stringstream actual_output_stream;
+  actual_output_stream.write(content_read, static_cast<std::streamsize>(size_read));
+
+  ASSERT_EQ(expected_output_stream.str().size(), actual_output_stream.str().size());
+
+  ASSERT_EQ(expected_output_stream.str(), actual_output_stream.str());
+}
+
+// -----------------------------------------------------------------------------
+
+TEST_F(file_reader_binary_unittest, TestReadBinaryContent2)
+{
+  sneaker::io::file_reader reader(m_file_path);
+
+  std::vector<char> content_read;
+  size_t size_read = 0;
+
+  const bool res = reader.read(&content_read, &size_read);
+
+  ASSERT_EQ(true, res);
+  ASSERT_EQ(false, content_read.empty());
 }
 
 // -----------------------------------------------------------------------------
