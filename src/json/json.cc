@@ -26,6 +26,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "utility/util.numeric.h"
 
 #include <initializer_list>
+#include <sstream>
 #include <type_traits>
 #include <utility>
 
@@ -190,9 +191,9 @@ public:
   virtual bool less(const json_value* other) const;
 
   void dump(std::string &out) const {
-    char buf[32];
-    snprintf(buf, sizeof buf, "%ld", value());
-    out += buf;
+    std::stringstream ss;
+    ss << value();
+    out += ss.str();
   }
 };
 
