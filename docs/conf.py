@@ -42,7 +42,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'sneaker'
+project = u'Sneaker'
 copyright = u'2016, Yanzheng Li'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -195,7 +195,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'sneaker.tex', u'sneaker Documentation',
+  ('index', 'sneaker.tex', u'Sneaker Documentation',
    u'Yanzheng Li', 'manual'),
 ]
 
@@ -225,7 +225,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'sneaker', u'sneaker Documentation',
+    ('index', 'Sneaker', u'Sneaker Documentation',
      [u'Yanzheng Li'], 1)
 ]
 
@@ -239,8 +239,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'sneaker', u'sneaker Documentation',
-   u'Yanzheng Li', 'sneaker', 'Just another C++ library...',
+  ('index', 'Sneaker', u'Sneaker Documentation',
+   u'Yanzheng Li', 'Sneaker', 'Just another C++ library...',
    'Miscellaneous'),
 ]
 

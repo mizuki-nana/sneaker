@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-sneaker v0.2.9 documentation
+Sneaker v0.2.9 documentation
 ============================
 
 Overview
@@ -31,10 +31,21 @@ management and function decorators, which are all prevalent features in Python.
 Get Started
 -----------
 
-1 Build project
-   `make`
-2 Install
-   `make install`
+1. Checkout the project documentations
+
+   * `Web Version <https://sneaker.readthedocs.org/en/latest/>`_
+   * `PDF Version <https://media.readthedocs.org/pdf/sneaker/latest/sneaker.pdf>`_
+
+2. Build from source and install library
+
+   `make && make install`
+
+3. Read the wiki if you'd like to contribute
+
+  * `Wiki home page <https://github.com/yanzhengli/sneaker/wiki>`_
+  * `Styles and Guidelines <https://github.com/yanzhengli/sneaker/wiki/Styles-and-Guidelines>`_
+  * `Development and Release Workflow <https://github.com/yanzhengli/sneaker/wiki/Development-and-Release-Workflow>`_
+  * `Build Environments and Dependencies <https://github.com/yanzhengli/sneaker/wiki/Build-Environments-and-Dependencies>`_
 
 
 Content
@@ -51,46 +62,12 @@ Content
    src/context
    src/functional
    src/io
+   src/logging
    src/json
    src/threading
    src/algorithm
    src/utility
    src/testing
-
-
-Compilation Environments
-------------------------
-
-OS X
-
-* Operating System:
-  `OS X 10.10 (14A389)`
-* Compiler:
-  `Apple LLVM version 5.1 (clang-503.0.40) (based on LLVM 3.4svn) Target: x86_64-apple-darwin14.0.0 Thread model: posix`
-* Build tool:
-  `GNU Make 3.81 built for i386-apple-darwin11.3.0`
-* Sphinx:
-  `Sphinx 1.2.2`
-
-Debian
-
-* Operating System:
-  `Linux 3.8.0-29-generic #42~precise1-Ubuntu SMP x86_64 GNU/Linux (Ubuntu 14.04.1 LTS)`
-* Compiler:
-  `Ubuntu clang version 3.4-1ubuntu3 (tags/RELEASE_34/final) (based on LLVM 3.4) Target: x86_64-pc-linux-gnu Thread model: posix`
-* Build tool:
-  `GNU Make 3.81 This program built for x86_64-pc-linux-gnu`
-* Sphinx:
-  `Sphinx v1.1.3`
-
-
-Dependencies
-------------
-
-* boost
-   `Version 1.55`
-* googletest
-   `Version 1.6.0`
 
 
 Indices and tables

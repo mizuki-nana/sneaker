@@ -27,7 +27,7 @@ Header file: `sneaker/functional/function.h`
     The underlying type of the function pointers, functors and lambas that it's
     compatible with by signature.
 
-  .. cpp:function:: return_value
+  .. cpp:type:: return_value
     :noindex:
 
     The return type of this function.

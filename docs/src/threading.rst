@@ -2,27 +2,28 @@
 Thread Management and Daemons
 *****************************
 
-Components that faciliate thread management and deamons.
+Components that faciliate thread management and asynchronous executions.
 
 
-.. cpp:class:: sneaker::threading::daemon_service
--------------------------------------------------
+Daemon Service
+==============
 
 An abstraction that provides the necessary functionalities to execute code as a
 daemon service running in a background thread.
 
-Note: This class interacts with the interfaces in `<pthread.h>`.
-
 Header file: `sneaker/threading/daemon_service.h`
 
-  .. cpp:function:: daemon_service(bool=false)
+.. cpp:class:: sneaker::threading::daemon_service
+-------------------------------------------------
+
+  .. cpp:function:: explicit daemon_service(bool wait_for_termination=false)
     :noindex:
 
     Contructor. Takes a boolean argument specifying whether the foreground
     thread is be blocked for the during which the code in `handle` runs in the
     background thread. Defaults to `false`.
 
-  .. cpp:function:: ~daemon_service()
+  .. cpp:function:: virtual ~daemon_service()
     :noindex:
 
     Destructor. The background thread created is destroyed.
@@ -44,13 +45,21 @@ Header file: `sneaker/threading/daemon_service.h`
     successfully, `true` is successful, `false` otherwise.
 
 
-.. cpp:class:: sneaker::threading::fixed_time_interval_daemon_service
----------------------------------------------------------------------
+Fixed-time Interval Daemon Service
+==================================
 
 A deriving type of `sneaker::threading::daemon_service` where the code is
 executed over a regular time interval.
 
 Header file: `sneaker/threading/fixed_time_interval_daemon_service.h`
+
+.. cpp:class:: sneaker::threading::fixed_time_interval_daemon_service
+---------------------------------------------------------------------
+
+  .. cpp:type:: typedef void(*ExternalHandler)(void*)
+    :noindex:
+
+    Type of the external handler to be invoked.
 
   .. cpp:function:: fixed_time_interval_daemon_service(size_t, ExternalHandler, bool, size_t)
     :noindex:
@@ -62,7 +71,12 @@ Header file: `sneaker/threading/fixed_time_interval_daemon_service.h`
     background thread which it is running, and the last argument specifies the
     maximum number of iterations to run.
 
-  .. cpp:function:: ~fixed_time_interval_daemon_service()
+  .. cpp:function:: virtual ~fixed_time_interval_daemon_service()
     :noindex:
 
     Destructor. The background thread created is destroyed.
+
+  .. cpp:function:: size_t interval() const
+    :noindex:
+
+    Returns the time interval of the daemon.

@@ -34,7 +34,7 @@ namespace threading {
 
 class daemon_service {
 public:
-  daemon_service(bool=false);
+  explicit daemon_service(bool=false);
   virtual ~daemon_service();
 
   virtual bool start();

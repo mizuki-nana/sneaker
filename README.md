@@ -1,14 +1,14 @@
-sneaker
+Sneaker
 =======
 
 ![logo](https://raw.github.com/yanzhengli/sneaker/dev/resources/logo_128x128.png)
 
-[![Build status](https://api.travis-ci.org/yanzhengli/sneaker.png)](https://travis-ci.org/yanzhengli/sneaker)
+[![Build status](https://travis-ci.org/yanzhengli/sneaker.svg?branch=dev)](https://travis-ci.org/yanzhengli/sneaker)
 [![Docs build status](https://readthedocs.org/projects/sneaker/badge/?version=latest)](https://readthedocs.org/projects/sneaker/)
 [![Coverage Status](https://coveralls.io/repos/github/yanzhengli/sneaker/badge.svg?branch=dev)](https://coveralls.io/github/yanzhengli/sneaker?branch=dev)
 
 
-_sneaker_ is a collection of modern and versatile C++ components that are useful
+_Sneaker_ is a collection of modern and versatile C++ components that are useful
 in many application development scenarios.
 
 The designs and implementations in the library are based on the philosophy that
@@ -28,7 +28,7 @@ management and function decorators, which are all prevalent features in Python.
 
 ## Overview
 
-_sneaker_ is consisted of the following major components:
+_Sneaker_ is consisted of the following major components:
 
 * [libc](https://github.com/yanzhengli/sneaker/tree/dev/include/libc) - C utilities
 * [algorithm](https://github.com/yanzhengli/sneaker/tree/dev/include/algorithm) - a collection of advanced algorithms
@@ -38,6 +38,7 @@ _sneaker_ is consisted of the following major components:
 * [context](https://github.com/yanzhengli/sneaker/tree/dev/include/context) - context management
 * [functional](https://github.com/yanzhengli/sneaker/tree/dev/include/functional) - versatile function wrappers that support asynchronous invocations
 * [I/O](https://github.com/yanzhengli/sneaker/tree/dev/include/io) - general I/O utilities
+* [logging](https://github.com/yanzhengli/sneaker/tree/dev/include/logging) - extensible logging facilities
 * [json](https://github.com/yanzhengli/sneaker/tree/dev/include/json) - JSON serialization, deserialization and schema validation
 * [threading](https://github.com/yanzhengli/sneaker/tree/dev/include/threading) - thread management and daemons
 * [utility](https://github.com/yanzhengli/sneaker/tree/dev/include/utility) - miscellaneous utilities
@@ -65,4 +66,4 @@ _sneaker_ is consisted of the following major components:
 
 
 ## License
-*sneaker* is licensed under [The MIT License](http://opensource.org/licenses/MIT).
+*Sneaker* is licensed under [The MIT License](http://opensource.org/licenses/MIT).

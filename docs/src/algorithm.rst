@@ -28,6 +28,8 @@ Header file: `sneaker/algorithm/tarjan.h`
 
   .. code-block:: cpp
 
+    #include <sneaker/algorithm/tarjan.h>
+
     /* Tests the following object graph:
      * (1) -> (2) -> (3)
      * ^             |
@@ -36,7 +38,7 @@ Header file: `sneaker/algorithm/tarjan.h`
 
     using namespace sneaker::algorithm;
 
-    std::list<tarjan<int>::vertex*> vertices;
+    std::vector<tarjan<int>::vertex*> vertices;
 
     tarjan<int>::vertex v1(1);
     tarjan<int>::vertex v2(2);
@@ -59,15 +61,20 @@ Header file: `sneaker/algorithm/tarjan.h`
     assert(0 == components.independent_components().size());
     assert(1 == components.cycles().size());
 
-  .. cpp:type:: Enumerable
+  .. cpp:type:: typedef std::vector<T> Enumerable
     :noindex:
 
     Type represents each strongly connected component in the graph.
 
+  .. cpp:type:: typedef std::vector<vertex*> VerticesSet
+    :noindex:
+
+    Type of a set of vertices in the graph.
+
   .. cpp:class:: sneaker::algorithm::tarjan<T>::vertex
   ----------------------------------------------------
 
-    Represents a vertex in a connected graph.
+    Type represents a vertex in a graph.
 
     .. cpp:function:: vertex()
       :noindex:
@@ -98,13 +105,13 @@ Header file: `sneaker/algorithm/tarjan.h`
       :noindex:
 
       Returns an iterator that points to the beginning of the
-      neighbors list.
+      neighbor vertices.
 
     .. cpp:function:: iterator end()
       :noindex:
 
       Returns an iterator that points to the end of the
-      neighbors list.
+      neighbor vertices.
 
     .. cpp:function:: int index() const
       :noindex:
@@ -131,7 +138,7 @@ Header file: `sneaker/algorithm/tarjan.h`
 
       Sets the low link value of this vertex.
 
-    .. cpp:function:: std::list<vertex*>& dependencies()
+    .. cpp:function:: VerticesSet& dependencies()
       :noindex:
 
       Returns the list of neighbor vertices.
@@ -139,14 +146,14 @@ Header file: `sneaker/algorithm/tarjan.h`
   .. cpp:class:: sneaker::algorithm::tarjan<T>::strongly_connected_component_list
   -------------------------------------------------------------------------------
 
-    Represents a list of strongly connected components in a directed graph.
+    Represents a set of strongly connected components in a directed graph.
 
     .. cpp:function:: strongly_connected_component_list()
       :noindex:
 
       Constructor.
 
-    .. cpp:function:: void add(std::list<T>)
+    .. cpp:function:: void add(const Enumerable&)
       :noindex:
 
       Adds a strongly connected component list to the collection.
@@ -156,23 +163,23 @@ Header file: `sneaker/algorithm/tarjan.h`
 
       Returns the number of strongly connected components in the graph.
 
-    .. cpp:function:: std::list<Enumerable> independent_components() const
+    .. cpp:function:: std::vector<Enumerable> independent_components() const
       :noindex:
 
-      Gets the list of independent components in the graph.
+      Gets the set of independent components in the graph.
 
-    .. cpp:function:: std::list<Enumerable> cycles() const
+    .. cpp:function:: std::vector<Enumerable> cycles() const
       :noindex:
 
-      Gets the list of cycles in the graph.
+      Gets the set of cycles in the graph.
 
-  .. cpp:function:: explicit tarjan()
+  .. cpp:function:: tarjan()
     :noindex:
 
     Constructor.
 
-  .. cpp:function:: strongly_connected_component_list get_components(std::list<vertex*>&)
+  .. cpp:function:: strongly_connected_component_list get_components(const VerticesSet&)
     :noindex:
 
-    Given a list of vertices in a graph, returns a list of connected components
+    Given a set of vertices in a graph, returns a set of connected components
     in the graph.

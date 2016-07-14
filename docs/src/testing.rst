@@ -33,7 +33,7 @@ Header file: `sneaker/testing/fixture_based_test.h`
 
     Constructor that takes a fixture teardown handler.
 
-  .. cpp:function:: add_fixture(T)
+  .. cpp:function:: void add_fixture(T)
     :noindex:
 
     Adds a fixture to be managed by this class.

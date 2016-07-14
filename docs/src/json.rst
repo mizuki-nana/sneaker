@@ -34,10 +34,10 @@ Here is an example of parsing a JSON blob into its corresponding data object.
 
 .. code-block:: cpp
 
+  #include <sneaker/json/json.h>
   #include <cassert>
   #include <iostream>
   #include <string>
-  #include <sneaker/json/json.h>
 
   using namespace sneaker::json;
 
@@ -235,7 +235,7 @@ Header file: `sneaker/json/json.h`
 
     Gets the encapsulating floating numeric value of this JSON object.
 
-  .. cpp:function:: int int_value() const
+  .. cpp:function:: int64_t int_value() const
     :noindex:
 
     Gets the encapsulating integer numeric value of this JSON object.
@@ -333,9 +333,9 @@ Example:
 
 .. code-block:: cpp
 
-  #include <string>
   #include <sneaker/json/json.h>
   #include <sneaker/json/json_schema.h>
+  #include <string>
 
   using namespace sneaker::json;
 
