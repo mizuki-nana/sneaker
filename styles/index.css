@@ -98,10 +98,11 @@ a:hover {
 
 /* Footer */
 .footer {
-  color: #ddd;
+  color: #fff;
 }
 .footer a {
-  color: #ddd;
+  color: #fff;
+  font-size: 18px;
 }
 .footer a:hover {
   color: #eee;
