@@ -59,7 +59,7 @@ _Sneaker_ is consisted of the following major components:
   * [Styles and Guidelines](https://github.com/yanzhengli/sneaker/wiki/Styles-and-Guidelines)
   * [Development and Release Workflow](https://github.com/yanzhengli/sneaker/wiki/Development-and-Release-Workflow)
   * [Build Environments and Dependencies](https://github.com/yanzhengli/sneaker/wiki/Build-Environments-and-Dependencies)
-
+  * [Goals and Roadmap](https://github.com/yanzhengli/sneaker/wiki/Goals-and-Roadmap)
 
 ## Latest Version
 `version 0.3.0`
