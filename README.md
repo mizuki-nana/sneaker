@@ -30,19 +30,19 @@ management and function decorators, which are all prevalent features in Python.
 
 _Sneaker_ is consisted of the following major components:
 
-* [libc](https://github.com/yanzhengli/sneaker/tree/dev/include/libc) - C utilities
-* [algorithm](https://github.com/yanzhengli/sneaker/tree/dev/include/algorithm) - a collection of advanced algorithms
-* [allocator](https://github.com/yanzhengli/sneaker/tree/dev/include/allocator) - STL container allocator
-* [cache](https://github.com/yanzhengli/sneaker/tree/dev/include/cache) - in-memory cache management
-* [container](https://github.com/yanzhengli/sneaker/tree/dev/include/container) - versatile data structures
-* [context](https://github.com/yanzhengli/sneaker/tree/dev/include/context) - context management
-* [functional](https://github.com/yanzhengli/sneaker/tree/dev/include/functional) - versatile function wrappers that support asynchronous invocations
-* [I/O](https://github.com/yanzhengli/sneaker/tree/dev/include/io) - general I/O utilities
-* [logging](https://github.com/yanzhengli/sneaker/tree/dev/include/logging) - extensible logging facilities
-* [json](https://github.com/yanzhengli/sneaker/tree/dev/include/json) - JSON serialization, deserialization and schema validation
-* [threading](https://github.com/yanzhengli/sneaker/tree/dev/include/threading) - thread management and daemons
-* [utility](https://github.com/yanzhengli/sneaker/tree/dev/include/utility) - miscellaneous utilities
-* [testing](https://github.com/yanzhengli/sneaker/tree/dev/include/testing) - testing utilities
+* [libc](https://sneaker.readthedocs.io/en/latest/src/libc.html) - C utilities
+* [algorithm](https://sneaker.readthedocs.io/en/latest/src/algorithm.html) - a collection of advanced algorithms
+* [allocator](https://sneaker.readthedocs.io/en/latest/src/allocator.html) - STL container allocator
+* [cache](https://sneaker.readthedocs.io/en/latest/src/cache.html) - in-memory cache management
+* [container](https://sneaker.readthedocs.io/en/latest/src/container.html) - versatile data structures
+* [context](https://sneaker.readthedocs.io/en/latest/src/context.html) - context management
+* [functional](https://sneaker.readthedocs.io/en/latest/src/functional.html) - versatile function wrappers that support asynchronous invocations
+* [I/O](https://sneaker.readthedocs.io/en/latest/src/io.html) - general I/O utilities
+* [logging](https://sneaker.readthedocs.io/en/latest/src/logging.html) - extensible logging facilities
+* [json](https://sneaker.readthedocs.io/en/latest/src/json.html) - JSON serialization, deserialization and schema validation
+* [threading](https://sneaker.readthedocs.io/en/latest/src/threading.html) - thread management and daemons
+* [utility](https://sneaker.readthedocs.io/en/latest/src/utility.html) - miscellaneous utilities
+* [testing](https://sneaker.readthedocs.io/en/latest/src/testing.html) - testing utilities
 
 
 ## Get Started
