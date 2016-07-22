@@ -4,7 +4,7 @@ Sneaker
 ![logo](https://raw.github.com/yanzhengli/sneaker/dev/resources/logo_128x128.png)
 
 [![Build status](https://travis-ci.org/yanzhengli/sneaker.svg?branch=dev)](https://travis-ci.org/yanzhengli/sneaker)
-[![Docs build status](https://readthedocs.org/projects/sneaker/badge/?version=latest)](https://readthedocs.org/projects/sneaker/)
+[![Docs build status](https://readthedocs.org/projects/sneaker/badge/?version=latest)](https://sneaker.readthedocs.io/en/latest/)
 [![Coverage Status](https://coveralls.io/repos/github/yanzhengli/sneaker/badge.svg?branch=dev)](https://coveralls.io/github/yanzhengli/sneaker?branch=dev)
 
 
