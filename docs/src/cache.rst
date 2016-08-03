@@ -5,31 +5,36 @@ In-memory Cache Management
 Components that manage caching of in-memory objects.
 
 
-Generic Cache
-=============
+Cache Interface
+===============
 
-A generic key-value based in-memory cache, where the creation and destruction of
-elements in the cache are controlled by custom handler types.
+*Sneaker* provides a generic and extensible cache interface that allows the use of
+different caching schemes by the choices of users. This is the public interface that
+users whom wish to use the caching mechanism will interact with.
 
-Header file: `sneaker/cache/generic_cache.h`
 
-.. cpp:class:: sneaker::cache::generic_cache<K, T, CreateHandler, DestroyHandler>
----------------------------------------------------------------------------------
+Header file: `sneaker/cache/cache_interface.h`
 
-  .. cpp:function:: explicit generic_cache(CreateHandler, DestroyHandler)
+.. cpp:class:: sneaker::cache::cache_interface<class CacheScheme, class OnInsert, class OnErase>
+------------------------------------------------------------------------------------------------
+
+  This class allows users to define a cache scheme, as well as an abstraction of action
+  that is going to occur during insertions and erasures of cache values.
+
+  .. cpp:type:: key_type
     :noindex:
 
-    Constructor. Takes an instance of `CreationHandler`
-    (signature `bool(*)(K, T*)`) and an instance of `DestroyHandler`
-    (signature `bool(*)(K, T*)`). The creation handler is invoked every time an
-    element is created or updated, and the destroy handler is invoked when an
-    element is erased from the cache.
+    Type of the keys in the cache.
 
-  .. cpp:function:: ~generic_cache()
+  .. cpp:type:: value_type
     :noindex:
 
-    Destructor. Upon invoked, all the values in the cache are destroyed by the
-    destroy handler.
+    Type of the values in the cache.
+
+  .. cpp:function:: cache_interface(OnInsert on_insert, OnErase on_erase)
+    :noindex:
+
+    Constructor that takes an instance of `OnInsert` and `OnErase` each.
 
   .. cpp:function:: bool empty() const
     :noindex:
@@ -42,33 +47,27 @@ Header file: `sneaker/cache/generic_cache.h`
 
     Gets the number of elements in the cache.
 
-  .. cpp:function:: bool member(K) const
+  .. cpp:function:: bool find(key_type) const
     :noindex:
 
     Determines if the value associated with the specified key is in the cache.
     Returns `true` if there is a value associated with the key in the cache,
     `false` otherwise.
 
-  .. cpp:function:: bool get(K, T*)
+  .. cpp:function:: bool get(key_type, value_type&)
     :noindex:
 
     Retrieves the element associated with the specified key in the cache.
-    The first argument is the key, and the second argument is a pointer that is
-    set to point to the value if found. If the key-value pair does not exist,
-    it is automaticaly created. Returns `true` if the value is found, `false`
-    otherwise.
+    The first argument is the key, and the second argument is a reference
+    of the result value associated with the key. Returns `true` if the
+    value is found, `false` otherwise.
 
-  .. cpp:function:: bool put(K, bool=false)
+  .. cpp:function:: bool insert(key_type, const value_type&)
     :noindex:
 
-    Constructs the element with the specified key and stores it in the cache.
-    The first argument specifies the key, and the second argument is a boolean
-    value indicating whether to force update if the key-value pair already
-    exists. If set to force update, then the existing key-value pair is
-    destroyed and re-created. Returns a boolean indicating whether an update has
-    occured.
+    Inserts a key-value pair into the cache.
 
-  .. cpp:function: bool erase(K)
+  .. cpp:function: bool erase(key_type)
     :noindex:
 
     Erase the element associated with the specified key in the cache. The first
@@ -79,3 +78,36 @@ Header file: `sneaker/cache/generic_cache.h`
     :noindex:
 
     Clears the cache by destroying all elements within.
+
+
+Cache Schemes
+=============
+
+*Sneaker* provides abstractions of some of the most well-known caching schemes to users.
+These abstractions are meant to be used with the cache interface described above.
+
+LRU Cache
+---------
+
+This class encapsulates the logic of the *Least-Recently Used* caching scheme.
+
+Header file: `sneaker/cache/lru_cache.h`
+
+.. cpp:class:: sneaker::cache::lru_cache<typename K, typename V, size_t N>
+--------------------------------------------------------------------------
+
+  .. cpp:type:: key_type
+    :noindex:
+
+    Type of the keys in the cache.
+
+  .. cpp:type:: value_type
+    :noindex:
+
+    Type of the values in the cache.
+
+  .. cpp:member:: size_t N
+    :noindex:
+
+    The size of the cache.
+
