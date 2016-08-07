@@ -46,15 +46,6 @@ a:hover {
 
 
 /* Header */
-.header-brand {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-.header-brand a:hover {
-  color: #eee;
-  text-decoration: none;
-}
-
 .header-nav > li {
   display: inline-block;
 }
@@ -81,9 +72,6 @@ a:hover {
 }
 
 @media (min-width: 768px) {
-  .header-brand {
-    float: left;
-  }
   .header-nav {
     float: right;
   }
