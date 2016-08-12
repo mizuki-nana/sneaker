@@ -148,6 +148,65 @@ TEST_F(lru_cache_unittest, TestInsertAndFindOneItem)
 
 // -----------------------------------------------------------------------------
 
+TEST_F(lru_cache_unittest, TestInsertLessThanNItems)
+{
+  const size_t M = N - 1;
+
+  const char* keys[M] = { "a", "b" };
+  const char* values[M] = { "airplane", "boat" };
+
+  for (size_t i = 0; i < M; ++i)
+  {
+    m_fixture.m_cache.insert(keys[i], values[i]);
+  }
+
+  ASSERT_EQ(false, m_fixture.m_cache.empty());
+
+  ASSERT_EQ(M, m_fixture.m_cache.size());
+  ASSERT_EQ(M, m_fixture.truth_map.size());
+
+  const char* actual_value = NULL;
+  bool res = m_fixture.m_cache.get("a", actual_value);
+
+  ASSERT_EQ(true, res);
+  assert(actual_value);
+  ASSERT_STREQ("airplane", actual_value);
+
+  res = m_fixture.m_cache.get("b", actual_value);
+
+  ASSERT_EQ(true, res);
+  assert(actual_value);
+  ASSERT_STREQ("boat", actual_value);
+
+  m_fixture.m_cache.insert("c", "car");
+
+  ASSERT_EQ(N, m_fixture.m_cache.size());
+  ASSERT_EQ(N, m_fixture.truth_map.size());
+
+  ASSERT_EQ(true, m_fixture.m_cache.find("c"));
+
+  res = m_fixture.m_cache.get("c", actual_value);
+
+  ASSERT_EQ(true, res);
+  assert(actual_value);
+  ASSERT_STREQ("car", actual_value);
+
+  // Test clearing on the cache.
+  m_fixture.m_cache.clear();
+
+  ASSERT_EQ(0, m_fixture.m_cache.size());
+
+  // Truth map's size is still `N` because calling `clear()` does not
+  // invoke the erase handler.
+  ASSERT_EQ(N, m_fixture.truth_map.size());
+
+  ASSERT_EQ(false, m_fixture.m_cache.find("a"));
+  ASSERT_EQ(false, m_fixture.m_cache.find("b"));
+  ASSERT_EQ(false, m_fixture.m_cache.find("c"));
+}
+
+// -----------------------------------------------------------------------------
+
 TEST_F(lru_cache_unittest, TestInsertOverNItems)
 {
   const char* keys[N] = { "a", "b", "c" };

@@ -31,10 +31,10 @@ Header file: `sneaker/cache/cache_interface.h`
 
     Type of the values in the cache.
 
-  .. cpp:function:: cache_interface(OnInsert on_insert, OnErase on_erase)
+  .. cpp:function:: cache_interface(const OnInsert& on_insert, const OnErase& on_erase)
     :noindex:
 
-    Constructor that takes an instance of `OnInsert` and `OnErase` each.
+    Constructor that takes a reference of `OnInsert` and `OnErase` instances each.
 
   .. cpp:function:: bool empty() const
     :noindex:

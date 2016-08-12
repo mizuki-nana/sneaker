@@ -39,7 +39,7 @@ public:
   typedef typename CacheScheme::key_type key_type;
   typedef typename CacheScheme::value_type value_type;
 
-  cache_interface(OnInsert on_insert, OnErase on_erase)
+  cache_interface(const OnInsert& on_insert, const OnErase& on_erase)
     :
     m_on_insert(on_insert),
     m_on_erase(on_erase),

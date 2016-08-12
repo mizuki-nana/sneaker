@@ -44,9 +44,6 @@ public:
   template<class OnInsert, class OnErase>
   class impl
   {
-    typedef boost::bimaps::bimap<boost::bimaps::unordered_set_of<key_type>,
-      boost::bimaps::list_of<value_type>> container_type;
-
   public:
     impl(OnInsert& on_insert, OnErase& on_erase)
       :
@@ -122,6 +119,9 @@ public:
     }
 
   private:
+    typedef boost::bimaps::bimap<boost::bimaps::unordered_set_of<key_type>,
+      boost::bimaps::list_of<value_type>> container_type;
+
     OnInsert& m_on_insert;
     OnErase& m_on_erase;
     container_type m_container;
