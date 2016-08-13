@@ -59,7 +59,7 @@ _Sneaker_ is consisted of the following major components:
   * [Goals and Roadmap](https://github.com/yanzhengli/sneaker/wiki/Goals-and-Roadmap)
 
 ## Latest Version
-`version 0.3.0`
+`version 0.3.1`
 
 
 ## License
