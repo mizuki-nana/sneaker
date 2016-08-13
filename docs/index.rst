@@ -56,7 +56,6 @@ Content
 
    src/libc
    src/allocator
-   src/atomic
    src/cache
    src/container
    src/context

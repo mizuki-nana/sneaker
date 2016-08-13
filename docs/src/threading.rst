@@ -80,3 +80,64 @@ Header file: `sneaker/threading/fixed_time_interval_daemon_service.h`
     :noindex:
 
     Returns the time interval of the daemon.
+
+
+Atomic Incrementor
+==================
+
+An abstraction that encapsulates the logic to handle atomic incremental
+operations.
+
+Header file: `sneaker/threading/atomic.h`
+
+.. cpp:class:: sneaker::threading::atomic<T, T UPPER_LIMIT>
+-----------------------------------------------------------
+
+  .. cpp:function:: atomic()
+    :noindex:
+
+    Constructor that takes no arguments and initializes the initial value
+    of the encapsulating type to `0`.
+
+  .. cpp:function:: atomic(T value)
+    :noindex:
+
+    Constructor that takes a value of the encapsulating type and makes that
+    the initial value.
+
+  .. cpp:function:: atomic(const atomic<T, UPPER_LIMIT>&)
+    :noindex:
+
+    Copy constructor.
+
+  .. cpp:function:: atomic<T, UPPER_LIMIT>& operator=(const T&)
+    :noindex:
+
+    Assignment operator.
+
+  .. cpp:function:: atomic<T, UPPER_LIMIT>& operator++()
+    :noindex:
+
+    Pre-increment operator. If the value exceeds `UPPER_LIMIT` after
+    the increment, the value wraps backs to `0`.
+
+  .. cpp:function:: atomic<T, UPPER_LIMIT>& operator++(int)
+    :noindex:
+
+    Post-increment operator. If the value exceeds `UPPER_LIMIT` after
+    the increment, the value wraps backs to `0`.
+
+  .. cpp:function:: operator T() const
+    :noindex:
+
+    Conversion operator.
+
+  .. cpp:function:: bool operator==(const T&) const
+    :noindex:
+
+    Equality operator.
+
+  .. cpp:function:: bool operator!=(const T&) const
+    :noindex:
+
+    Inequality operator.

@@ -8,9 +8,9 @@ Components that manage caching of in-memory objects.
 Cache Interface
 ===============
 
-*Sneaker* provides a generic and extensible cache interface that allows the use of
-different caching schemes by the choices of users. This is the public interface that
-users whom wish to use the caching mechanism will interact with.
+*Sneaker* provides a generic and extensible cache interface that allows the use
+of different caching schemes by the choices of users. This is the public
+interface that users whom wish to use the caching mechanism will interact with.
 
 
 Header file: `sneaker/cache/cache_interface.h`
@@ -34,7 +34,8 @@ Header file: `sneaker/cache/cache_interface.h`
   .. cpp:function:: cache_interface(const OnInsert& on_insert, const OnErase& on_erase)
     :noindex:
 
-    Constructor that takes a reference of `OnInsert` and `OnErase` instances each.
+    Constructor that takes a reference of `OnInsert` and `OnErase` instances
+    each.
 
   .. cpp:function:: bool empty() const
     :noindex:
@@ -83,13 +84,38 @@ Header file: `sneaker/cache/cache_interface.h`
 Cache Schemes
 =============
 
-*Sneaker* provides abstractions of some of the most well-known caching schemes to users.
-These abstractions are meant to be used with the cache interface described above.
+*Sneaker* provides abstractions of some of the most well-known caching schemes
+to users. These abstractions are meant to be used with the cache interface
+described above.
 
 LRU Cache
 ---------
 
 This class encapsulates the logic of the *Least-Recently Used* caching scheme.
+
+Example:
+
+.. code-block:: cpp
+
+    #include <sneaker/cache/cache_interface.h>
+    #include <sneaker/cache/lru_cache.h>
+    #include <string>
+
+    typedef int KeyType;
+    typedef std::string ValueType;
+
+    struct InsertHandler
+    {
+        bool operator()(KeyType key, const ValueType& value) {}
+    };
+
+    struct EraseHandler
+    {
+        bool operator()(KeyType key, const ValueType& value) {}
+    };
+
+    typedef sneaker::cache::cache_interface<
+      sneaker::cache::lru_cache<KeyType, ValueType, 10>, InsertHandler, EraseHandler> CacheType;
 
 Header file: `sneaker/cache/lru_cache.h`
 
@@ -110,4 +136,3 @@ Header file: `sneaker/cache/lru_cache.h`
     :noindex:
 
     The size of the cache.
-
