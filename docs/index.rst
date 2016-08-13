@@ -54,6 +54,7 @@ Content
 .. toctree::
    :maxdepth: 2
 
+   src/build
    src/libc
    src/allocator
    src/cache
