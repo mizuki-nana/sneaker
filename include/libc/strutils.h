@@ -52,4 +52,3 @@ size_t strlcpy2(char *dst, const char *src, size_t size);
 
 
 #endif /* SNEAKER_STRUTILS_H_ */
-

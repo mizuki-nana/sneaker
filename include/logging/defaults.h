@@ -27,20 +27,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace logging {
-
 
 typedef logger<thread_safe_tag, exception_safe_tag> default_logger_type;
 
-
 default_logger_type* default_logger();
 
-
 } /* end namespace logging */
-
-
 } /* end namespace sneaker */
 
 

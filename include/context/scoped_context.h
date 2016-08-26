@@ -31,10 +31,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace context {
-
 
 // -----------------------------------------------------------------------------
 
@@ -84,10 +81,7 @@ void nested_context(const std::vector<context_manager*>& mngrs, F func, Args... 
 
 // -----------------------------------------------------------------------------
 
-
 } /* end namespace context */
-
-
 } /* end namespace sneaker */
 
 

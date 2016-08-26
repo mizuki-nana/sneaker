@@ -29,10 +29,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace cache {
-
 
 template<typename K, typename V, size_t N>
 class lru_cache
@@ -128,10 +125,7 @@ public:
   };
 };
 
-
 } /* end namespace cache */
-
-
 } /* end namespace sneaker */
 
 

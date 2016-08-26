@@ -80,10 +80,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace algorithm {
-
 
 template<class T>
 class tarjan
@@ -293,10 +290,7 @@ tarjan<T>::strong_connect(vertex* vtx)
 
 // -----------------------------------------------------------------------------
 
-
 } /* end namespace algorithm */
-
-
 } /* end namespace sneaker */
 
 

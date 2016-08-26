@@ -30,10 +30,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace functional {
-
 
 // -----------------------------------------------------------------------------
 
@@ -65,10 +62,7 @@ public:
 
 // -----------------------------------------------------------------------------
 
-
 } /* end namespace functional */
-
-
 } /* end namespace sneaker */
 
 

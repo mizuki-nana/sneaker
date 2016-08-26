@@ -25,18 +25,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace logging {
-
 
 struct thread_safe_tag {};
 struct thread_unsafe_tag {};
 
-
 } /* end namespace logging */
-
-
 } /* end namespace sneaker */
 
 

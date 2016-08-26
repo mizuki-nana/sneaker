@@ -30,10 +30,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace utility {
-
 
 class cmdline_program
 {
@@ -100,10 +97,7 @@ private:
   boost::program_options::variables_map m_opts_map;
 };
 
-
 } /* end namespace utility */
-
-
 } /* end namespace sneaker */
 
 

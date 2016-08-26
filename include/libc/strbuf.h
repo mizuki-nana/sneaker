@@ -59,4 +59,3 @@ int strbuf_append(strbuf_t strbuf, const c_str in_str);
 
 
 #endif /* SNEAKER_STRBUF_H_ */
-

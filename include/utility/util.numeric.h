@@ -27,10 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace utility {
-
 
 #define EPSILON(x) 1e-##x
 
@@ -42,10 +39,7 @@ floats_equal(T lhs, T rhs, T tolerance=static_cast<T>(EPSILON(4)))
   return std::fabs(lhs - rhs) < tolerance;
 }
 
-
 } /* end namespace utility */
-
-
 } /* end namespace sneaker */
 
 

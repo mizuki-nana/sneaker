@@ -53,10 +53,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace utility {
-
 
 template<size_t... ColumnSizes>
 class uniform_table
@@ -143,10 +140,7 @@ private:
   std::stringstream m_ss;
 };
 
-
 } /* end namespace utility */
-
-
 } /* end namespace sneaker */
 
 

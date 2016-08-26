@@ -32,4 +32,3 @@ typedef const char* cc_str;
 
 
 #endif /* SNEAKER_C_STR_H_ */
-

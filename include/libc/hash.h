@@ -49,4 +49,3 @@ unsigned long int hash_robert_jenkin(unsigned int k);
 
 
 #endif /* SNEAKER_HASH_H_ */
-

@@ -34,10 +34,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace threading {
-
 
 template<class T, T UPPER_LIMIT>
 class atomic
@@ -192,10 +189,7 @@ operator!=(const atomic<T, UPPER_LIMIT>& lhs,
 
 // -----------------------------------------------------------------------------
 
-
 } /* end namespace threading */
-
-
 } /* end namespace sneaker */
 
 

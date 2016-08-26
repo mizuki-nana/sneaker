@@ -31,10 +31,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace container {
-
 
 template<class T>
 class reservation_map {
@@ -203,10 +200,7 @@ reservation_map<T>::clear()
 
 // -----------------------------------------------------------------------------
 
-
 } /* end namespace container */
-
-
 } /* end namespace sneaker */
 
 

@@ -97,10 +97,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace json {
-
 
 // -----------------------------------------------------------------------------
 
@@ -206,10 +203,7 @@ JSON parse(const std::string& in);
 
 // -----------------------------------------------------------------------------
 
-
 } /* end namespace json */
-
-
 } /* end namespace sneaker */
 
 

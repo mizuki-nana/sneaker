@@ -30,10 +30,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace logging  {
-
 
 // Forward declaration of `log_scheme`.
 class log_scheme;
@@ -58,10 +55,7 @@ private:
   std::unique_ptr<log_scheme> m_log_scheme;
 };
 
-
 } /* end namespace logging */
-
-
 } /* end namespace sneaker */
 
 

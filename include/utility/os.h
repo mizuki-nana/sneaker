@@ -27,10 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace utility {
-
 
 // -----------------------------------------------------------------------------
 
@@ -78,10 +75,7 @@ uint64_t get_process_vm_rss();
 
 // -----------------------------------------------------------------------------
 
-
 } /* end namespace utility */
-
-
 } /* end namespace sneaker */
 
 

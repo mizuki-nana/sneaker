@@ -25,10 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace logging {
-
 
 class log_scheme
 {
@@ -37,10 +34,7 @@ public:
   virtual ~log_scheme();
 };
 
-
 } /* end namespace logging */
-
-
 } /* end namespace sneaker */
 
 

@@ -27,10 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace allocator {
-
 
 template<typename T>
 class object_traits {
@@ -116,10 +113,7 @@ void object_traits<T>::destroy(T* p)
 
 // -----------------------------------------------------------------------------
 
-
 } /* end namespace allocator */
-
-
 } /* end namespace sneaker */
 
 

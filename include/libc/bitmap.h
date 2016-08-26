@@ -59,4 +59,3 @@ void bitmap_clear(bitmap_t bitmap);
 
 
 #endif /* SNEAKER_BITMAP_H_ */
-

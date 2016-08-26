@@ -32,10 +32,7 @@ typedef void(*ExternalHandler)(void*);
 
 
 namespace sneaker {
-
-
 namespace threading {
-
 
 class fixed_time_interval_daemon_service
 {
@@ -55,10 +52,7 @@ private:
   std::unique_ptr<impl> m_impl;
 };
 
-
 } /* end namespace threading */
-
-
 } /* end namespace sneaker */
 
 

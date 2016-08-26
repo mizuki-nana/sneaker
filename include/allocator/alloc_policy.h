@@ -35,10 +35,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace allocator {
-
 
 template<typename T>
 class standard_alloc_policy {
@@ -160,10 +157,7 @@ inline bool operator!=(const standard_alloc_policy<T>& lhs,
 
 // -----------------------------------------------------------------------------
 
-
 } /* end namespace allocator */
-
-
 } /* end namespace sneaker */
 
 

@@ -34,10 +34,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace allocator {
-
 
 template<typename T, typename Policy=standard_alloc_policy<T>, typename Traits=object_traits<T>>
 class allocator: public Policy, public Traits {
@@ -167,10 +164,7 @@ inline bool operator!=(const allocator<T, P, Tr>& lhs,
 
 // -----------------------------------------------------------------------------
 
-
 } /* end namespace allocator */
-
-
 } /* end namespace sneaker */
 
 

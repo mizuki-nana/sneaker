@@ -30,10 +30,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace json {
-
 
 struct json_parser {
 public:
@@ -70,10 +67,7 @@ private:
   bool in_range(long x, long lower, long upper);
 };
 
-
 } /* end namespace json */
-
-
 } /* end namespace sneaker */
 
 

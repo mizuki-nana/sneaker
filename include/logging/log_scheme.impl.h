@@ -29,10 +29,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace logging {
-
 
 // -----------------------------------------------------------------------------
 
@@ -79,10 +76,7 @@ public:
 
 // -----------------------------------------------------------------------------
 
-
 } /* end namespace logging */
-
-
 } /* end namespace sneaker */
 
 

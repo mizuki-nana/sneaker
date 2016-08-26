@@ -104,10 +104,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace json {
-
 
 // -----------------------------------------------------------------------------
 
@@ -141,10 +138,7 @@ private:
 
 // -----------------------------------------------------------------------------
 
-
 } /* end namespace json */
-
-
 } /* end namespace sneaker */
 
 

@@ -35,10 +35,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace testing {
-
 
 template<class T>
 class fixture_based_test : public ::testing::Test {
@@ -89,10 +86,7 @@ fixture_based_test<T>::TearDown()
 
 // -----------------------------------------------------------------------------
 
-
 } /* end namespace testing */
-
-
 } /* end namespace sneaker */
 
 

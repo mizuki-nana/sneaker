@@ -29,10 +29,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace functional {
-
 
 template<class R, class... Args>
 class function {
@@ -151,10 +148,7 @@ using predicate = typename sneaker::functional::function<bool, Args...>;
 
 // -----------------------------------------------------------------------------
 
-
 } /* end namespace functional */
-
-
 } /* end namespace sneaker */
 
 

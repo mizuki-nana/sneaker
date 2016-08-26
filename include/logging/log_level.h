@@ -27,10 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace logging {
-
 
 enum class LogLevel : uint8_t
 {
@@ -41,10 +38,7 @@ enum class LogLevel : uint8_t
   LOG_LEVEL_FATAL
 };
 
-
 } /* end namespace logging */
-
-
 } /* end namespace sneaker */
 
 

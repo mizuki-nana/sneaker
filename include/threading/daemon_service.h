@@ -27,10 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace threading {
-
 
 class daemon_service {
 public:
@@ -53,10 +50,7 @@ private:
   bool m_wait_for_termination;
 };
 
-
 } /* end namespace threading */
-
-
 } /* end namespace sneaker */
 
 

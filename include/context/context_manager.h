@@ -27,10 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace context {
-
 
 class context_manager {
 public:
@@ -48,10 +45,7 @@ protected:
     const std::vector<sneaker::context::context_manager*>& mngrs, F func, Args... args);
 };
 
-
 } /* end namespace context */
-
-
 } /* end namespace sneaker */
 
 

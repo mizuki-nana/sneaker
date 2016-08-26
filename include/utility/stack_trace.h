@@ -27,10 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace utility {
-
 
 class stack_trace
 {
@@ -38,10 +35,7 @@ public:
   static void print_stack_trace(std::ostream& ost, unsigned int max_frames);
 };
 
-
 } /* end namespace utility */
-
-
 } /* end namespace sneaker */
 
 

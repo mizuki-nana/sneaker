@@ -59,10 +59,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace container {
-
 
 template<class K, class... ValueTypes>
 class unordered_assorted_value_map {
@@ -492,10 +489,7 @@ unordered_assorted_value_map<K, ValueTypes...>::get_allocator() const noexcept
 
 // -----------------------------------------------------------------------------
 
-
 } /* end namespace container */
-
-
 } /* end namespace sneaker */
 
 

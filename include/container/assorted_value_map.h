@@ -60,10 +60,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace container {
-
 
 template<class K, class... ValueTypes>
 class assorted_value_map {
@@ -460,10 +457,7 @@ assorted_value_map<K, ValueTypes...>::find(K key) const
 
 // -----------------------------------------------------------------------------
 
-
 } /* end namespace container */
-
-
 } /* end namespace sneaker */
 
 

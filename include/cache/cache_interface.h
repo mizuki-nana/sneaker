@@ -27,10 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace cache {
-
 
 template<class CacheScheme, class OnInsert, class OnErase>
 class cache_interface
@@ -88,10 +85,7 @@ private:
   typename CacheScheme::template impl<OnInsert, OnErase> m_scheme;
 };
 
-
 } /* end namespace cache */
-
-
 } /* end namespace sneaker */
 
 

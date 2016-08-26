@@ -80,4 +80,3 @@ atoi(const char *str);
 
 
 #endif /* SNEAKER_C_UTILS_H_ */
-

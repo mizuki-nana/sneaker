@@ -72,4 +72,3 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // -----------------------------------------------------------------------------
 
 #endif /* SNEAKER_ASSERT_H_ */
-

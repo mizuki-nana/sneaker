@@ -29,10 +29,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace utility {
-
 
 void hex_to_bytes(const unsigned char* src, size_t src_len, unsigned char* dst);
 
@@ -48,10 +45,7 @@ void bytes_to_hex(const unsigned char* src, size_t src_len, unsigned char* dst);
 
 void bytes_to_hex(const std::string& src, std::string* dst);
 
-
 } /* end namespace utility */
-
-
 } /* end namespace sneaker */
 
 

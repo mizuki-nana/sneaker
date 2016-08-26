@@ -31,10 +31,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace io {
-
 
 class file_reader
 {
@@ -53,10 +50,7 @@ protected:
   std::string m_path;
 };
 
-
 } /* end namespace io */
-
-
 } /* end namespace sneaker */
 
 

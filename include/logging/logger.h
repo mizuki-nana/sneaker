@@ -34,10 +34,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 namespace sneaker {
-
-
 namespace logging {
-
 
 // -----------------------------------------------------------------------------
 
@@ -154,10 +151,7 @@ logger<thread_safe_tag, exception_unsafe_tag>::write(LogLevel log_lvl,
 
 // -----------------------------------------------------------------------------
 
-
 } /* end namespace logging */
-
-
 } /* end namespace sneaker */
 
 
