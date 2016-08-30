@@ -38,91 +38,86 @@ public:
   typedef K key_type;
   typedef V value_type;
 
-  template<class OnInsert, class OnErase>
-  class impl
+  lru_cache()
+    :
+    m_container()
   {
-  public:
-    impl(OnInsert& on_insert, OnErase& on_erase)
-      :
-      m_on_insert(on_insert),
-      m_on_erase(on_erase),
-      m_container()
+  }
+
+  bool empty() const
+  {
+    return m_container.empty();
+  }
+
+  bool full() const
+  {
+    return m_container.size() == N;
+  }
+
+  size_t size() const
+  {
+    return m_container.size();
+  }
+
+  bool find(key_type key) const
+  {
+    return m_container.left.find(key) != m_container.left.end();
+  }
+
+  bool get(const key_type& key, value_type& res)
+  {
+    const typename container_type::left_iterator it =
+      m_container.left.find(key);
+
+    if (it != m_container.left.end())
     {
+      m_container.right.relocate(m_container.right.end(),
+        m_container.project_right(it));
+
+      res = it->second;
+
+      return true;
     }
 
-    size_t empty() const
+    return false;
+  }
+
+  void next_erasure_pair(key_type** key_ptr, value_type** value_ptr)
+  {
+    if (full())
     {
-      return m_container.empty();
+      auto remove_itr = m_container.right.begin();
+      *key_ptr = const_cast<key_type*>(&(*remove_itr).get_left());
+      *value_ptr = &(*remove_itr).get_right();
+    }
+  }
+
+  void insert(key_type key, const value_type& value)
+  {
+    if (full())
+    {
+      auto remove_itr = m_container.right.begin();
+      m_container.right.erase(remove_itr);
     }
 
-    size_t size() const
-    {
-      return m_container.size();
-    }
+    m_container.insert(typename container_type::value_type(key, value));
+  }
 
-    bool find(key_type key) const
-    {
-      return m_container.left.find(key) != m_container.left.end();
-    }
+  bool erase(key_type key)
+  {
+    return m_container.left.erase(key);
+  }
 
-    bool get(const key_type& key, value_type& res)
-    {
-      const typename container_type::left_iterator it =
-        m_container.left.find(key);
+  void clear()
+  {
+    m_container.clear();
+  }
 
-      if (it != m_container.left.end())
-      {
-        m_container.right.relocate(m_container.right.end(),
-          m_container.project_right(it));
+private:
+  typedef boost::bimaps::bimap<boost::bimaps::unordered_set_of<key_type>,
+    boost::bimaps::list_of<value_type>> container_type;
 
-        res = it->second;
-
-        return true;
-      }
-
-      return false;
-    }
-
-    void insert(key_type key, const value_type& value)
-    {
-      if (m_container.size() == N)
-      {
-        auto remove_itr = m_container.right.begin();
-        m_on_erase((*remove_itr).get_left(), (*remove_itr).get_right());
-
-        m_container.right.erase(remove_itr);
-      }
-
-      m_container.insert(typename container_type::value_type(key, value));
-
-      m_on_insert(key, value);
-    }
-
-    bool erase(key_type key)
-    {
-      const bool res = m_container.erase(key);
-
-      if (res)
-      {
-        m_on_erase(key);
-      }
-
-      return res;
-    }
-
-    void clear()
-    {
-      m_container.clear();
-    }
-
-  private:
-    typedef boost::bimaps::bimap<boost::bimaps::unordered_set_of<key_type>,
-      boost::bimaps::list_of<value_type>> container_type;
-
-    OnInsert& m_on_insert;
-    OnErase& m_on_erase;
-    container_type m_container;
-  };
+  container_type m_container;
 };
 
 } /* end namespace cache */

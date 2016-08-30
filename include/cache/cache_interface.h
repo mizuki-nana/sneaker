@@ -40,13 +40,18 @@ public:
     :
     m_on_insert(on_insert),
     m_on_erase(on_erase),
-    m_scheme(m_on_insert, m_on_erase)
+    m_scheme()
   {
   }
 
   bool empty() const
   {
     return m_scheme.empty();
+  }
+
+  bool full() const
+  {
+    return m_scheme.full();
   }
 
   size_t size() const
@@ -66,12 +71,26 @@ public:
 
   void insert(key_type key, const value_type& value)
   {
+    if (m_scheme.full())
+    {
+      key_type *key_ptr = NULL;
+      value_type* value_ptr = NULL;
+      m_scheme.next_erasure_pair(&key_ptr, &value_ptr);
+      m_on_erase(*key_ptr, *value_ptr);
+    }
+
     m_scheme.insert(key, value);
+
+    m_on_insert(key, value);
   }
 
   bool erase(key_type key)
   {
-    return m_scheme.erase(key);
+    bool erased = m_scheme.erase(key);
+    if (erased)
+    {
+      m_on_erase(key);
+    }
   }
 
   void clear()
@@ -82,7 +101,7 @@ public:
 private:
   OnInsert m_on_insert;
   OnErase m_on_erase;
-  typename CacheScheme::template impl<OnInsert, OnErase> m_scheme;
+  CacheScheme m_scheme;
 };
 
 } /* end namespace cache */

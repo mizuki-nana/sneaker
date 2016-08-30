@@ -21,14 +21,13 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
 
-/* Unit test for `generic_cache` in sneaker/cache/lru_cache.h */
+/* Unit test for `lru_cache` in sneaker/cache/lru_cache.h */
 
-#include "cache/cache_interface.h"
 #include "cache/lru_cache.h"
 
 #include "testing/testing.h"
 
-#include <unordered_map>
+#include <string>
 
 
 // -----------------------------------------------------------------------------
@@ -41,199 +40,131 @@ const size_t N = 3;
 
 // -----------------------------------------------------------------------------
 
-struct lru_cache_unittest_fixture
+class lru_cache_unittest : public ::testing::Test
 {
-  typedef const char* K;
-  typedef const char* T;
-
-  std::unordered_map<K, T> truth_map;
-
-  lru_cache_unittest_fixture()
-    :
-    m_cache(
-      &lru_cache_unittest_fixture::StaticOnInsert,
-      &lru_cache_unittest_fixture::StaticOnErase)
-  {
-  }
-
-  static void StaticOnInsert(K key, const T& value)
-  {
-    instance_->OnInsert(key, value);
-  }
-
-  static void StaticOnErase(K key, const T& value)
-  {
-    instance_->OnErase(key, value);
-  }
-
-  static void set_instance(lru_cache_unittest_fixture* instance)
-  {
-    instance_ = instance;
-  }
-
-  void OnInsert(K key, const T& value)
-  {
-    truth_map.insert(std::make_pair(key, value));
-  }
-
-  void OnErase(K key, const T& /* value */)
-  {
-    truth_map.erase(key);
-  }
-
-  sneaker::cache::cache_interface<sneaker::cache::lru_cache<K, T, N>,
-    void(*)(K, const T&), void(*)(K, const T&)> m_cache;
-
-private:
-  static lru_cache_unittest_fixture *instance_;
-};
-
-// -----------------------------------------------------------------------------
-
-lru_cache_unittest_fixture* lru_cache_unittest_fixture::instance_ = NULL;
-
-// -----------------------------------------------------------------------------
-
-class lru_cache_unittest : public ::testing::Test {
 protected:
-
-  virtual void SetUp() {
-    lru_cache_unittest_fixture::set_instance(&m_fixture);
-  }
-
-  void check_item_created(const char* item) const {
-    check_item_in_truth_table(item, true);
-  }
-
-  void check_item_destroyed(const char* item) const {
-    check_item_in_truth_table(item, false);
-  }
-
-  void check_item_in_truth_table(const char* item, bool in) const {
-    auto itr = m_fixture.truth_map.find(item);
-    ASSERT_EQ(itr != m_fixture.truth_map.end(), in);
-  }
-
-  lru_cache_unittest_fixture m_fixture;
+  sneaker::cache::lru_cache<std::string, size_t, N> m_cache;
 };
 
 // -----------------------------------------------------------------------------
 
 TEST_F(lru_cache_unittest, TestInitialization)
 {
-  assert(m_fixture.m_cache.empty());
-  assert(m_fixture.m_cache.size() == 0);
+  ASSERT_EQ(true, m_cache.empty());
+  ASSERT_EQ(false, m_cache.full());
+  ASSERT_EQ(0, m_cache.size());
 }
 
 // -----------------------------------------------------------------------------
 
-TEST_F(lru_cache_unittest, TestInsertAndFindOneItem)
+TEST_F(lru_cache_unittest, TestInsertAndGet)
 {
-  const char* key = "a";
-  const char* value = "apple";
+  std::string key1("apple");
+  size_t val1 = key1.size();
 
-  m_fixture.m_cache.insert(key, value);
-  ASSERT_EQ(1, m_fixture.m_cache.size());
+  std::string key2("orange");
+  size_t val2 = key2.size();
 
-  check_item_created(key);
+  std::string key3("banana");
+  size_t val3 = key3.size();
 
-  ASSERT_EQ(true, m_fixture.m_cache.find(key));
+  m_cache.insert(key1, val1);
 
-  const char* actual_value = NULL;
-  const bool res = m_fixture.m_cache.get(key, actual_value);
+  ASSERT_EQ(false, m_cache.empty());
+  ASSERT_EQ(false, m_cache.full());
+  ASSERT_EQ(1, m_cache.size());
+
+  size_t actual_val1 = 0;
+  bool res = m_cache.get(key1, actual_val1);
   ASSERT_EQ(true, res);
-  assert(actual_value);
-  ASSERT_STREQ(value, actual_value);
+  ASSERT_EQ(val1, actual_val1);
+
+  m_cache.insert(key2, val2);
+
+  ASSERT_EQ(false, m_cache.empty());
+  ASSERT_EQ(false, m_cache.full());
+  ASSERT_EQ(2, m_cache.size());
+
+  size_t actual_val2 = 0;
+  res = m_cache.get(key2, actual_val2);
+  ASSERT_EQ(true, res);
+  ASSERT_EQ(val2, actual_val2);
+
+  m_cache.insert(key3, val3);
+
+  ASSERT_EQ(false, m_cache.empty());
+  ASSERT_EQ(true, m_cache.full());
+  ASSERT_EQ(3, m_cache.size());
+
+  size_t actual_val3 = 0;
+  res = m_cache.get(key3, actual_val3);
+  ASSERT_EQ(true, res);
+  ASSERT_EQ(val3, actual_val3);
+
+  std::string* key_ptr = NULL;
+  size_t* val_ptr = NULL;
+
+  m_cache.next_erasure_pair(&key_ptr, &val_ptr);
+  ASSERT_NE(nullptr, key_ptr);
+  ASSERT_NE(nullptr, val_ptr);
+
+  ASSERT_EQ(key1, *key_ptr);
+  ASSERT_EQ(val1, *val_ptr);
+
+  std::string key4("watermelon");
+  size_t val4 = key4.size();
+
+  m_cache.insert(key4, val4);
+
+  ASSERT_EQ(false, m_cache.empty());
+  ASSERT_EQ(true, m_cache.full());
+  ASSERT_EQ(3, m_cache.size());
+
+  res = m_cache.find(key1);
+  ASSERT_EQ(false, res);
+
+  size_t actual_val4 = 0;
+  res = m_cache.get(key4, actual_val4);
+  ASSERT_EQ(true, res);
+  ASSERT_EQ(val4, actual_val4);
+
+  m_cache.clear();
+
+  ASSERT_EQ(true, m_cache.empty());
+  ASSERT_EQ(false, m_cache.full());
+  ASSERT_EQ(0, m_cache.size());
 }
 
 // -----------------------------------------------------------------------------
 
-TEST_F(lru_cache_unittest, TestInsertLessThanNItems)
+TEST_F(lru_cache_unittest, TestInsertAndErase)
 {
-  const size_t M = N - 1;
+  std::string key("apple");
+  size_t val = key.size();
 
-  const char* keys[M] = { "a", "b" };
-  const char* values[M] = { "airplane", "boat" };
+  m_cache.insert(key, val);
 
-  for (size_t i = 0; i < M; ++i)
-  {
-    m_fixture.m_cache.insert(keys[i], values[i]);
-  }
+  ASSERT_EQ(false, m_cache.empty());
+  ASSERT_EQ(false, m_cache.full());
+  ASSERT_EQ(1, m_cache.size());
 
-  ASSERT_EQ(false, m_fixture.m_cache.empty());
-
-  ASSERT_EQ(M, m_fixture.m_cache.size());
-  ASSERT_EQ(M, m_fixture.truth_map.size());
-
-  const char* actual_value = NULL;
-  bool res = m_fixture.m_cache.get("a", actual_value);
-
+  bool res = m_cache.find(key);
   ASSERT_EQ(true, res);
-  assert(actual_value);
-  ASSERT_STREQ("airplane", actual_value);
 
-  res = m_fixture.m_cache.get("b", actual_value);
+  std::string fake_key("grape");
+  res = m_cache.erase(fake_key);
+  ASSERT_EQ(false, res);
 
+  ASSERT_EQ(false, m_cache.empty());
+  ASSERT_EQ(false, m_cache.full());
+  ASSERT_EQ(1, m_cache.size());
+
+  res = m_cache.erase(key);
   ASSERT_EQ(true, res);
-  assert(actual_value);
-  ASSERT_STREQ("boat", actual_value);
 
-  m_fixture.m_cache.insert("c", "car");
-
-  ASSERT_EQ(N, m_fixture.m_cache.size());
-  ASSERT_EQ(N, m_fixture.truth_map.size());
-
-  ASSERT_EQ(true, m_fixture.m_cache.find("c"));
-
-  res = m_fixture.m_cache.get("c", actual_value);
-
-  ASSERT_EQ(true, res);
-  assert(actual_value);
-  ASSERT_STREQ("car", actual_value);
-
-  // Test clearing on the cache.
-  m_fixture.m_cache.clear();
-
-  ASSERT_EQ(0, m_fixture.m_cache.size());
-
-  // Truth map's size is still `N` because calling `clear()` does not
-  // invoke the erase handler.
-  ASSERT_EQ(N, m_fixture.truth_map.size());
-
-  ASSERT_EQ(false, m_fixture.m_cache.find("a"));
-  ASSERT_EQ(false, m_fixture.m_cache.find("b"));
-  ASSERT_EQ(false, m_fixture.m_cache.find("c"));
-}
-
-// -----------------------------------------------------------------------------
-
-TEST_F(lru_cache_unittest, TestInsertOverNItems)
-{
-  const char* keys[N] = { "a", "b", "c" };
-  const char* values[N] = { "apple", "banana", "coconut" };
-
-  for (size_t i = 0; i < N; ++i)
-  {
-    m_fixture.m_cache.insert(keys[i], values[i]);
-  }
-
-  ASSERT_EQ(false, m_fixture.m_cache.empty());
-
-  ASSERT_EQ(N, m_fixture.m_cache.size());
-  ASSERT_EQ(N, m_fixture.truth_map.size());
-
-  m_fixture.m_cache.insert("g", "grape");
-
-  ASSERT_EQ(N, m_fixture.m_cache.size());
-  ASSERT_EQ(N, m_fixture.truth_map.size());
-
-  const char* actual_value = NULL;
-  const bool res = m_fixture.m_cache.get("g", actual_value);
-  ASSERT_EQ(true, res);
-  assert(actual_value);
-  ASSERT_STREQ("grape", actual_value);
-
-  ASSERT_EQ(false, m_fixture.m_cache.find("a"));
+  ASSERT_EQ(true, m_cache.empty());
+  ASSERT_EQ(false, m_cache.full());
+  ASSERT_EQ(0, m_cache.size());
 }
 
 // -----------------------------------------------------------------------------
