@@ -47,22 +47,45 @@ set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
 set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
 
 
-# Paths.
-include_directories("${CMAKE_SOURCE_DIR}/include/")
-SET(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
-SET(TESTS_DIR ${PROJECT_SOURCE_DIR}/tests)
-
-
 # Packages.
 find_package(Boost 1.55 REQUIRED COMPONENTS
     program_options
     filesystem
     regex
+    system
     )
+
+
+message("Boost libraries found: ${Boost_LIBRARIES}")
+message("Boost include directory found: ${Boost_INCLUDE_DIR}")
+
+
+# Find googletest.
+find_library(LIBGTEST_LIBRARY NAMES "gtest"
+    PATH_SUFFIXES "lib" "lib32" "lib64")
+message("gtest library path found: " ${LIBGTEST_LIBRARY})
+
+
+find_path(LIBGTEST_INCLUDE_DIR NAMES "gtest/gtest.h")
+message("gtest include directory found: " ${LIBGTEST_INCLUDE_DIR})
+
+
+# Paths.
+include_directories("${CMAKE_SOURCE_DIR}/include/")
+include_directories(SYSTEM ${Boost_INCLUDE_DIR})
+include_directories(SYSTEM ${LIBGTEST_INCLUDE_DIR})
+SET(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
+SET(TESTS_DIR ${PROJECT_SOURCE_DIR}/tests)
 
 
 # General compiler flags.
 set(CMAKE_CXX_FLAGS "-std=c++11 -Weverything -Werror -Wno-global-constructors -Wno-c++98-compat -Wno-padded -Wno-exit-time-destructors -Wno-format-nonliteral -Wno-c++98-compat-pedantic -Wno-gnu-zero-variadic-macro-arguments")
+
+
+# Settings for local OS X dev machine.
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND ${CMAKE_CXX_COMPILER_ID} MATCHES "Clang" AND ${CMAKE_CXX_COMPILER_VERSION} MATCHES "7.3.0")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-reserved-id-macro -Wno-double-promotion")
+endif()
 
 
 # Sub-directories.

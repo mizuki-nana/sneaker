@@ -84,26 +84,11 @@ endif()
 SET_TARGET_PROPERTIES(run_tests PROPERTIES LINK_FLAGS "--coverage")
 
 
-# Platform specific linker flags.
-if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-    TARGET_LINK_LIBRARIES(run_tests
-        sneaker_dbg_cov
-        gtest
-        pthread
-        boost_system
-        boost_regex
-        boost_program_options)
-endif()
-
-if (${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
-    TARGET_LINK_LIBRARIES(run_tests
-        sneaker_dbg_cov
-        gtest
-        pthread
-        boost_system-mt
-        boost_regex-mt
-        boost_program_options)
-endif()
+TARGET_LINK_LIBRARIES(run_tests
+    sneaker_dbg_cov
+    pthread
+    ${LIBGTEST_LIBRARY}
+    ${Boost_LIBRARIES})
 
 
 # Run tests.
