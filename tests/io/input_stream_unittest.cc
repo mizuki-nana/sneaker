@@ -149,3 +149,62 @@ TEST_F(input_stream_unittest, Test_memory_input_stream)
 }
 
 // -----------------------------------------------------------------------------
+
+class stream_reader_unittest : public input_stream_unittest {};
+
+// -----------------------------------------------------------------------------
+
+TEST_F(stream_reader_unittest, TestStreamReader)
+{
+  auto input_stream = sneaker::io::file_input_stream(FILEPATH, 3);
+  sneaker::io::stream_reader reader(input_stream.get());
+
+  ASSERT_EQ(true, reader.has_more());
+
+  uint8_t byte = 0;
+  bool res = reader.read(&byte);
+
+  ASSERT_EQ(true, res);
+  ASSERT_EQ('H', byte);
+
+  uint8_t bytes[10] = {0};
+  res = reader.read_bytes(reinterpret_cast<uint8_t*>(&bytes[0]), 4);
+
+  ASSERT_EQ(true, res);
+  ASSERT_STREQ("ello", reinterpret_cast<char*>(bytes));
+
+  reader.skip_bytes(2);
+
+  ASSERT_EQ(true, reader.has_more());
+
+  uint8_t more_bytes[10] = {0};
+  res = reader.read_bytes(more_bytes, 3);
+
+  ASSERT_EQ(true, res);
+
+  ASSERT_STREQ("orl", reinterpret_cast<char*>(more_bytes));
+
+  res = reader.read(&byte);
+
+  ASSERT_EQ(true, res);
+  ASSERT_EQ('d', byte);
+
+  ASSERT_EQ(false, reader.has_more());
+
+  // At this point we have finished reading the stream.
+
+  res = reader.has_more();
+  ASSERT_EQ(false, res);
+
+  res = reader.read(&byte);
+  ASSERT_EQ(false, res);
+  ASSERT_EQ('d', byte);
+
+  uint8_t even_more_bytes[10] = {0};
+  res = reader.read_bytes(even_more_bytes, 3);
+
+  ASSERT_EQ(false, res);
+  ASSERT_STREQ("", reinterpret_cast<char*>(even_more_bytes));
+}
+
+// -----------------------------------------------------------------------------

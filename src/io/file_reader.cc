@@ -57,6 +57,8 @@ bool read_file(const std::string& file_path, std::ifstream& file)
 // -----------------------------------------------------------------------------
 
 file_reader::file_reader()
+  :
+  m_path()
 {
   // Do nothing here.
 }

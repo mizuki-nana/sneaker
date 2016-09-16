@@ -23,6 +23,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "io/input_stream.h"
 
 #include <cstdio>
+#include <cstring>
 #include <ios>
 #include <iostream>
 #include <vector>
@@ -299,6 +300,106 @@ memory_input_stream(const uint8_t* data, size_t len)
 {
   return std::unique_ptr<input_stream>(
     new memory_input_stream_reader(data, len)); 
+}
+
+// -----------------------------------------------------------------------------
+
+stream_reader::stream_reader(input_stream* stream)
+  :
+  m_stream(stream),
+  m_next(NULL),
+  m_end(NULL)
+{
+}
+
+// -----------------------------------------------------------------------------
+
+bool
+stream_reader::read(uint8_t* val)
+{
+  if (m_next == m_end)
+  {
+    if (!fill())
+    {
+      return false;
+    }
+  }
+  
+  *val = *m_next;
+  m_next++;
+
+  return true;
+}
+
+// -----------------------------------------------------------------------------
+
+bool
+stream_reader::read_bytes(uint8_t* blob, size_t n)
+{
+  while (n > 0)
+  {
+    if (m_next == m_end)
+    {
+      if (!fill())
+      {
+        return false;
+      }
+    }
+
+    size_t read_size = static_cast<size_t>(m_end - m_next);
+    read_size = std::min(read_size, n);
+ 
+    memcpy(blob, m_next, read_size);
+    m_next += read_size;
+    blob += read_size;
+
+    n -= read_size;
+  }
+
+  return true;
+}
+
+// -----------------------------------------------------------------------------
+
+void
+stream_reader::skip_bytes(size_t n)
+{
+  if (n > static_cast<size_t>(m_end - m_next))
+  {
+    n -= static_cast<size_t>(m_end - m_next);
+    m_next = m_end;
+    m_stream->skip(n);
+  }
+  else
+  {
+    m_next += n;
+  }
+}
+
+// -----------------------------------------------------------------------------
+
+bool
+stream_reader::fill()
+{
+  size_t n = 0;
+  while (m_stream->next(&m_next, &n))
+  {
+    if (n != 0)
+    {
+      m_end = m_next + n;
+      return true;
+    }
+  }
+
+  return false;
+}
+
+// -----------------------------------------------------------------------------
+
+bool
+stream_reader::has_more()
+{
+  return (m_next == m_end) ? fill() : true;
 }
 
 // -----------------------------------------------------------------------------

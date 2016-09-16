@@ -98,6 +98,38 @@ Header file: `sneaker/io/input_stream.h`
 
     Returns the number of bytes read from this stream so far.
 
+.. cpp:class:: sneaker::io::stream_reader
+-----------------------------------------
+
+  Convinience class that facilitates reading from an instance of `input_stream`.
+
+  .. cpp:function:: explicit stream_reader(input_stream*)
+    :noindex:
+
+    Constructor. Takes an instance of `input_stream`.
+
+  .. cpp:function:: bool read(uint8_t*)
+    :noindex:
+
+    Read one byte from the underlying stream. Returns `true` if the read is
+    successful, `false` otherwise.
+
+  .. cpp:function:: bool read_bytes(uint8_t* blob, size_t n)
+    :noindex:
+
+    Reads the given number of bytes from the underlying stream.
+    Returns `true` if there are enough bytes to read, `false` otherwise.
+
+  .. cpp:function:: void skip_bytes(size_t n)
+    :noindex:
+
+    Skips the given number of bytes.
+
+  .. cpp:function:: bool has_more()
+    :noindex:
+
+    Returns `true` if and only if the end of stream is not reached.
+
 
 Helper functions:
 
@@ -139,7 +171,7 @@ Header file: `sneaker/io/output_stream.h`
 
     Destructor.
 
-  .. cpp:function:: virtual bool next(const uint8_t** data, size_t* len) = 0
+  .. cpp:function:: virtual bool next(uint8_t** data, size_t* len) = 0
     :noindex:
 
     Returns a buffer that can be written into.
@@ -152,11 +184,45 @@ Header file: `sneaker/io/output_stream.h`
     Returns the number of bytes written so far into this stream.
     The whole buffer returned by `next()` is assumed to be written.
 
+  .. cpp:function:: virtual void backup(size_t len) = 0
+    :noindex:
+
+    "Returns" back to the stream some of the buffer obtained from in the last
+    call to `next()`.
+
   .. cpp:function:: virtual void flush() = 0
     :noindex:
 
     Flushes any data remaining in the buffer to the stream's underlying
     store, if any.
+
+.. cpp:class:: sneaker::io::stream_writer
+-----------------------------------------
+
+  Convinience class that facilitates writing to an instance of `output_stream`.
+
+  .. cpp:function:: explicit stream_writer(output_stream*)
+    :noindex:
+
+    Constructor. Takes an instance of `output_stream`.
+
+  .. cpp:function:: bool write(uint8_t c)
+    :noindex:
+
+    Writes a single byte to the stream.
+
+  .. cpp:function:: bool write_bytes(const uint8_t* blob, size_t n)
+    :noindex:
+
+    Writes the specified number of bytes to the stream.
+
+  .. cpp:function:: void flush()
+    :noindex:
+
+    Backs up upto the currently written data and flushes the underlying stream.
+    Users should call this member method before finalizing the writing
+    operation.
+
 
 Helper functions:
 

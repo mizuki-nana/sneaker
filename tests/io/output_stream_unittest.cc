@@ -43,7 +43,7 @@ TEST_F(output_stream_unittest, Test_ostream_output_stream)
   auto output_stream = sneaker::io::ostream_output_stream(ss, 3);
   ASSERT_NE(nullptr, output_stream);
 
-  const uint8_t* data = NULL;
+  uint8_t* data = NULL;
   size_t len = 0;
 
   bool res = output_stream->next(&data, &len);
@@ -73,6 +73,38 @@ TEST_F(output_stream_unittest, Test_ostream_output_stream)
   ASSERT_NE(nullptr, data);
   ASSERT_EQ(3, len);
   ASSERT_EQ(12, output_stream->bytes_written());
+}
+
+// -----------------------------------------------------------------------------
+
+TEST_F(output_stream_unittest, TestStreamWriter)
+{
+  std::stringstream ss;
+  auto output_stream = sneaker::io::ostream_output_stream(ss, 3);
+
+  sneaker::io::stream_writer writer(output_stream.get());
+
+  bool res = writer.write('H');
+  ASSERT_EQ(true, res);
+
+  std::string bytes("ello");
+  res = writer.write_bytes(reinterpret_cast<const uint8_t*>(bytes.data()),
+    bytes.size());
+
+  ASSERT_EQ(true, res);
+
+  res = writer.write(' ');
+  ASSERT_EQ(true, res);
+
+  std::string more_bytes("world");
+  res = writer.write_bytes(reinterpret_cast<const uint8_t*>(more_bytes.data()),
+    more_bytes.size());
+
+  ASSERT_EQ(true, res);
+
+  writer.flush();
+
+  ASSERT_EQ("Hello world", ss.str());
 }
 
 // -----------------------------------------------------------------------------

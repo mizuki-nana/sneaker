@@ -23,6 +23,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "io/output_stream.h"
 
 #include <cstdio>
+#include <cstring>
 #include <ios>
 #include <iostream>
 #include <vector>
@@ -118,7 +119,7 @@ public:
   {
   }
 
-  virtual bool next(const uint8_t** data, size_t* len)
+  virtual bool next(uint8_t** data, size_t* len)
   {
     // Invaiant: m_bytes_written == byteswritten + m_buffer_size - m_available_bytes;
 
@@ -134,6 +135,13 @@ public:
     m_available_bytes = 0;
 
     return true;
+  }
+ 
+  virtual void backup(size_t len)
+  {
+    m_available_bytes += len;
+    m_next -= len;
+    m_bytes_written -= len;
   }
 
   virtual size_t bytes_written() const
@@ -192,6 +200,97 @@ ostream_output_stream(std::ostream& stream, size_t buffer_size)
 
   return std::unique_ptr<output_stream>(
     new output_stream_buffer_writter(std::move(output), buffer_size));
+}
+
+// -----------------------------------------------------------------------------
+
+stream_writer::stream_writer(output_stream* stream)
+  :
+  m_stream(stream),
+  m_next(NULL),
+  m_end(NULL)
+{
+}
+
+// -----------------------------------------------------------------------------
+
+bool
+stream_writer::write(uint8_t c)
+{
+  bool can_write = false;
+
+  if (m_next == m_end)
+  {
+    can_write = more();
+  }
+  else
+  {
+    can_write = true;
+  }
+
+  if (can_write)
+  {
+    *m_next++ = c;
+  }
+
+  return can_write;
+}
+
+// -----------------------------------------------------------------------------
+
+bool
+stream_writer::write_bytes(const uint8_t* blob, size_t n)
+{
+  while (n > 0)
+  {
+    if (m_next == m_end)
+    {
+      if (!more())
+      {
+        return false;
+      }
+    }
+
+    size_t bytes_to_write = static_cast<size_t>(m_end - m_next);
+    bytes_to_write = std::min(bytes_to_write, n);
+    memcpy(m_next, blob, bytes_to_write);
+    m_next += bytes_to_write;
+    blob += bytes_to_write;
+    n -= bytes_to_write;
+  }
+
+  return true;
+}
+
+// -----------------------------------------------------------------------------
+
+void
+stream_writer::flush()
+{
+  if (m_next != m_end)
+  {
+    m_stream->backup(static_cast<size_t>(m_end - m_next));
+    m_next = m_end;
+  }
+
+  m_stream->flush();
+}
+
+// -----------------------------------------------------------------------------
+
+bool stream_writer::more()
+{
+  size_t n = 0;
+  while (m_stream->next(&m_next, &n))
+  {
+    if (n != 0)
+    {
+      m_end = m_next + n;
+      return true;
+    }
+  }
+
+  return false;
 }
 
 // -----------------------------------------------------------------------------

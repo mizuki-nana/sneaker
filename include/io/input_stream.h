@@ -94,6 +94,51 @@ std::unique_ptr<input_stream> memory_input_stream(const uint8_t* data,
 
 // -----------------------------------------------------------------------------
 
+class stream_reader
+{
+public:
+  explicit stream_reader(input_stream*);
+
+  /**
+   * Read one byte from the underlying stream. Returns true if the read is
+   * successful, false otherwise.
+   */
+  bool read(uint8_t*);
+
+  /**
+   * Reads the given number of bytes from the underlying stream.
+   * Returns true if there are enough bytes to read, false otherwise.
+   */
+  bool read_bytes(uint8_t* blob, size_t n);
+
+  /**
+   * Skips the given number of bytes.
+   */
+  void skip_bytes(size_t n);
+
+  /**
+   * Returns true if and only if the end of stream is not reached.
+   */
+  bool has_more();
+
+private:
+
+  /**
+   * Get as many bytes from the underlying stream as possible in a single
+   * chunk.
+   *
+   * Returns true if some data could be obtained. False is no more
+   * data is available on the stream.
+   */
+  bool fill();
+
+  input_stream* m_stream;
+  const uint8_t* m_next;
+  const uint8_t* m_end;
+};
+
+// -----------------------------------------------------------------------------
+
 } /* end namespace io */
 } /* end namespace sneaker */
 

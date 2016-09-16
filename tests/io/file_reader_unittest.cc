@@ -51,8 +51,8 @@ public:
     ::testing::Test(),
     m_file_path()
   {
-    char buf[10] = {0};
-    sprintf(buf, "__temp__%d.txt", rand() % 10);
+    char buf[20] = {0};
+    sprintf(buf, "__temp__%d.txt", rand() % 99);
     m_file_path.assign(buf);
   }
 
@@ -71,16 +71,6 @@ public:
 
   std::string m_file_path;
 };
-
-// -----------------------------------------------------------------------------
-
-TEST_F(file_reader_unittest, TestInitialization)
-{
-  sneaker::io::file_reader reader;
-  const char* actual_file_path = reader.file_path();
-
-  ASSERT_EQ(0, strlen(actual_file_path));
-}
 
 // -----------------------------------------------------------------------------
 
