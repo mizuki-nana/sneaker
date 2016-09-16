@@ -1,4 +1,4 @@
-![logo](https://raw.github.com/yanzhengli/sneaker/dev/resources/banner.png)
+![logo](https://raw.github.com/yanzhengli/sneaker/master/resources/banner.png)
 
 [![Build status](https://travis-ci.org/yanzhengli/sneaker.svg?branch=dev)](https://travis-ci.org/yanzhengli/sneaker)
 [![Docs build status](https://readthedocs.org/projects/sneaker/badge/?version=latest)](https://sneaker.readthedocs.io/en/latest/)
