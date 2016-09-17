@@ -27,6 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <stdlib.h>
 #include <stdint.h>
+#include <time.h>
 
 
 // -----------------------------------------------------------------------------
@@ -118,9 +119,22 @@ is_bit_set_uint32(uint32_t val, char bit)
 
 // -----------------------------------------------------------------------------
 
+static uint8_t _seeded = 0;
+static void seed()
+{
+  if (!_seeded)
+  {
+    srand(time(NULL));
+    _seeded ^= 1;
+  }
+}
+
+// -----------------------------------------------------------------------------
+
 int
 inline rand_top(int max)
 {
+  seed();
   return rand() % max + 1;
 }
 
@@ -129,6 +143,7 @@ inline rand_top(int max)
 int
 inline rand_range(int min, int max)
 {
+  seed();
   int _rand = rand_top(max);
   return MAX(min, _rand);
 }
@@ -138,6 +153,7 @@ inline rand_range(int min, int max)
 double
 inline randf_top(double max)
 {
+  seed();
   double f = (double)rand() / RAND_MAX;
   double _rand = f * max;
 
@@ -153,6 +169,7 @@ inline randf_top(double max)
 double
 inline randf_range(double min, double max)
 {
+  seed();
   double f = (double)rand() / RAND_MAX;
   return min + f * (max - min);
 }
@@ -162,7 +179,17 @@ inline randf_range(double min, double max)
 static
 inline char _rand_ascii()
 {
-  return '0' + rand_top(127);
+  switch (rand_top(3))
+  {
+  case 1:
+    return rand_range(48, 57);
+  case 2:
+    return rand_range(65, 90);
+  case 3:
+    return rand_range(97, 122);
+  }
+
+  return rand_range(97, 122);
 }
 
 // -----------------------------------------------------------------------------

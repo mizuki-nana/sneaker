@@ -41,6 +41,7 @@ ADD_EXECUTABLE(run_tests
     io/file_reader_unittest.cc
     io/input_stream_unittest.cc
     io/output_stream_unittest.cc
+    io/tmp_file_unittest.cc
     json/json_schema_unittest.cc
     json/json_unittest.cc
     libc/bitmap_unittest.cc

@@ -240,3 +240,25 @@ Helper functions:
 
   Returns a new instance `output_stream` whose contents are to be written to
   the specified `std::ostream`.
+
+Temporary Files Management
+==========================
+
+Interfaces that facilitate handling and management of temporary files.
+
+Header file: `sneaker/io/tmp_file.h`
+
+.. cpp:function:: const char* sneaker::io::get_tmp_file_path()
+
+  Generates a unique file path for storing a temporary file. The generated path
+  is not used by any existing files and is a platform-specific location.
+  Note that files stored at this file path are not persisted between program
+  invocations and system reboots. If such persistency are desired, please use
+  `sneaker::io::get_persistent_tmp_file_path()`.
+
+.. cpp:function:: const char* sneaker::io::get_persistent_tmp_file_path()
+
+  Generates a unique file path for storing a temporary file. The generated path
+  is not used by any existing files and is a platform-specific location.
+  Note that files stored at this file path are persistent across program
+  invocations and system reboots.

@@ -26,6 +26,7 @@ set(SRC
     io/file_reader.cc
     io/input_stream.cc
     io/output_stream.cc
+    io/tmp_file.cc
     json/json.cc
     json/json_parser.cc
     json/json_schema.cc
