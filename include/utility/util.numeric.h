@@ -20,8 +20,8 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 *******************************************************************************/
-#ifndef SNEAKER_UTIL_NUMERIC_H__
-#define SNEAKER_UTIL_NUMERIC_H__
+#ifndef SNEAKER_UTIL_NUMERIC_H_
+#define SNEAKER_UTIL_NUMERIC_H_
 
 #include <cmath>
 
@@ -43,4 +43,4 @@ floats_equal(T lhs, T rhs, T tolerance=static_cast<T>(EPSILON(4)))
 } /* end namespace sneaker */
 
 
-#endif /* SNEAKER_UTIL_NUMERIC_H__ */
+#endif /* SNEAKER_UTIL_NUMERIC_H_ */
