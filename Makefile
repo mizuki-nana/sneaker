@@ -2,7 +2,7 @@
 
 # The MIT License (MIT)
 
-# Copyright (c) 2016 Yanzheng Li
+# Copyright (c) 2017 Yanzheng Li
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of
 # this software and associated documentation files (the "Software"), to deal in
@@ -64,8 +64,11 @@ LIB_DBG_INSTALL_PATH=$(LIB_INSTALL_DIR)/$(LIBSNEAKER_DBG_A)
 HEADER_INSTALL_PATH=/usr/local/include/sneaker/
 
 
-ifeq ($(fast), 1)
+ifeq ($(run-test), 1)
 	BUILD_TARGET_CMAKE_ARGS=-DRUN_TESTS_ONCE=ON
+endif
+ifeq ($(run-test), 0)
+	BUILD_TARGET_CMAKE_ARGS=-DSKIP_TESTS=ON
 endif
 
 

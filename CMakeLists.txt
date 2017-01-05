@@ -2,7 +2,7 @@
 #
 # The MIT License (MIT)
 #
-# Copyright (c) 2016 Yanzheng Li
+# Copyright (c) 2017 Yanzheng Li
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of
 # this software and associated documentation files (the "Software"), to deal in
@@ -30,6 +30,7 @@ project (sneaker C CXX)
 
 # Options.
 option(RUN_TESTS_ONCE "Run unit test suite once" OFF)
+option(SKIP_TESTS "Skip building and running unit test suite" OFF)
 
 
 # Release mode.
@@ -90,4 +91,6 @@ endif()
 
 # Sub-directories.
 ADD_SUBDIRECTORY(${SRC_DIR})
-ADD_SUBDIRECTORY(${TESTS_DIR})
+if (NOT SKIP_TESTS)
+  ADD_SUBDIRECTORY(${TESTS_DIR})
+endif ()
